@@ -6,6 +6,7 @@ Welcome to our project repository for CMPE352 and CMPE451 courses. You can see o
 
 * Afra Akbaş
 * Ali Alperen Durak
+* Burak Berk Özer
 * Emre Yılmaz
 * Göksu Başer
 * Nursima Çelik
