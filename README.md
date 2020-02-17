@@ -9,7 +9,7 @@ Welcome to our project repository for CMPE352 and CMPE451 courses. You can see o
 * [Burak Berk Özer](https://github.com/bounswe/bounswe2020group8/wiki/Burak-Berk-Özer)
 * Emre Yılmaz
 * Göksu Başer
-* Nursima Çelik
+* [Nursima Çelik](https://github.com/bounswe/bounswe2020group8/wiki/Nursima-%C3%87elik-(Communicator))
 * Oğuzhan Özboyacı
 * Onur Enginer
 * Yasin Kaya
