@@ -14,4 +14,4 @@ Welcome to our project repository for CMPE352 and CMPE451 courses. You can see o
 * [Onur Enginer](https://github.com/bounswe/bounswe2020group8/wiki/Onur-Enginer)
 * [Yasin Kaya](https://github.com/bounswe/bounswe2020group8/wiki/Yasin-Kaya)
 
-![team photo](https://user-images.githubusercontent.com/33669453/75461708-36f0bd00-5994-11ea-864d-00207d0e9e0c.jpg)
+<img src="https://user-images.githubusercontent.com/33669453/75461708-36f0bd00-5994-11ea-864d-00207d0e9e0c.jpg" alt="alt text"  height="450">
