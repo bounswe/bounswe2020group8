@@ -13,6 +13,6 @@ Welcome to our project repository for CMPE352 and CMPE451 courses. You can see o
 * [Oğuzhan Özboyacı](https://github.com/bounswe/bounswe2020group8/wiki/O%C4%9Fuzhan-%C3%96ZBOYACI)
 * [Onur Enginer](https://github.com/bounswe/bounswe2020group8/wiki/Onur-Enginer)
 * [Yasin Kaya](https://github.com/bounswe/bounswe2020group8/wiki/Yasin-Kaya)
-* Ömer Topuz
+* [Ömer Topuz](https://github.com/bounswe/bounswe2020group8/wiki/Ömer-Topuz)
 
 <img src="https://user-images.githubusercontent.com/33669453/75461708-36f0bd00-5994-11ea-864d-00207d0e9e0c.jpg" alt="alt text"  height="450">
