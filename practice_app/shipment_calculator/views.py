@@ -1,29 +1,28 @@
 from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect
+from .google_api.utils import MapsAPI
+from .forms import ProductForm
+from .models import Product
 
 
-# def calculate_price(request, latitude, longitude, product_id):
-def calculate_price(request):
-    latitude = request.GET.get('lat', None)
-    longitude = request.GET.get('lon', None)
-    product_id = request.GET.get('pid', None)
+def post_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/shipment_calculator/')
+            except:
+                pass
+    else:
+        form = ProductForm()
+    return render(request, 'shipment_calculator/add_product.html', {'form': form})
 
-    if (not latitude) or (not longitude) or (not product_id):
-        return HttpResponse("Missing Information. Please try to use the following format: "
-                            "url_here/?lat=\"Latitude\"&lon=\"Longitude\"&pid=\"Product_ID\"/")
 
-    try:
-        latitude = float(latitude)
-        longitude = float(latitude)
-    except ValueError:
-        return HttpResponse("Make sure that latitude and longitude are given as float number. Ex: lat=14.23&lon=41.12")
-
-    if not (-90 <= latitude <= 90):
-        return HttpResponse("Given Latitude is not in range of [-90, 90]")
-
-    if not (-180 <= longitude <= 180):
-        return HttpResponse("Given Longitude is not in range of [-180, 180]")
-
-    # if can not find product:
-    #     return HttpResponse("Product_ID is invalid.")
-
-    return HttpResponse(f"Your latitude: {latitude}, Your Longitude: {longitude}")
+def list_products(request):
+    products = Product.objects.all()
+    lat = 40.427747
+    lon = 30.218243
+    return render(request, 'shipment_calculator/list_product.html', {
+        'products': MapsAPI.estimate_prices(products, lat, lon)
+    })
