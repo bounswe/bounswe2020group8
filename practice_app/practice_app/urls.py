@@ -18,5 +18,5 @@ from django.urls import path, include, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('calculate_shipment_price/', include('shipment_calculator.urls'))
+    path('shipment_calculator/', include('shipment_calculator.urls'))
 ]
