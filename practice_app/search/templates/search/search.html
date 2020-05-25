@@ -39,17 +39,19 @@
             <div id="content">
             <!-- Product cards -->
             {% if key != "Search was found" %}
-                {{key}}
+                <div class="m-5">
+                    {{key}}
+                </div>
             {% else %}
             <h4 style="text-align:center;">Search results for {{ word }}</h4>
             <div class="row row-cols-3">
             {% for i in name %}
                     <div class="col-sm-4">
-                    <div class="card" style="width: 300px; height: 500px;">
+                    <div class="card" style="width: 400px; height: 600px;">
                         {% if i.DisplayStockPhotos %}
-                        <img class="card-img-top" style="width: 300px; height: 300px;" src={{i.StockPhotoURL}} alt="Card image cap">
+                        <img class="card-img-top" style="width: 400px; height: 400px;" src={{i.StockPhotoURL}} alt="Card image cap">
                         {% else %}
-                        <img class="card-img-top" style="width: 300px; height: 300px;" src='https://www.bilgedegerleme.com/wp-content/themes/consultix/images/no-image-found-360x260.png' alt="Card image cap">
+                        <img class="card-img-top" style="width: 400px; height: 400px;" src='https://www.bilgedegerleme.com/wp-content/themes/consultix/images/no-image-found-360x260.png' alt="Card image cap">
                         {% endif %}
                         <div class="card-body">
                         <p class="card-text">{{i.Title}}</p>

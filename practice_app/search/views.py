@@ -12,8 +12,8 @@ def search(request):
         if request.POST.get("search"):
             queryKeywords = request.POST.get("product")
     else:
-        queryKeywords = 'ipad+128GB'
-    response = requests.get('https://open.api.ebay.com/shopping?callname=FindProducts&responseencoding=JSON&appid=%s&siteid=0&version=967&QueryKeywords=%s&MaxEntries=25' 
+        queryKeywords = ''
+    response = requests.get('https://open.api.ebay.com/shopping?callname=FindProducts&responseencoding=JSON&appid=%s&siteid=0&version=967&QueryKeywords=%s&MaxEntries=45' 
                                 %(key, queryKeywords))
     
     productList = response.json()
