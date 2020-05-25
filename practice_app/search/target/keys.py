@@ -1,1 +1,1 @@
-API_key = ''
+API_key = 'AfraAkba-carousel-PRD-624141950-d781d822'
