@@ -12,7 +12,7 @@
             {% endblock %}
         </title>
     </head>
-
+    <!-- Navbar -->
     <body>
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand">CAROUSEL</a>
@@ -35,105 +35,9 @@
         
         {% block contentExp %}
         <div class="row">
-        
-        <!-- Sidebar -->
-        <div class="col-3">
-            <div class="accordion" id="accordion" aria-orientation="vertical">
-            <div class="card">
-
-                <div class="card-header" id="header-one">
-                <h2 class="mb-1">
-                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Color
-                    </button>
-                    </h2>
-                </div>
-                <div id="collapseOne" class="collapse show" aria-labelledby="header-one" data-parent="#accordion">
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="White">White</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Gray">Red</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Gray">Blue</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Gray">Pink</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Gray">Silver</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Gray">Gray</li>
-                </div>
-                <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="Black">Black</li>
-                </div>
-                </div>
-
-                <div class="card">
-                <div class="card-header" id="header-two">
-                    <h2 class="mb-1">
-                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    Price
-                    </button>
-                    </h2>
-                </div>
-                
-                <div id="collapseTwo" class="collapse show" aria-labelledby="header-two" data-parent="#accordion">
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="0-100$">less than 100$</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="100-200$">100-500$</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="200-300$">500-1000$</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="1000$">more than 1000$</li>
-                    </div>
-                </div>
-                </div>
-
-                <div class="card">
-                <div class="card-header" id="header-three">
-                    <h2 class="mb-1">
-                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    Rate
-                    </button>
-                    </h2>
-                </div>
-                
-                <div id="collapseThree" class="collapse show" aria-labelledby="header-three" data-parent="#accordion">
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="1">1 and more stars</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="2">2 and more stars</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="3">3 and more stars</li>
-                    </div>
-                    <div class="card-body">
-                    <li><input type="checkbox", value="clicked", name="4">4 and more stars</li>
-                    </div>
-                </div>
-                </div>
-
-            <button type="submit", name="Filter", value="Filter"> Filter </button>
-            </div>
-            
-        </div>
-        </div>
-
-
-
-        <div class="col-9">
             
             <div id="content">
-            <!-- We'll fill this with dummy content -->
+            <!-- Product cards -->
             {% if key != "Search was found" %}
                 {{key}}
             {% else %}
@@ -141,11 +45,11 @@
             <div class="row row-cols-3">
             {% for i in name %}
                     <div class="col-sm-4">
-                    <div class="card" style="width: 25rem; height: 50rem;">
+                    <div class="card" style="width: 300px; height: 500px;">
                         {% if i.DisplayStockPhotos %}
-                        <img class="card-img-top" src={{i.StockPhotoURL}} alt="Card image cap">
+                        <img class="card-img-top" style="width: 300px; height: 300px;" src={{i.StockPhotoURL}} alt="Card image cap">
                         {% else %}
-                        <img class="card-img-top" src='https://www.bilgedegerleme.com/wp-content/themes/consultix/images/no-image-found-360x260.png' alt="Card image cap">
+                        <img class="card-img-top" style="width: 300px; height: 300px;" src='https://www.bilgedegerleme.com/wp-content/themes/consultix/images/no-image-found-360x260.png' alt="Card image cap">
                         {% endif %}
                         <div class="card-body">
                         <p class="card-text">{{i.Title}}</p>
@@ -158,7 +62,6 @@
                 </div>
             {% endif %}
             </div>
-        </div>
         </div>
 
         {% endblock %}
