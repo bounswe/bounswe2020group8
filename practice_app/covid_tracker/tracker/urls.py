@@ -5,5 +5,4 @@ from tracker import views
 urlpatterns = [
     path('', views.track, name='Track Page'),
     path('results/', views.track_results, name='Result Page'),
-    # url(r'^results/', views.track_results),
 ]
