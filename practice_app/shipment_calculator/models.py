@@ -14,9 +14,9 @@ CARGO_COMPANY_CHOICES = (
 
 class Vendor(models.Model):
 
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(primary_key=True)
+    first_name = models.CharField(max_length=30, blank=False)
+    last_name = models.CharField(max_length=30, blank=False)
+    email = models.EmailField(primary_key=True, blank=False)
     lat = models.FloatField(
         validators=[
             MinValueValidator(-90),
@@ -38,34 +38,20 @@ class Product(models.Model):
 
     id = models.AutoField(primary_key=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    description = models.TextField()
+    title = models.CharField(max_length=200, blank=False)
+    description = models.TextField(max_length=3000, blank=False)
     amount_left = models.PositiveIntegerField()
     price = models.FloatField(
         validators=[
             MinValueValidator(0)
         ]
     )
-    brand = models.CharField(max_length=200)
+    brand = models.CharField(max_length=200, blank=False)
     is_free_shipment = models.BooleanField()
     release_date = models.DateTimeField(default=timezone.now)
     cargo_company = models.CharField(max_length=10,
                                      choices=CARGO_COMPANY_CHOICES,
                                      default='other')
-
-
-    # lat = models.FloatField(
-    #     validators=[
-    #         MinValueValidator(-90),
-    #         MaxValueValidator(90)
-    #     ]
-    # )
-    # lon = models.FloatField(
-    #     validators=[
-    #         MinValueValidator(-180),
-    #         MaxValueValidator(180)
-    #     ]
-    # )
 
     def release_product(self):
         self.release_date = timezone.now()
