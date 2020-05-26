@@ -11,8 +11,31 @@ CARGO_COMPANY_CHOICES = (
     ('other', 'Other')
 )
 
+class Vendor(models.Model):
+
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField(primary_key=True)
+    lat = models.FloatField(
+        validators=[
+            MinValueValidator(-90),
+            MaxValueValidator(90)
+        ]
+    )
+    lon = models.FloatField(
+        validators=[
+            MinValueValidator(-180),
+            MaxValueValidator(180)
+        ]
+    )
+
+    def __str__(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
 class Product(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     amount_left = models.PositiveIntegerField()
@@ -28,18 +51,19 @@ class Product(models.Model):
                                      choices=CARGO_COMPANY_CHOICES,
                                      default='other')
 
-    lat = models.FloatField(
-        validators=[
-            MinValueValidator(-90),
-            MaxValueValidator(90)
-        ]
-    )
-    lon = models.FloatField(
-        validators=[
-            MinValueValidator(-180),
-            MaxValueValidator(180)
-        ]
-    )
+
+    # lat = models.FloatField(
+    #     validators=[
+    #         MinValueValidator(-90),
+    #         MaxValueValidator(90)
+    #     ]
+    # )
+    # lon = models.FloatField(
+    #     validators=[
+    #         MinValueValidator(-180),
+    #         MaxValueValidator(180)
+    #     ]
+    # )
 
     def release_product(self):
         self.release_date = timezone.now()

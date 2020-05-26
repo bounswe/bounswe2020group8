@@ -66,13 +66,11 @@ class MapsAPI:
         customer_loc = MapsAPI.reverse_geocoding(customer_lat, customer_loc)
         products_with_estimated_price = []
         for product in products:
-            product_loc = MapsAPI.reverse_geocoding(product.lat, product.lon)
+            product_loc = MapsAPI.reverse_geocoding(product.vendor.lat, product.vendor.lon)
 
 
-            if product.is_free_shipment:
-                shipment_price_estimation = 0
-                shipment_type = 'Free'
-            elif MapsAPI.get_city(product_loc) == MapsAPI.get_city(customer_loc):
+
+            if MapsAPI.get_city(product_loc) == MapsAPI.get_city(customer_loc):
                 shipment_price_estimation = shipment_info[product.cargo_company]['prices']['same_city']
                 shipment_type = 'Same City'
             elif MapsAPI.get_country(product_loc) == MapsAPI.get_country(customer_loc):
@@ -84,6 +82,11 @@ class MapsAPI:
             else:
                 shipment_price_estimation = 0
                 shipment_type = 'Invalid'
+
+            if product.is_free_shipment:
+                if shipment_type != "Invalid":
+                    shipment_price_estimation = 0
+                    shipment_type = 'Free'
 
             products_with_estimated_price.append({
                 'title': product.title,
