@@ -8,6 +8,7 @@ class Search:
 
         f = open("key.txt","r")
         api_key = f.read()
+        f.close()
         headers = {
             'x-rapidapi-host': "google-shopping.p.rapidapi.com",
             'x-rapidapi-key': api_key
