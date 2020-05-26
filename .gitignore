@@ -1,2 +1,6 @@
 /practice_app/myvenv/
+/practice_app/myenv/
 /.idea/
+/practice_app/*.pyc
+/practice_app/practice_app/__pycache__
+/practice_app/recommend/__pycache__
