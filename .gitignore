@@ -1,3 +1,4 @@
 /practice_app/myvenv/
 /.idea/
 *.txt
+/practice_app/search/target/*
