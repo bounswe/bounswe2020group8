@@ -2,6 +2,6 @@
 /practice_app/myenv/
 /.idea/
 /practice_app/*.pyc
-/practice_app/practice_app/__pycache__
-/practice_app/recommend/__pycache__
+/practice_app/practice_app/__pycache__/
+/practice_app/recommend/__pycache__/
 /practice_app/db.sqlite3
