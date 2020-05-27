@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 
 
 class Product(models.Model):
-    vendor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+#    vendor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
 #    description = models.TextField()
+    imageUrl = models.CharField(max_length=300, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     price = models.IntegerField(blank=True, null=True)
 
@@ -16,10 +17,11 @@ class Product(models.Model):
 
 
 class Customer(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    username = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField(unique=True)
-    ordered_products = models.ManyToManyField(Product, through='Purchase', through_fields=('customer', 'ordered_product'))
+    ordered_products = models.ManyToManyField(Product, through='Purchase', through_fields=('customer', 'ordered_product'), blank=True)
     is_anonymous = False
     is_authenticated = True
 
@@ -27,7 +29,7 @@ class Customer(models.Model):
     REQUIRED_FIELDS = ['user']
 
     def __str__(self):
-        return self.user.username
+        return self.username
 
 class Purchase(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

@@ -7,9 +7,12 @@ from .models import WillBuy
 from .models import Similarity
 from django.utils import timezone
 from .forms import ProductForm
+from .forms import CustomerForm
 from django.http import JsonResponse
 import json
 import itertools
+import requests
+from django.conf import settings
 
 
 def product_list(request):
@@ -30,7 +33,7 @@ def product_new(request):
 			product.save()
 			return redirect('product_detail', pk=product.pk)
 	else:
-		form = PostForm()
+		form = ProductForm()
 	return render(request, 'recommend/product_edit.html', {'form': form})
 
 def product_edit(request, pk):
@@ -46,18 +49,79 @@ def product_edit(request, pk):
 		form = ProductForm(instance=product)
 	return render(request, 'recommend/product_edit.html', {'form': form})
 
+def ordered_product_list(request, pk):
+	customer = Customer.objects.get(id=pk)
+	products = customer.ordered_products.all()
+	return render(request, 'recommend/product_list.html', {'products':products})
+
+
+def customer_list(request):
+	customers = Customer.objects.all()
+	return render(request, 'recommend/customer_list.html', {'customers':customers})
+
+def customer_detail(request, pk):
+	customer = get_object_or_404(Customer, id=pk)
+	return render(request, 'recommend/customer_detail.html', {'customer':customer})
+
+def customer_new(request):
+	if request.method == 'POST':
+		form = CustomerForm(request.POST)
+		if form.is_valid():
+			customer = form.save(commit=False)
+			if not User.objects.filter(username=customer.username).exists():
+				User.objects.create(username=customer.username)
+			customer.user = User.objects.get(username=customer.username)
+			customer.save()
+			form.save_m2m()
+			return redirect('customer_list')
+	else:
+		form = CustomerForm()
+	return render(request, 'recommend/customer_edit.html', {'form': form})
+
 
 def recommendation(request):
 	# first two functions may be called after every purchase (or view, click, like, etc.)
 	# since purchase is not implemented yet, they are called at every recommendation
+	auth_token = new_token()
+	'''
 	update_similarity()
 	customer = None
 	if request.user.is_authenticated:
 		customer = get_object_or_404(Customer, user=request.user)
 	update_will_buy(customer)
 	recommended = [x.product for x in WillBuy.objects.filter(customer=customer).order_by('-probability')[:3]]
-	return render(request, 'recommend/product_list.html', {'products':recommended})
+	'''
+	recommended = []
+	# if user has bought an album, find related albums to recommend using spotify api
 
+	#auth_token = 'BQDCdsz92dtb6NnOKuHAEL-M3SGLN96QLfo-jztYCcUHSItGGhj-u03NcpDC4a6csx5zJ-wsx18PEz7khJ99GyuAuGpUHOSAq_IWt_boWz_dmsYr9GcD6Wp5cM3KDCAyaU7pJ6fYJCTeRWN7TA'
+	headers = {'Authorization': 'Bearer ' + auth_token}
+	
+	# get the purchased album
+	album_id = '4bNwPPpk01D8pVV9IFSBde'
+	url = 'https://api.spotify.com/v1/albums/' + album_id
+
+	response = requests.get(url, headers=headers)
+
+	base_album = response.json()['name']
+	print(base_album)
+
+	artist_id = response.json()['artists'][0]['id']
+
+	params = {
+		'seed_artists': artist_id
+	}
+	#'2wOqMjp9TyABvtHdOSOTUS'
+	response = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
+	print('##############################################')
+	print('Recommended album is ' + response.json()['tracks'][0]['album']['name'], end=' ')
+	print('by ' + response.json()['tracks'][0]['album']['artists'][0]['name'])
+	url_of_image = response.json()['tracks'][0]['album']['images'][0]['url']
+	title = response.json()['tracks'][0]['album']['name'] + ' by ' + response.json()['tracks'][0]['album']['artists'][0]['name']
+	album = Product.objects.create(title=title, imageUrl=url_of_image)
+	recommended_albums = [album]
+
+	return render(request, 'recommend/recommend.html', {'products':recommended, 'base_album':base_album, 'recommended_albums':recommended_albums})
 
 def update_similarity():
 	customers = Customer.objects.all()
@@ -91,3 +155,13 @@ def update_will_buy(customer):
 			WillBuy.objects.get(customer=customer, product=p).probability = prob
 	print("RETURNING FROM WILL BUY")
 
+def new_token():
+	credentials = settings.ACCESS_TOKEN
+	headers = {
+		'Authorization': credentials,
+	}
+	body = {
+		'grant_type':'client_credentials'
+	}
+	response = requests.post('https://accounts.spotify.com/api/token', headers=headers, data=body)
+	return response.json()['access_token']

@@ -11,18 +11,16 @@ class CustomerTest(TestCase):
         return Customer.objects.create(user=user, email=email)
     
     def setUp(self):
-        user = User.objects.create(username='yavuz')
-        email = 'y@mail.com'
+        user = User.objects.create(username='menekse')
+        email = 'menekse@mail.com'
         self.create_customer(user, email)
-        user = User.objects.create(username='leyla')
-        email = 'l@mail.com'
+        user = User.objects.create(username='altan')
+        email = 'altan@mail.com'
         self.create_customer(user, email)
 
 
     def test_customer_creation(self):
         self.setUp()
-        y = Customer.objects.get(email='y@mail.com')
-        l = Customer.objects.get(email='l@mail.com')
-        self.assertTrue(isinstance(y, Customer))
-#        self.assertTrue(isinstance(l, Customer))
-        self.assertEqual(c.__unicode__(), c.user.username)
+        menekse = Customer.objects.get(email='menekse@mail.com')
+        self.assertTrue(isinstance(menekse, Customer))
+        self.assertEqual(menekse.__unicode__(), menekse.user.username)

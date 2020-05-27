@@ -1,0 +1,21 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    {% for product in products %}
+        <h1>First three of the recommended products based on your purchases</h1>
+        <div class="post">
+            <div class="date">
+                <p>created: {{ product.created_date }}</p>
+            </div>
+            <h2><a href="{% url 'product_detail' pk=product.pk %}">{{ product.title }}</a></h2>
+            <p>Price: {{ product.price|linebreaksbr }} tl</p>
+        </div>
+    {% endfor %}
+    <h1>Because you bought {{ base_album }}...</h1>
+    {% for album in recommended_albums %}
+        <div class="post">
+            <h2>{{ album.title }}</h2>
+            <img src={{ album.imageUrl }}>
+        </div>
+    {% endfor %}
+{% endblock %}
