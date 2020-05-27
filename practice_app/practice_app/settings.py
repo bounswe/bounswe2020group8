@@ -37,11 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'recommend.apps.RecommendConfig',
-=======
     'search.apps.SearchConfig',
->>>>>>> origin/master
 ]
 
 MIDDLEWARE = [
