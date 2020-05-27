@@ -1,0 +1,13 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    {% for product in products %}
+        <div class="post">
+            <div class="date">
+                <p>created: {{ product.created_date }}</p>
+            </div>
+            <h2><a href="{% url 'product_detail' pk=product.pk %}">{{ product.title }}</a></h2>
+            <p>Price: {{ product.price|linebreaksbr }} tl</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    {% for customer in customers %}
+        <div class="post">
+            <h2><a href="{% url 'customer_detail' pk=customer.id %}">{{ customer.username }}</a></h2>
+            <p>email: {{ customer.email }}</a></h2>
+        </div>
+    {% endfor %}
+{% endblock %}

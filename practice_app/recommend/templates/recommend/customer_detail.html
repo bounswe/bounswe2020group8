@@ -1,0 +1,8 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    <div class="post">
+        <h2>{{ customer.username }}</h2>
+        <p><a href="{% url 'ordered_product_list' pk=customer.id%}">Ordered Products</a></p>
+    </div>
+{% endblock %}

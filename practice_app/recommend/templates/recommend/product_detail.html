@@ -1,0 +1,14 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    <div class="post">
+        <div class="date">
+            {{ post.created_date }}
+        </div>
+        {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'product_edit' pk=product.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        {% endif %}
+<h2>{{ product.title }}</h2>
+        <p>Price: {{ product.price|linebreaksbr }} tl</p>
+    </div>
+{% endblock %}

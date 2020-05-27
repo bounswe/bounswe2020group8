@@ -1,0 +1,11 @@
+{% extends 'recommend/base.html' %}
+
+{% block content %}
+    <h1>Because you bought {{ base_album }}...</h1>
+    {% for album in recommended_albums %}
+        <div class="post">
+            <h2>{{ album.title }}</h2>
+            <img src={{ album.imageUrl }}>
+        </div>
+    {% endfor %}
+{% endblock %}
