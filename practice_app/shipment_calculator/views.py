@@ -11,7 +11,7 @@ def post_vendor(request):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('/add_vendor/')
+                return redirect('/shipment_calculator/add_vendor/')
             except:
                 pass
     else:
