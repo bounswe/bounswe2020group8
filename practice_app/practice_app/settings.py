@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'recommend.apps.RecommendConfig',
     'shipment_calculator',
     'search.apps.SearchConfig',
+    'google_shopping'
 ]
 
 MIDDLEWARE = [
