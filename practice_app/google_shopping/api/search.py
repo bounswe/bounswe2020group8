@@ -6,7 +6,7 @@ class Search:
 
         querystring = {"language":"EN","keywords":search_key,"country":"US"}
 
-        f = open("key.txt","r")
+        f = open("google_shopping_api_key.txt","r")
         api_key = f.read()
         headers = {
             'x-rapidapi-host': "google-shopping.p.rapidapi.com",
