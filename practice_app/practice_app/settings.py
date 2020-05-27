@@ -25,7 +25,7 @@ SECRET_KEY = '46uy#@w7=gfgwrp=+r6^yu-utw)c+ids$u22qp18@%90q&5nqj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['35.176.181.234']
 
 
 # Application definition
@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'recommend.apps.RecommendConfig',
+=======
+    'search.apps.SearchConfig',
+>>>>>>> origin/master
 ]
 
 MIDDLEWARE = [
@@ -121,3 +125,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+

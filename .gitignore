@@ -5,3 +5,4 @@
 /practice_app/practice_app/__pycache__/
 /practice_app/recommend/__pycache__/
 /practice_app/db.sqlite3
+/practice_app/search/target/*
