@@ -90,3 +90,8 @@ class UtilsTest(TestCase):
         products = Product.objects.all()
         result = MapsAPI.estimate_prices(products, 40.0, 40.0)
         self.assertEqual(result[3]["estimated_price"], 100)
+
+    def test_ups_same_city(self):
+        products = Product.objects.all()
+        result = MapsAPI.estimate_prices(products, 30.0, 40.0)
+        self.assertEqual(result[4]["estimated_price"], 14)
