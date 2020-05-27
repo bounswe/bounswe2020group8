@@ -8,7 +8,7 @@ class Search:
         querystring = {"language":"EN","keywords":search_key,"country":"US"}
         dir = os.path.dirname(__file__)
         parent = os.path.abspath(os.path.join(dir, os.pardir))
-        filename = os.path.join(parent, "google_shopping\\google_shopping_api_key.txt")
+        filename = os.path.join(parent, "google_shopping_api_key.txt")
         f = open(filename,"r")
         api_key = f.read()
         headers = {
