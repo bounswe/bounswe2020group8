@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recommend/', include('recommend.urls')),
     path('search/', include("search.urls")),
+    path('google_shopping/', include('google_shopping.urls')),
     path('shipment_calculator/', include('shipment_calculator.urls')),
 ]
