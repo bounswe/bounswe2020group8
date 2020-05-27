@@ -1,11 +1,6 @@
 from django.shortcuts import render
-from django.utils import timezone
-from .models import Product
 from .api.search import Search
 from .forms import Input
-from django.shortcuts import redirect
-
-# Create your views here.
 
 def list_products(request):
     return render(request, 'list_products.html', {})
