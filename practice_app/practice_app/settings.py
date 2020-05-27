@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shipment_calculator',
     'search.apps.SearchConfig',
     'google_shopping'
 ]
