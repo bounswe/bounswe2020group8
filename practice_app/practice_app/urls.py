@@ -20,3 +20,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('search/', include("search.urls")),
     path('shipment_calculator/', include('shipment_calculator.urls')),
+]
