@@ -79,50 +79,58 @@ def customer_new(request):
 	return render(request, 'recommend/customer_edit.html', {'form': form})
 
 
-def recommendation(request):
-	# first two functions may be called after every purchase (or view, click, like, etc.)
-	# since purchase is not implemented yet, they are called at every recommendation
-	auth_token = new_token()
-	'''
-	update_similarity()
-	customer = None
-	if request.user.is_authenticated:
-		customer = get_object_or_404(Customer, user=request.user)
-	update_will_buy(customer)
-	recommended = [x.product for x in WillBuy.objects.filter(customer=customer).order_by('-probability')[:3]]
-	'''
-	recommended = []
-	# if user has bought an album, find related albums to recommend using spotify api
+def recommendation_album(request):
+	# find albums based on the artist of a predetermined album using spotify api
 
-	#auth_token = 'BQDCdsz92dtb6NnOKuHAEL-M3SGLN96QLfo-jztYCcUHSItGGhj-u03NcpDC4a6csx5zJ-wsx18PEz7khJ99GyuAuGpUHOSAq_IWt_boWz_dmsYr9GcD6Wp5cM3KDCAyaU7pJ6fYJCTeRWN7TA'
+	auth_token = new_token()
 	headers = {'Authorization': 'Bearer ' + auth_token}
 	
-	# get the purchased album
+	# get the album from its id
 	album_id = '4bNwPPpk01D8pVV9IFSBde'
 	url = 'https://api.spotify.com/v1/albums/' + album_id
 
 	response = requests.get(url, headers=headers)
 
 	base_album = response.json()['name']
-	print(base_album)
 
 	artist_id = response.json()['artists'][0]['id']
+
+	# prepare request for spotify recommendations
+
+	url = 'https://api.spotify.com/v1/recommendations'
 
 	params = {
 		'seed_artists': artist_id
 	}
-	#'2wOqMjp9TyABvtHdOSOTUS'
-	response = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
-	print('##############################################')
-	print('Recommended album is ' + response.json()['tracks'][0]['album']['name'], end=' ')
-	print('by ' + response.json()['tracks'][0]['album']['artists'][0]['name'])
-	url_of_image = response.json()['tracks'][0]['album']['images'][0]['url']
+	
+	response = requests.get(url, headers=headers, params=params)
 	title = response.json()['tracks'][0]['album']['name'] + ' by ' + response.json()['tracks'][0]['album']['artists'][0]['name']
-	album = Product.objects.create(title=title, imageUrl=url_of_image)
+	url_of_image = response.json()['tracks'][0]['album']['images'][0]['url']
+
+	# create a product out of the album, if does not exist
+	if not Product.objects.filter(title=title).exists():
+		Product.objects.create(title=title, imageUrl=url_of_image)
+
+	album = Product.objects.get(title=title, imageUrl=url_of_image)
+
+	# presents only the first one
 	recommended_albums = [album]
 
-	return render(request, 'recommend/recommend.html', {'products':recommended, 'base_album':base_album, 'recommended_albums':recommended_albums})
+	return render(request, 'recommend/recommend_album.html', {'base_album':base_album, 'recommended_albums':recommended_albums})
 
+
+# formula from https://www.toptal.com/algorithms/predicting-likes-inside-a-simple-recommendation-engine
+def recommendation(request, pk):
+	customer = get_object_or_404(Customer, id=pk)
+	update_similarity()
+	update_will_buy(customer)
+	recommended = [x.product for x in WillBuy.objects.filter(customer=customer).order_by('-probability')[:3]]
+
+	return render(request, 'recommend/recommend.html', {'products':recommended})
+
+
+# for every pair in customers, finds the similarity index
+# based on the number of common products they bought
 def update_similarity():
 	customers = Customer.objects.all()
 	for c1 in customers:
@@ -133,9 +141,10 @@ def update_similarity():
 				
 				sim = len(c1.ordered_products.all().intersection(c2.ordered_products.all())) / len(c1.ordered_products.all().union(c2.ordered_products.all()))
 				Similarity.objects.get(customer1=c1, customer2=c2).similarity = sim
-				
-	print("RETURNING FROM UPDATE SIM")
 
+
+# for every product in the database that customer hasn't purchased yet, finds the probability that customer will buy that product
+# based on similarity between this customer and the customers who bought the product 
 def update_will_buy(customer):
 
 	products = Product.objects.all()
@@ -153,8 +162,9 @@ def update_will_buy(customer):
 				WillBuy.objects.create(customer=customer, product=p, probability=0)
 			
 			WillBuy.objects.get(customer=customer, product=p).probability = prob
-	print("RETURNING FROM WILL BUY")
 
+
+# gets new token using client credentials
 def new_token():
 	credentials = settings.ACCESS_TOKEN
 	headers = {
