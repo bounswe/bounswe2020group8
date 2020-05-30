@@ -2,6 +2,8 @@
 
 Welcome to our project repository for CMPE352 and CMPE451 courses. You can see our [wiki page](https://github.com/bounswe/bounswe2020group8/wiki) for more information.
 
+Check out our practice-website [here](http://35.176.181.234/search).
+
 # Team Members
 
 * [Afra Akbaş](https://github.com/bounswe/bounswe2020group8/wiki/Afra-Akba%C5%9F)
