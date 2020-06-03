@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'shipment_calculator',
     'search.apps.SearchConfig',
     'google_shopping',
-    'tracker'
+    'tracker',
+    'practice_app'
 ]
 
 MIDDLEWARE = [

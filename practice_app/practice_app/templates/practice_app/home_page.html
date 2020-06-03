@@ -1,0 +1,51 @@
+{% load static %}
+<html>
+    <head>
+        <title>CmpE 352 Group 8</title>
+        <link rel="stylesheet" href="{% static 'css/home_page.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>Carousel</h1>
+        </header>
+        <div class='apps'>
+            
+            <div class='app'>
+                <!--source https://icons8.com/icons/set/search-->
+                <a href="http://35.176.181.234/search/">
+                    <image src="{% static 'search.png'%}" width=150%></image>
+                </a>
+                <div class='icon-text'>Search Products</div>
+            </div>
+            <div class='app' id='shipment'>
+                <!--source https://www.pngwing.com/en/free-png-nxqmd-->
+                <a href="http://35.176.181.234/shipment_calculator/40.0_30.0/">
+                    <image src="{% static 'shipment.png'%}" width=150%></image>
+                </a>
+                <div class='icon-text'>Calculate Shipment</div>
+            </div>
+            <div class='app' id='recommend'>
+                <!--source https://www.cleanpng.com/png-shopping-bags-trolleys-handbag-computer-icons-shop-1289746/-->
+                <a href="http://35.176.181.234/recommend/products/">
+                    <image src="{% static 'recommend.png'%}" width=150%></image>
+                </a>
+                <div class='icon-text'>Recommended Products</div>
+            </div>
+            <div class='app' id='shopping'>
+                <!--source https://www.cleanpng.com/free/product-icon.html-->
+                <a href="http://35.176.181.234/google_shopping/">
+                    <image src="{% static 'shopping.png'%}" width=150%></image>
+                </a>
+                <div class='icon-text'>Get Price of a Product</div>
+            </div>
+            <div class='app' id='tracker'>
+                <!--source https://www.flaticon.com/free-icon/coronavirus_2750762-->
+                <a href="http://35.176.181.234/covid_tracker/">
+                    <image src="{% static 'tracker.png'%}" width=150%></image>
+                </a>
+                <div class='icon-text'>Covid Tracker</div>
+            </div>
+
+        </div>
+    </body>
+</html>
