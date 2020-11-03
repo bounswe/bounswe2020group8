@@ -6,7 +6,7 @@ Check out our practice-website [here](http://35.176.181.234/).
 
 # Team Members
 
-* [Afra Akbaş](https://github.com/bounswe/bounswe2020group8/wiki/Afra-Akba%C5%9F)
+* [Afra Arslan](https://github.com/bounswe/bounswe2020group8/wiki/Afra-Arslan)
 * [Ali Alperen Durak](https://github.com/bounswe/bounswe2020group8/wiki/Ali-Alperen-Durak)
 * [Burak Berk Özer](https://github.com/bounswe/bounswe2020group8/wiki/Burak-Berk-Özer)
 * [Emre Yılmaz](https://github.com/bounswe/bounswe2020group8/wiki/A.-Emre-Y%C4%B1lmaz)
