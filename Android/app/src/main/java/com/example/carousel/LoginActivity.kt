@@ -7,10 +7,10 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
     }
     fun login(view: View){
         val email = findViewById<EditText>(R.id.login_email).text.toString()
@@ -22,5 +22,9 @@ class MainActivity : AppCompatActivity() {
         } else{
             Toast.makeText( this, "Invalid email or password", Toast.LENGTH_SHORT).show()
         }
+    }
+    fun signup(view: View) {
+        val intent = Intent(this, SignupActivity::class.java)
+        startActivity(intent)
     }
 }
