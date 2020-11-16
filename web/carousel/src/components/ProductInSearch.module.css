@@ -1,0 +1,27 @@
+.ProductInSearch {
+    width: 300px;
+    background-color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    margin: 40px;
+    text-align: center;
+    color: black
+}
+
+.ProductInSearch:hover {
+    box-shadow: 0 2px 3px #ccc;
+    border: 2px slategrey;
+    border-radius: 5px;
+}
+
+.Image {
+    width: 150px;
+    height: 150px;
+}
+
+.ProductRowList {
+    list-style-type: none;
+    float: left;
+    flex-direction: column;
+}
