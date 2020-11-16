@@ -1,0 +1,170 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Boun Group 8",
+      "description": "Application API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Users",
+        "description": "API for users in the system"
+      }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+      "/users/signup": {
+        "post": {
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "password",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "passwordConfirm",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/SuccessfulResponse"
+              }
+            },
+            "401": {
+              "description": "Invalid token code"
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "password",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/ClientWithToken"
+              }
+            },
+            "400": {
+              "description": "Invalid email or password"
+            }
+          }
+        }
+      },
+      "/client/forgotPassword": {
+        "post": {
+          "parameters": [
+            {
+              "in": "body",
+              "name": "email",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "400": {
+              "description": "Invalid email"
+            }
+          }
+        }
+      },
+    "/client/resetPassword": {
+        "post": {
+          "parameters": [
+            {
+              "in": "body",
+              "name": "password",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "passwordConfirm",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation"
+            },
+            "400": {
+              "description": "Invalid password"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "mongoID"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "SuccessfulResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+                "type": "string"
+            },
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    }
+  }
+  
