@@ -5,6 +5,8 @@
     <string name="login_button">Login</string>
     <string name="signup_button">Sign Up</string>
     <string name="signup_header">Sign Up Page</string>
+    <string name="login_opt_customer">Customer</string>
+    <string name="login_opt_vendor">Vendor</string>
 
 
     <!-- Settings Activity Title -->

@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,8 +17,7 @@ class LoginActivity : AppCompatActivity() {
     fun login(view: View){
         val email = findViewById<EditText>(R.id.login_email).text.toString()
         val password = findViewById<EditText>(R.id.login_password).text.toString()
-
-        if(email =="example@gmail.com" && password == "123456"){
+        if(email =="example@gmail.com" && password == "123456" && findViewById<RadioButton>(R.id.radio_button_customer).isChecked){
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         } else{
