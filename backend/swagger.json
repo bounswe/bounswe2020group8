@@ -59,6 +59,13 @@
             "name": "email",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string",
+            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
@@ -69,7 +76,7 @@
             }
           },
           "400": {
-            "description": "Invalid email or password"
+            "description": "Invalid email or password or type"
           }
         }
       }
@@ -120,6 +127,9 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "type": {
           "type": "string"
         }
       },

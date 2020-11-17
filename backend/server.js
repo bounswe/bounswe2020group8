@@ -35,7 +35,7 @@ app.on("uncaughtException", (req, res, route, err) => {
   const language = req.custom.language;
   req.custom.respObj = {
     returnCode: Messages.RETURN_MESSAGES.ERR_UNDEFINED.code,
-    returnMessage: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language],
+    returnMessage: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language]
   };
   try {
     RequestHelper.returnResponse(req, res, () => {});
@@ -53,7 +53,7 @@ process.on("SIGTERM", () => {
 let blocked = require("blocked");
 require("./routers/client")(app);
 
-blocked((ms) => {
+blocked(ms => {
   if (ms > 3000) {
     console.log("EventLoopBlocked", ms, Config.dyno, global.REQUEST_ID);
   }
@@ -69,5 +69,3 @@ app.listen(port, () => {
 app.get("/", (req, res) => {
   res.send(200, "Server is running");
 });
-
-module.exports = app;

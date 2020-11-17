@@ -3,7 +3,7 @@ const RequestHelper = require("./../util/requestHelper");
 
 const rootPath = "/client/";
 
-module.exports = function (server) {
+module.exports = function(server) {
   server.post(
     `${rootPath}init`,
     ClientController.initController,

@@ -1,16 +1,21 @@
 const constants = {
   NODE_ENV: "dev",
   CLIENT_ACTIVE_DURATION: 60000,
-  ENUMS: {},
+  ENUMS: {
+    CLIENT_TYPE: {
+      CLIENT: "CLIENT",
+      VENDOR: "VENDOR"
+    }
+  },
   LANGUAGE: {
     EN: "en",
-    TR: "tr",
+    TR: "tr"
   },
   RESPONSE: {
     CODE: "returnCode",
     MESSAGE: "returnMessage",
     TITLE: "returnTitle",
-    ICON: "iconName",
+    ICON: "iconName"
   },
   DAYS: {
     en: [
@@ -20,9 +25,9 @@ const constants = {
       "Wednesday",
       "Thursday",
       "Friday",
-      "Saturday",
-    ],
-  },
+      "Saturday"
+    ]
+  }
 };
 
 module.exports = constants;

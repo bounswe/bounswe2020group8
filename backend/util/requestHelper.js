@@ -63,10 +63,10 @@ function checkJSON(obj) {
   return obj;
 }
 
-exports.logParams = function (req, res, next) {
+exports.logParams = function(req, res, next) {
   const logObj = {
     url: req.url,
-    request: req.query,
+    request: req.query
   };
   if (req.custom && req.custom.tokenObject && req.custom.tokenObject.client) {
     logObj.identifier =
@@ -76,10 +76,12 @@ exports.logParams = function (req, res, next) {
   next();
 };
 
-exports.getToken = async function (req, res, next) {
+const clientEndpointsWithoutToken = ["login", "resetPassword", "signup"];
+
+exports.getToken = async function(req, res, next) {
   const logObj = {
     url: req.url,
-    request: req.query,
+    request: req.query
   };
   console.log("getToken", JSON.stringify(logObj));
   try {
@@ -90,73 +92,51 @@ exports.getToken = async function (req, res, next) {
     return;
   }
   req.custom = {};
-  req.custom.language = getLanguageFromReq(req);
+  req.custom.language = "en";
   req.custom.requestDate = Date.now();
   if (req.url.indexOf("/client/") != -1) {
     if (!checkTokenCode(req)) {
       res.send(401, "Unauthorized");
       return;
     }
-    let tokenWithClient;
-    if (req.url.indexOf("/client/init") != -1) {
-      tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(
-        req.query.tokenCode
-      );
-      if (isNull(tokenWithClient) && !isNull(req.query.tokenCode)) {
-        console.log(
-          "returnResponse: InSufficientToken, tokenWithClient ",
-          tokenWithClient
-        );
-        return res.status(401).send({
-          returnCode: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.code,
-          returnMessage:
-            Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en,
-        });
+    let requiresClientToken = true;
+    clientEndpointsWithoutToken.forEach(e => {
+      if (req.url.indexOf(e) != -1) {
+        requiresClientToken = false;
       }
-    } else if (req.url.indexOf("/client/login") != -1) {
-      next();
-    } else {
-      tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(
+    });
+    if (requiresClientToken) {
+      const tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(
         req.query.tokenCode
       );
       if (!isNull(tokenWithClient) && !isNull(tokenWithClient.client)) {
-        let shouldUpdateClientLastActiveAt = false;
-        if (isNull(tokenWithClient.client.lastActiveAt)) {
-          shouldUpdateClientLastActiveAt = true;
-        } else if (
-          Date.now() - tokenWithClient.client.lastActiveAt.getTime() >
-          Constants.CLIENT_ACTIVE_DURATION
-        ) {
-          shouldUpdateClientLastActiveAt = true;
-        }
-        if (shouldUpdateClientLastActiveAt) {
-          await ClientDataAccess.updateClientLastActiveAtDB(
-            tokenWithClient.client
-          );
-        }
         req.custom.tokenObject = tokenWithClient;
         next();
       } else {
         return res.status(401).send({
           returnCode: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.code,
           returnMessage:
-            Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en,
+            Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en
         });
       }
+    } else {
+      next();
     }
   } else {
-    next();
+    // we will have admin endpoints here, we will get admintoken
+    res.send(401, "Unauthorized");
+    return;
   }
 };
 
-exports.returnResponse = async function (req, res, next) {
+exports.returnResponse = async function(req, res, next) {
   const language = req.custom.language;
   try {
     deepDeleteFields(req.query, [
       "password",
       "newPassword",
       "hashedPassword",
-      "hashedNewPassword",
+      "hashedNewPassword"
     ]);
   } catch (err) {
     console.log("delete password field failed", err);
@@ -172,7 +152,7 @@ exports.returnResponse = async function (req, res, next) {
   const logObj = {
     url: req.url,
     request: req.query,
-    response: respObj,
+    response: respObj
   };
   console.log("returnResponse", JSON.stringify(logObj));
   if (req.isExtendTimeoutDuration === true) {
@@ -188,7 +168,7 @@ exports.returnResponse = async function (req, res, next) {
   next();
 };
 
-exports.getErrorMessageAndCode = function (err, language) {
+exports.getErrorMessageAndCode = function(err, language) {
   if (isNull(err)) {
     err = new Error(Messages.RETURN_MESSAGES.ERR_UNDEFINED);
   }
@@ -200,7 +180,7 @@ exports.getErrorMessageAndCode = function (err, language) {
   returnMsg[keyMessage] = "";
   if (Array.isArray(err)) {
     returnMsg[keyCode] = Messages.RETURN_MESSAGES.ERR_VALIDATION_ERROR.code;
-    err.forEach((errItem) => {
+    err.forEach(errItem => {
       returnMsg[keyMessage] += `${errItem.returnObjects.messages[language]}\n`;
     });
     return returnMsg;
@@ -209,7 +189,7 @@ exports.getErrorMessageAndCode = function (err, language) {
     console.log("getErrorMessageAndCode", "AppError");
     returnMsg = {
       [keyCode]: err.code,
-      [keyMessage]: err.returnObjects.messages[language],
+      [keyMessage]: err.returnObjects.messages[language]
     };
     if (err.returnObjects.titles) {
       returnMsg[keyTitle] = err.returnObjects.titles[language];
@@ -226,7 +206,7 @@ exports.getErrorMessageAndCode = function (err, language) {
   returnMsg = {
     [keyCode]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.code,
     [keyTitle]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.titles[language],
-    [keyMessage]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language],
+    [keyMessage]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language]
   };
   return returnMsg;
 };

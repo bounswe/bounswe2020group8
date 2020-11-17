@@ -5,7 +5,7 @@ const Client = mongoose.model("Client");
 exports.populateClientDB = function (obj, path = "client") {
   return Client.populate(obj, {
     path,
-    model: "Client",
+    model: "Client"
   });
 };
 
@@ -19,20 +19,15 @@ exports.createClientDB = function (client) {
 
 exports.getClientByEmailDB = function (email) {
   return Client.findOne({
-    email,
+    email
   }).lean();
 };
 
-exports.updateClientLastActiveAtDB = function (_id) {
-  return Client.findByIdAndUpdate(
-    _id,
-    {
-      $set: {
-        lastActiveAt: Date.now(),
-      },
-    },
-    { _id: 1 }
-  );
+exports.getClientByEmailAndTypeDB = function (email, type) {
+  return Client.findOne({
+    email,
+    type
+  }).lean();
 };
 
 exports.updateClientPasswordDB = function (_id, password) {
@@ -40,8 +35,8 @@ exports.updateClientPasswordDB = function (_id, password) {
     _id,
     {
       $set: {
-        password,
-      },
+        password
+      }
     },
     { _id: 1 }
   );

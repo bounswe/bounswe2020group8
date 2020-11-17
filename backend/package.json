@@ -28,9 +28,6 @@
   "author": "Boun",
   "license": "ISC",
   "devDependencies": {
-    "ava": "^3.13.0",
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -53,7 +50,6 @@
     "body-parser": "^1.19.0",
     "cron": "^1.7.1",
     "express": "^4.17.1",
-    "joi-objectid": "^2.0.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "mongoose": "^5.5.5",

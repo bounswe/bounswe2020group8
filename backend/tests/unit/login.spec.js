@@ -5,10 +5,11 @@ let loginUrl = baseUrl + "client/login?";
 test("Login without email", async () => {
   let email = "";
   let password = "test2";
+  let type = "CLIENT";
   request(
     {
-      url: `${loginUrl}email=${email}&password=${password}`,
-      method: "POST",
+      url: `${loginUrl}email=${email}&password=${password}&type=${type}`,
+      method: "POST"
     },
     (error, response) => {
       const statusCode = response && response.statusCode;
@@ -19,11 +20,12 @@ test("Login without email", async () => {
 
 test("Successful login", async () => {
   let email = "test@gmail.com";
-  let password = "test2";
+  let password = "testtest2";
+  let type = "CLIENT";
   request(
     {
-      url: `${loginUrl}email=${email}&password=${password}`,
-      method: "POST",
+      url: `${loginUrl}email=${email}&password=${password}&type=${type}`,
+      method: "POST"
     },
     (error, response, body) => {
       const statusCode = response && response.statusCode;
