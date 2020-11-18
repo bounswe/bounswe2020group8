@@ -1,35 +1,38 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { signIn, signOut } from '../redux/auth/actions';
+import { connect } from 'react-redux';
 
 export class GoogleAuth extends Component {
-    state = { isSignedIn: null, profile: null };
 
     componentDidMount() {
         window.gapi.load('client:auth2', () => {
             window.gapi.client.init({
                 clientId: '1005866627235-accsl31ht1m9lh95nufh4dejqb2vq774.apps.googleusercontent.com',
-                scope: 'profile'
+                scope: 'email'
             }).then(() => {
                 this.auth = window.gapi.auth2.getAuthInstance();
-                this.setState({ isSignedIn: this.auth.isSignedIn.get() })
-                this.setState({ profile: this.auth.currentUser.get().getAuthResponse() })
+                this.onAuthChange(this.auth.isSignedIn.get());
                 this.auth.isSignedIn.listen(this.onAuthChange);
             });
         });
     }
 
-    onAuthChange = () => {
-        this.setState({ isSignedIn: this.auth.isSignedIn.get() })
-        this.setState({ profile: this.auth.currentUser.get().getBasicProfile() })
-
+    onAuthChange = (isSignedIn) => {
+        if (isSignedIn) {
+            this.props.signIn(this.auth.currentUser.get());//.getId());
+        }
+        else {
+            this.props.signOut();
+        }
     }
 
-    onSignIn = () => {
+    onSignInClick = () => {
         this.auth.signIn();
     }
 
-    onSignOut = () => {
+    onSignOutClick = () => {
         this.auth.signOut();
     }
 
@@ -42,7 +45,7 @@ export class GoogleAuth extends Component {
                     justifyContent: 'space-between'
                 }}>
                 <button
-                    onClick={this.onSignOut}
+                    onClick={this.onSignOutClick}
                     style={{
                         height: 40,
                         width: 200,
@@ -67,7 +70,7 @@ export class GoogleAuth extends Component {
                     justifyContent: 'space-between'
                 }}>
                 <button
-                    onClick={this.onSignIn}
+                    onClick={this.onSignInClick}
                     style={{
                         height: 40,
                         width: 200,
@@ -93,10 +96,10 @@ export class GoogleAuth extends Component {
     }
 
     render() {
-        if (this.state.isSignedIn === null) {
+        if (this.props.isSignedIn === null) {
             return null;
         }
-        else if (this.state.isSignedIn) {
+        else if (this.props.isSignedIn) {
             return <div> {this.renderSignOut()} </div>
         }
         else {
@@ -106,4 +109,12 @@ export class GoogleAuth extends Component {
     }
 }
 
-export default GoogleAuth
+
+const mapStateToProps = (state) => {
+    return {
+        isSignedIn: state.auth.isSignedIn,
+        googleId: state.auth.googleId
+    };
+}
+
+export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth);
