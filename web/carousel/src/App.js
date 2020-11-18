@@ -1,6 +1,8 @@
 import './App.css';
 import ProductInSearch from './components/ProductInSearch'
 import ProductTable from './components/ProductTable'
+import React from 'react';
+import Header from './components/Header/Header';
 
 function App() {
 
@@ -16,6 +18,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header/>
       <header className="App-header">
         <p>
           Hi Carousel!!
