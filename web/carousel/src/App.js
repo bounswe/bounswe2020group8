@@ -1,4 +1,5 @@
 import './App.css';
+import GoogleAuth from './components/GoogleAuth';
 import ProductInSearch from './components/ProductInSearch'
 import ProductTable from './components/ProductTable'
 
@@ -10,7 +11,7 @@ function App() {
     price: 25000.00
   }]
 
-  for (let i = 0 ; i < 15 ; i++) {
+  for (let i = 0; i < 15; i++) {
     productList.push(productList[0]);
   }
 
@@ -20,8 +21,8 @@ function App() {
         <p>
           Hi Carousel!!
         </p>
-        <ProductTable productList={productList} columnSize={3}/>
-
+        <GoogleAuth />
+        <ProductTable productList={productList} columnSize={3} />
       </header>
     </div>
   );
