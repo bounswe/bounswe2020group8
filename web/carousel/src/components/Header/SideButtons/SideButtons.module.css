@@ -1,0 +1,49 @@
+.SideButtons {
+    right: 10%;
+    border-color: #282c34;
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+}
+
+/*<color name="colorPrimary">#D33A09</color>*/
+/*                                    <color name="colorPrimaryDark">#D50000</color>*/
+/*                                                                            <color name="colorAccent">#FF6D00</color>*/
+
+.ButtonPrimary {
+    background-color: #FF6D00;
+    /*border: 2px black solid;*/
+    border: none;
+    color: white;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px;
+}
+
+.ButtonPrimary:hover {
+    background-color: #D33A09;
+    transition: all 0.3s ease-out;
+}
+
+.ButtonSecondary {
+    background-color: transparent;
+    border: none;
+    color: #FF6D00;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px;
+}
+
+.ButtonSecondary:hover {
+    color: #D33A09;
+    transition: all 0.3s ease-out;
+}
