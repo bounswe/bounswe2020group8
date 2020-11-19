@@ -45,12 +45,8 @@ class Header extends Component {
         return (
             <header className={classes.Toolbar}>
 
-                <img src={logo} alt={"carouselSite"} style={{
-                    backgroundColor: "white",
-                    padding: "0px",
-                    height: "80%",
-                    boxSizing: "border-box"
-                    }}
+                <img src={logo} alt={"carouselSite"} 
+		    className={classes.Img}
                     onClick={() => this.props.history.push("/")}/>
                 <SearchBar
                     searchString={this.state.searchValue}
