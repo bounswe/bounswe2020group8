@@ -1,6 +1,6 @@
 import ProductTable from "../../components/ProductTable";
 
-export default function home() {
+export default function Home() {
   const productList = [
     {
       imageUrl:
