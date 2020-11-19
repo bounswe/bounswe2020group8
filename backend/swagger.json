@@ -1,0 +1,152 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Boun Group 8",
+    "description": "Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/client/init": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "token code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ClientWithToken"
+            }
+          },
+          "401": {
+            "description": "Invalid token code"
+          }
+        }
+      }
+    },
+    "/client/login": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string",
+            "enum": ["CLIENT", "VENDOR"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ClientWithToken"
+            }
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/client/changePassword": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPasswordRepeat",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid password"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Client": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "mongoID"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "ClientWithToken": {
+      "type": "object",
+      "properties": {
+        "tokenCode": {
+          "type": "string"
+        },
+        "client": {
+          "$ref": "#/definitions/Client"
+        }
+      }
+    }
+  }
+}
