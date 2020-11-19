@@ -1,4 +1,4 @@
-import { GoogleAuth } from "../../components/GoogleAuth";
+import GoogleAuth from "../../components/GoogleAuth";
 
 export default function Login() {
   return <GoogleAuth />;
