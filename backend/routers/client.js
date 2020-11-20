@@ -15,6 +15,16 @@ module.exports = function(server) {
     RequestHelper.returnResponse
   );
   server.post(
+    `${rootPath}signup`,
+    ClientController.signupController,
+    RequestHelper.returnResponse
+  );
+  server.post(
+    `${rootPath}verifyEmail`,
+    ClientController.verifyEmailController,
+    RequestHelper.returnResponse
+  );
+  server.post(
     `${rootPath}changePassword`,
     ClientController.changePasswordController,
     RequestHelper.returnResponse

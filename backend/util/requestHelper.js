@@ -76,7 +76,7 @@ exports.logParams = function(req, res, next) {
   next();
 };
 
-const clientEndpointsWithoutToken = ["login", "resetPassword", "signup"];
+const clientEndpointsWithoutToken = ["login", "forgotPassword", "resetPassword", "signup", "verifyEmail"];
 
 exports.getToken = async function(req, res, next) {
   const logObj = {

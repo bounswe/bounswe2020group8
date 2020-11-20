@@ -41,3 +41,31 @@ exports.updateClientPasswordDB = function (_id, password) {
     { _id: 1 }
   );
 };
+
+exports.updateClientVerifyEmailTokenDB = function (_id, verifyEmailToken) {
+  return Client.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        verifyEmailToken
+      }
+    },
+    { _id: 1 }
+  );
+};
+
+exports.getClientByVerifyEmailTokenDB = function (verifyEmailToken) {
+  return Client.findOne({
+    verifyEmailToken
+  }).lean();
+};
+
+exports.updateClientDB = function (_id, fields) {
+  return Client.findByIdAndUpdate(
+    _id,
+    {
+      $set: fields
+    },
+    { _id: 1 }
+  );
+};

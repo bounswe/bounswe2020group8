@@ -9,7 +9,9 @@ const clientSchema = new Schema({
   isBanned: { type: Boolean },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  type: { type: String, enum: Object.values(Constants.ENUMS.CLIENT_TYPE) }
+  type: { type: String, enum: Object.values(Constants.ENUMS.CLIENT_TYPE) },
+  verifyEmailToken: {type: String},
+  isVerified: {type: Boolean}
 });
 
 module.exports = mongoose.model("Client", clientSchema);
