@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../../UI/ButtonPrimary/ButtonPrimary";
-import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
+import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 
 const sideButtons = (props) => {
     return (
