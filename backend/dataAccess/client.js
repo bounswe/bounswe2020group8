@@ -60,6 +60,12 @@ exports.getClientByVerifyEmailTokenDB = function (verifyEmailToken) {
   }).lean();
 };
 
+exports.getClientByResetPasswordTokenDB = function (resetPasswordToken) {
+  return Client.findOne({
+    resetPasswordToken
+  }).lean();
+};
+
 exports.updateClientDB = function (_id, fields) {
   return Client.findByIdAndUpdate(
     _id,

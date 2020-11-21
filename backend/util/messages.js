@@ -96,6 +96,12 @@ const returnMessages = {
       en: "Client last name cannot be empty"
     }
   },
+  ERR_REGISTERED_WITH_GOOGLE: {
+    code: 15,
+    messages: {
+      en: "This account is registered with Google."
+    }
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
