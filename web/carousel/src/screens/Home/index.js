@@ -1,4 +1,4 @@
-import ProductTable from "../../components/ProductTable";
+import ProductTable from "../../components/Product/ProductTable";
 
 export default function Home() {
   const productList = [
@@ -17,7 +17,6 @@ export default function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Hi Carousel!!</p>
         <ProductTable productList={productList} columnSize={3} />
       </header>
     </div>
