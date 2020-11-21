@@ -130,3 +130,52 @@ exports.changePasswordController = BaseUtil.createController(req => {
       })
     );
 });
+
+exports.forgotPasswordController = BaseUtil.createController(req => {
+  let { email, type } = req.query
+  email = typeof email == "string" ? email.toLowerCase() : "";
+  return BB.all([
+    AppValidator.validateEmail(
+      email,
+      Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID
+    ).reflect(),  
+    AppValidator.validateEnum(
+      type,
+      Object.values(Constants.ENUMS.CLIENT_TYPE),
+      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
+    ).reflect()
+  ])
+    .then(results => BaseUtil.decideErrorExist(results))
+    .then(() => {
+      ClientService.forgotPasswordService({
+        email,
+        type
+      })
+    });
+});
+
+exports.resetPasswordController = BaseUtil.createController(req => {
+  let { resetPasswordToken, newPassword, newPasswordCheck } = req.query
+  return BB.all([
+    AppValidator.validateIfNotNull(
+      resetPasswordToken,
+      Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN
+    ).reflect(),
+    AppValidator.validatePassword(
+      newPassword,
+      Messages.RETURN_MESSAGES.ERR_INVALID_PASSWORD
+    ).reflect(),
+    AppValidator.validatePasswords(
+      newPassword,
+      newPasswordCheck,
+      Messages.RETURN_MESSAGES.ERR_PASSWORDS_DO_NOT_MATCH
+    ).reflect()
+  ])
+    .then(results => BaseUtil.decideErrorExist(results))
+    .then(() => {
+      ClientService.resetPasswordService({
+        resetPasswordToken,
+        newPassword
+      })
+    });
+});

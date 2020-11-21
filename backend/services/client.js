@@ -1,7 +1,7 @@
 const ClientDataAccess = require("../dataAccess/client");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const Messages = require("../util/messages");
-const { sha1 } = require("../util/baseUtil");
+const { sha1, sha256 } = require("../util/baseUtil");
 const { isNull } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Formatters = require("../util/format");
@@ -113,5 +113,45 @@ exports.verifyEmailService = async function({ verifyEmailToken }) {
 exports.changePasswordService = async function({ token, newPassword }) {
   await ClientDataAccess.updateClientPasswordDB(token.client._id, newPassword);
 
+  return {};
+};
+
+exports.forgotPasswordService = async function({email, type}) {
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+
+  if (isNull(clientWithEmail)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
+  }
+
+  const resetPasswordToken = Date.now() + sha1(newClient._id.toString() + Date.now());
+  const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
+
+  try {
+    await sendEmail({
+      email,
+      subject: "Reset Your Password",
+      message: `You can follow the link ${resetURL} to reset your password.`
+    });
+  } catch (error) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
+  }
+
+  return {};
+};
+
+exports.resetPasswordService = async function({ resetPasswordToken, newPassword }) {
+  const client = await ClientDataAccess.getClientByResetPasswordTokenDB(resetPasswordToken);
+
+  if (isNull(client)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
+  }
+
+  if (!sNull(client.googleID)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_REGISTERED_WITH_GOOGLE);
+  }
+
+  client.resetPasswordToken = null
+
+  await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
   return {};
 };

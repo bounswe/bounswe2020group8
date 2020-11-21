@@ -29,4 +29,14 @@ module.exports = function(server) {
     ClientController.changePasswordController,
     RequestHelper.returnResponse
   );
+  server.post(
+    `${rootPath}forgotPassword`,
+    ClientController.forgotPasswordController,
+    RequestHelper.returnResponse
+  );
+  server.post(
+    `${rootPath}resetPassword`,
+    ClientController.resetPasswordController,
+    RequestHelper.returnResponse
+  );
 };
