@@ -115,6 +115,18 @@
           },
           {
             "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
             "name": "password",
             "required": true,
             "type": "string"
