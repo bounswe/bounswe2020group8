@@ -109,13 +109,13 @@
         "parameters": [
           {
             "in": "query",
-            "name": "email",
+            "name": "name",
             "required": true,
             "type": "string"
           },
           {
             "in": "query",
-            "name": "email",
+            "name": "lastName",
             "required": true,
             "type": "string"
           },
