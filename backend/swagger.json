@@ -109,6 +109,18 @@
         "parameters": [
           {
             "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "lastName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
             "name": "email",
             "required": true,
             "type": "string"
