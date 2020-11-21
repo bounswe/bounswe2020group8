@@ -1,4 +1,4 @@
-const BASE_URL = "http://18.198.51.178:8080/";
+const BASE_URL = "http://18.198.51.178:8080";
 
 function objectToQueryString(obj) {
   if (typeof obj !== "object") return "";
@@ -34,12 +34,12 @@ async function doFetch(endpoint, options = {}) {
   return data;
 }
 
-export async function GET(endpoint, options = {}) {
-  const data = await doFetch(endpoint, options);
+export async function GET(endpoint, query = {}) {
+  const data = await doFetch(endpoint, { query });
   return data;
 }
 
-export async function POST(endpoint, options = {}) {
-  const data = await doFetch(endpoint, { ...options, method: "POST" });
+export async function POST(endpoint, body = {}, query) {
+  const data = await doFetch(endpoint, { body, query, method: "POST" });
   return data;
 }
