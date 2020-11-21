@@ -1,12 +1,13 @@
 import React from "react";
 import GoogleAuth from "../../components/GoogleAuth";
-import LoginComponent from "../../components/Login/Login"
+import SignUpComponent from "../../components/SignUp/SignUp"
 
-export default function Login() {
+
+export default function SignUp() {
   return (
       <div className="App">
         <header className="App-header">   
-          <LoginComponent /> 
+          <SignUpComponent />
           <GoogleAuth />
         </header>
       </div>
