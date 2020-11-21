@@ -137,6 +137,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
+              "message": "Verification email sent!",
               "$ref": "#/definitions/OnlyClient"
             },
             "returnCode": 0,

@@ -1,13 +1,12 @@
 const ClientDataAccess = require("../dataAccess/client");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const Messages = require("../util/messages");
-const { sha1, consoleLogError } = require("../util/baseUtil");
+const { sha1 } = require("../util/baseUtil");
 const { isNull } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
-const { setFlagsFromString } = require("v8");
 //
 exports.initService = async function({ token }) {
   await ClientTokenDataAccess.removeClientTokenDB(token._id);
@@ -70,7 +69,7 @@ exports.signupService = async function({ email, password, type }) {
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(newClient._id, verifyEmailToken);
 
-  const resetURL = `http://${Config.url}:${Config.port}/client/verifyEmail?verifyEmailToken=${verifyEmailToken}`;
+  const resetURL = `http://${Config.hostAddr}:${Config.port}/client/verifyEmail?verifyEmailToken=${verifyEmailToken}`;
   
   try {
     await sendEmail({
@@ -83,6 +82,7 @@ exports.signupService = async function({ email, password, type }) {
   }
 
   return {
+    message: "Verification email sent!",
     client: Formatters.formatClient(updatedClient)
   };
 };
