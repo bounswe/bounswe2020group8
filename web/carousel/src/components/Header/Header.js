@@ -17,6 +17,8 @@ class Header extends Component {
         searchOn: false,
     }
 
+    categories = ["Fashion", "Toys & Hobbies", "Electronics", "Furniture", "Personal Care"];
+
     openProfileHandler = () => {
         alert("Open Profile");
     }
@@ -60,7 +62,7 @@ class Header extends Component {
                         authenticated={this.props.isSignedIn}
                         clicked={this.props.isSignedIn ? this.openProfileHandler : () => this.props.history.push("/login") }/>
                 </div>
-                <Categories />
+                <Categories categories={this.categories}/>
             </header>
         );
     }
