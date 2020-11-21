@@ -1,7 +1,7 @@
 const ClientDataAccess = require("../dataAccess/client");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const Messages = require("../util/messages");
-const { sha1 } = require("../util/baseUtil");
+const { sha1, sha256 } = require("../util/baseUtil");
 const { isNull } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Formatters = require("../util/format");
@@ -35,7 +35,7 @@ exports.loginService = async function({ email, password, type }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
   }
 
-  if (clientWithEmail.password !== password) {
+  if (clientWithEmail.password !== sha256(password + "t2KB14o1")) {
     throw new AppError(
       Messages.RETURN_MESSAGES.ERR_EMAIL_AND_PASSWORD_DOES_NOT_MATCH
     );
@@ -62,8 +62,9 @@ exports.signupService = async function({ email, password, type, name, lastName }
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
   }
 
+  const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-    await ClientDataAccess.createClientDB({email, password, type, name, lastName})
+    await ClientDataAccess.createClientDB({email, encryptedPassword, type, name, lastName})
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
@@ -111,7 +112,7 @@ exports.verifyEmailService = async function({ verifyEmailToken }) {
 
 
 exports.changePasswordService = async function({ token, newPassword }) {
-  await ClientDataAccess.updateClientPasswordDB(token.client._id, newPassword);
+  await ClientDataAccess.updateClientPasswordDB(token.client._id, sha256(newPassword + "t2KB14o1"));
 
   return {};
 };
