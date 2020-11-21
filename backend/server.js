@@ -9,7 +9,6 @@ const RequestHelper = require("./util/requestHelper");
 const BB = require("bluebird");
 const _ = require("lodash");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,6 +16,9 @@ const bodyParser = require("body-parser");
 BB.longStackTraces();
 mongooseConfig.connect(Config);
 const http = require("http");
+
+let swaggerDocument = require("./swagger.json");
+swaggerDocument.host = `${Config.hostAddr}:${Config.port}`;
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json());

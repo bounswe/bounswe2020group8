@@ -98,7 +98,7 @@ exports.validateClient = function (client, allowBanned) {
 
 exports.validateIfString = function (isStrValue, errObj) {
   return new BB((resolve, reject) => {
-    if (CoreUtil.isNullOrEmpty(isStrValue) || typeof isStrValue === "string") {
+    if (CoreUtil.isNullOrEmpty(isStrValue) || typeof isStrValue !== "string") {
       reject(new AppError(errObj));
     } else {
       resolve();

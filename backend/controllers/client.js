@@ -43,7 +43,7 @@ exports.loginController = BaseUtil.createController(req => {
 
 
 exports.signupController = BaseUtil.createController(req => {
-  let { email, password, passwordConfirm, type } = req.query;
+  let { email, password, passwordConfirm, type, name, lastName } = req.query;
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
   return BB.all([
     AppValidator.validatePassword(
@@ -63,14 +63,24 @@ exports.signupController = BaseUtil.createController(req => {
       password,
       passwordConfirm,
       Messages.RETURN_MESSAGES.ERR_PASSWORDS_DO_NOT_MATCH
-    ).reflect()
+    ).reflect(),
+    AppValidator.validateIfString(
+      name,
+      Messages.RETURN_MESSAGES.ERR_NAME_EMPTY
+    ),
+    AppValidator.validateIfString(
+      lastName,
+      Messages.RETURN_MESSAGES.ERR_LAST_NAME_EMPTY
+    )
   ])
     .then(results => BaseUtil.decideErrorExist(results))
     .then(() =>
       ClientService.signupService({
         email,
         password,
-        type
+        type,
+        name,
+        lastName
       })
     );
 });

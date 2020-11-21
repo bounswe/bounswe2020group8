@@ -84,6 +84,18 @@ const returnMessages = {
       en: "Verification email could not be sent"
     }
   },
+  ERR_NAME_EMPTY: {
+    code: 13,
+    messages:{
+      en: "Client name cannot be empty"
+    }
+  },
+  ERR_LAST_NAME_EMPTY: {
+    code: 14,
+    messages:{
+      en: "Client last name cannot be empty"
+    }
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

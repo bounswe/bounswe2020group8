@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8000",
+  "host": "localhost:8080",
   "basePath": "/",
   "tags": [
     {
@@ -137,6 +137,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
+              "message": "Verification email sent!",
               "$ref": "#/definitions/OnlyClient"
             },
             "returnCode": 0,
@@ -189,6 +190,12 @@
         "id": {
           "type": "string",
           "format": "mongoID"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
         },
         "email": {
           "type": "string"
