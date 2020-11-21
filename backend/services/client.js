@@ -124,7 +124,7 @@ exports.forgetPasswordService = async function({email, type}) {
   }
 
   const resetPasswordToken = Date.now() + sha1(newClient._id.toString() + Date.now());
-  const resetURL = `http://${Config.url}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
+  const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
 
   try {
     await sendEmail({
