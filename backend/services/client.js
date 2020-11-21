@@ -64,7 +64,7 @@ exports.signupService = async function({ email, password, type, name, lastName }
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-    await ClientDataAccess.createClientDB({email, encryptedPassword, type, name, lastName})
+    await ClientDataAccess.createClientDB({email, password: encryptedPassword, type, name, lastName})
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
