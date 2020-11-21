@@ -1,77 +1,83 @@
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import React, {Component} from "react";
-import CustomerSignUp from './CustomerSignup';
-import VendorSignUp from './VendorSignUp';
-import { Redirect } from 'react-router-dom'
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import AppBar from "material-ui/AppBar";
+import RaisedButton from "material-ui/RaisedButton";
+import TextField from "material-ui/TextField";
+import React, { Component } from "react";
+import CustomerSignUp from "./CustomerSignup";
+import VendorSignUp from "./VendorSignUp";
+import { Redirect } from "react-router-dom";
 
 class SignUpComponent extends Component {
-
-constructor(props){
-  super(props);
-  this.state={
-  userType:'Customer',
-  comp : null,
-  redirect: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      userType: "Customer",
+      comp: null,
+      redirect: false,
+    };
   }
- }
- 
-
-
-render() {
+  render() {
     return (
-    <div>
-    <MuiThemeProvider>
-      <div onChange = {(event) => this.setState({userType:event.target.value})  }>
-        <input type="radio" value="Customer" defaultChecked name="userType"/> Customer
-        <input type="radio" value="Vendor" name="userType"/> Vendor
+      <div>
+        <MuiThemeProvider>
+          <div
+            onChange={(event) =>
+              this.setState({ userType: event.target.value })
+            }
+          >
+            <input
+              type="radio"
+              value="Customer"
+              defaultChecked
+              name="userType"
+            />{" "}
+            Customer
+            <input type="radio" value="Vendor" name="userType" /> Vendor
+          </div>
+          {this.checkRadio()}
+          {this.state.comp}
+          <p>Do you have an account?</p>
+          {this.renderRedirect()}
+          <RaisedButton
+            label="Go to Login"
+            primary={true}
+            style={style}
+            onClick={this.setRedirect}
+          />
+        </MuiThemeProvider>
       </div>
-      {this.checkRadio()}
-      {this.state.comp}
-      <p>Do you have an account?</p>
-      {this.renderRedirect()}
-      <RaisedButton label="Go to Login" primary={true} style={style} onClick={this.setRedirect} />
-    </MuiThemeProvider>
-    </div>
     );
-}
+  }
 
-  handleLoginClick(event){
+  handleLoginClick(event) {
     var self = this;
-    console.log(self.state)
-  };
+    console.log(self.state);
+  }
 
   checkRadio = () => {
-    if (this.state.userType == 'Customer') {
-      this.state.comp = <CustomerSignUp/>
+    if (this.state.userType == "Customer") {
+      this.state.comp = <CustomerSignUp />;
+    } else {
+      this.state.comp = <VendorSignUp />;
     }
-    else{
-        this.state.comp = <VendorSignUp/>
-    }
-    console.log(this.state)
-  }
+    console.log(this.state);
+  };
 
   setRedirect = () => {
     this.setState({
-      redirect: true
-    })
-  }
+      redirect: true,
+    });
+  };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='/login' />
+      return <Redirect to="/login" />;
     }
-  }
-
+  };
 }
 
-
 const style = {
- margin: 15,
+  margin: 15,
 };
-
-
 
 export default SignUpComponent;
