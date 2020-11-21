@@ -1,0 +1,14 @@
+.SideButtons {
+    right: 10%;
+    border-color: #282c34;
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+}
+
+/*<color name="colorPrimary">#D33A09</color>*/
+/*                                    <color name="colorPrimaryDark">#D50000</color>*/
+/*                                                                            <color name="colorAccent">#FF6D00</color>*/
+
+

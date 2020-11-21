@@ -1,0 +1,55 @@
+.SearchBar {
+    border: lightgray 2px solid;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    position: absolute;
+    left: 38%;
+}
+
+.focused {
+    background-color: white;
+    border: #FF6D00 2px solid;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    position: absolute;
+    left: 38%;
+}
+
+.notFocused {
+    background-color: #dddddd;
+    border: lightgray 2px solid;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    position: absolute;
+    left: 38%;
+}
+
+.Search {
+    width: 300px;
+    height: 30px;
+    color: slategray;
+    border: none;
+    border-radius: 100px;
+    background-color: #dddddd;
+    padding-left: 16px;
+}
+
+.Search:focus {
+    background-color: white;
+    color: #282c34;
+}
+
+.Search:focus {
+    outline-width: 0;
+}
+
+.SearchBar input {
+    color: black;
+}
+
+.SearchBar div {
+    border: black 10px solid;
+}
