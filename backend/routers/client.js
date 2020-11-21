@@ -30,8 +30,8 @@ module.exports = function(server) {
     RequestHelper.returnResponse
   );
   server.post(
-    `${rootPath}forgetPassword`,
-    ClientController.forgetPasswordController,
+    `${rootPath}forgotPassword`,
+    ClientController.forgotPasswordController,
     RequestHelper.returnResponse
   );
   server.post(

@@ -131,7 +131,7 @@ exports.changePasswordController = BaseUtil.createController(req => {
     );
 });
 
-exports.forgetPasswordController = BaseUtil.createController(req => {
+exports.forgotPasswordController = BaseUtil.createController(req => {
   let { email, type } = req.query
   email = typeof email == "string" ? email.toLowerCase() : "";
   return BB.all([
@@ -147,7 +147,7 @@ exports.forgetPasswordController = BaseUtil.createController(req => {
   ])
     .then(results => BaseUtil.decideErrorExist(results))
     .then(() => {
-      ClientService.forgetPasswordService({
+      ClientService.forgotPasswordService({
         email,
         type
       })

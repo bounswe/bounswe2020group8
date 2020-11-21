@@ -116,7 +116,7 @@ exports.changePasswordService = async function({ token, newPassword }) {
   return {};
 };
 
-exports.forgetPasswordService = async function({email, type}) {
+exports.forgotPasswordService = async function({email, type}) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
