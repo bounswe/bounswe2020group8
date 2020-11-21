@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 
 const clientSchema = new Schema({
   email: { type: String },
+  name: {type: String},
+  lastName: {type: String},
   password: { type: String },
   isBanned: { type: Boolean },
   createdAt: { type: Date, default: Date.now },

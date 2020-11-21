@@ -55,7 +55,7 @@ exports.loginService = async function({ email, password, type }) {
 };
 
 
-exports.signupService = async function({ email, password, type }) {
+exports.signupService = async function({ email, password, type, name, lastName }) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
@@ -63,7 +63,7 @@ exports.signupService = async function({ email, password, type }) {
   }
 
   const newClient = (
-    await ClientDataAccess.createClientDB({email, password, type})
+    await ClientDataAccess.createClientDB({email, password, type, name, lastName})
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
