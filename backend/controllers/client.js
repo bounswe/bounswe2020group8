@@ -41,6 +41,56 @@ exports.loginController = BaseUtil.createController(req => {
     );
 });
 
+
+exports.signupController = BaseUtil.createController(req => {
+  let { email, password, passwordConfirm, type } = req.query;
+  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
+  return BB.all([
+    AppValidator.validatePassword(
+      password,
+      Messages.RETURN_MESSAGES.ERR_INVALID_PASSWORD
+    ).reflect(),
+    AppValidator.validateEmail(
+      email,
+      Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID
+    ).reflect(),  
+    AppValidator.validateEnum(
+      type,
+      Object.values(Constants.ENUMS.CLIENT_TYPE),
+      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
+    ).reflect(),
+    AppValidator.validatePasswords(
+      password,
+      passwordConfirm,
+      Messages.RETURN_MESSAGES.ERR_PASSWORDS_DO_NOT_MATCH
+    ).reflect()
+  ])
+    .then(results => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      ClientService.signupService({
+        email,
+        password,
+        type
+      })
+    );
+});
+
+exports.verifyEmailController = BaseUtil.createController(req => {
+  let { verifyEmailToken } = req.query;
+  return BB.all([
+    AppValidator.validateIfNotNull(
+      verifyEmailToken,
+      Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN
+    ).reflect(),
+  ])
+    .then(results => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      ClientService.verifyEmailService({
+        verifyEmailToken
+      })
+    );
+});
+
 exports.changePasswordController = BaseUtil.createController(req => {
   let token = req.custom.tokenObject;
   let client = req.custom.tokenObject.client;

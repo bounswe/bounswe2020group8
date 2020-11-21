@@ -72,6 +72,18 @@ const returnMessages = {
       en: "Client does not exist"
     }
   },
+  ERR_PASSWORDS_DO_NOT_MATCH: {
+    code: 11,
+    messages: {
+      en: "Passwords do not match"
+    }
+  },
+  ERR_SEND_EMAIL_FAILED: {
+    code: 12,
+    messages: {
+      en: "Verification email could not be sent"
+    }
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
