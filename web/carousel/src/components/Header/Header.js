@@ -46,6 +46,7 @@ class Header extends Component {
 
     render() {
         return (
+            <>
             <header className={classes.Header}>
                 <div className={classes.Toolbar}>
                     <img src={logo} alt={"carouselSite"} 
@@ -64,6 +65,8 @@ class Header extends Component {
                 </div>
                 <Categories categories={this.categories}/>
             </header>
+            <div className={classes.Filler} />
+            </>
         );
     }
 }

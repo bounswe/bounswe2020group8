@@ -42,3 +42,9 @@
     left: 0;
     width: 100%;
 }
+
+.Filler {
+    background-color: lightpink;
+    height: 150px;
+    width: 100%;
+}
