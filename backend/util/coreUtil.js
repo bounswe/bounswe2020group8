@@ -6,11 +6,7 @@ exports.isNull = function (variable) {
 };
 
 exports.isNullOrEmpty = function (variable) {
-  return !(
-    typeof variable !== "undefined" &&
-    variable !== null &&
-    variable !== ""
-  );
+  return !(typeof variable !== "undefined" && variable !== null && variable !== "");
 };
 
 exports.getRandomInt = function (min, max) {

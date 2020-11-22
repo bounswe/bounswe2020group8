@@ -1,6 +1,5 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 const Config = require("../config");
-
 
 const sendEmail = async ({ email, subject, message }) => {
   // 1) Create a transporter
@@ -10,14 +9,14 @@ const sendEmail = async ({ email, subject, message }) => {
     auth: {
       user: Config.emailer.user,
       pass: Config.emailer.pass,
-    }
+    },
   });
   // 2) Define the email options
   const mailOptions = {
-    from: 'noreply <noreply@carousel.com>',
+    from: "noreply <noreply@carousel.com>",
     to: email,
     subject: subject,
-    text: message
+    text: message,
     // html:
   };
 

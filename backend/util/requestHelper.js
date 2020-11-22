@@ -30,8 +30,7 @@ function isErrorResponse(respObj) {
   return (
     respObj instanceof AppError ||
     respObj instanceof Error ||
-    (respObj instanceof Array &&
-      (respObj[0] instanceof AppError || respObj[0] instanceof Error))
+    (respObj instanceof Array && (respObj[0] instanceof AppError || respObj[0] instanceof Error))
   );
 }
 
@@ -40,8 +39,7 @@ function checkTokenCode(req) {
   if (
     !(
       isNullOrEmpty(tokenCode) ||
-      (typeof tokenCode === "string" &&
-        AppValidator.validator.isAlphanumeric(tokenCode))
+      (typeof tokenCode === "string" && AppValidator.validator.isAlphanumeric(tokenCode))
     )
   ) {
     console.log("InjectionTokenCodeError", req.url, JSON.stringify(req.query));
@@ -66,22 +64,27 @@ function checkJSON(obj) {
 exports.logParams = function (req, res, next) {
   const logObj = {
     url: req.url,
-    request: req.query
+    request: req.query,
   };
   if (req.custom && req.custom.tokenObject && req.custom.tokenObject.client) {
-    logObj.identifier =
-      req.custom.tokenObject.client._id || req.custom.tokenObject.client;
+    logObj.identifier = req.custom.tokenObject.client._id || req.custom.tokenObject.client;
   }
   console.log("logParams", JSON.stringify(logObj));
   next();
 };
 
-const clientEndpointsWithoutToken = ["login", "forgotPassword", "resetPassword", "signup", "verifyEmail"];
+const clientEndpointsWithoutToken = [
+  "login",
+  "forgotPassword",
+  "resetPassword",
+  "signup",
+  "verifyEmail",
+];
 
 exports.getToken = async function (req, res, next) {
   const logObj = {
     url: req.url,
-    request: req.query
+    request: req.query,
   };
   console.log("getToken", JSON.stringify(logObj));
   try {
@@ -100,23 +103,20 @@ exports.getToken = async function (req, res, next) {
       return;
     }
     let requiresClientToken = true;
-    clientEndpointsWithoutToken.forEach(e => {
+    clientEndpointsWithoutToken.forEach((e) => {
       if (req.url.indexOf(e) != -1) {
         requiresClientToken = false;
       }
     });
     if (requiresClientToken) {
-      const tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(
-        req.query.tokenCode
-      );
+      const tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(req.query.tokenCode);
       if (!isNull(tokenWithClient) && !isNull(tokenWithClient.client)) {
         req.custom.tokenObject = tokenWithClient;
         next();
       } else {
         return res.status(401).send({
           returnCode: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.code,
-          returnMessage:
-            Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en
+          returnMessage: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en,
         });
       }
     } else {
@@ -132,12 +132,7 @@ exports.getToken = async function (req, res, next) {
 exports.returnResponse = async function (req, res, next) {
   const language = req.custom.language;
   try {
-    deepDeleteFields(req.query, [
-      "password",
-      "newPassword",
-      "hashedPassword",
-      "hashedNewPassword"
-    ]);
+    deepDeleteFields(req.query, ["password", "newPassword", "hashedPassword", "hashedNewPassword"]);
   } catch (err) {
     console.log("delete password field failed", err);
   }
@@ -152,7 +147,7 @@ exports.returnResponse = async function (req, res, next) {
   const logObj = {
     url: req.url,
     request: req.query,
-    response: respObj
+    response: respObj,
   };
   console.log("returnResponse", JSON.stringify(logObj));
   if (req.isExtendTimeoutDuration === true) {
@@ -180,7 +175,7 @@ exports.getErrorMessageAndCode = function (err, language) {
   returnMsg[keyMessage] = "";
   if (Array.isArray(err)) {
     returnMsg[keyCode] = Messages.RETURN_MESSAGES.ERR_VALIDATION_ERROR.code;
-    err.forEach(errItem => {
+    err.forEach((errItem) => {
       returnMsg[keyMessage] += `${errItem.returnObjects.messages[language]}\n`;
     });
     return returnMsg;
@@ -189,7 +184,7 @@ exports.getErrorMessageAndCode = function (err, language) {
     console.log("getErrorMessageAndCode", "AppError");
     returnMsg = {
       [keyCode]: err.code,
-      [keyMessage]: err.returnObjects.messages[language]
+      [keyMessage]: err.returnObjects.messages[language],
     };
     if (err.returnObjects.titles) {
       returnMsg[keyTitle] = err.returnObjects.titles[language];
@@ -199,14 +194,12 @@ exports.getErrorMessageAndCode = function (err, language) {
     }
     return returnMsg;
   }
-  const errorObj = JSON.parse(
-    JSON.stringify(err, ["arguments", "type", "name", "stack"])
-  );
+  const errorObj = JSON.parse(JSON.stringify(err, ["arguments", "type", "name", "stack"]));
   console.log("errorObj", JSON.stringify(errorObj));
   returnMsg = {
     [keyCode]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.code,
     [keyTitle]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.titles[language],
-    [keyMessage]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language]
+    [keyMessage]: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language],
   };
   return returnMsg;
 };
