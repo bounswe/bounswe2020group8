@@ -12,6 +12,7 @@ const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -20,6 +21,7 @@ const http = require("http");
 let swaggerDocument = require("./swagger.json");
 swaggerDocument.host = `${Config.hostAddr}:${Config.port}`;
 
+app.use(cors());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
