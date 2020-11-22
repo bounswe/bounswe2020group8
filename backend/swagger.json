@@ -17,15 +17,9 @@
       "description": "API for users in the system"
     }
   ],
-  "schemes": [
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/client/init": {
       "post": {
@@ -71,10 +65,7 @@
             "name": "type",
             "required": true,
             "type": "string",
-            "enum": [
-              "CLIENT",
-              "VENDOR"
-            ]
+            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
@@ -151,10 +142,7 @@
             "name": "type",
             "required": true,
             "type": "string",
-            "enum": [
-              "CLIENT",
-              "VENDOR"
-            ]
+            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
@@ -240,7 +228,107 @@
             "returnMessage": "Success"
           },
           "400": {
-            "description": "Invalid email or password or type"
+            "description": "Invalid email, type or googleID"
+          }
+        }
+      }
+    },
+    "/client/loginWithGoogle": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "googleID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string",
+            "enum": ["CLIENT", "VENDOR"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "message": "You succesfully logged in",
+              "$ref": "#/definitions/ClientWithToken"
+            },
+            "returnCode": 0,
+            "returnMessage": "Success"
+          },
+          "400": {
+            "description": "Invalid email, type or googleID"
+          }
+        }
+      }
+    },
+    "/client/forgotPassword": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email Address",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string",
+            "enum": ["CLIENT", "VENDOR"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid e-mail or type."
+          }
+        }
+      }
+    },
+    "/client/resetPassword": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resetPasswordToken",
+            "description": "Reset Password Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPasswordCheck",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
           }
         }
       }
