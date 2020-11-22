@@ -19,7 +19,9 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.login_password).text.toString()
         if(email =="example@gmail.com" && password == "123456" && findViewById<RadioButton>(R.id.radio_button_customer).isChecked){
             val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
+            intent.putExtra("login", 1);
+            setResult(22, intent); // You can also send result without any data using setResult(int resultCode)
+            finish();
         } else{
             Toast.makeText( this, "Invalid email or password", Toast.LENGTH_SHORT).show()
         }

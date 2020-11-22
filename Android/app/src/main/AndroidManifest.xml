@@ -12,7 +12,7 @@
         <activity android:name=".SignupActivity">
         </activity>
         <activity
-                android:name=".LoginActivity"
+                android:name=".DashboardActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DashboardActivity"/>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>
