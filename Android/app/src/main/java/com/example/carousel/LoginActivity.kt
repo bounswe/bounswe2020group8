@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         when(findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
             true -> type = "CLIENT";
             false -> type = "VENDOR"
+
         }
         loginCall(email, password, type)
 
@@ -44,11 +45,6 @@ class LoginActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("Failure", e.stackTraceToString())
-                val intent = Intent()
-                intent.putExtra("login", 1)
-                intent.putExtra("token", "asdasd")
-                setResult(12, intent);
-                finish();
             }
 
 
