@@ -47,10 +47,7 @@ exports.decideErrorExist = function (results) {
 
 exports.consoleLogError = function (err) {
   let shouldLogErrorStack = false;
-  if (
-    (!isNull(Config.logErrorStack) && Config.logErrorStack == "true") ||
-    Config.env !== "prod"
-  ) {
+  if ((!isNull(Config.logErrorStack) && Config.logErrorStack == "true") || Config.env !== "prod") {
     shouldLogErrorStack = true;
   }
   if (shouldLogErrorStack) {

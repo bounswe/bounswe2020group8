@@ -15,7 +15,7 @@ const clientSchema = new Schema({
   type: { type: String, enum: Object.values(Constants.ENUMS.CLIENT_TYPE) },
   verifyEmailToken: { type: String },
   resetPasswordToken: { type: String },
-  isVerified: { type: Boolean }
+  isVerified: { type: Boolean },
 });
 
 module.exports = mongoose.model("Client", clientSchema);

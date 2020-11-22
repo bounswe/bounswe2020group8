@@ -9,7 +9,7 @@ test("Login without email", async () => {
   request(
     {
       url: `${loginUrl}email=${email}&password=${password}&type=${type}`,
-      method: "POST"
+      method: "POST",
     },
     (error, response) => {
       const statusCode = response && response.statusCode;
@@ -25,7 +25,7 @@ test("Successful login", async () => {
   request(
     {
       url: `${loginUrl}email=${email}&password=${password}&type=${type}`,
-      method: "POST"
+      method: "POST",
     },
     (error, response, body) => {
       const statusCode = response && response.statusCode;

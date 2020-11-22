@@ -128,10 +128,7 @@ exports.validateEnum = function (value, enums, errObj) {
 
 exports.validateDate = function (date, errObj) {
   return new BB((resolve, reject) => {
-    if (
-      new Date(date) !== "Invalid Date" &&
-      !Number.isNaN(new Date(date).getTime())
-    ) {
+    if (new Date(date) !== "Invalid Date" && !Number.isNaN(new Date(date).getTime())) {
       resolve();
     } else {
       reject(new AppError(errObj));
@@ -181,16 +178,10 @@ exports.validateEmail = function (email) {
 
 exports.isValidSHA1Hash = function (str, errorMessage) {
   return new BB((resolve, reject) => {
-    if (
-      !CoreUtil.isNullOrEmpty(str) &&
-      /^[a-z0-9]+$/i.test(str) &&
-      str.length === 40
-    ) {
+    if (!CoreUtil.isNullOrEmpty(str) && /^[a-z0-9]+$/i.test(str) && str.length === 40) {
       resolve();
     } else {
-      reject(
-        new AppError(errorMessage || Messages.RETURN_MESSAGES.ERR_INVALID_HASH)
-      );
+      reject(new AppError(errorMessage || Messages.RETURN_MESSAGES.ERR_INVALID_HASH));
     }
   });
 };

@@ -19,15 +19,10 @@ exports.initService = async function ({ token }) {
   ).toObject();
 
   return Formatters.formatClientToken({ ...newClientToken, client: token.client });
-  throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
 };
 
 exports.loginService = async function ({ email, password, type }) {
-
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
-    email,
-    type
-  );
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
@@ -51,10 +46,9 @@ async function createTokenAndFormat(client) {
   let newClientToken = (
     await ClientTokenDataAccess.createClientTokenDB({
       tokenCode: Date.now() + sha1(client._id.toString() + Date.now()),
-      client: client._id
+      client: client._id,
     })
   ).toObject();
-
 
   return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
 }
@@ -63,15 +57,18 @@ exports.signupService = async function ({ email, password, type, name, lastName 
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
-    throw new AppError(
-      Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED
-    );
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
   }
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-
-    await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
+    await ClientDataAccess.createClientDB({
+      email,
+      password: encryptedPassword,
+      type,
+      name,
+      lastName,
+    })
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
@@ -99,8 +96,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
 };
 
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
-
-  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken)
+  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken);
 
   if (isNull(client)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
@@ -113,8 +109,10 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     })
   ).toObject();
 
-
-  updatedClient = await ClientDataAccess.updateClientDB(client._id, { isVerified: true, verifyEmailToken: undefined })
+  updatedClient = await ClientDataAccess.updateClientDB(client._id, {
+    isVerified: true,
+    verifyEmailToken: undefined,
+  });
 
   return Formatters.formatClientToken({
     ...newClientToken,
@@ -129,15 +127,13 @@ exports.changePasswordService = async function ({ token, newPassword }) {
 };
 
 exports.forgotPasswordService = async function ({ email, type }) {
-
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
   }
 
-  const resetPasswordToken =
-    Date.now() + sha1(newClient._id.toString() + Date.now());
+  const resetPasswordToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
 
   try {
@@ -153,7 +149,6 @@ exports.forgotPasswordService = async function ({ email, type }) {
   return {};
 };
 
-
 exports.resetPasswordService = async function ({ resetPasswordToken, newPassword }) {
   const client = await ClientDataAccess.getClientByResetPasswordTokenDB(resetPasswordToken);
 
@@ -167,10 +162,7 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
 
   client.resetPasswordToken = null;
 
-  await ClientDataAccess.updateClientPasswordDB(
-    client._id,
-    sha256(newPassword + "t2KB14o1")
-  );
+  await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
   return {};
 };
 
@@ -191,7 +183,6 @@ exports.signupWithGoogleService = async function ({ email, googleID, type }) {
 };
 
 exports.loginWithGoogleService = async function ({ email, googleID, type }) {
-
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {

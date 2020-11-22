@@ -8,6 +8,6 @@ exports.formatClient = function ({ _id, email, type, name, lastName }) {
     name,
     lastName,
     email,
-    type
+    type,
   };
 };

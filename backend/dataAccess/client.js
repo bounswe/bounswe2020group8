@@ -5,7 +5,7 @@ const Client = mongoose.model("Client");
 exports.populateClientDB = function (obj, path = "client") {
   return Client.populate(obj, {
     path,
-    model: "Client"
+    model: "Client",
   });
 };
 
@@ -19,14 +19,14 @@ exports.createClientDB = function (client) {
 
 exports.getClientByEmailDB = function (email) {
   return Client.findOne({
-    email
+    email,
   }).lean();
 };
 
 exports.getClientByEmailAndTypeDB = function (email, type) {
   return Client.findOne({
     email,
-    type
+    type,
   }).lean();
 };
 
@@ -35,8 +35,8 @@ exports.updateClientPasswordDB = function (_id, password) {
     _id,
     {
       $set: {
-        password
-      }
+        password,
+      },
     },
     { _id: 1 }
   );
@@ -47,8 +47,8 @@ exports.updateClientVerifyEmailTokenDB = function (_id, verifyEmailToken) {
     _id,
     {
       $set: {
-        verifyEmailToken
-      }
+        verifyEmailToken,
+      },
     },
     { _id: 1 }
   );
@@ -56,13 +56,13 @@ exports.updateClientVerifyEmailTokenDB = function (_id, verifyEmailToken) {
 
 exports.getClientByVerifyEmailTokenDB = function (verifyEmailToken) {
   return Client.findOne({
-    verifyEmailToken
+    verifyEmailToken,
   }).lean();
 };
 
 exports.getClientByResetPasswordTokenDB = function (resetPasswordToken) {
   return Client.findOne({
-    resetPasswordToken
+    resetPasswordToken,
   }).lean();
 };
 
@@ -70,7 +70,7 @@ exports.updateClientDB = function (_id, fields) {
   return Client.findByIdAndUpdate(
     _id,
     {
-      $set: fields
+      $set: fields,
     },
     { _id: 1 }
   );
