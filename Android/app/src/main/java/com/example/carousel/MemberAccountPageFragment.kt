@@ -3,15 +3,16 @@ package com.example.carousel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.carousel.R.drawable
 import kotlinx.android.synthetic.main.fragment_acount_page.*
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
+import java.io.*
 
 
 class MemberAccountPageFragment : Fragment() {
@@ -25,6 +26,12 @@ class MemberAccountPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (readFromFile(context) != ""){
+            login = 1
+        }
+        else{
+            login = 0
+        }
         mAdapter =  CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account" )
         mAdapter.addItem("User Information", drawable.ic_person )
@@ -36,7 +43,7 @@ class MemberAccountPageFragment : Fragment() {
         mAdapter.addItem("Legals", drawable.ic_file)
         mAdapter.addItem("Contact", drawable.ic_contact)
         listView.adapter = (mAdapter)
-        if (login == 1){
+        if (login == 0){
             view.guest.visibility = View.VISIBLE
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent,11)
@@ -48,7 +55,12 @@ class MemberAccountPageFragment : Fragment() {
             startActivityForResult(intent,11)
         }
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            Toast.makeText(context, pos.toString(),Toast.LENGTH_SHORT).show()
+            if (pos == 4) {
+                view?.guest?.visibility = View.VISIBLE
+                view?.login_user?.visibility = View.INVISIBLE
+                writeToFile("", context)
+                (activity as DashboardActivity).refresh()
+            }
             //TicketList Object
         }
 	}
@@ -56,11 +68,51 @@ class MemberAccountPageFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result = data?.getIntExtra("login", login)
+        val token = data?.getStringExtra("token")
+        writeToFile(token, context)
 
         if (result == 1){
             login = result
             view?.guest?.visibility = View.INVISIBLE
             view?.login_user?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun readFromFile(context: Context?): String? {
+        var ret = ""
+        try {
+            val inputStream: InputStream? = context?.openFileInput("config.txt")
+            if (inputStream != null) {
+                val inputStreamReader = InputStreamReader(inputStream)
+                val bufferedReader = BufferedReader(inputStreamReader)
+                var receiveString: String? = ""
+                val stringBuilder = StringBuilder()
+                while (bufferedReader.readLine().also({ receiveString = it }) != null) {
+                    stringBuilder.append("\n").append(receiveString)
+                }
+                inputStream.close()
+                ret = stringBuilder.toString()
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e("login activity", "File not found: " + e.toString())
+        } catch (e: IOException) {
+            Log.e("login activity", "Can not read file: $e")
+        }
+        return ret
+    }
+
+    private fun writeToFile(data: String?, context: Context?) {
+        try {
+            val outputStreamWriter = OutputStreamWriter(
+                context?.openFileOutput(
+                    "config.txt",
+                    Context.MODE_PRIVATE
+                )
+            )
+            outputStreamWriter.write(data)
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File write failed: " + e.toString())
         }
     }
 }

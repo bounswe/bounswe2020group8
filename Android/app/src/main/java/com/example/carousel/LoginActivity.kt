@@ -44,6 +44,11 @@ class LoginActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("Failure", e.stackTraceToString())
+                val intent = Intent()
+                intent.putExtra("login", 1)
+                intent.putExtra("token", "asdasd")
+                setResult(12, intent);
+                finish();
             }
 
 
@@ -52,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                 val responseCode = response.code
                 if(responseCode == 200) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
                         intent.putExtra("login", 1)
                         finish();
