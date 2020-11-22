@@ -109,9 +109,15 @@ const returnMessages = {
     },
   },
   ERR_GOOGLE_ID_DOES_NOT_MATCH: {
-    code: 9,
+    code: 17,
     messages: {
       en: "Google id does not match",
+    },
+  },
+  ERR_CLIENT_EMAIL_IS_NOT_VERIFIED: {
+    code: 18,
+    messages: {
+      en: "Client email is not verified, please verify your email",
     },
   },
   ERR_VALIDATION_ERROR: {

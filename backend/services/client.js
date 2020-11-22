@@ -28,6 +28,10 @@ exports.loginService = async function ({ email, password, type }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
   }
 
+  if (!clientWithEmail.isVerified) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_EMAIL_IS_NOT_VERIFIED);
+  }
+
   if (clientWithEmail.password !== sha256(password + "t2KB14o1")) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_EMAIL_AND_PASSWORD_DOES_NOT_MATCH);
   }
@@ -177,6 +181,7 @@ exports.signupWithGoogleService = async function ({ email, googleID, type }) {
     email,
     type,
     googleID,
+    isVerified: true,
   });
 
   return await createTokenAndFormat(newClient);
