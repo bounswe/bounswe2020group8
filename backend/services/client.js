@@ -23,7 +23,11 @@ exports.initService = async function ({ token }) {
 };
 
 exports.loginService = async function ({ email, password, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
+    email,
+    type
+  );
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
@@ -62,13 +66,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-    await ClientDataAccess.createClientDB({
-      email,
-      password: encryptedPassword,
-      type,
-      name,
-      lastName,
-    })
+    await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
@@ -96,7 +94,8 @@ exports.signupService = async function ({ email, password, type, name, lastName 
 };
 
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
-  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken);
+
+  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken)
 
   if (isNull(client)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
@@ -109,10 +108,7 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     })
   ).toObject();
 
-  updatedClient = await ClientDataAccess.updateClientDB(client._id, {
-    isVerified: true,
-    verifyEmailToken: undefined,
-  });
+  updatedClient = await ClientDataAccess.updateClientDB(client._id, { isVerified: true, verifyEmailToken: undefined })
 
   return Formatters.formatClientToken({
     ...newClientToken,
