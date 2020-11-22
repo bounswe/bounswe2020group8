@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node Project
         uses: actions/setup-node@v1
         with:
-          node-version: '12.10.0'
+          node-version: '12.19.1'
 
       - name: Install dependency
         run: npm install prettier
