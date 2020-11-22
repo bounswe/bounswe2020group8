@@ -193,6 +193,45 @@
           }
         }
       }
+    },
+    "/client/signupWithGoogle": {
+      "post": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "googleID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string",
+            "enum": ["CLIENT", "VENDOR"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "message": "You succesfully signed up",
+              "$ref": "#/definitions/ClientWithToken"
+            },
+            "returnCode": 0,
+            "returnMessage": "Success"
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
     }
   },
   "definitions": {
