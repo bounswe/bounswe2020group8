@@ -44,4 +44,9 @@ module.exports = function (server) {
     ClientController.signupWithGoogleController,
     RequestHelper.returnResponse
   );
+  server.post(
+    `${rootPath}loginWithGoogle`,
+    ClientController.loginWithGoogleController,
+    RequestHelper.returnResponse
+  );
 };

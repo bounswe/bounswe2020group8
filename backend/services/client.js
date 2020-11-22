@@ -14,18 +14,16 @@ exports.initService = async function ({ token }) {
   const newClientToken = (
     await ClientTokenDataAccess.createClientTokenDB({
       tokenCode: Date.now() + sha1(token.client._id.toString() + Date.now()),
-      client: token.client._id
+      client: token.client._id,
     })
   ).toObject();
 
-  return Formatters.formatClientToken({
-    ...newClientToken,
-    client: token.client
-  });
+  return Formatters.formatClientToken({ ...newClientToken, client: token.client });
   throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
 };
 
 exports.loginService = async function ({ email, password, type }) {
+
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
     email,
     type
@@ -36,22 +34,17 @@ exports.loginService = async function ({ email, password, type }) {
   }
 
   if (clientWithEmail.password !== sha256(password + "t2KB14o1")) {
-    throw new AppError(
-      Messages.RETURN_MESSAGES.ERR_EMAIL_AND_PASSWORD_DOES_NOT_MATCH
-    );
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_EMAIL_AND_PASSWORD_DOES_NOT_MATCH);
   }
 
   let newClientToken = (
     await ClientTokenDataAccess.createClientTokenDB({
       tokenCode: Date.now() + sha1(clientWithEmail._id.toString() + Date.now()),
-      client: clientWithEmail._id
+      client: clientWithEmail._id,
     })
   ).toObject();
 
-  return Formatters.formatClientToken({
-    ...newClientToken,
-    client: clientWithEmail
-  });
+  return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
 };
 
 async function createTokenAndFormat(client) {
@@ -62,12 +55,9 @@ async function createTokenAndFormat(client) {
     })
   ).toObject();
 
-  return Formatters.formatClientToken({
-    ...newClientToken,
-    client
-  });
-}
 
+  return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
+}
 
 exports.signupService = async function ({ email, password, type, name, lastName }) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
@@ -84,8 +74,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
     await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
 
-  const verifyEmailToken =
-    Date.now() + sha1(newClient._id.toString() + Date.now());
+  const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(
     newClient._id,
     verifyEmailToken
@@ -97,7 +86,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
     await sendEmail({
       email,
       subject: "Email verification",
-      message: `You can follow the link ${resetURL} to finish sign up process.`
+      message: `You can follow the link ${resetURL} to finish sign up process.`,
     });
   } catch (error) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
@@ -105,7 +94,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
 
   return {
     message: "Verification email sent!",
-    client: Formatters.formatClient(updatedClient)
+    client: Formatters.formatClient(updatedClient),
   };
 };
 
@@ -120,7 +109,7 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
   let newClientToken = (
     await ClientTokenDataAccess.createClientTokenDB({
       tokenCode: Date.now() + sha1(client._id.toString() + Date.now()),
-      client: client._id
+      client: client._id,
     })
   ).toObject();
 
@@ -129,11 +118,9 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
 
   return Formatters.formatClientToken({
     ...newClientToken,
-    client: updatedClient
+    client: updatedClient,
   });
 };
-
-
 
 exports.changePasswordService = async function ({ token, newPassword }) {
   await ClientDataAccess.updateClientPasswordDB(token.client._id, sha256(newPassword + "t2KB14o1"));
@@ -157,7 +144,7 @@ exports.forgotPasswordService = async function ({ email, type }) {
     await sendEmail({
       email,
       subject: "Reset Your Password",
-      message: `You can follow the link ${resetURL} to reset your password.`
+      message: `You can follow the link ${resetURL} to reset your password.`,
     });
   } catch (error) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
@@ -188,22 +175,33 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
 };
 
 exports.signupWithGoogleService = async function ({ email, googleID, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
-    email,
-    type
-  );
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
-    throw new AppError(
-      Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED
-    );
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
   }
 
   const newClient = await ClientDataAccess.createClientDB({
     email,
     type,
-    googleID
+    googleID,
   });
 
   return await createTokenAndFormat(newClient);
+};
+
+exports.loginWithGoogleService = async function ({ email, googleID, type }) {
+
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+
+  if (isNull(clientWithEmail)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
+  }
+
+  // another person tried to access this account or client registered withoutgoogle
+  if (clientWithEmail.googleID != googleID) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_GOOGLE_ID_DOES_NOT_MATCH);
+  }
+
+  return await createTokenAndFormat(clientWithEmail);
 };
