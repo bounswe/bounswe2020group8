@@ -55,6 +55,7 @@ async function createTokenAndFormat(client) {
     })
   ).toObject();
 
+
   return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
 }
 
@@ -72,7 +73,6 @@ exports.signupService = async function ({ email, password, type, name, lastName 
 
     await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
-
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(
@@ -153,6 +153,7 @@ exports.forgotPasswordService = async function ({ email, type }) {
   return {};
 };
 
+
 exports.resetPasswordService = async function ({ resetPasswordToken, newPassword }) {
   const client = await ClientDataAccess.getClientByResetPasswordTokenDB(resetPasswordToken);
 
@@ -174,7 +175,6 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
 };
 
 exports.signupWithGoogleService = async function ({ email, googleID, type }) {
-
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
