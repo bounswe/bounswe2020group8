@@ -206,3 +206,31 @@ exports.signupWithGoogleController = BaseUtil.createController(req => {
       })
     );
 });
+
+exports.loginWithGoogleController = BaseUtil.createController(req => {
+  let { email, type, googleID } = req.query;
+  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
+  return BB.all([
+    AppValidator.validateEmail(
+      email,
+      Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID
+    ).reflect(),
+    AppValidator.validateEnum(
+      type,
+      Object.values(Constants.ENUMS.CLIENT_TYPE),
+      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
+    ).reflect(),
+    AppValidator.validateIfString(
+      googleID,
+      Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID
+    )
+  ])
+    .then(results => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      ClientService.loginWithGoogleService({
+        email,
+        type,
+        googleID
+      })
+    );
+});
