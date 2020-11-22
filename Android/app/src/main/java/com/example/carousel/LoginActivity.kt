@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         when(findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
             true -> type = "CLIENT";
             false -> type = "VENDOR"
+
         }
         loginCall(email, password, type)
 

@@ -39,4 +39,11 @@
     <style name = "TextAppearance.Carousel.RadioButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="text_drawer_heading">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_drawing_header</item>
+    </style>
+
 </resources>
