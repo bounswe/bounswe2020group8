@@ -51,9 +51,10 @@ async function createTokenAndFormat(client) {
   let newClientToken = (
     await ClientTokenDataAccess.createClientTokenDB({
       tokenCode: Date.now() + sha1(client._id.toString() + Date.now()),
-      client: client._id,
+      client: client._id
     })
   ).toObject();
+
   return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
 }
 
@@ -61,13 +62,17 @@ exports.signupService = async function ({ email, password, type, name, lastName 
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
+    throw new AppError(
+      Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED
+    );
   }
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
+
     await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
+
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(
@@ -108,6 +113,7 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     })
   ).toObject();
 
+
   updatedClient = await ClientDataAccess.updateClientDB(client._id, { isVerified: true, verifyEmailToken: undefined })
 
   return Formatters.formatClientToken({
@@ -123,13 +129,15 @@ exports.changePasswordService = async function ({ token, newPassword }) {
 };
 
 exports.forgotPasswordService = async function ({ email, type }) {
+
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
   }
 
-  const resetPasswordToken = Date.now() + sha1(newClient._id.toString() + Date.now());
+  const resetPasswordToken =
+    Date.now() + sha1(newClient._id.toString() + Date.now());
   const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
 
   try {
@@ -158,11 +166,15 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
 
   client.resetPasswordToken = null;
 
-  await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
+  await ClientDataAccess.updateClientPasswordDB(
+    client._id,
+    sha256(newPassword + "t2KB14o1")
+  );
   return {};
 };
 
 exports.signupWithGoogleService = async function ({ email, googleID, type }) {
+
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
@@ -179,6 +191,7 @@ exports.signupWithGoogleService = async function ({ email, googleID, type }) {
 };
 
 exports.loginWithGoogleService = async function ({ email, googleID, type }) {
+
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
