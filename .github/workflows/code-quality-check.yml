@@ -28,7 +28,7 @@ jobs:
           export non_prettied_count=`echo $wc_result | cut -d' ' -f1`
           echo "::set-output name=count::$non_prettied_count"
           if [ $non_prettied_count -gt 0 ]; then
-            ./node_modules/.bin/prettier --config ./backend/.prettierrc.json --write backend/**/*.js
+            exit 1;
           fi
 
       - name: Comment on PR

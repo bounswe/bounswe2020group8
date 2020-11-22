@@ -1,5 +1,5 @@
 const request = require("request");
-const random = require('random')
+const random = require("random");
 
 let baseUrl = `http://localhost:8080/`;
 let signupUrl = baseUrl + "client/signup?";
@@ -10,7 +10,7 @@ test("signup without passwordConfirm", async () => {
   request(
     {
       url: `${signupUrl}email=${email}&password=${password}&type=${type}`,
-      method: "POST"
+      method: "POST",
     },
     (error, response) => {
       const statusCode = response && response.statusCode;
@@ -20,15 +20,15 @@ test("signup without passwordConfirm", async () => {
 });
 
 test("Successful signup", async () => {
-  let rand = (random.int(min = 1, max = 999999)).toString();
+  let rand = random.int((min = 1), (max = 999999)).toString();
   let email = `test${rand}@gmail.com`;
   let password = "testtest2";
-  let passwordConfirm = "testtest2"
+  let passwordConfirm = "testtest2";
   let type = "CLIENT";
   request(
     {
       url: `${signupUrl}email=${email}&password=${password}&type=${type}&passwordConfirm=${passwordConfirm}`,
-      method: "POST"
+      method: "POST",
     },
     (error, response, body) => {
       const statusCode = response && response.statusCode;

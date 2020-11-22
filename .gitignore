@@ -6,3 +6,4 @@
 /practice_app/db.sqlite3
 practice_app/*.txt
 /practice_app/search/target/*
+.vscode

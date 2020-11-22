@@ -4,30 +4,22 @@ const constants = {
   ENUMS: {
     CLIENT_TYPE: {
       CLIENT: "CLIENT",
-      VENDOR: "VENDOR"
-    }
+      VENDOR: "VENDOR",
+    },
   },
   LANGUAGE: {
     EN: "en",
-    TR: "tr"
+    TR: "tr",
   },
   RESPONSE: {
     CODE: "returnCode",
     MESSAGE: "returnMessage",
     TITLE: "returnTitle",
-    ICON: "iconName"
+    ICON: "iconName",
   },
   DAYS: {
-    en: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ]
-  }
+    en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  },
 };
 
 module.exports = constants;
