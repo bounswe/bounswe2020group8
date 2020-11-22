@@ -1,7 +1,6 @@
 .Toolbar {
     height: 80px;
     width: 100%;
-    position: fixed;
     top: 0;
     left: 0;
     background-color: white;
@@ -35,4 +34,17 @@
     -webkit-transform: scale(1.2); /* Safari 3-8 */
     transform: scale(1.2);
     transition: .5s ease;
+}
+
+.Header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.Filler {
+    background-color: lightpink;
+    height: 150px;
+    width: 100%;
 }
