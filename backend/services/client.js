@@ -181,7 +181,7 @@ exports.signupWithGoogleService = async function ({ email, googleID, type }) {
     email,
     type,
     googleID,
-    isVerified,
+    isVerified: true,
   });
 
   return await createTokenAndFormat(newClient);
