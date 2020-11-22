@@ -68,17 +68,8 @@ async function createTokenAndFormat(client) {
   });
 }
 
-exports.signupService = async function ({
-  email,
-  password,
-  type,
-  name,
-  lastName
-}) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
-    email,
-    type
-  );
+exports.signupService = async function ({ email, password, type, name, lastName }) {
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
     throw new AppError(
@@ -88,13 +79,8 @@ exports.signupService = async function ({
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-    await ClientDataAccess.createClientDB({
-      email,
-      password: encryptedPassword,
-      type,
-      name,
-      lastName
-    })
+
+    await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
 
   const verifyEmailToken =
@@ -123,9 +109,8 @@ exports.signupService = async function ({
 };
 
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
-  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(
-    verifyEmailToken
-  );
+
+  const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken)
 
   if (isNull(client)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
@@ -138,10 +123,8 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     })
   ).toObject();
 
-  updatedClient = await ClientDataAccess.updateClientDB(client._id, {
-    isVerified: true,
-    verifyEmailToken: undefined
-  });
+
+  updatedClient = await ClientDataAccess.updateClientDB(client._id, { isVerified: true, verifyEmailToken: undefined })
 
   return Formatters.formatClientToken({
     ...newClientToken,
@@ -150,19 +133,14 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
 };
 
 exports.changePasswordService = async function ({ token, newPassword }) {
-  await ClientDataAccess.updateClientPasswordDB(
-    token.client._id,
-    sha256(newPassword + "t2KB14o1")
-  );
+  await ClientDataAccess.updateClientPasswordDB(token.client._id, sha256(newPassword + "t2KB14o1"));
 
   return {};
 };
 
 exports.forgotPasswordService = async function ({ email, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
-    email,
-    type
-  );
+
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
@@ -185,13 +163,8 @@ exports.forgotPasswordService = async function ({ email, type }) {
   return {};
 };
 
-exports.resetPasswordService = async function ({
-  resetPasswordToken,
-  newPassword
-}) {
-  const client = await ClientDataAccess.getClientByResetPasswordTokenDB(
-    resetPasswordToken
-  );
+exports.resetPasswordService = async function ({ resetPasswordToken, newPassword }) {
+  const client = await ClientDataAccess.getClientByResetPasswordTokenDB(resetPasswordToken);
 
   if (isNull(client)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);

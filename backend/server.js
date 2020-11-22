@@ -40,7 +40,7 @@ app.on("uncaughtException", (req, res, route, err) => {
     returnMessage: Messages.RETURN_MESSAGES.ERR_UNDEFINED.messages[language]
   };
   try {
-    RequestHelper.returnResponse(req, res, () => {});
+    RequestHelper.returnResponse(req, res, () => { });
   } catch (error) {
     console.log("uncaughtExceptionResSendErr", error);
   }
