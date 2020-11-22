@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node Project
         uses: actions/setup-node@v1
         with:
-          node-version: '10.19.0'
+          node-version: '12.10.0'
 
       - name: Install dependency
         run: npm install prettier
@@ -28,6 +28,7 @@ jobs:
           export non_prettied_count=`echo $wc_result | cut -d' ' -f1`
           echo "::set-output name=count::$non_prettied_count"
           if [ $non_prettied_count -gt 0 ]; then
+            ./node_modules/.bin/prettier --config ./backend/.prettierrc.json --write backend/**/*.js
             exit 1
           fi
 
@@ -36,6 +37,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: " ${{ steps.prettier.outputs.count }} files are not prettied. Merge PR cancelled.\nCheck workflow for detailed information. Use prettier to prettify before reattempt to merge."
+          msg: " ${{ steps.prettier.outputs.count }} files are not prettied. Auto-prettier has been done."
           check_for_duplicate_msg: true
         if: ${{ failure() }}
