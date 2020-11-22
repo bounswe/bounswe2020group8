@@ -3,7 +3,7 @@ const RequestHelper = require("./../util/requestHelper");
 
 const rootPath = "/client/";
 
-module.exports = function(server) {
+module.exports = function (server) {
   server.post(
     `${rootPath}init`,
     ClientController.initController,
@@ -37,6 +37,11 @@ module.exports = function(server) {
   server.post(
     `${rootPath}resetPassword`,
     ClientController.resetPasswordController,
+    RequestHelper.returnResponse
+  );
+  server.post(
+    `${rootPath}signupWithGoogle`,
+    ClientController.signupWithGoogleController,
     RequestHelper.returnResponse
   );
 };

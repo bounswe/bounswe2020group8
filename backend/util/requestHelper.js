@@ -63,7 +63,7 @@ function checkJSON(obj) {
   return obj;
 }
 
-exports.logParams = function(req, res, next) {
+exports.logParams = function (req, res, next) {
   const logObj = {
     url: req.url,
     request: req.query
@@ -76,9 +76,16 @@ exports.logParams = function(req, res, next) {
   next();
 };
 
-const clientEndpointsWithoutToken = ["login", "forgotPassword", "resetPassword", "signup", "verifyEmail"];
+const clientEndpointsWithoutToken = [
+  "login",
+  "forgotPassword",
+  "resetPassword",
+  "signup",
+  "verifyEmail",
+  "loginWithGoogle"
+];
 
-exports.getToken = async function(req, res, next) {
+exports.getToken = async function (req, res, next) {
   const logObj = {
     url: req.url,
     request: req.query
@@ -129,7 +136,7 @@ exports.getToken = async function(req, res, next) {
   }
 };
 
-exports.returnResponse = async function(req, res, next) {
+exports.returnResponse = async function (req, res, next) {
   const language = req.custom.language;
   try {
     deepDeleteFields(req.query, [
@@ -168,7 +175,7 @@ exports.returnResponse = async function(req, res, next) {
   next();
 };
 
-exports.getErrorMessageAndCode = function(err, language) {
+exports.getErrorMessageAndCode = function (err, language) {
   if (isNull(err)) {
     err = new Error(Messages.RETURN_MESSAGES.ERR_UNDEFINED);
   }

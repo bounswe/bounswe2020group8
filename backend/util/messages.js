@@ -86,13 +86,13 @@ const returnMessages = {
   },
   ERR_NAME_EMPTY: {
     code: 13,
-    messages:{
+    messages: {
       en: "Client name cannot be empty"
     }
   },
   ERR_LAST_NAME_EMPTY: {
     code: 14,
-    messages:{
+    messages: {
       en: "Client last name cannot be empty"
     }
   },
@@ -100,6 +100,18 @@ const returnMessages = {
     code: 15,
     messages: {
       en: "This account is registered with Google."
+    }
+  },
+  ERR_INVALID_GOOGLE_ID: {
+    code: 16,
+    messages: {
+      en: "Google id must be string"
+    }
+  },
+  ERR_GOOGLE_ID_DOES_NOT_MATCH: {
+    code: 9,
+    messages: {
+      en: "Google id does not match"
     }
   },
   ERR_VALIDATION_ERROR: {
