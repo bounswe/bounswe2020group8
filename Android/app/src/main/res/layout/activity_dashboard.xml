@@ -47,7 +47,6 @@
             android:visibility="visible"
             app:labelVisibilityMode="labeled"
             android:backgroundTint="@color/colorPrimary"
-
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/bottom_nav_menu" />
 
