@@ -33,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
     private fun loginCall(email: String, password: String, type: String) {
-        Log.d("TAG", "email: $email, password: $password, type: $type")
         val postBody = FormBody.Builder().build()
         val httpUrl = "$baseUrl/client?email=$email&password=$password&type=$type"
         val request = Request.Builder()
@@ -55,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
                         val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
                         intent.putExtra("token", json.tokenCode)
+                        intent.putExtra("login", 1)
                         finish();
                     })
                 }
