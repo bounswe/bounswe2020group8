@@ -8,7 +8,7 @@ const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
 //
-exports.initService = async function({ token }) {
+exports.initService = async function ({ token }) {
   await ClientTokenDataAccess.removeClientTokenDB(token._id);
 
   const newClientToken = (
@@ -25,7 +25,7 @@ exports.initService = async function({ token }) {
   throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
 };
 
-exports.loginService = async function({ email, password, type }) {
+exports.loginService = async function ({ email, password, type }) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(
     email,
     type
@@ -55,7 +55,7 @@ exports.loginService = async function({ email, password, type }) {
 };
 
 
-exports.signupService = async function({ email, password, type, name, lastName }) {
+exports.signupService = async function ({ email, password, type, name, lastName }) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (!isNull(clientWithEmail)) {
@@ -64,14 +64,14 @@ exports.signupService = async function({ email, password, type, name, lastName }
 
   const encryptedPassword = sha256(password + "t2KB14o1");
   const newClient = (
-    await ClientDataAccess.createClientDB({email, password: encryptedPassword, type, name, lastName})
+    await ClientDataAccess.createClientDB({ email, password: encryptedPassword, type, name, lastName })
   ).toObject();
 
   const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
   const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(newClient._id, verifyEmailToken);
 
   const resetURL = `http://${Config.hostAddr}:${Config.port}/client/verifyEmail?verifyEmailToken=${verifyEmailToken}`;
-  
+
   try {
     await sendEmail({
       email,
@@ -88,7 +88,7 @@ exports.signupService = async function({ email, password, type, name, lastName }
   };
 };
 
-exports.verifyEmailService = async function({ verifyEmailToken }) {
+exports.verifyEmailService = async function ({ verifyEmailToken }) {
   const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken)
 
   if (isNull(client)) {
@@ -102,8 +102,8 @@ exports.verifyEmailService = async function({ verifyEmailToken }) {
     })
   ).toObject();
 
-  updatedClient = await ClientDataAccess.updateClientDB(client._id, {isVerified: true, verifyEmailToken: undefined})
-  
+  updatedClient = await ClientDataAccess.updateClientDB(client._id, { isVerified: true, verifyEmailToken: undefined })
+
   return Formatters.formatClientToken({
     ...newClientToken,
     client: updatedClient
@@ -111,13 +111,13 @@ exports.verifyEmailService = async function({ verifyEmailToken }) {
 };
 
 
-exports.changePasswordService = async function({ token, newPassword }) {
+exports.changePasswordService = async function ({ token, newPassword }) {
   await ClientDataAccess.updateClientPasswordDB(token.client._id, sha256(newPassword + "t2KB14o1"));
 
   return {};
 };
 
-exports.forgotPasswordService = async function({email, type}) {
+exports.forgotPasswordService = async function ({ email, type }) {
   const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
 
   if (isNull(clientWithEmail)) {
@@ -140,7 +140,7 @@ exports.forgotPasswordService = async function({email, type}) {
   return {};
 };
 
-exports.resetPasswordService = async function({ resetPasswordToken, newPassword }) {
+exports.resetPasswordService = async function ({ resetPasswordToken, newPassword }) {
   const client = await ClientDataAccess.getClientByResetPasswordTokenDB(resetPasswordToken);
 
   if (isNull(client)) {

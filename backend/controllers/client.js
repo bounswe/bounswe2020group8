@@ -53,7 +53,7 @@ exports.signupController = BaseUtil.createController(req => {
     AppValidator.validateEmail(
       email,
       Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID
-    ).reflect(),  
+    ).reflect(),
     AppValidator.validateEnum(
       type,
       Object.values(Constants.ENUMS.CLIENT_TYPE),
@@ -138,7 +138,7 @@ exports.forgotPasswordController = BaseUtil.createController(req => {
     AppValidator.validateEmail(
       email,
       Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID
-    ).reflect(),  
+    ).reflect(),
     AppValidator.validateEnum(
       type,
       Object.values(Constants.ENUMS.CLIENT_TYPE),

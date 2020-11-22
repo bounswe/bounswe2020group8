@@ -86,13 +86,13 @@ const returnMessages = {
   },
   ERR_NAME_EMPTY: {
     code: 13,
-    messages:{
+    messages: {
       en: "Client name cannot be empty"
     }
   },
   ERR_LAST_NAME_EMPTY: {
     code: 14,
-    messages:{
+    messages: {
       en: "Client last name cannot be empty"
     }
   },

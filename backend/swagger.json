@@ -17,9 +17,15 @@
       "description": "API for users in the system"
     }
   ],
-  "schemes": ["http"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/client/init": {
       "post": {
@@ -65,7 +71,10 @@
             "name": "type",
             "required": true,
             "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
+            "enum": [
+              "CLIENT",
+              "VENDOR"
+            ]
           }
         ],
         "responses": {
@@ -142,7 +151,10 @@
             "name": "type",
             "required": true,
             "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
+            "enum": [
+              "CLIENT",
+              "VENDOR"
+            ]
           }
         ],
         "responses": {
