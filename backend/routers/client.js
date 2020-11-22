@@ -39,4 +39,14 @@ module.exports = function (server) {
     ClientController.resetPasswordController,
     RequestHelper.returnResponse
   );
+  server.post(
+    `${rootPath}signupWithGoogle`,
+    ClientController.signupWithGoogleController,
+    RequestHelper.returnResponse
+  );
+  server.post(
+    `${rootPath}loginWithGoogle`,
+    ClientController.loginWithGoogleController,
+    RequestHelper.returnResponse
+  );
 };

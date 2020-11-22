@@ -102,6 +102,18 @@ const returnMessages = {
       en: "This account is registered with Google."
     }
   },
+  ERR_INVALID_GOOGLE_ID: {
+    code: 16,
+    messages: {
+      en: "Google id must be string"
+    }
+  },
+  ERR_GOOGLE_ID_DOES_NOT_MATCH: {
+    code: 9,
+    messages: {
+      en: "Google id does not match"
+    }
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
