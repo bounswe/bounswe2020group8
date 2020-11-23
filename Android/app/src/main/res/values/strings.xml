@@ -8,6 +8,10 @@
     <string name="login_opt_customer">Customer</string>
     <string name="login_opt_vendor">Vendor</string>
     <string name="action_search">Search</string>
+    <string name="forgot_password">
+        <u>Forgot my password</u>
+    </string>
+
 
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">Settings</string>
