@@ -142,6 +142,7 @@ exports.forgotPasswordService = async function ({ email, type }) {
   }
 
   const resetPasswordToken = Date.now() + sha1(clientWithEmail._id.toString() + Date.now());
+  await ClientDataAccess.updateClientResetPasswordTokenDB(clientWithEmail._id, resetPasswordToken);
   const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
 
   try {
@@ -168,9 +169,9 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
     throw new AppError(Messages.RETURN_MESSAGES.ERR_REGISTERED_WITH_GOOGLE);
   }
 
-  client.resetPasswordToken = null;
-
+  await ClientDataAccess.updateClientResetPasswordTokenDB(client._id, undefined);
   await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
+
   return {};
 };
 
