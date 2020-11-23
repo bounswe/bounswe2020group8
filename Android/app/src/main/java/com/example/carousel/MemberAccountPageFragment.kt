@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import com.example.carousel.R.drawable
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.android.synthetic.main.fragment_acount_page.*
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import java.io.*
@@ -19,10 +22,21 @@ class MemberAccountPageFragment : Fragment() {
 
 	private lateinit var mAdapter : CustomAdapter
     var login = 0
+    private var mGoogleSignInClient: GoogleSignInClient? = null
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
 
+        mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }
         return inflater.inflate(R.layout.fragment_acount_page, container, false)
     }
+
+
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,6 +70,7 @@ class MemberAccountPageFragment : Fragment() {
         }
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
             if (pos == 4) {
+                mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
                 writeToFile("", context)
@@ -109,7 +124,8 @@ class MemberAccountPageFragment : Fragment() {
                     Context.MODE_PRIVATE
                 )
             )
-            outputStreamWriter.write(data)
+            if(data!=null)
+                outputStreamWriter.write(data)
             outputStreamWriter.close()
         } catch (e: IOException) {
             Log.e("Exception", "File write failed: " + e.toString())
