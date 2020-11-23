@@ -36,6 +36,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: " ${{ steps.prettier.outputs.count }} files are not prettied. Auto-prettier has been done."
+          msg: " ${{ steps.prettier.outputs.count }} files are not prettied.\nMake them prettier on your local and commit again."
           check_for_duplicate_msg: true
         if: ${{ failure() }}
