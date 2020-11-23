@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    >
 <RelativeLayout
     android:id="@+id/login_user"
     android:layout_width="match_parent"
@@ -17,17 +18,18 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
-        <info.androidhive.fontawesome.FontTextView
-            android:layout_width="wrap_content"
+        <ImageView
             android:layout_height="wrap_content"
-            android:text="@string/fa_user"
+            android:layout_width="50dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="50sp"
+            android:gravity="center"
+
             android:layout_gravity="center_vertical"
-            android:layout_centerHorizontal="true"
-            app:solid_icon="true" />
+            android:src="@drawable/ic_person"
+            android:contentDescription="TODO" />
 
 
         <TextView
@@ -48,7 +50,9 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/user"/>
+        android:layout_below="@+id/user">
+
+        </ListView>
 
     </RelativeLayout>
     <RelativeLayout

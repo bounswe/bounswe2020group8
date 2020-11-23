@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import android.annotation.SuppressLint
 import java.util.ArrayList
 import java.util.TreeSet
 
@@ -10,9 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.carousel.MemberAccountPageItem
-import info.androidhive.fontawesome.FontTextView
 
 internal class CustomAdapter(var context: Context) : BaseAdapter() {
 
@@ -56,6 +57,7 @@ internal class CustomAdapter(var context: Context) : BaseAdapter() {
         return position.toLong()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
         var holder: ViewHolder? = null
@@ -67,7 +69,7 @@ internal class CustomAdapter(var context: Context) : BaseAdapter() {
                 TYPE_ITEM -> {
                     convertView = mInflater.inflate(R.layout.snippet_item1, null)
                     holder.textView = convertView!!.findViewById<View>(R.id.text) as TextView
-                    holder.fonTextView = convertView.findViewById<View>(R.id.icon) as FontTextView
+                    holder.imageView = convertView.findViewById<View>(R.id.icon) as ImageView
 
                 }
                 TYPE_SEPARATOR -> {
@@ -81,14 +83,14 @@ internal class CustomAdapter(var context: Context) : BaseAdapter() {
         }
         holder.textView!!.text = mData[position].Description
         if(rowType == TYPE_ITEM)
-            holder.fonTextView!!.text = context.resources.getString(mData[position].IconID)
+            holder.imageView?.setImageDrawable(context.resources.getDrawable(mData[position].IconID))
 
         return convertView
     }
 
     class ViewHolder {
         var textView: TextView? = null
-        var fonTextView: FontTextView? = null
+        var imageView: ImageView? = null
 
     }
 
@@ -97,5 +99,7 @@ internal class CustomAdapter(var context: Context) : BaseAdapter() {
         private val TYPE_ITEM = 0
         private val TYPE_SEPARATOR = 1
     }
+
+
 
 }

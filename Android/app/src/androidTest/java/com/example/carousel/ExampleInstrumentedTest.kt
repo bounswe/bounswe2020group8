@@ -1,7 +1,6 @@
 package com.example.carousel
 
-import android.util.Log
-import androidx.test.core.app.ActivityScenario
+
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.intent.Intents
@@ -10,7 +9,6 @@ import androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClass
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.After
 
@@ -18,7 +16,6 @@ import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 
@@ -43,9 +40,9 @@ class LoginTest {
     val activityRule = ActivityScenarioRule(LoginActivity::class.java)
         @Test fun testLoginRegisteredUser() {
             onView(withId(R.id.login_email))
-                .perform(typeText("example@gmail.com"), closeSoftKeyboard())
+                .perform(typeText("testuser@test.com"), closeSoftKeyboard())
             onView(withId(R.id.login_password))
-                .perform(typeText("123456"), closeSoftKeyboard())
+                .perform(typeText("111111"), closeSoftKeyboard())
             onView(withId(R.id.login_button)).perform(click())
             intended(hasComponent(hasShortClassName(".DashboardActivity")))
 
