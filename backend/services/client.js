@@ -43,7 +43,7 @@ exports.loginService = async function ({ email, password, type }) {
     })
   ).toObject();
 
-  return Formatters.formatClientToken({ ...newClientToken, client });
+  return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail  });
 };
 
 async function createTokenAndFormat(client) {
