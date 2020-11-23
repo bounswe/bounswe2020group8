@@ -30,6 +30,8 @@ class SignupCustomerActivity : AppCompatActivity() {
             error_message.text = "Password Is Not Strong Enough"
         }else if(error == 3) {
             error_message.text = "You Have to Accept Terms and Conditions"
+        }else if(error == 4) {
+            error_message.text = "Passwords Does Not Match"
         }else{
             error_message.text = ""
         }
@@ -52,21 +54,24 @@ class SignupCustomerActivity : AppCompatActivity() {
         val surname = findViewById<EditText>(R.id.signup_surname).text.toString()
         val email = findViewById<EditText>(R.id.signup_email).text.toString()
         val password = findViewById<EditText>(R.id.signup_password).text.toString()
+        val password2 = findViewById<EditText>(R.id.signup_password2).text.toString()
         val termCheck = findViewById<CheckBox>(R.id.accept_terms_and_conditions)
 
         if(!isValidEmail(email)){
-//            println("email is not valid")
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 2)
             startActivity(intent)
         }else if(!isStrong(password)){
-//                println("password is not strong")
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 1)
             startActivity(intent)
         }else if(!termCheck.isChecked) {
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 3)
+            startActivity(intent)
+        }else if(!password.equals(password2)) {
+            val intent = Intent(this, SignupCustomerActivity::class.java)
+            intent.putExtra("error", 4)
             startActivity(intent)
         }else{
             val intent = Intent(this, LoginActivity::class.java)
