@@ -6,7 +6,7 @@ export default function Home() {
       imageUrl:
         "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
       name: "Macbook Pro 16 inch",
-      price: 999.99,
+      price: 2199.99,
     },
     {
      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
