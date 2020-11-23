@@ -4,6 +4,9 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
+
+var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -13,6 +16,8 @@ class LoginComponent extends Component {
       password: "",
       userType: "Customer",
       redirect: false,
+      isError: false,
+      errorMessage: "",
     };
   }
 
@@ -60,6 +65,8 @@ class LoginComponent extends Component {
               onClick={(event) => this.handleLoginClick(event)}
             />
           </div>
+          {this.checkErrorState()}
+          <p>{this.state.errorMessage}</p>
           <div>
             Don't you have an account?
             <br />
@@ -81,7 +88,34 @@ class LoginComponent extends Component {
 
   handleLoginClick(event) {
     var self = this;
-    console.log(self.state);
+    var userTypeToPayload;
+    if (self.state.userType == "Customer") {
+      userTypeToPayload = "CLIENT";
+    } else {
+      userTypeToPayload = "VENDOR";
+    }
+    var payload = {
+      password: self.state.password,
+      email: self.state.email,
+      type: userTypeToPayload,
+    };
+
+    axios
+      .post(apiBaseUrl + "client/login", null, { params: payload })
+      .then((response) => {
+        this.setState({ isError: false });
+        console.log(response.data);
+      })
+      .catch((err, response) => {
+        this.setState({ isError: true });
+      });
+  }
+  checkErrorState() {
+    if (this.state.isError) {
+      this.state.errorMessage = "False login information";
+    } else {
+      this.state.errorMessage = "";
+    }
   }
 
   setRedirect = () => {

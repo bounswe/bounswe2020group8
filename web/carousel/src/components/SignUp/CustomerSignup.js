@@ -3,6 +3,8 @@ import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import React, { Component } from "react";
+import axios from "axios";
+var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class CustomerSignUp extends Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class CustomerSignUp extends Component {
       userType: "Customer",
       name: "",
       surname: "",
+      errMessage: "",
+      signUpMessage: "",
     };
   }
 
@@ -59,6 +63,7 @@ class CustomerSignUp extends Component {
               style={style}
               onClick={(event) => this.handleCustomerSignUp(event)}
             />
+            <p>{this.state.signUpMessage}</p>
           </div>
         </MuiThemeProvider>
       </div>
@@ -66,7 +71,25 @@ class CustomerSignUp extends Component {
   }
   handleCustomerSignUp(event) {
     var self = this;
-    console.log(self.state);
+    var payload = {
+      password: self.state.password,
+      passwordConfirm: self.state.password,
+      email: self.state.email,
+      type: "CLIENT",
+      name: self.state.name,
+      lastName: self.state.surname,
+    };
+    console.log(payload);
+    axios
+      .post(apiBaseUrl + "client/signup", null, { params: payload })
+      .then((response) => {
+        console.log(response);
+        this.setState({ signUpMessage: "Verification e-mail has been sent" });
+      })
+      .catch((error) => {
+        console.log(error.response.data.returnMessage);
+        this.setState({ signUpMessage: error.response.data.returnMessage });
+      });
   }
 }
 

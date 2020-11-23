@@ -49,11 +49,6 @@ class SignUpComponent extends Component {
     );
   }
 
-  handleLoginClick(event) {
-    var self = this;
-    console.log(self.state);
-  }
-
   checkRadio = () => {
     if (this.state.userType == "Customer") {
       this.state.comp = <CustomerSignUp />;

@@ -3,6 +3,9 @@ import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import React, { Component } from "react";
+import axios from "axios";
+
+var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class VendorSignUp extends Component {
   constructor(props) {
@@ -12,7 +15,9 @@ class VendorSignUp extends Component {
       password: "",
       name: "",
       companyTitle: "",
+      surname: "",
       userType: "Vendor",
+      signUpMessage: "",
     };
   }
 
@@ -45,6 +50,16 @@ class VendorSignUp extends Component {
             />
             <br />
             <TextField
+              type="surname"
+              hintText="Enter your surname"
+              floatingLabelText="Surname"
+              onChange={(event, newValue) =>
+                this.setState({ surname: newValue })
+              }
+            />
+            <br />
+            <br />
+            <TextField
               type="title"
               hintText="Enter your title of the company"
               floatingLabelText="Company"
@@ -59,6 +74,7 @@ class VendorSignUp extends Component {
               style={style}
               onClick={(event) => this.handleVendorSignUp(event)}
             />
+            <p>{this.state.signUpMessage}</p>
           </div>
         </MuiThemeProvider>
       </div>
@@ -66,7 +82,25 @@ class VendorSignUp extends Component {
   }
   handleVendorSignUp(event) {
     var self = this;
-    console.log(self.state);
+    var payload = {
+      password: self.state.password,
+      passwordConfirm: self.state.password,
+      email: self.state.email,
+      type: "VENDOR",
+      name: self.state.name,
+      lastName: self.state.surname,
+    };
+    console.log(payload);
+    axios
+      .post(apiBaseUrl + "client/signup", null, { params: payload })
+      .then((response) => {
+        console.log(response);
+        this.setState({ signUpMessage: "Verification e-mail has been sent" });
+      })
+      .catch((error) => {
+        console.log(error.response.data.returnMessage);
+        this.setState({ signUpMessage: error.response.data.returnMessage });
+      });
   }
 }
 const style = {
