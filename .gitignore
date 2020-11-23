@@ -1,6 +1,7 @@
 /practice_app/myvenv/
 /practice_app/myenv/
 /.idea/
+Android/.idea/
 /practice_app/**/*.pyc
 /practice_app/*/__pycache__/
 /practice_app/db.sqlite3
