@@ -68,69 +68,8 @@ class ForgotPassword extends Component {
                         <h3>An e-mail is sent to {this.state.email}!</h3>
                         <h5>You can reset your password from the link in the mail!</h5>
                     </div>
-
                 }
-
-
             </div>
-            // <div>
-            //     <MuiThemeProvider>
-            //         <div>
-            //             <AppBar title="Forgot Password?" />
-            //             <TextField
-            //                 hintText="Enter your Email"
-            //                 floatingLabelText="Email"
-            //                 onChange={(event, newValue) => this.setState({ email: newValue })}
-            //             />
-            //             <br />
-            //             <TextField
-            //                 type="password"
-            //                 hintText="Enter your Password"
-            //                 floatingLabelText="Password"
-            //                 onChange={(event, newValue) =>
-            //                     this.setState({ password: newValue })
-            //                 }
-            //             />
-            //             <br />
-            //             <br />
-            //             <div
-            //                 onChange={(event) =>
-            //                     this.setState({ userType: event.target.value })
-            //                 }
-            //             >
-            //                 <input
-            //                     type="radio"
-            //                     value="Customer"
-            //                     defaultChecked
-            //                     name="userType"
-            //                 />{" "}
-            //                 Customer
-            //                 <input type="radio" value="Vendor" name="userType" /> Vendor
-            //             </div>
-            //             <br />
-            //             <RaisedButton
-            //                 label="Submit"
-            //                 primary={true}
-            //                 style={style}
-            //                 onClick={(event) => {this.handleLoginClick(event)}}
-            //             />
-            //         </div>
-            //         <div>
-            //             Don't you have an account?
-            //             <br />
-            //             <div>
-            //                 {this.renderRedirect()}
-            //                 <RaisedButton
-            //                     label="SignUp"
-            //                     primary={true}
-            //                     style={style}
-            //                     onClick={this.setRedirect}
-            //                 />
-            //             </div>
-            //             <br />
-            //         </div>
-            //     </MuiThemeProvider>
-            // </div>
         );
     }
 
