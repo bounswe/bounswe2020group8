@@ -108,7 +108,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
     fun signIn() {
-        Log.d("SIGNIN hello", "idkkkkkk")
         val intent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
     }
