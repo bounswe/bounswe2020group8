@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
 
 import Header from "../components/Header/Header";
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={SignUp} />
+            <Route path="/forgot" exact component={Forgot} />
           </Switch>
         </Router>
       </UserInfo.Provider>
