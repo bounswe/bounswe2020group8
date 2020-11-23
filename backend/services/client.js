@@ -141,7 +141,7 @@ exports.forgotPasswordService = async function ({ email, type }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_EMAIL_IS_NOT_VERIFIED);
   }
 
-  const resetPasswordToken = Date.now() + sha1(newClient._id.toString() + Date.now());
+  const resetPasswordToken = Date.now() + sha1(clientWithEmail._id.toString() + Date.now());
   const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
 
   try {
