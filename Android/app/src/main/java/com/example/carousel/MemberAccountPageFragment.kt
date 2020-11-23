@@ -33,11 +33,6 @@ class MemberAccountPageFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_acount_page, container, false)
     }
 
-
-
-
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (readFromFile(context) != ""){

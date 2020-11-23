@@ -1,4 +1,5 @@
 package com.example.carousel
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -37,18 +38,19 @@ class LoginActivity : AppCompatActivity() {
                 .build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        val google_signIn_btn = findViewById<com.google.android.gms.common.SignInButton>(R.id.sign_in_button)
+        val google_signIn_btn =
+            findViewById<com.google.android.gms.common.SignInButton>(R.id.sign_in_button)
         google_signIn_btn.setOnClickListener {
             signIn()
         }
         val forgotPasswordButton = findViewById<TextView>(R.id.forgotPassword)
-        forgotPasswordButton.setOnClickListener{
+        forgotPasswordButton.setOnClickListener {
             val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
-
             forgotPassword.movementMethod = LinkMovementMethod.getInstance()
         }
     }
+
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
@@ -56,19 +58,20 @@ class LoginActivity : AppCompatActivity() {
 
         //}
     }
-    fun login(view: View){
+
+    fun login(view: View) {
         val email = findViewById<EditText>(R.id.login_email).text.toString()
         val password = findViewById<EditText>(R.id.login_password).text.toString()
         val type: String
-        when(findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
+        when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
             true -> type = "CLIENT";
             false -> type = "VENDOR"
-
         }
         loginCall(email, password, type)
 
 
     }
+
     private fun loginCall(email: String, password: String, type: String) {
         val postBody = FormBody.Builder().build()
         val httpUrl = "$baseUrl/client/login?email=$email&password=$password&type=$type"
@@ -85,9 +88,10 @@ class LoginActivity : AppCompatActivity() {
 
 
             override fun onResponse(call: Call, response: Response) {
-                val json = Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
+                val json =
+                    Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
                 val responseCode = response.code
-                if(responseCode == 200) {
+                if (responseCode == 200) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
                         val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
@@ -96,16 +100,20 @@ class LoginActivity : AppCompatActivity() {
                         setResult(RESULT_OK, intent)
                         finish();
                     })
-                }
-                else{
-                    this@LoginActivity.runOnUiThread( Runnable {
-                        Toast.makeText(this@LoginActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                } else {
+                    this@LoginActivity.runOnUiThread(Runnable {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Invalid email or password",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
                 }
             }
         })
     }
-    private fun signUpCall(email: String?, googleId: String?){
+
+    private fun signUpCall(email: String?, googleId: String?) {
         val postBody = FormBody.Builder().build()
         val httpUrl = "$baseUrl/client/loginWithGoogle?email=$email&googleId=$googleId"
         val request = Request.Builder()
@@ -121,9 +129,10 @@ class LoginActivity : AppCompatActivity() {
 
 
             override fun onResponse(call: Call, response: Response) {
-                val json = Gson().fromJson(response.body?.string(), SignInWithPasswordJSON::class.java)
+                val json =
+                    Gson().fromJson(response.body?.string(), SignInWithPasswordJSON::class.java)
                 val responseCode = response.code
-                if(responseCode == 200) {
+                if (responseCode == 200) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
                         val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
@@ -132,24 +141,30 @@ class LoginActivity : AppCompatActivity() {
                         setResult(RESULT_OK, intent)
                         finish();
                     })
-                }
-                else{
-                    this@LoginActivity.runOnUiThread( Runnable {
-                        Toast.makeText(this@LoginActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                } else {
+                    this@LoginActivity.runOnUiThread(Runnable {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Invalid email or password",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     })
                 }
             }
         })
     }
+
     fun signup(view: View) {
         val intent = Intent(this, SignupActivity::class.java)
         startActivity(intent)
     }
+
     fun signIn() {
         val intent = mGoogleSignInClient!!.signInIntent
         startActivityForResult(intent, RC_SIGN_IN)
 
     }
+
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -161,31 +176,15 @@ class LoginActivity : AppCompatActivity() {
                 GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
-                val account :GoogleSignInAccount? = task.getResult(ApiException::class.java)
+                val account: GoogleSignInAccount? = task.getResult(ApiException::class.java)
                 signUpCall(googleId = account!!.id, email = account.email)
             } catch (e: ApiException) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
-                Log.e("TAG","signInResult:failed code=" + e.statusCode)
+                Log.e("TAG", "signInResult:failed code=" + e.statusCode)
             }
         }
     }
 }
 
-data class LoginWithPasswordJSON (
-    @SerializedName("tokenCode") val tokenCode : String,
-    @SerializedName("returnCode") val returnCode: Int,
-    @SerializedName("returnMessage") val returnMessage: String,
-    @SerializedName("client") val client: ClientJSON
-)
-data class SignInWithPasswordJSON (
-    @SerializedName("tokenCode") val tokenCode : String,
-    @SerializedName("client") val client: ClientJSON
-)
-data class ClientJSON (
-    @SerializedName("id") val id : String,
-    @SerializedName("name") val name : String,
-    @SerializedName("lastName") val lastName : String,
-    @SerializedName("email") val email : String,
-    @SerializedName("type") val type : String,
-)
+
