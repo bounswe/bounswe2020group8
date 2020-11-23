@@ -1,0 +1,11 @@
+.Forgot {
+    font-size: 12px;
+    text-decoration: underline;
+    color: slategray;
+    cursor: pointer;
+}
+
+.Forgot:hover {
+    color: black;
+}
+
