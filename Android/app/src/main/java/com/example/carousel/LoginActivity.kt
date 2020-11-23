@@ -56,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
                         intent.putExtra("login", 1)
+                        setResult(RESULT_OK, intent)
                         finish();
                     })
                 }
