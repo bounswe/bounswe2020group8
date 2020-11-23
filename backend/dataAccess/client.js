@@ -54,6 +54,18 @@ exports.updateClientVerifyEmailTokenDB = function (_id, verifyEmailToken) {
   );
 };
 
+exports.updateClientResetPasswordTokenDB = function (_id, resetPasswordToken) {
+  return Client.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        resetPasswordToken,
+      },
+    },
+    { _id: 1 }
+  );
+};
+
 exports.getClientByVerifyEmailTokenDB = function (verifyEmailToken) {
   return Client.findOne({
     verifyEmailToken,
