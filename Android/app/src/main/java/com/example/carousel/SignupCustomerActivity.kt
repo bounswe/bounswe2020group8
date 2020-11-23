@@ -35,7 +35,7 @@ class SignupCustomerActivity : AppCompatActivity() {
         if(error == 2){
              error_message.text= "Email Address Is Not Valid"
         }else if(error == 1){
-            error_message.text = "Password Is Not Strong Enough"
+            error_message.text = "Your password needs to be between 6 and 20 characters, contains at least one lower, one upper case letter and one digit"
         }else if(error == 3) {
             error_message.text = "You Have to Accept Terms and Conditions"
         }else if(error == 4) {
