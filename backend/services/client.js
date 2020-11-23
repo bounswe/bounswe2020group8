@@ -165,7 +165,7 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
   }
 
-  if (!sNull(client.googleID)) {
+  if (!isNull(client.googleID)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_REGISTERED_WITH_GOOGLE);
   }
 
