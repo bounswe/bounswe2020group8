@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
+import PasswordForm from "../PasswordForm/PasswordForm";
 
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -35,13 +36,11 @@ class LoginComponent extends Component {
               onChange={(event, newValue) => this.setState({ email: newValue })}
             />
             <br />
-            <TextField
-              type="password"
-              hintText="Enter your Password"
-              floatingLabelText="Password"
+            <PasswordForm
               onChange={(event, newValue) =>
                 this.setState({ password: newValue })
               }
+              password={this.state.password}
             />
             <br />
             <br />
