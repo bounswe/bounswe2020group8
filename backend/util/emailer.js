@@ -13,7 +13,7 @@ const sendEmail = async ({ email, subject, message }) => {
   });
   // 2) Define the email options
   const mailOptions = {
-    from: "noreply <noreply@carousel.com>",
+    from: Config.emailer.host,
     to: email,
     subject: subject,
     text: message,
