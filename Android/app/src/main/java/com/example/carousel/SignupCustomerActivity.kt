@@ -7,6 +7,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.CheckBox
@@ -14,11 +15,18 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_signup_customer.*
+import okhttp3.*
+import java.io.IOException
 
 
 class SignupCustomerActivity : AppCompatActivity() {
     lateinit var textView: TextView
+
+    private val baseUrl = "http://10.0.2.2:3000"
+    private val client = OkHttpClient()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_customer)
@@ -50,6 +58,7 @@ class SignupCustomerActivity : AppCompatActivity() {
     }
     fun signup(view: View) {
 
+        val type = "CLIENT"
         val name = findViewById<EditText>(R.id.signup_name).text.toString()
         val surname = findViewById<EditText>(R.id.signup_surname).text.toString()
         val email = findViewById<EditText>(R.id.signup_email).text.toString()
@@ -74,9 +83,45 @@ class SignupCustomerActivity : AppCompatActivity() {
             intent.putExtra("error", 4)
             startActivity(intent)
         }else{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+            signupCall(name,surname,email,password,password2,type)
         }
+    }
+    private fun signupCall(name: String, lastName: String, email: String, password: String, password2: String, type: String) {
+        val postBody = FormBody.Builder().build()
+        val httpUrl = "$baseUrl/client?name=$name&lastName=$lastName&email=$email&password=$password&passwordConfirm=$password2&type=$type"
+        val request = Request.Builder()
+            .addHeader("accept", "application/json")
+            .url(httpUrl)
+            .post(postBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("Failure", e.stackTraceToString())
+            }
+
+
+            override fun onResponse(call: Call, response: Response) {
+                val json = Gson().fromJson(response.body?.string(), HttpResponse::class.java)
+                val responseCode = response.code
+                if(responseCode == 200) {
+                    this@SignupCustomerActivity.runOnUiThread(Runnable { //Handle UI here
+                        val intent = Intent()
+                        intent.putExtra("token", json.tokenCode)
+                        intent.putExtra("login", 1)
+                        setResult(RESULT_OK, intent)
+                        finish();
+                    })
+                }
+                else{
+                    this@SignupCustomerActivity.runOnUiThread( Runnable {
+                        Toast.makeText(this@SignupCustomerActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                    })
+                }
+            }
+        })
     }
     fun login(view: View) {
         val intent = Intent(this, LoginActivity::class.java)
