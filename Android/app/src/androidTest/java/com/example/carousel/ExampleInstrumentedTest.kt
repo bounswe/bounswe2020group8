@@ -40,9 +40,9 @@ class LoginTest {
     val activityRule = ActivityScenarioRule(LoginActivity::class.java)
         @Test fun testLoginRegisteredUser() {
             onView(withId(R.id.login_email))
-                .perform(typeText("test@gmail.com"), closeSoftKeyboard())
+                .perform(typeText("testuser@test.com"), closeSoftKeyboard())
             onView(withId(R.id.login_password))
-                .perform(typeText("testtest2"), closeSoftKeyboard())
+                .perform(typeText("111111"), closeSoftKeyboard())
             onView(withId(R.id.login_button)).perform(click())
             intended(hasComponent(hasShortClassName(".DashboardActivity")))
 
