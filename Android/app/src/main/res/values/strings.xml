@@ -5,6 +5,7 @@
     <string name="login_button">LOGIN</string>
     <string name="signup_button">SIGN UP</string>
     <string name="signup_header">Sign Up Page</string>
+
     <string name="signup_button_vendor">SIGN UP AS VENDOR</string>
     <string name="signup_button_customer">SIGN UP AS CUSTOMER</string>
     <string name="signup_name">Name</string>
@@ -14,6 +15,11 @@
     <string name="signup_company_name">Name of Your Company</string>
     <string name="signup_error0">Email Address Is Not Valid</string>
     <string name="signup_error1">Password Is Not Strong Enough</string>
+
+    <string name="login_opt_customer">Customer</string>
+    <string name="login_opt_vendor">Vendor</string>
+    <string name="action_search">Search</string>
+
 
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">Settings</string>
@@ -32,4 +38,11 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="logo">logo</string>
+    <string name="cart">Cart</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="please_login">Please login to see account details.</string>
+    <string name="username">username</string>
 </resources>
