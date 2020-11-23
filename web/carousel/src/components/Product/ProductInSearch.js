@@ -6,7 +6,7 @@ const productInSearch = (props) => {
         <div className={styles.ProductInSearch}>
             <img className={styles.Image} src={product.imageUrl} />
             <p>{product.name}</p>
-            <p><b>{product.price}₺</b></p>
+            <p><b>${product.price}</b></p>
         </div>
     )
 }
