@@ -24,7 +24,7 @@ import java.io.IOException
 class SignupCustomerActivity : AppCompatActivity() {
     lateinit var textView: TextView
 
-    private val baseUrl = "http://10.0.2.2:3000"
+    private val baseUrl = "http://18.198.51.178:8080"
     private val client = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +90,7 @@ class SignupCustomerActivity : AppCompatActivity() {
     }
     private fun signupCall(name: String, lastName: String, email: String, password: String, password2: String, type: String) {
         val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client?name=$name&lastName=$lastName&email=$email&password=$password&passwordConfirm=$password2&type=$type"
+        val httpUrl = "$baseUrl/client/signup?name=$name&lastName=$lastName&email=$email&password=$password&passwordConfirm=$password2&type=$type"
         val request = Request.Builder()
             .addHeader("accept", "application/json")
             .url(httpUrl)
@@ -104,13 +104,14 @@ class SignupCustomerActivity : AppCompatActivity() {
 
 
             override fun onResponse(call: Call, response: Response) {
-                val json = Gson().fromJson(response.body?.string(), HttpResponse::class.java)
+                val json = Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
                 val responseCode = response.code
                 if(responseCode == 200) {
                     this@SignupCustomerActivity.runOnUiThread(Runnable { //Handle UI here
                         val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
                         intent.putExtra("login", 1)
+                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
                         setResult(RESULT_OK, intent)
                         finish();
                     })
