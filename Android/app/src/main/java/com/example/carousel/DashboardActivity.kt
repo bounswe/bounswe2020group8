@@ -37,4 +37,10 @@ class DashboardActivity : AppCompatActivity() {
             replace(R.id.activity_main_nav_host_fragment, fragment)
             commit()
         }
+
+    public fun refresh()
+    {
+        finish()
+        startActivity(intent)
+    }
 }

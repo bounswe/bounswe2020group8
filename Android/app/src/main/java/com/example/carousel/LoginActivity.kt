@@ -53,10 +53,11 @@ class LoginActivity : AppCompatActivity() {
                 val responseCode = response.code
                 if(responseCode == 200) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
                         intent.putExtra("login", 1)
-                        startActivity(intent)
+                        setResult(RESULT_OK, intent)
+                        finish();
                     })
                 }
                 else{
