@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  carousel-frontend:
+    build: .
+    image: amoged97/carousel-frontend
+    ports:
+      - '3000:80'
