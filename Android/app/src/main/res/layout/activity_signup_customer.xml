@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/signup_name"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.499"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.499"
             android:layout_marginBottom="20dp"/>
     <EditText
             android:layout_width="wrap_content"

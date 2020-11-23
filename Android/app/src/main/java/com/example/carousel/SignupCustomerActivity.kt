@@ -67,24 +67,26 @@ class SignupCustomerActivity : AppCompatActivity() {
         val termCheck = findViewById<CheckBox>(R.id.accept_terms_and_conditions)
 
         if(!isValidEmail(email)){
+            finish()
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 2)
             startActivity(intent)
         }else if(!isStrong(password)){
+            finish()
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 1)
             startActivity(intent)
         }else if(!termCheck.isChecked) {
+            finish()
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 3)
             startActivity(intent)
         }else if(!password.equals(password2)) {
+            finish()
             val intent = Intent(this, SignupCustomerActivity::class.java)
             intent.putExtra("error", 4)
             startActivity(intent)
         }else{
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
             signupCall(name,surname,email,password,password2,type)
         }
     }
@@ -96,7 +98,7 @@ class SignupCustomerActivity : AppCompatActivity() {
             .url(httpUrl)
             .post(postBody)
             .build()
-
+        println(httpUrl)
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("Failure", e.stackTraceToString())
@@ -108,17 +110,12 @@ class SignupCustomerActivity : AppCompatActivity() {
                 val responseCode = response.code
                 if(responseCode == 200) {
                     this@SignupCustomerActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent()
-                        intent.putExtra("token", json.tokenCode)
-                        intent.putExtra("login", 1)
-                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
-                        setResult(RESULT_OK, intent)
                         finish();
                     })
                 }
                 else{
                     this@SignupCustomerActivity.runOnUiThread( Runnable {
-                        Toast.makeText(this@SignupCustomerActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignupCustomerActivity, json.returnMessage, Toast.LENGTH_SHORT).show()
                     })
                 }
             }

@@ -104,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                     this@LoginActivity.runOnUiThread(Runnable {
                         Toast.makeText(
                             this@LoginActivity,
-                            "Invalid email or password",
+                            json.returnMessage,
                             Toast.LENGTH_SHORT
                         ).show()
                     })
