@@ -9,9 +9,11 @@ import Header from "../components/Header/Header";
 
 const App = () => {
   const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
 
-  const loginHandler = (newEmail) => {
+  const loginHandler = (newEmail, newToken) => {
       setEmail(newEmail);
+      setToken(newToken);
   };
   
   console.log("email: " + email);
