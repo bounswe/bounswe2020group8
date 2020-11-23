@@ -130,12 +130,12 @@ exports.forgotPasswordController = BaseUtil.createController((req) => {
     ).reflect(),
   ])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => {
+    .then(() =>
       ClientService.forgotPasswordService({
         email,
         type,
-      });
-    });
+      })
+    );
 });
 
 exports.resetPasswordController = BaseUtil.createController((req) => {
@@ -156,12 +156,12 @@ exports.resetPasswordController = BaseUtil.createController((req) => {
     ).reflect(),
   ])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => {
+    .then(() =>
       ClientService.resetPasswordService({
         resetPasswordToken,
         newPassword,
-      });
-    });
+      })
+    );
 });
 
 exports.signupWithGoogleController = BaseUtil.createController((req) => {
