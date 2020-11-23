@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
+import Categories from './Categories/Categories';
 import SearchBar from "./SearchBar/SearchBar";
 import SideButtons from "./SideButtons/SideButtons";
 import {signIn, signOut} from "../../redux/auth/actions";
@@ -15,6 +16,8 @@ class Header extends Component {
         placeholderSearchString: "Search for something...",
         searchOn: false,
     }
+
+    categories = ["Fashion", "Toys & Hobbies", "Electronics", "Furniture", "Personal Care"];
 
     openProfileHandler = () => {
         alert("Open Profile");
@@ -43,22 +46,27 @@ class Header extends Component {
 
     render() {
         return (
-            <header className={classes.Toolbar}>
-
-                <img src={logo} alt={"carouselSite"} 
-		    className={classes.Img}
-                    onClick={() => this.props.history.push("/")}/>
-                <SearchBar
-                    searchString={this.state.searchValue}
-                    changeString={this.searchStringChangeHandler}
-                    written={this.state.searchOn}
-                    defaultString={this.state.placeholderSearchString}
-                    keyHandler={this.keyPressHandler}
-                    iconHandler={this.iconPressHandler}/>
-                <SideButtons
-                    authenticated={this.props.isSignedIn}
-                    clicked={this.props.isSignedIn ? this.openProfileHandler : () => this.props.history.push("/login") }/>
+            <>
+            <header className={classes.Header}>
+                <div className={classes.Toolbar}>
+                    <img src={logo} alt={"carouselSite"} 
+                className={classes.Img}
+                        onClick={() => this.props.history.push("/")}/>
+                    <SearchBar
+                        searchString={this.state.searchValue}
+                        changeString={this.searchStringChangeHandler}
+                        written={this.state.searchOn}
+                        defaultString={this.state.placeholderSearchString}
+                        keyHandler={this.keyPressHandler}
+                        iconHandler={this.iconPressHandler}/>
+                    <SideButtons
+                        authenticated={this.props.isSignedIn}
+                        clicked={this.props.isSignedIn ? this.openProfileHandler : () => this.props.history.push("/login") }/>
+                </div>
+                <Categories categories={this.categories}/>
             </header>
+            <div className={classes.Filler} />
+            </>
         );
     }
 }

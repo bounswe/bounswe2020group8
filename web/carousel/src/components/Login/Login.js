@@ -5,6 +5,8 @@ import TextField from "material-ui/TextField";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import UserInfo from "../Context/UserInfo";
+import { withRouter } from "react-router-dom";
 
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -20,7 +22,7 @@ class LoginComponent extends Component {
       errorMessage: "",
     };
   }
-
+  static contextType = UserInfo;
   render() {
     return (
       <div>
@@ -86,7 +88,7 @@ class LoginComponent extends Component {
     );
   }
 
-  handleLoginClick(event) {
+  handleLoginClick = (event) => {
     var self = this;
     var userTypeToPayload;
     if (self.state.userType == "Customer") {
@@ -105,11 +107,14 @@ class LoginComponent extends Component {
       .then((response) => {
         this.setState({ isError: false });
         console.log(response.data);
+        this.context.login(self.state.email, response.data.tokenCode);
+        this.props.history.push("/");
       })
       .catch((err, response) => {
+        console.log(err);
         this.setState({ isError: true });
       });
-  }
+  };
   checkErrorState() {
     if (this.state.isError) {
       this.state.errorMessage = "False login information";
@@ -135,4 +140,4 @@ const style = {
   margin: 15,
 };
 
-export default LoginComponent;
+export default withRouter(LoginComponent);
