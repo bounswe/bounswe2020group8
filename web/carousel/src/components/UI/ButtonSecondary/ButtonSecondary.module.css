@@ -1,0 +1,17 @@
+.ButtonSecondary {
+    background-color: transparent;
+    border: none;
+    color: #FF6D00;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px;
+}
+
+.ButtonSecondary:hover {
+    color: #D33A09;
+    transition: all 0.3s ease-out;
+}
