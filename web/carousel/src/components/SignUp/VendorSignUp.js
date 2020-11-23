@@ -4,6 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import React, { Component } from "react";
 import axios from "axios";
+import PasswordForm from "../PasswordForm/PasswordForm";
 
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -33,10 +34,8 @@ class VendorSignUp extends Component {
               onChange={(event, newValue) => this.setState({ email: newValue })}
             />
             <br />
-            <TextField
-              type="password"
-              hintText="Enter your strong password"
-              floatingLabelText="Password"
+            <PasswordForm
+              password={this.state.password}
               onChange={(event, newValue) =>
                 this.setState({ password: newValue })
               }
