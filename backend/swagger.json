@@ -82,7 +82,7 @@
       }
     },
     "/client/verifyEmail": {
-      "post": {
+      "get": {
         "parameters": [
           {
             "in": "query",
