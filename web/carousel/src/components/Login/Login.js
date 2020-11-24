@@ -9,6 +9,8 @@ import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
 import GoogleAuth from "../GoogleAuth";
 import classes from "./Login.module.css";
+import { signIn, signOut } from "../../redux/auth/actions";
+import { connect } from "react-redux";
 
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -84,7 +86,12 @@ class LoginComponent extends Component {
               />
             </div>
             <div>
-              <p className={classes.Forgot}  onClick={this.forgotPasswordHandler}>Forgot Password?</p>
+              <p
+                className={classes.Forgot}
+                onClick={this.forgotPasswordHandler}
+              >
+                Forgot Password?
+              </p>
             </div>
             <br />
           </div>
@@ -93,10 +100,10 @@ class LoginComponent extends Component {
       </div>
     );
   }
-              
+
   forgotPasswordHandler = () => {
     this.props.history.push("/forgot");
-  }
+  };
 
   handleLoginClick = (event) => {
     var self = this;
@@ -118,6 +125,7 @@ class LoginComponent extends Component {
         this.setState({ isError: false });
         console.log(response.data);
         this.context.login(self.state.email, response.data.tokenCode);
+        this.props.signIn();
         this.props.history.push("/");
       })
       .catch((err, response) => {
@@ -150,4 +158,4 @@ const style = {
   margin: 15,
 };
 
-export default withRouter(LoginComponent);
+export default withRouter(connect(null, { signIn, signOut })(LoginComponent));
