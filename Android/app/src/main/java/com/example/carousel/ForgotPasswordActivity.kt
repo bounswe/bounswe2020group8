@@ -3,6 +3,7 @@ package com.example.carousel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
@@ -22,10 +23,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
 
     fun sendEmail(view: View) {
-        val email = view.forgot_password_email.text.toString()
+        val email = findViewById<EditText>(R.id.forgot_password_email).text.toString()
         val postBody = FormBody.Builder().build()
         val type = "CLIENT"
-        val httpUrl = "$baseUrl//client/forgotPassword?email=$email&type=$type"
+        val httpUrl = "$baseUrl/client/forgotPassword?email=$email&type=$type"
         val request = Request.Builder()
             .addHeader("accept", "application/json")
             .url(httpUrl)
@@ -40,7 +41,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val json =
-                    Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
+                    Gson().fromJson(response.body?.string(), ForgotPasswordJSON::class.java)
                 val responseCode = response.code
                 if (responseCode == 200) {
                     this@ForgotPasswordActivity.runOnUiThread(Runnable { //Handle UI here
@@ -49,6 +50,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                             "You can reset your password by using the link in your email.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        finish()
                     })
                 } else {
                     this@ForgotPasswordActivity.runOnUiThread(Runnable {

@@ -3,8 +3,8 @@ package com.example.carousel
 import com.google.gson.annotations.SerializedName
 
 data class ForgotPasswordJSON(
-    @SerializedName("tokenCode") val tokenCode: String,
-    @SerializedName("client") val client: ClientJSON
+    @SerializedName("returnCode") val returnCode: Int,
+    @SerializedName("returnMessage") val returnMessage: String,
 )
 
 data class LoginWithPasswordJSON(

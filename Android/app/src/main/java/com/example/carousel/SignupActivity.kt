@@ -12,18 +12,21 @@ class SignupActivity : AppCompatActivity() {
     }
 
     fun signupCustomer(view: View) {
+        finish()
         val intent = Intent(this, SignupCustomerActivity::class.java)
         intent.putExtra("error",0)
         startActivity(intent)
     }
 
     fun signupVendor(view: View) {
+        finish()
         val intent = Intent(this, SignupVendorActivity::class.java)
         intent.putExtra("error",0)
         startActivity(intent)
     }
 
     fun login(view: View) {
+        finish()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
