@@ -30,17 +30,18 @@ export default class LogoutButton extends Component {
 
   render() {
     return this.state.isSignedIn ? (
-      <div style={{ marginTop: 20 }} onClick={this.onSignOutClick}>
+      <div style={{ marginTop: 15 }} onClick={this.onSignOutClick}>
         {" "}
         <FontAwesomeIcon
           icon={faPowerOff}
           style={{
             height: 20,
-            width: 20,
+            width: 25,
             marginRight: 10,
             color: "#ea4335",
           }}
         />
+        <div style={{ font: 10 }}>Sign out</div>
       </div>
     ) : null;
   }
