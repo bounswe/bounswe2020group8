@@ -94,7 +94,7 @@ exports.signupService = async function ({ email, password, type, name, lastName 
   }
 
   return {
-    message: "Verification email sent!",
+    returnMessage: "Verification email sent!",
     client: Formatters.formatClient(updatedClient),
   };
 };
@@ -106,22 +106,15 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
   }
 
-  let newClientToken = (
-    await ClientTokenDataAccess.createClientTokenDB({
-      tokenCode: Date.now() + sha1(client._id.toString() + Date.now()),
-      client: client._id,
-    })
-  ).toObject();
-
   updatedClient = await ClientDataAccess.updateClientDB(client._id, {
     isVerified: true,
     verifyEmailToken: undefined,
   });
 
-  return Formatters.formatClientToken({
-    ...newClientToken,
-    client: updatedClient,
-  });
+  return {
+    returnMessage: "Client is now verified!",
+    client: Formatters.formatClient(updatedClient),
+  };
 };
 
 exports.changePasswordService = async function ({ token, newPassword }) {
@@ -143,7 +136,7 @@ exports.forgotPasswordService = async function ({ email, type }) {
 
   const resetPasswordToken = Date.now() + sha1(clientWithEmail._id.toString() + Date.now());
   await ClientDataAccess.updateClientResetPasswordTokenDB(clientWithEmail._id, resetPasswordToken);
-  const resetURL = `http://${Config.hostAddr}:${Config.port}/client/resetPassword?resetPasswordToken=${resetPasswordToken}`;
+  const resetURL = `http://${Config.frontendAddr}:${Config.frontendPort}/reset?token=${resetPasswordToken}`;
 
   try {
     await sendEmail({
@@ -165,7 +158,7 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
   }
 
-  if (!sNull(client.googleID)) {
+  if (!isNull(client.googleID)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_REGISTERED_WITH_GOOGLE);
   }
 
