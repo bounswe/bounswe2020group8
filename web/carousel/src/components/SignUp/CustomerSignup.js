@@ -19,7 +19,7 @@ class CustomerSignUp extends Component {
       surname: "",
       errMessage: "",
       signUpMessage: "",
-      wasWeak: true
+      isWeakPassword: true
     };
   }
 
@@ -76,7 +76,7 @@ class CustomerSignUp extends Component {
   }
   handleCustomerSignUp(event) {
     var self = this;
-    if (this.state.wasWeak) {
+    if (this.state.isWeakPassword) {
       return;
     }
     var payload = {

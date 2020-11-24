@@ -86,7 +86,7 @@ class VendorSignUp extends Component {
   }
   handleVendorSignUp(event) {
     var self = this;
-    if (this.state.wasWeak) {
+    if (this.state.isWeakPassword) {
       return;
     }
     var payload = {
