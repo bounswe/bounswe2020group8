@@ -8,6 +8,8 @@ import axios from "axios";
 import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
 import GoogleAuth from "../GoogleAuth";
+import classes from "./Login.module.css";
+
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class LoginComponent extends Component {
@@ -81,12 +83,19 @@ class LoginComponent extends Component {
                 onClick={this.setRedirect}
               />
             </div>
+            <div>
+              <p className={classes.Forgot}  onClick={this.forgotPasswordHandler}>Forgot Password?</p>
+            </div>
             <br />
           </div>
         </MuiThemeProvider>
         <GoogleAuth userType={this.state.userType} />
       </div>
     );
+  }
+              
+  forgotPasswordHandler = () => {
+    this.props.history.push("/forgot");
   }
 
   handleLoginClick = (event) => {
