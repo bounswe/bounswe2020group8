@@ -4,6 +4,7 @@ const Constants = require("../util/constants");
 const AppValidator = require("./appValidator");
 const Messages = require("../util/messages");
 const AppError = require("./appError");
+const Config = require("../config");
 const { isNull, isNullOrEmpty, deepDeleteFields } = require("../util/coreUtil");
 const _ = require("underscore");
 
@@ -159,7 +160,7 @@ exports.returnResponse = async function (req, res, next) {
       res.status(400).send(respObj);
     } else {
       if (req.url.indexOf("verifyEmail") != -1) {
-        res.redirect("https://www.google.com");
+        res.redirect(`http://${Config.frontendAddr}:${Config.frontendPort}/login`);
       } else {
         res.send(respObj);
       }
