@@ -19,6 +19,7 @@ class CustomerSignUp extends Component {
       surname: "",
       errMessage: "",
       signUpMessage: "",
+      wasWeak: true
     };
   }
 
@@ -39,6 +40,10 @@ class CustomerSignUp extends Component {
               onChange={(event, newValue) =>
                 this.setState({ password: newValue })
               }
+              setIsWeak={(newValue) => {
+                this.setState({isWeakPassword: newValue});
+              }}
+              wasWeak={this.state.isWeakPassword}
             />
             <br />
             <TextField
@@ -71,6 +76,9 @@ class CustomerSignUp extends Component {
   }
   handleCustomerSignUp(event) {
     var self = this;
+    if (this.state.wasWeak) {
+      return;
+    }
     var payload = {
       password: self.state.password,
       passwordConfirm: self.state.password,

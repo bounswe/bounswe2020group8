@@ -39,8 +39,17 @@ class PasswordForm extends Component {
 
         let errorMessageLine = null;
 
+        console.log("HEYYY");
+
         if (errorMessage !== "") {
             errorMessageLine = (<p className={classes.ErrorMessage}>{errorMessage}</p>);
+            if (!this.props.wasWeak) {
+                this.props.setIsWeak(true);
+            }
+        } else {
+            if (this.props.wasWeak) {
+                this.props.setIsWeak(false);
+            }
         }
 
         return (
