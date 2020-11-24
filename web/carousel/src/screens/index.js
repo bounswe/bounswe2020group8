@@ -17,7 +17,6 @@ const App = () => {
     setEmail(newEmail);
     setToken(newToken);
   };
-  //console.log(email);
   return (
     <>
       <UserInfo.Provider
