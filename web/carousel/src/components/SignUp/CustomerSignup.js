@@ -4,6 +4,8 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import React, { Component } from "react";
 import axios from "axios";
+import PasswordForm from "../PasswordForm/PasswordForm";
+
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class CustomerSignUp extends Component {
@@ -17,6 +19,7 @@ class CustomerSignUp extends Component {
       surname: "",
       errMessage: "",
       signUpMessage: "",
+      isWeakPassword: true
     };
   }
 
@@ -32,13 +35,15 @@ class CustomerSignUp extends Component {
               onChange={(event, newValue) => this.setState({ email: newValue })}
             />
             <br />
-            <TextField
-              type="password"
-              hintText="Enter your strong password"
-              floatingLabelText="Password"
+            <PasswordForm
+              password={this.state.password}
               onChange={(event, newValue) =>
                 this.setState({ password: newValue })
               }
+              setIsWeak={(newValue) => {
+                this.setState({isWeakPassword: newValue});
+              }}
+              wasWeak={this.state.isWeakPassword}
             />
             <br />
             <TextField
@@ -71,6 +76,9 @@ class CustomerSignUp extends Component {
   }
   handleCustomerSignUp(event) {
     var self = this;
+    if (this.state.isWeakPassword) {
+      return;
+    }
     var payload = {
       password: self.state.password,
       passwordConfirm: self.state.password,
