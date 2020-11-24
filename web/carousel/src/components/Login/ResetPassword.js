@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 
 import axios from "axios";
+import qs from "qs";
 
 let apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -17,7 +18,6 @@ class ResetPassword extends Component {
             sent: false,
             isError: false,
             errorMessage: "",
-            token: "",
             password: "",
             passwordConfirm: "",
         };
@@ -47,7 +47,7 @@ class ResetPassword extends Component {
     render() {
 
         //console.log(this.state.buttonActive);
-        console.log(window.location.href);
+        console.log(this.props);
 
         return (
             <div className={classes.ResetPassword}>
@@ -78,7 +78,7 @@ class ResetPassword extends Component {
                                     onClick={(event) => this.resetPasswordPassiveHandler(event)}
                                     style={{border: "2px solid black", backgroundColor:"#aaaaaa", color:"black"}}>Reset Password</ButtonSecondary>
                             }
-
+                        <p className={classes.ErrorMessage}> Please note that, password must contain numbers or characters of length between 6 and 20,  at least one lowercase letter, one uppercase letter, one numeric digit, and must not contain white space.</p>
                         </form>
 
                     </div>
@@ -99,10 +99,12 @@ class ResetPassword extends Component {
 
     resetPasswordHandler = (e) => {
         e.preventDefault();
-
-
+        
+        const token = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).token;
+    
+        console.log(token);
         let payload = {
-            resetPasswordToken: this.state.token,
+            resetPasswordToken: token,
             newPassword: this.state.password,
             newPasswordCheck: this.state.passwordConfirm,
         };
