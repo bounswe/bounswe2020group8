@@ -7,7 +7,6 @@ export default function Login() {
     <div className="App">
       <header className="App-header">
         <LoginComponent />
-        <GoogleAuth />
       </header>
     </div>
   );

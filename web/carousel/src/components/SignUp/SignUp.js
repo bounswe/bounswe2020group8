@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import CustomerSignUp from "./CustomerSignup";
 import VendorSignUp from "./VendorSignUp";
 import { Redirect } from "react-router-dom";
+import GoogleAuth from "../GoogleAuth";
 
 class SignUpComponent extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class SignUpComponent extends Component {
             onClick={this.setRedirect}
           />
         </MuiThemeProvider>
+        <GoogleAuth isSignup userType={this.state.userType} />
       </div>
     );
   }

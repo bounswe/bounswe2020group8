@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import axios from "axios";
 import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
-
+import GoogleAuth from "../GoogleAuth";
 var apiBaseUrl = "http://18.198.51.178:8080/";
 
 class LoginComponent extends Component {
@@ -84,6 +84,7 @@ class LoginComponent extends Component {
             <br />
           </div>
         </MuiThemeProvider>
+        <GoogleAuth userType={this.state.userType} />
       </div>
     );
   }
