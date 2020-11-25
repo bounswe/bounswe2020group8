@@ -135,9 +135,9 @@ class LoginComponent extends Component {
   };
   checkErrorState() {
     if (this.state.isError) {
-      this.setState({ errorMessage: "False login information" });
+      this.state.errorMessage = "False login information";
     } else {
-      this.setState({ errorMessage: "" });
+      this.state.errorMessage = "";
     }
   }
 
