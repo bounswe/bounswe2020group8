@@ -108,7 +108,7 @@ class LoginComponent extends Component {
   handleLoginClick = (event) => {
     var self = this;
     var userTypeToPayload;
-    if (self.state.userType == "Customer") {
+    if (self.state.userType === "Customer") {
       userTypeToPayload = "CLIENT";
     } else {
       userTypeToPayload = "VENDOR";
@@ -135,9 +135,9 @@ class LoginComponent extends Component {
   };
   checkErrorState() {
     if (this.state.isError) {
-      this.state.errorMessage = "False login information";
+      this.setState({ errorMessage: "False login information" });
     } else {
-      this.state.errorMessage = "";
+      this.setState({ errorMessage: "" });
     }
   }
 

@@ -1,10 +1,13 @@
 import React from "react";
 import classes from "./ButtonPrimary.module.css";
 
-const buttonPrimary = (props) => {
-    return (
-        <button className={classes.ButtonPrimary} {...props}>{props.children}</button>
-    );
-}
+const ButtonPrimary = ({ icon, title }) => {
+  return (
+    <button className={classes.ButtonPrimary}>
+      {icon || null}
+      <div> {title}</div>
+    </button>
+  );
+};
 
-export default buttonPrimary;
+export default ButtonPrimary;
