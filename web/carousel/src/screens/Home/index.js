@@ -1,4 +1,5 @@
-import ProductTable from "../../components/Product/ProductTable"
+import ProductTable from "../../components/ProductList/ProductTable";
+import ProductCarousel from "../../components/ProductList/ProductCarousel";
 
 export default function Home() {
   const productList = [
@@ -44,14 +45,9 @@ export default function Home() {
       price: 199.99, 
      },
      {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
+      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
       name: "To Kill a Mockingbird",
       price: 14.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
-      name: "OTG USB Pen Drive WANSENDA",
-      price: 8.99, 
      },
      {
       imageUrl: "https://images-na.ssl-images-amazon.com/images/I/61BhxjpQn6L._AC_SL1500_.jpg",
@@ -59,7 +55,7 @@ export default function Home() {
       price: 99.99, 
      },
      {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
+      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
       name: "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
       price: 18.99, 
      }, 
@@ -68,7 +64,9 @@ export default function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <ProductTable productList={productList} columnSize={3} />
+        <ProductCarousel title={"Hotsellers"} productList={productList} />
+        <ProductCarousel title={"Recommendations"} productList={productList} />
+        <ProductCarousel title={"Trendings"} productList={productList} />
       </header>
     </div>
   );
