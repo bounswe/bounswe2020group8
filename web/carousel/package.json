@@ -11,6 +11,7 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "antd": "^4.8.5",
     "axios": "^0.21.0",
     "google-maps-react": "^2.0.6",
     "material-ui": "^0.20.2",

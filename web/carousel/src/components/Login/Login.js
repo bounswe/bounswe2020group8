@@ -108,7 +108,7 @@ class LoginComponent extends Component {
   handleLoginClick = (event) => {
     var self = this;
     var userTypeToPayload;
-    if (self.state.userType == "Customer") {
+    if (self.state.userType === "Customer") {
       userTypeToPayload = "CLIENT";
     } else {
       userTypeToPayload = "VENDOR";

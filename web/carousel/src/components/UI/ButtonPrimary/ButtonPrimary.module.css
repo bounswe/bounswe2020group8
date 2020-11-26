@@ -1,18 +1,19 @@
 .ButtonPrimary {
-    background-color: #FF6D00;
-    /*border: 2px black solid;*/
-    border: none;
-    color: white;
-    cursor: pointer;
-    font: inherit;
-    padding: 10px;
-    margin: 10px;
-    font-weight: bold;
-    outline: none;
-    border-radius: 5px;
+  background-color: #ff6d00;
+  /*border: 2px black solid;*/
+  border: none;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  outline: none;
+  border-radius: 5px;
+  width: 65px;
 }
 
 .ButtonPrimary:hover {
-    background-color: #D33A09;
-    transition: all 0.3s ease-out;
+  background-color: #d33a09;
+  transition: all 0.3s ease-out;
 }
