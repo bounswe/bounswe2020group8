@@ -48,20 +48,19 @@ const SignupForm = (props) => {
             console.log("YUH");
 
             // check strength of the password
-            setPassword(user.password);
-            if (password.length < 6 || password.length > 20) {
+            if (user.password.length < 6 || user.password.length > 20) {
                 setPassLength(false);
             } else setPassLength(true);
-            if (/\d/.test(password) === false) {
+            if (/\d/.test(user.password) === false) {
                 setPassDigit(false);
             } else setPassDigit(true);
-            if (/[a-z]/.test(password) === false) {
+            if (/[a-z]/.test(user.password) === false) {
                 setPassLetter(false);
             } else setPassLetter(true);
-            if (/[A-Z]/.test(password) === false) {
+            if (/[A-Z]/.test(user.password) === false) {
                 setPassLetterCapital(false);
             } else setPassLetterCapital(true);
-            if (/\s/.test(password) === true) {
+            if (/\s/.test(user.password) === true) {
                 setPassNoWhitespace(false);
             } else setPassNoWhitespace(true);
 
