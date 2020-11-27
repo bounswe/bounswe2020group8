@@ -63,7 +63,7 @@ class Header extends Component {
                         authenticated={this.props.isSignedIn}
                         clicked={this.props.isSignedIn ? this.openProfileHandler : () => this.props.history.push("/login") }/>
                 </div>
-                <Categories categories={this.categories}/>
+                {/*<Categories categories={this.categories}/>*/}
             </header>
             <div className={classes.Filler} />
             </>
