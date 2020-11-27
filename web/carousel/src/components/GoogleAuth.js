@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { POST } from "../apis/services";
 
+import classes from "../components/Login/Login.module.css";
+
 class GoogleAuth extends Component {
   componentDidMount() {
     window.gapi.load("client:auth2", () => {
@@ -61,23 +63,25 @@ class GoogleAuth extends Component {
   renderSignOut() {
     return (
       <div
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
+        //style={{
+        //  flex: 1,
+        //  flexDirection: "row",
+        //  justifyContent: "space-between",
+        //}}
+        className={classes.GoogleLogin}
       >
         <button
           onClick={this.onSignOutClick}
-          style={{
-            height: 40,
-            width: 200,
-            borderRadius: 5,
-            backgroundColor: "white",
-            alignItems: "center",
-            justifyContent: "center",
-            display: "flex",
-          }}
+          className={classes.GoogleLoginButton}
+          //style={{
+          //  height: 40,
+          //  width: 200,
+          //  borderRadius: 5,
+          //  backgroundColor: "white",
+          //  alignItems: "center",
+          //  justifyContent: "center",
+          //  display: "flex",
+          //}}
         >
           <b> Sign out</b>
         </button>
@@ -88,23 +92,25 @@ class GoogleAuth extends Component {
   renderSignIn() {
     return (
       <div
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
+        className={classes.GoogleLogin}
+        //style={{
+        //  flex: 1,
+        //  flexDirection: "row",
+        //  justifyContent: "space-between",
+        //}}
       >
         <button
           onClick={this.onSignInClick}
-          style={{
-            height: 40,
-            width: 200,
-            borderRadius: 5,
-            backgroundColor: "white",
-            alignItems: "center",
-            justifyContent: "center",
-            display: "flex",
-          }}
+          className={classes.GoogleLoginButton} 
+          //style={{
+          //  height: 40,
+          //  width: 200,
+          //  borderRadius: 5,
+          //  backgroundColor: "white",
+          //  alignItems: "center",
+          //  justifyContent: "center",
+          //  display: "flex",
+          //}}
         >
           <FontAwesomeIcon
             icon={faGoogle}
@@ -129,9 +135,9 @@ class GoogleAuth extends Component {
     if (this.props.isSignedIn === null) {
       return null;
     } else if (this.props.isSignedIn) {
-      return <div> {this.renderSignOut()} </div>;
+      return <div className={classes.GoogleLogin}> {this.renderSignOut()} </div>;
     } else {
-      return <div> {this.renderSignIn()} </div>;
+      return <div className={classes.GoogleLogin}> {this.renderSignIn()} </div>;
     }
   }
 }
