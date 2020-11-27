@@ -10,6 +10,8 @@ import {
   HeartOutlined,
   ShoppingOutlined,
   ShoppingCartOutlined,
+  CommentOutlined,
+  NotificationOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
@@ -20,20 +22,34 @@ import { signIn, signOut } from "../../../redux/auth/actions";
 const profileMenu = (
   <Menu>
     <Menu.Item>
-      <Link to="/profile">
+      <Link to="/account/profile">
         <UserOutlined />
         My Profile
       </Link>
     </Menu.Item>
     <Menu.Item>
-      <Link to="/profile">
+      <Link to="/account/active-order">
         <ShoppingOutlined />
         My Order
       </Link>
     </Menu.Item>
+    <Menu.Item>
+      <Link to="/account/comments">
+        <CommentOutlined />
+        My Feedbacks
+      </Link>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to="/account/recommendation">
+        <NotificationOutlined />
+        New Recommendations
+      </Link>
+    </Menu.Item>
     <Menu.Item key="Logout">
-      <LogoutOutlined />
-      Log out
+      <Link to="/">
+        <LogoutOutlined />
+        Log out
+      </Link>
     </Menu.Item>
   </Menu>
 );
@@ -44,7 +60,7 @@ const sideButtons = (props) => {
       <LogoutButton></LogoutButton>
       {props.isSignedIn ? (
         <DropdownContainer
-          title={"PROFILE"}
+          title={"ACCOUNT"}
           icon={<UserOutlined />}
           list={profileMenu}
         />
