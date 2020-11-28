@@ -22,7 +22,7 @@
 .SignupContainer {
     z-index: 50;
     position: relative;
-    height: 600px;
+    height: 700px;
     display: grid;
     align-items: center;
     border: 1px solid #e6e6e6;
