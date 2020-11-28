@@ -47,10 +47,12 @@ class Header extends Component {
     render() {
         return (
             <>
-            <header className={classes.Header}>
+            <div className={classes.Header}>
                 <div className={classes.Toolbar}>
-                    <img src={logo} alt={"carouselSite"} 
-                className={classes.Img}
+                    <img 
+                        src={logo} 
+                        alt={"carouselSite"} 
+                        className={classes.Img}
                         onClick={() => this.props.history.push("/")}/>
                     <SearchBar
                         searchString={this.state.searchValue}
@@ -64,7 +66,7 @@ class Header extends Component {
                         clicked={this.props.isSignedIn ? this.openProfileHandler : () => this.props.history.push("/login") }/>
                 </div>
                 {/*<Categories categories={this.categories}/>*/}
-            </header>
+            </div>
             <div className={classes.Filler} />
             </>
         );

@@ -1,4 +1,4 @@
-.ButtonSecondary {
+.DropdownContainer {
   background-color: transparent;
   border: none;
   color: #ff6d00;
@@ -9,12 +9,14 @@
   font-weight: bold;
   outline: none;
   border-radius: 5px;
+  justify-content: center;
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 80px;
 }
 
-.ButtonSecondary:hover {
+.DropdownContainer:hover {
   color: #d33a09;
   transition: all 0.3s ease-out;
 }

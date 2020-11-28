@@ -14,6 +14,7 @@ import SignupContainer from "./SignupContainer/SignupContainer";
 const apiBaseUrl = "http://18.198.51.178:8080/";
 
 
+
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -106,8 +107,8 @@ class LoginComponent extends Component {
                     error={this.state.isError}>
                 </SignupContainer>
             }
-            </div>
-        </div>
+          </div>
+      </div>
     );
   }
 
@@ -115,12 +116,12 @@ class LoginComponent extends Component {
     this.props.history.push("/forgot");
   };
 
-
   // login request
   handleLoginClick = () => {
     console.log("bas");
     let userTypeToPayload;
     if (this.context.userType === "Customer") {
+
       userTypeToPayload = "CLIENT";
     } else if (this.context.userType === "Vendor"){
       userTypeToPayload = "VENDOR";
@@ -136,8 +137,10 @@ class LoginComponent extends Component {
       .then((response) => {
         this.setState({ isError: false });
         console.log(response.data);
+
         this.context.login(this.state.email, response.data.tokenCode);
         this.context.error = false;
+
         this.props.signIn();
         this.props.history.push("/");
       })
