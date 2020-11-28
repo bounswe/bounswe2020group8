@@ -1,9 +1,9 @@
 import React from "react";
 import classes from "./ButtonPrimary.module.css";
 
-const ButtonPrimary = ({ icon, title }) => {
+const ButtonPrimary = ({ icon, title, style = {} }) => {
   return (
-    <button className={classes.ButtonPrimary}>
+    <button style={style} className={classes.ButtonPrimary}>
       {icon || null}
       <div> {title}</div>
     </button>
