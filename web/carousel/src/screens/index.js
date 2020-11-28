@@ -5,7 +5,6 @@ import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
 import Forgot from "./Forgot";
-import Reset from "./Reset";
 import UserInfo from "../components/Context/UserInfo";
 
 import Header from "../components/Header/Header";
