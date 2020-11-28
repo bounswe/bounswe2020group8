@@ -37,16 +37,15 @@
 }
 
 .Header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 90;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 90;
 }
 
 .Filler {
-    background-color: #fafafa;
-    height: 150px;
-    width: 100%;
-
+  background-color: #fafafa;
+  height: 150px;
+  width: 100%;
 }
