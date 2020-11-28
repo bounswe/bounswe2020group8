@@ -81,13 +81,13 @@ const LoginForm = (props) => {
             <Form.Item style={{marginBottom:"-20px"}}>
                 <ButtonPrimary 
                     style={{width:"274px", fontSize:"16px"}} 
-                    title={LOGIN}
+                    title={"LOGIN"}
                     onClick={() => {setError(true);props.clicked(); user.setUserType("Customer")}}>
                 </ButtonPrimary>
                 <br style={{height:"10px"}}/>
                 <ButtonSecondary 
                     style={{width:"274px", fontSize:"16px"}} 
-                    title={Login as Vendor}
+                    title={"Login as Vendor"}
                     onClick={() => {setError(true);props.clicked(); 
                     user.setUserType("Vendor")}}>
                 </ButtonSecondary>
