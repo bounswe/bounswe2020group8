@@ -160,13 +160,17 @@ const SignupForm = (props) => {
 
             {/*BUTTONS*/}
             <Form.Item style={{marginBottom:"-20px"}}>
-                <ButtonPrimary style={{width:"274px", fontSize:"16px"}} onClick={() => {props.clicked();setError(true)}}>
-                    {user.userType === "Vendor" ? "REGISTER AS VENDOR" : "SIGN UP"}
+                <ButtonPrimary 
+                    style={{width:"274px", fontSize:"16px"}} 
+                    title=` {user.userType === "Vendor" ? "REGISTER AS VENDOR" : "SIGN UP"}` 
+                    onClick={() => {props.clicked();setError(true)}}>
                 </ButtonPrimary>
                 <br style={{height:"10px"}}/>
-                    <ButtonSecondary style={{width:"274px", fontSize:"16px", textDecoration:"underline"}} onClick={() => {setUserType(true);(user.userType === "Vendor" ? user.setUserType("Customer"):user.setUserType("Vendor"));}}>
-                        {user.userType === "Vendor" ? "Sign up as Customer" : "Do you want to sell?"}
-                    </ButtonSecondary>
+                <ButtonSecondary 
+                    style={{width:"274px", fontSize:"16px", textDecoration:"underline"}} 
+                    onClick={() => {setUserType(true);(user.userType === "Vendor" ? user.setUserType("Customer"):user.setUserType("Vendor"));}}
+                    title={user.userType === "Vendor" ? "Sign up as Customer" : "Do you want to sell?"}>
+                </ButtonSecondary>
             </Form.Item>
         </Form>
     );
