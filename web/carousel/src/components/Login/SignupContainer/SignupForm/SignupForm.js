@@ -162,7 +162,7 @@ const SignupForm = (props) => {
             <Form.Item style={{marginBottom:"-20px"}}>
                 <ButtonPrimary 
                     style={{width:"274px", fontSize:"16px"}} 
-                    title=` {user.userType === "Vendor" ? "REGISTER AS VENDOR" : "SIGN UP"}` 
+                    title={user.userType === "Vendor" ? "REGISTER AS VENDOR" : "SIGN UP"}` 
                     onClick={() => {props.clicked();setError(true)}}>
                 </ButtonPrimary>
                 <br style={{height:"10px"}}/>
