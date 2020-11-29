@@ -46,8 +46,6 @@ const LoginForm = (props) => {
         setVisible(false);
     }
 
-    console.log("Login user err: " + user.error);
-    console.log("this err: " + error);
 
     return(
 
