@@ -10,7 +10,6 @@ const SignupContainer = (props) => {
 
 const user = useContext(UserInfo);
 
-    console.log("contain: " + user.userType);
 
     return (
         <div className={classes.SignupContainer} >
