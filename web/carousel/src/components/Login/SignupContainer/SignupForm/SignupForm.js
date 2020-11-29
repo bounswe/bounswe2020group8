@@ -45,8 +45,6 @@ const SignupForm = (props) => {
                 setError(false);
             } else setVisible(false);
 
-            console.log("YUH");
-
             // check strength of the password
             if (user.password.length < 6 || user.password.length > 20) {
                 setPassLength(false);
