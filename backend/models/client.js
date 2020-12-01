@@ -3,19 +3,25 @@ const Constants = require("../util/constants");
 
 const Schema = mongoose.Schema;
 
-const clientSchema = new Schema({
-  email: { type: String },
-  name: { type: String },
-  lastName: { type: String },
-  password: { type: String },
-  googleID: { type: String, default: null },
-  isBanned: { type: Boolean },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-  type: { type: String, enum: Object.values(Constants.ENUMS.CLIENT_TYPE) },
-  verifyEmailToken: { type: String },
-  resetPasswordToken: { type: String },
-  isVerified: { type: Boolean },
-});
+var clientSchema = new Schema(
+  {
+    email: { type: String },
+    name: { type: String },
+    lastName: { type: String },
+    password: { type: String },
+    isBanned: { type: Boolean },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+    googleID: { type: String, default: null },
+    verifyEmailToken: { type: String },
+    resetPasswordToken: { type: String },
+    isVerified: { type: Boolean },
+    currentConversations: [String],
+  },
+  {
+    discriminatorKey: "__type",
+    collection: "Clients",
+  }
+);
 
 module.exports = mongoose.model("Client", clientSchema);
