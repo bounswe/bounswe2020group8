@@ -28,46 +28,53 @@ export default class Account extends Component {
       <Sider className="site-layout-background" width={250}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          defaultSelectedKeys={["/account/profile"]}
+          defaultOpenKeys={["profile"]}
           style={{ height: "100%" }}
         >
-          <SubMenu key="sub1" icon={<UserOutlined />} title="My Profile">
-            <Menu.Item key="1">
+          <SubMenu key="profile" icon={<UserOutlined />} title="My Profile">
+            <Menu.Item key="/account/profile">
               <Link to="/account/profile">Profile Info</Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="/account/address">
               <Link to="/account/address">Address Info</Link>
+            </Menu.Item>
+            <Menu.Item key="/account/payment">
+              <Link to="/account/payment">Payment Info</Link>
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu key="sub2" icon={<ShoppingOutlined />} title="My Order">
-            <Menu.Item key="5">
+          <SubMenu key="order" icon={<ShoppingOutlined />} title="My Order">
+            <Menu.Item key="active-order">
               <Link to="/account/active-order">Active Orders</Link>
             </Menu.Item>
-            <Menu.Item key="6">
+            <Menu.Item key="inactive-order">
               <Link to="/account/inactive-order">Inactive Orders</Link>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<HeartOutlined />} key="8">
+          <Menu.Item icon={<HeartOutlined />} key="list">
             <Link to="/account/list">All Lists</Link>
           </Menu.Item>
 
-          <Menu.Item icon={<ShoppingCartOutlined />} key="9">
+          <Menu.Item icon={<ShoppingCartOutlined />} key="cart">
             <Link to="/account/cart">My Cart</Link>
           </Menu.Item>
 
-          <SubMenu key="sub5" icon={<CommentOutlined />} title="My Feedbacks">
-            <Menu.Item key="10">
+          <SubMenu
+            key="feedback"
+            icon={<CommentOutlined />}
+            title="My Feedbacks"
+          >
+            <Menu.Item key="comment">
               <Link to="/account/comments">Comments</Link>
             </Menu.Item>
-            <Menu.Item key="11">
+            <Menu.Item key="rate">
               <Link to="/account/rate">Rates</Link>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<NotificationOutlined />} key="12">
+          <Menu.Item icon={<NotificationOutlined />} key="recommendation">
             <Link to="/account/recommendation">New Recommendations</Link>
           </Menu.Item>
         </Menu>
@@ -106,7 +113,7 @@ export default class Account extends Component {
     return (
       <div>
         <Layout>
-          <Content style={{ padding: "0 50px" }}>
+          <Content style={{ padding: "0 50px", zIndex: 10 }}>
             <Layout
               className="site-layout-background"
               style={{ padding: "24px 0" }}
