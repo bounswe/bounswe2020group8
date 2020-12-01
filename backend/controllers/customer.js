@@ -5,7 +5,6 @@ const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Constants = require("./../util/constants");
 
-// #TODO BIRTHDAY EKLEMELI MIYIM?
 exports.signupController = BaseUtil.createController((req) => {
   let { email, password, passwordConfirm, name, lastName } = req.query;
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
@@ -34,18 +33,35 @@ exports.signupController = BaseUtil.createController((req) => {
     );
 });
 
-// exports.signupWithGoogleController = BaseUtil.createController((req) => {
-//   let { email, googleID } = req.query;
-//   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
-//   return BB.all([
-//     AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
-//     AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),
-//   ])
-//     .then((results) => BaseUtil.decideErrorExist(results))
-//     .then(() =>
-//       ClientService.signupWithGoogleService({
-//         email,
-//         googleID,
-//       })
-//     );
-// });
+exports.signupWithGoogleController = BaseUtil.createController((req) => {
+  let { email, googleID } = req.query;
+  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
+  return BB.all([
+    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
+    AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      CustomerService.signupWithGoogleService({
+        email,
+        googleID,
+      })
+    );
+});
+
+exports.loginWithGoogleController = BaseUtil.createController((req) => {
+  let { email, googleID } = req.query;
+
+  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
+  return BB.all([
+    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
+    AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      CustomerService.loginWithGoogleService({
+        email,
+        googleID,
+      })
+    );
+});

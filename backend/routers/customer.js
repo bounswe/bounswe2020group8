@@ -9,9 +9,14 @@ module.exports = function (server) {
     CustomerController.signupController,
     RequestHelper.returnResponse
   );
-  // server.post(
-  //   `${rootPath}signupWithGoogle`,
-  //   CustomerController.signupWithGoogleController,
-  //   RequestHelper.returnResponse
-  // );
+  server.post(
+    `${rootPath}signupWithGoogle`,
+    CustomerController.signupWithGoogleController,
+    RequestHelper.returnResponse
+  );
+  server.post(
+    `${rootPath}loginWithGoogle`,
+    CustomerController.loginWithGoogleController,
+    RequestHelper.returnResponse
+  );
 };

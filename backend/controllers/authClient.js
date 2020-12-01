@@ -134,7 +134,7 @@ exports.loginWithGoogleController = BaseUtil.createController((req) => {
     AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
     AppValidator.validateEnum(
       __type,
-      Object.values(Constants.ENUMS.CLIENT_TYPE),
+      Object.values({ CUSTOMER: "Customer" }),
       Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
     ).reflect(),
     AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),

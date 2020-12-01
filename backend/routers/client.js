@@ -25,9 +25,4 @@ module.exports = function (server) {
     ClientController.resetPasswordController,
     RequestHelper.returnResponse
   );
-  server.post(
-    `${rootPath}loginWithGoogle`,
-    ClientController.loginWithGoogleController,
-    RequestHelper.returnResponse
-  );
 };

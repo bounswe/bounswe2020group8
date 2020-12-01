@@ -58,19 +58,3 @@ exports.signupService = async function ({
     vendor: Formatters.formatVendor(updatedVendor),
   };
 };
-
-exports.signupWithGoogleService = async function ({ email, googleID }) {
-  const vendorWithEmail = await VendorDataAccess.getVendorByEmailDB(email);
-
-  if (!isNull(vendorWithEmail)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
-  }
-
-  const newVendor = await VendorDataAccess.createVendorDB({
-    email,
-    googleID,
-    isVerified: true,
-  });
-
-  return await createTokenAndFormat(newVendor);
-};

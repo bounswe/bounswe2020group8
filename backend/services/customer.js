@@ -7,6 +7,7 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
+const customer = require("../routers/customer");
 //
 
 exports.signupService = async function ({ email, password, name, lastName }) {
@@ -63,5 +64,34 @@ exports.signupWithGoogleService = async function ({ email, googleID }) {
     isVerified: true,
   });
 
-  return await createTokenAndFormat(newCustomer);
+  let newClientToken = (
+    await ClientTokenDataAccess.createClientTokenDB({
+      tokenCode: Date.now() + sha1(newCustomer._id.toString() + Date.now()),
+      client: newCustomer._id,
+    })
+  ).toObject();
+
+  return Formatters.formatClientToken({ ...newClientToken, client: newCustomer });
+};
+
+exports.loginWithGoogleService = async function ({ email, googleID }) {
+  const customerWithEmail = await CustomerDataAccess.getCustomerByEmailDB(email);
+
+  if (isNull(customerWithEmail)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
+  }
+
+  // another person tried to access this account or client registered withoutgoogle
+  if (customerWithEmail.googleID != googleID) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_GOOGLE_ID_DOES_NOT_MATCH);
+  }
+
+  let newClientToken = (
+    await ClientTokenDataAccess.createClientTokenDB({
+      tokenCode: Date.now() + sha1(customerWithEmail._id.toString() + Date.now()),
+      client: customerWithEmail._id,
+    })
+  ).toObject();
+
+  return Formatters.formatClientToken({ ...newClientToken, client: customerWithEmail });
 };

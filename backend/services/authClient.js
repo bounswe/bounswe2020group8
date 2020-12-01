@@ -34,17 +34,6 @@ exports.loginService = async function ({ email, password, __type }) {
   return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
 };
 
-async function createTokenAndFormat(client) {
-  let newClientToken = (
-    await ClientTokenDataAccess.createClientTokenDB({
-      tokenCode: Date.now() + sha1(client._id.toString() + Date.now()),
-      client: client._id,
-    })
-  ).toObject();
-
-  return Formatters.formatClientToken({ ...newClientToken, client });
-}
-
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
   const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken);
 
@@ -112,19 +101,4 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
   await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
 
   return {};
-};
-
-exports.loginWithGoogleService = async function ({ email, googleID, __type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, __type);
-
-  if (isNull(clientWithEmail)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
-  }
-
-  // another person tried to access this account or client registered withoutgoogle
-  if (clientWithEmail.googleID != googleID) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_GOOGLE_ID_DOES_NOT_MATCH);
-  }
-
-  return await createTokenAndFormat(clientWithEmail);
 };
