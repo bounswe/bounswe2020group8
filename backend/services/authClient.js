@@ -8,21 +8,9 @@ const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
 //
-exports.initService = async function ({ token }) {
-  await ClientTokenDataAccess.removeClientTokenDB(token._id);
 
-  const newClientToken = (
-    await ClientTokenDataAccess.createClientTokenDB({
-      tokenCode: Date.now() + sha1(token.client._id.toString() + Date.now()),
-      client: token.client._id,
-    })
-  ).toObject();
-
-  return Formatters.formatClientToken({ ...newClientToken, client: token.client });
-};
-
-exports.loginService = async function ({ email, password, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+exports.loginService = async function ({ email, password, __type }) {
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, __type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
@@ -57,48 +45,6 @@ async function createTokenAndFormat(client) {
   return Formatters.formatClientToken({ ...newClientToken, client });
 }
 
-exports.signupService = async function ({ email, password, type, name, lastName }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
-
-  if (!isNull(clientWithEmail)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
-  }
-
-  const encryptedPassword = sha256(password + "t2KB14o1");
-  const newClient = (
-    await ClientDataAccess.createClientDB({
-      email,
-      password: encryptedPassword,
-      type,
-      name,
-      lastName,
-    })
-  ).toObject();
-
-  const verifyEmailToken = Date.now() + sha1(newClient._id.toString() + Date.now());
-  const updatedClient = await ClientDataAccess.updateClientVerifyEmailTokenDB(
-    newClient._id,
-    verifyEmailToken
-  );
-
-  const resetURL = `http://${Config.hostAddr}:${Config.port}/client/verifyEmail?verifyEmailToken=${verifyEmailToken}`;
-
-  try {
-    await sendEmail({
-      email,
-      subject: "Email verification",
-      message: `You can follow the link ${resetURL} to finish sign up process.`,
-    });
-  } catch (error) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
-  }
-
-  return {
-    returnMessage: "Verification email sent!",
-    client: Formatters.formatClient(updatedClient),
-  };
-};
-
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
   const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken);
 
@@ -123,8 +69,8 @@ exports.changePasswordService = async function ({ token, newPassword }) {
   return {};
 };
 
-exports.forgotPasswordService = async function ({ email, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+exports.forgotPasswordService = async function ({ email, __type }) {
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, __type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
@@ -168,25 +114,8 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
   return {};
 };
 
-exports.signupWithGoogleService = async function ({ email, googleID, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
-
-  if (!isNull(clientWithEmail)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_IS_ALREADY_REGISTERED);
-  }
-
-  const newClient = await ClientDataAccess.createClientDB({
-    email,
-    type,
-    googleID,
-    isVerified: true,
-  });
-
-  return await createTokenAndFormat(newClient);
-};
-
-exports.loginWithGoogleService = async function ({ email, googleID, type }) {
-  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, type);
+exports.loginWithGoogleService = async function ({ email, googleID, __type }) {
+  const clientWithEmail = await ClientDataAccess.getClientByEmailAndTypeDB(email, __type);
 
   if (isNull(clientWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);

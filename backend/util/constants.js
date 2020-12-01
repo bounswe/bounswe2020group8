@@ -3,8 +3,9 @@ const constants = {
   CLIENT_ACTIVE_DURATION: 60000,
   ENUMS: {
     CLIENT_TYPE: {
-      CLIENT: "CLIENT",
-      VENDOR: "VENDOR",
+      CUSTOMER: "Customer",
+      VENDOR: "Vendor",
+      ADMIN: "Admin",
     },
   },
   LANGUAGE: {
