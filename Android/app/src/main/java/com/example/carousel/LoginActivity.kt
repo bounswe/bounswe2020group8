@@ -16,7 +16,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.*
 import java.io.IOException
@@ -113,7 +112,7 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun signUpCall(email: String?, googleId: String?) {
+    private fun signInCall(email: String?, googleId: String?) {
         val postBody = FormBody.Builder().build()
         val httpUrl = "$baseUrl/client/loginWithGoogle?email=$email&googleId=$googleId"
         val request = Request.Builder()
@@ -130,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val json =
-                    Gson().fromJson(response.body?.string(), SignInWithPasswordJSON::class.java)
+                    Gson().fromJson(response.body?.string(), SignInWithGoogleJSON::class.java)
                 val responseCode = response.code
                 if (responseCode == 200) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
@@ -177,7 +176,7 @@ class LoginActivity : AppCompatActivity() {
 
             try {
                 val account: GoogleSignInAccount? = task.getResult(ApiException::class.java)
-                signUpCall(googleId = account!!.id, email = account.email)
+                signInCall(googleId = account!!.id, email = account.email)
             } catch (e: ApiException) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.

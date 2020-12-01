@@ -14,7 +14,7 @@ data class LoginWithPasswordJSON(
     @SerializedName("client") val client: ClientJSON
 )
 
-data class SignInWithPasswordJSON(
+data class SignInWithGoogleJSON(
     @SerializedName("tokenCode") val tokenCode: String,
     @SerializedName("client") val client: ClientJSON
 )
