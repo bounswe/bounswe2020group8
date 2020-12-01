@@ -9,7 +9,14 @@ const sendEmail = require("../util/emailer");
 const Config = require("../config");
 //
 
-exports.signupService = async function ({ email, password, name, lastName }) {
+exports.signupService = async function ({
+  email,
+  password,
+  name,
+  lastName,
+  companyName,
+  companyDomainName,
+}) {
   const vendorWithEmail = await VendorDataAccess.getVendorByEmailDB(email);
 
   if (!isNull(vendorWithEmail)) {
@@ -23,6 +30,8 @@ exports.signupService = async function ({ email, password, name, lastName }) {
       password: encryptedPassword,
       name,
       lastName,
+      companyName,
+      companyDomainName,
     })
   ).toObject();
 

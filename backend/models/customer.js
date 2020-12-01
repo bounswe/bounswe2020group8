@@ -5,13 +5,13 @@ const Schema = mongoose.Schema;
 
 var customerSchema = new Schema(
   {
-    shoppingLists: { String },
-    orders: { String },
-    cart: { String },
-    addresses: { String },
-    telephoneNumber: { String },
-    birthday: { String },
-    creditCards: { String },
+    shoppingLists: { type: String },
+    orders: { type: String },
+    cart: { type: String },
+    addresses: { type: String },
+    telephoneNumber: { type: String },
+    birthday: { type: String },
+    creditCards: { type: String },
   },
   { collection: "Clients" }
 );

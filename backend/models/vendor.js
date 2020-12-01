@@ -5,11 +5,12 @@ const Schema = mongoose.Schema;
 
 var customerSchema = new Schema(
   {
-    companyName: { String },
-    aboutCompany: { String },
-    IBAN: { String },
-    addresses: { String },
-    location: { String },
+    companyName: { type: String },
+    companyDomainName: { type: String },
+    aboutCompany: { type: String },
+    IBAN: { type: String },
+    addresses: { type: String },
+    location: { type: String },
   },
   { collection: "Clients" }
 );

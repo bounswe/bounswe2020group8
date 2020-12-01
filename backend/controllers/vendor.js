@@ -7,7 +7,15 @@ const Constants = require("./../util/constants");
 
 // #TODO BIRTHDAY EKLEMELI MIYIM?
 exports.signupController = BaseUtil.createController((req) => {
-  let { email, password, passwordConfirm, name, lastName, telephoneNumber, birthday } = req.query;
+  let {
+    email,
+    password,
+    passwordConfirm,
+    name,
+    lastName,
+    companyName,
+    companyDomainName,
+  } = req.query;
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
   return BB.all([
     AppValidator.validatePassword(
@@ -22,6 +30,14 @@ exports.signupController = BaseUtil.createController((req) => {
     ).reflect(),
     AppValidator.validateIfString(name, Messages.RETURN_MESSAGES.ERR_NAME_EMPTY).reflect(),
     AppValidator.validateIfString(lastName, Messages.RETURN_MESSAGES.ERR_LAST_NAME_EMPTY).reflect(),
+    AppValidator.validateIfString(
+      companyName,
+      Messages.RETURN_MESSAGES.ERR_COMPANY_NAME_EMPTY
+    ).reflect(),
+    AppValidator.validateIfString(
+      companyDomainName,
+      Messages.RETURN_MESSAGES.ERR_COMPANY_DOMAIN_EMPTY
+    ).reflect(),
   ])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() =>
@@ -30,8 +46,8 @@ exports.signupController = BaseUtil.createController((req) => {
         password,
         name,
         lastName,
-        telephoneNumber,
-        birthday,
+        companyName,
+        companyDomainName,
       })
     );
 });
