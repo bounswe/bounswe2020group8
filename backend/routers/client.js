@@ -1,12 +1,10 @@
-const ClientController = require("../controllers/client");
+const ClientController = require("../controllers/authClient");
 const RequestHelper = require("./../util/requestHelper");
 
-const rootPath = "/client/";
+const rootPath = "/:clientType/";
 
 module.exports = function (server) {
-  server.post(`${rootPath}init`, ClientController.initController, RequestHelper.returnResponse);
   server.post(`${rootPath}login`, ClientController.loginController, RequestHelper.returnResponse);
-  server.post(`${rootPath}signup`, ClientController.signupController, RequestHelper.returnResponse);
   server.get(
     `${rootPath}verifyEmail`,
     ClientController.verifyEmailController,
@@ -25,11 +23,6 @@ module.exports = function (server) {
   server.post(
     `${rootPath}resetPassword`,
     ClientController.resetPasswordController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}signupWithGoogle`,
-    ClientController.signupWithGoogleController,
     RequestHelper.returnResponse
   );
   server.post(
