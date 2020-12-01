@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Input, Select, DatePicker } from "antd";
+import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 
@@ -28,7 +28,7 @@ export default class Profile extends Component {
     return (
       <div>
         <Form
-          labelCol={{ span: 4 }}
+          labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           size="middle"
@@ -71,7 +71,7 @@ export default class Profile extends Component {
             <DatePicker />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
+          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
             <div
               style={{
                 display: "flex",
@@ -167,12 +167,20 @@ export default class Profile extends Component {
         <div className={classes.Headbar}>
           <span style={{ fontSize: "xx-large" }}>My Profile</span>
         </div>
-        <Row>
-          <Col span={12} style={{ textAlign: "left" }}>
+        <Row
+          style={{
+            justifyContent: "space-evenly",
+            display: "flex",
+          }}
+        >
+          <Col span={11} style={{ textAlign: "left" }}>
             {this.renderProfileChangeForm()}
           </Col>
+          <Col span={2}>
+            <Divider style={{ height: "100%" }} type="vertical" />
+          </Col>
 
-          <Col span={12} style={{ textAlign: "right" }}>
+          <Col span={11} style={{ textAlign: "left" }}>
             {this.renderPasswordChangeForm()}
           </Col>
         </Row>
