@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
@@ -25,24 +25,24 @@ const App = () => {
     setToken(newToken);
   };
   const emailChangeHandler = (newEmail) => {
-      setEmail(newEmail);
-  }
+    setEmail(newEmail);
+  };
   const passwordChangeHandler = (newPassword) => {
-      setPassword(newPassword);
-  }
+    setPassword(newPassword);
+  };
   const confirmPasswordChangeHandler = (newConfirmPassword) => {
-      setPasswordConfirm(newConfirmPassword);
-  }
+    setPasswordConfirm(newConfirmPassword);
+  };
   const userTypeChangeHandler = (newUserType) => {
-      setUserType(newUserType);
-  }
+    setUserType(newUserType);
+  };
   const companyNameChangeHandler = (newCompanyName) => {
-      setCompanyName(newCompanyName);
-  }
+    setCompanyName(newCompanyName);
+  };
   const setErrorHandler = (newError) => {
-      setError(newError);
-  }
-  
+    setError(newError);
+  };
+
   return (
     <div>
       <UserInfo.Provider
@@ -56,14 +56,14 @@ const App = () => {
           companyName: name,
           error: error,
           login: loginHandler,
-          changeEmail:emailChangeHandler,
+          changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,
-          setError: setErrorHandler
+          setError: setErrorHandler,
         }}
       >
         <Router>
