@@ -3,18 +3,18 @@ const ClientBase = require("./client");
 
 const Schema = mongoose.Schema;
 
-var customerSchema = new Schema(
+var vendorSchema = new Schema(
   {
     companyName: { type: String },
     companyDomainName: { type: String },
     aboutCompany: { type: String },
     IBAN: { type: String },
-    addresses: { type: String },
+    address: { type: String },
     location: { type: String },
   },
   { collection: "Clients" }
 );
 
-ClientBase.discriminator("Vendor", customerSchema);
+ClientBase.discriminator("Vendor", vendorSchema);
 
 module.exports = mongoose.model("Vendor");

@@ -31,7 +31,9 @@ exports.loginService = async function ({ email, password, __type }) {
     })
   ).toObject();
 
-  return Formatters.formatClientToken({ ...newClientToken, client: clientWithEmail });
+  return {
+    tokenCode: newClientToken.tokenCode,
+  };
 };
 
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
@@ -46,10 +48,7 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
     verifyEmailToken: undefined,
   });
 
-  return {
-    returnMessage: "Client is now verified!",
-    client: Formatters.formatClient(updatedClient),
-  };
+  return {};
 };
 
 exports.changePasswordService = async function ({ token, newPassword }) {

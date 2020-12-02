@@ -54,21 +54,13 @@
             "name": "passwordConfirm",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "returnMessage": "Verification email sent!",
-              "$ref": "#/definitions/OnlyClient"
+              "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
@@ -83,29 +75,22 @@
         "parameters": [
           {
             "in": "query",
-            "name": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
             "name": "email",
             "required": true,
             "type": "string"
           },
           {
             "in": "query",
-            "name": "type",
+            "name": "password",
             "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/ClientWithToken"
+              "$ref": "#/definitions/ApiResponseWtoken"
             }
           },
           "400": {
@@ -127,10 +112,9 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "successful operation, redirection to front-end page",
             "schema": {
-              "returnMessage": "Client is now verified!!",
-              "$ref": "#/definitions/OnlyClient"
+              "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
@@ -165,7 +149,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid password"
@@ -188,21 +175,13 @@
             "name": "googleID",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "message": "You succesfully signed up",
-              "$ref": "#/definitions/ClientWithToken"
+              "$ref": "#/definitions/ApiResponseWtoken"
             },
             "returnCode": 0,
             "returnMessage": "Success"
@@ -228,24 +207,14 @@
             "name": "googleID",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "message": "You succesfully logged in",
-              "$ref": "#/definitions/ClientWithToken"
-            },
-            "returnCode": 0,
-            "returnMessage": "Success"
+              "$ref": "#/definitions/ApiResponseWtoken"
+            }
           },
           "400": {
             "description": "Invalid email, type or googleID"
@@ -263,18 +232,14 @@
             "description": "Email Address",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid e-mail or type."
@@ -308,7 +273,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
@@ -334,6 +302,18 @@
           },
           {
             "in": "query",
+            "name": "companyName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "companyDomainName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
             "name": "email",
             "required": true,
             "type": "string"
@@ -349,21 +329,13 @@
             "name": "passwordConfirm",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "returnMessage": "Verification email sent!",
-              "$ref": "#/definitions/OnlyClient"
+              "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
@@ -387,20 +359,13 @@
             "name": "email",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/ClientWithToken"
+              "$ref": "#/definitions/ApiResponseWtoken"
             }
           },
           "400": {
@@ -422,10 +387,9 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "successful operation, redirection to front-end page",
             "schema": {
-              "returnMessage": "Client is now verified!!",
-              "$ref": "#/definitions/OnlyClient"
+              "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
@@ -460,90 +424,13 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
-          },
-          "400": {
-            "description": "Invalid password"
-          }
-        }
-      }
-    },
-    "/vendor/signupWithGoogle": {
-      "post": {
-        "tags": ["vendor"],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "email",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "googleID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
-          }
-        ],
-        "responses": {
-          "200": {
             "description": "successful operation",
             "schema": {
-              "message": "You succesfully signed up",
-              "$ref": "#/definitions/ClientWithToken"
-            },
-            "returnCode": 0,
-            "returnMessage": "Success"
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
-            "description": "Invalid email, type or googleID"
-          }
-        }
-      }
-    },
-    "/vendor/loginWithGoogle": {
-      "post": {
-        "tags": ["vendor"],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "email",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "googleID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "message": "You succesfully logged in",
-              "$ref": "#/definitions/ClientWithToken"
-            },
-            "returnCode": 0,
-            "returnMessage": "Success"
-          },
-          "400": {
-            "description": "Invalid email, type or googleID"
+            "description": "Invalid token code or passwords don't match"
           }
         }
       }
@@ -558,18 +445,14 @@
             "description": "Email Address",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid e-mail or type."
@@ -603,7 +486,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
@@ -614,7 +500,7 @@
   },
 
   "definitions": {
-    "Client": {
+    "Customer": {
       "type": "object",
       "properties": {
         "id": {
@@ -630,30 +516,93 @@
         "email": {
           "type": "string"
         },
-        "type": {
+        "shoppingLists": {
+          "type": "object list"
+        },
+        "orders": {
+          "type": "object list"
+        },
+        "cart": {
+          "type": "object"
+        },
+        "addresses": {
+          "type": "object list"
+        },
+        "telephoneNumber": {
           "type": "string"
+        },
+        "birthday": {
+          "type": "sting"
+        },
+        "creditCards": {
+          "type": "object list"
         }
       },
       "xml": {
         "name": "User"
       }
     },
-    "ClientWithToken": {
+    "Vendor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "mongoID"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "companyDomainName": {
+          "type": "string"
+        },
+        "aboutCompany": {
+          "type": "string"
+        },
+        "IBAN": {
+          "type": "string"
+        },
+        "address": {
+          "type": "object"
+        },
+        "location": {
+          "type": "object"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "returnMessage": {
+          "type": "string"
+        },
+        "returnCode": {
+          "type": "number"
+        }
+      }
+    },
+    "ApiResponseWtoken": {
       "type": "object",
       "properties": {
         "tokenCode": {
           "type": "string"
         },
-        "client": {
-          "$ref": "#/definitions/Client"
-        }
-      }
-    },
-    "OnlyClient": {
-      "type": "object",
-      "properties": {
-        "client": {
-          "$ref": "#/definitions/Client"
+        "returnMessage": {
+          "type": "string"
+        },
+        "returnCode": {
+          "type": "number"
         }
       }
     }

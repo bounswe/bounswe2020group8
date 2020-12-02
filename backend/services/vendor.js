@@ -53,8 +53,5 @@ exports.signupService = async function ({
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
   }
 
-  return {
-    returnMessage: "Verification email sent!",
-    vendor: Formatters.formatVendor(updatedVendor),
-  };
+  return {};
 };

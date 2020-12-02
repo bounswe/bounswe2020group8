@@ -7,7 +7,6 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
-const customer = require("../routers/customer");
 //
 
 exports.signupService = async function ({ email, password, name, lastName }) {
@@ -45,10 +44,7 @@ exports.signupService = async function ({ email, password, name, lastName }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_EMAIL_FAILED);
   }
 
-  return {
-    returnMessage: "Verification email sent!",
-    customer: Formatters.formatCustomer(updatedCustomer),
-  };
+  return {};
 };
 
 exports.signupWithGoogleService = async function ({ email, googleID }) {
@@ -71,7 +67,9 @@ exports.signupWithGoogleService = async function ({ email, googleID }) {
     })
   ).toObject();
 
-  return Formatters.formatClientToken({ ...newClientToken, client: newCustomer });
+  return {
+    tokenCode: newClientToken.tokenCode,
+  };
 };
 
 exports.loginWithGoogleService = async function ({ email, googleID }) {
@@ -93,5 +91,7 @@ exports.loginWithGoogleService = async function ({ email, googleID }) {
     })
   ).toObject();
 
-  return Formatters.formatClientToken({ ...newClientToken, client: customerWithEmail });
+  return {
+    tokenCode: newClientToken.tokenCode,
+  };
 };
