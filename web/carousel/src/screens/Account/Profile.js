@@ -35,29 +35,29 @@ export default class Profile extends Component {
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
-          <Form.Item label="Name">
-            <Input />
-          </Form.Item>
-
-          <Form.Item label="Surname">
-            <Input />
-          </Form.Item>
-
           <Form.Item
-            name="email"
-            label="E-mail"
+            name="Name"
+            label="Name"
             rules={[
               {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              {
                 required: true,
-                message: "Please input your E-mail!",
+                message: "Please input your Name!",
               },
             ]}
           >
             <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="Surname"
+            label="Surname"
+            rules={[{ required: true, message: "Please input your Surname!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="email" label="E-mail">
+            <Input placeholder="@gmail.com" disabled />
           </Form.Item>
 
           <Form.Item name="phone" label="Phone Number">
