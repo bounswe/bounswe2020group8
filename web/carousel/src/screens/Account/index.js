@@ -26,27 +26,39 @@ const { Content, Sider } = Layout;
 class Account extends Component {
   renderSideBar() {
     const { location } = this.props;
+    const path = location.pathname.split("/");
+
+    const submenukeys = {
+      profile: "/profile",
+      address: "/profile",
+      payment: "/profile",
+      "active-order": "/order",
+      "inactive-order": "/order",
+      comments: "/comments",
+      rate: "/comments",
+    };
+
     return (
       <Sider className="site-layout-background" width={250}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={location.pathname}
-          // defaultOpenKeys={["profile"]}
+          selectedKeys={[path[2]]}
+          openKeys={[submenukeys[path[[2]]]]}
           style={{ height: "100%" }}
         >
-          <SubMenu key="profile" icon={<UserOutlined />} title="My Profile">
-            <Menu.Item key="/account/profile">
+          <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
+            <Menu.Item key="profile">
               <Link to="/account/profile">Profile Info</Link>
             </Menu.Item>
-            <Menu.Item key="/account/address">
+            <Menu.Item key="address">
               <Link to="/account/address">Address Info</Link>
             </Menu.Item>
-            <Menu.Item key="/account/payment">
+            <Menu.Item key="payment">
               <Link to="/account/payment">Payment Info</Link>
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu key="order" icon={<ShoppingOutlined />} title="My Order">
+          <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
             <Menu.Item key="active-order">
               <Link to="/account/active-order">Active Orders</Link>
             </Menu.Item>
@@ -64,11 +76,11 @@ class Account extends Component {
           </Menu.Item>
 
           <SubMenu
-            key="feedback"
+            key="/comments"
             icon={<CommentOutlined />}
             title="My Feedbacks"
           >
-            <Menu.Item key="comment">
+            <Menu.Item key="comments">
               <Link to="/account/comments">Comments</Link>
             </Menu.Item>
             <Menu.Item key="rate">
