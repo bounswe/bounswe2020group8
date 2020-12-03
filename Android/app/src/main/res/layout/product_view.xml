@@ -8,12 +8,18 @@
         android:id="@+id/icon"
         android:layout_width="170dp"
         android:layout_height="150dp"/>
-
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minLines="3"
+        android:minLines="1"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"/>
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
         android:paddingLeft="5dp"
         android:paddingBottom="5dp"/>
 
