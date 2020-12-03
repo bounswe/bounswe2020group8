@@ -18,18 +18,20 @@ import List from "./List";
 import Cart from "./Cart";
 import Comments from "./Comments";
 import Rate from "./Rate";
+import { withRouter } from "react-router";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-export default class Account extends Component {
+class Account extends Component {
   renderSideBar() {
+    const { location } = this.props;
     return (
       <Sider className="site-layout-background" width={250}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["/account/profile"]}
-          defaultOpenKeys={["profile"]}
+          defaultSelectedKeys={location.pathname}
+          // defaultOpenKeys={["profile"]}
           style={{ height: "100%" }}
         >
           <SubMenu key="profile" icon={<UserOutlined />} title="My Profile">
@@ -127,3 +129,5 @@ export default class Account extends Component {
     );
   }
 }
+
+export default withRouter(Account);
