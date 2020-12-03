@@ -88,9 +88,10 @@ const SignupForm = (props) => {
         margin: "auto",
         display: "grid",
         fontSize: "16px",
-        paddingTop: "40px",
+        marginTop: "40px",
       }}
     >
+      <p >{user.userType === "Customer" ? "Customer Signup" : "Vendor Signup"}</p>
       {visible ? (
         <p
           style={{
@@ -267,35 +268,49 @@ const SignupForm = (props) => {
           </p>
         </span>
       </Form.Item>
-      <Form.Item name="name">
+      <Form.Item name="name" style={{display:"flex"}}>
         <InputUI
           name="name"
           clicked={eraseError}
           inputType="text"
           placeholder="Name"
           iconSel="user"
+          width="100px"
+          styleInput={{width:"100px"}}
+        />
+        <InputUI
+          name="surname"
+          clicked={eraseError}
+          inputType="text"
+          placeholder="Surname"
+          iconSel="user"
+          styleInput={{width:"100px"}}
+          styleIcon={{marginLeft:"10px"}}
         />
       </Form.Item>
       {user.userType === "Vendor" ? (
-        <Form.Item name="company">
-          <InputUI
-            name="company"
-            clicked={eraseError}
-            inputType="text"
-            placeholder="Company Name"
-            iconSel="bank"
-          />
-        </Form.Item>
+        <>
+          <Form.Item name="company">
+            <InputUI
+              name="company"
+              clicked={eraseError}
+              inputType="text"
+              placeholder="Company Name"
+              iconSel="bank"
+            />
+          </Form.Item>
+          <Form.Item name="companyDomain">
+            <InputUI
+              name="companyDomain"
+              clicked={eraseError}
+              inputType="text"
+              placeholder="Company Website Domain"
+              iconSel="user"
+            />
+          </Form.Item>
+        </>
       ) : (
-        <Form.Item name="surname">
-          <InputUI
-            name="surname"
-            clicked={eraseError}
-            inputType="text"
-            placeholder="Surname"
-            iconSel="user"
-          />
-        </Form.Item>
+        null
       )}
 
       {/*BUTTONS*/}

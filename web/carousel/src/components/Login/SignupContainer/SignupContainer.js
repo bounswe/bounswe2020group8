@@ -10,13 +10,12 @@ const SignupContainer = (props) => {
   const user = useContext(UserInfo);
 
   return (
-    <div className={classes.SignupContainer}>
+    <div className={classes.SignupContainer} >
       <SignupForm
         forgot={props.forgot}
         clicked={props.clicked}
         error={props.error}
       />
-      <GoogleAuth isSignup={true} style={{ fontSize: "20px" }} />
     </div>
   );
 };

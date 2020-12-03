@@ -11,13 +11,13 @@ const InputUI = (props) => {
     const renderSwitch = (param) => {
         switch(param) {
             case "user":
-                return <span className={classes.Icon}><UserOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><UserOutlined  className={classes.IconImg}/></span>;
             case "locked":
-                return <span className={classes.Icon}><LockOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><LockOutlined  className={classes.IconImg}/></span>;
             case "bank":
-                return <span className={classes.Icon}><BankOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><BankOutlined  className={classes.IconImg}/></span>;
             case "email":
-                return <span className={classes.Icon}><MailOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><MailOutlined  className={classes.IconImg}/></span>;
             default:
                 return null;
         }
@@ -44,6 +44,8 @@ const InputUI = (props) => {
             case "name":
                 user.setName(data);
                 return;
+            case "surname":
+
             case "company":
                 user.setCompanyName(data);
                 return;
@@ -62,6 +64,7 @@ const InputUI = (props) => {
                 placeholder={props.placeholder}
                 style={hasIcon ? null : {paddingLeft:"0" }}
                 onClick={props.clicked}
+                style={props.styleInput}
             />
         </span>
     );
