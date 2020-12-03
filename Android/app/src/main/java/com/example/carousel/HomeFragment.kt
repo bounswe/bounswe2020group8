@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
 
         val productsTop = ArrayList<Product>()
         productsTop.add(Product(title = "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite", price = 18.99, id = 9, photoUrl = R.drawable.image9))
-        productsTop.add(Product(title = "ASUS F512DA-EB51 VivoBook 15", price = 14.99, id = 10, photoUrl = R.drawable.image10))
+        productsTop.add(Product(title = "To Kill a Mockingbird 14.99", price = 14.99, id = 10, photoUrl = R.drawable.image10))
         productsTop.add(Product(title = "Arlo VMC2030-100NAS Essential Spotlight Camera", price = 99.99, id = 11, photoUrl = R.drawable.image11))
         productsTop.add(Product(title = "Compact Wireless Smart Speaker", price = 180.99, id = 12, photoUrl = R.drawable.image12))
         createProductList(productsTop, topSellers)
