@@ -21,92 +21,9 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/client/init": {
+    "/customer/signup": {
       "post": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "tokenCode",
-            "description": "token code",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/ClientWithToken"
-            }
-          },
-          "401": {
-            "description": "Invalid token code"
-          }
-        }
-      }
-    },
-    "/client/login": {
-      "post": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "email",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/ClientWithToken"
-            }
-          },
-          "400": {
-            "description": "Invalid email or password or type"
-          }
-        }
-      }
-    },
-    "/client/verifyEmail": {
-      "get": {
-        "parameters": [
-          {
-            "in": "query",
-            "name": "verifyEmailToken",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "returnMessage": "Client is now verified!!",
-              "$ref": "#/definitions/OnlyClient"
-            }
-          },
-          "400": {
-            "description": "Insufficient token"
-          }
-        }
-      }
-    },
-    "/client/signup": {
-      "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -137,21 +54,13 @@
             "name": "passwordConfirm",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "returnMessage": "Verification email sent!",
-              "$ref": "#/definitions/OnlyClient"
+              "$ref": "#/definitions/ApiResponse"
             }
           },
           "400": {
@@ -160,8 +69,63 @@
         }
       }
     },
-    "/client/changePassword": {
+    "/customer/login": {
       "post": {
+        "tags": ["customer"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponseWtoken"
+            }
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/customer/verifyEmail": {
+      "get": {
+        "tags": ["customer"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "verifyEmailToken",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation, redirection to front-end page",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Insufficient token"
+          }
+        }
+      }
+    },
+    "/customer/changePassword": {
+      "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -185,7 +149,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid password"
@@ -193,8 +160,9 @@
         }
       }
     },
-    "/client/signupWithGoogle": {
+    "/customer/signupWithGoogle": {
       "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -207,21 +175,13 @@
             "name": "googleID",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "message": "You succesfully signed up",
-              "$ref": "#/definitions/ClientWithToken"
+              "$ref": "#/definitions/ApiResponseWtoken"
             },
             "returnCode": 0,
             "returnMessage": "Success"
@@ -232,8 +192,9 @@
         }
       }
     },
-    "/client/loginWithGoogle": {
+    "/customer/loginWithGoogle": {
       "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -246,24 +207,14 @@
             "name": "googleID",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "message": "You succesfully logged in",
-              "$ref": "#/definitions/ClientWithToken"
-            },
-            "returnCode": 0,
-            "returnMessage": "Success"
+              "$ref": "#/definitions/ApiResponseWtoken"
+            }
           },
           "400": {
             "description": "Invalid email, type or googleID"
@@ -271,8 +222,9 @@
         }
       }
     },
-    "/client/forgotPassword": {
+    "/customer/forgotPassword": {
       "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -280,18 +232,14 @@
             "description": "Email Address",
             "required": true,
             "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "type": "string",
-            "enum": ["CLIENT", "VENDOR"]
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid e-mail or type."
@@ -299,8 +247,9 @@
         }
       }
     },
-    "/client/resetPassword": {
+    "/customer/resetPassword": {
       "post": {
+        "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
@@ -324,7 +273,223 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
+          }
+        }
+      }
+    },
+    "/vendor/signup": {
+      "post": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "lastName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "companyName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "companyDomainName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "passwordConfirm",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/vendor/login": {
+      "post": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponseWtoken"
+            }
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/vendor/verifyEmail": {
+      "get": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "verifyEmailToken",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation, redirection to front-end page",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Insufficient token"
+          }
+        }
+      }
+    },
+    "/vendor/changePassword": {
+      "post": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPasswordRepeat",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid token code or passwords don't match"
+          }
+        }
+      }
+    },
+    "/vendor/forgotPassword": {
+      "post": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "description": "Email Address",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid e-mail or type."
+          }
+        }
+      }
+    },
+    "/vendor/resetPassword": {
+      "post": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resetPasswordToken",
+            "description": "Reset Password Token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPassword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "newPasswordCheck",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
@@ -333,8 +498,9 @@
       }
     }
   },
+
   "definitions": {
-    "Client": {
+    "Customer": {
       "type": "object",
       "properties": {
         "id": {
@@ -350,30 +516,93 @@
         "email": {
           "type": "string"
         },
-        "type": {
+        "shoppingLists": {
+          "type": "object list"
+        },
+        "orders": {
+          "type": "object list"
+        },
+        "cart": {
+          "type": "object"
+        },
+        "addresses": {
+          "type": "object list"
+        },
+        "telephoneNumber": {
           "type": "string"
+        },
+        "birthday": {
+          "type": "sting"
+        },
+        "creditCards": {
+          "type": "object list"
         }
       },
       "xml": {
         "name": "User"
       }
     },
-    "ClientWithToken": {
+    "Vendor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "mongoID"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "companyName": {
+          "type": "string"
+        },
+        "companyDomainName": {
+          "type": "string"
+        },
+        "aboutCompany": {
+          "type": "string"
+        },
+        "IBAN": {
+          "type": "string"
+        },
+        "address": {
+          "type": "object"
+        },
+        "location": {
+          "type": "object"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "returnMessage": {
+          "type": "string"
+        },
+        "returnCode": {
+          "type": "number"
+        }
+      }
+    },
+    "ApiResponseWtoken": {
       "type": "object",
       "properties": {
         "tokenCode": {
           "type": "string"
         },
-        "client": {
-          "$ref": "#/definitions/Client"
-        }
-      }
-    },
-    "OnlyClient": {
-      "type": "object",
-      "properties": {
-        "client": {
-          "$ref": "#/definitions/Client"
+        "returnMessage": {
+          "type": "string"
+        },
+        "returnCode": {
+          "type": "number"
         }
       }
     }

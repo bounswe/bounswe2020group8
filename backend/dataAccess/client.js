@@ -13,20 +13,10 @@ exports.getClientByIdDB = function (_id) {
   return Client.findById(_id).lean();
 };
 
-exports.createClientDB = function (client) {
-  return Client.create(client);
-};
-
-exports.getClientByEmailDB = function (email) {
+exports.getClientByEmailAndTypeDB = function (email, __type) {
   return Client.findOne({
     email,
-  }).lean();
-};
-
-exports.getClientByEmailAndTypeDB = function (email, type) {
-  return Client.findOne({
-    email,
-    type,
+    __type,
   }).lean();
 };
 

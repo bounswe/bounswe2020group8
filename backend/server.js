@@ -56,6 +56,8 @@ process.on("SIGTERM", () => {
 });
 let blocked = require("blocked");
 require("./routers/client")(app);
+require("./routers/customer")(app);
+require("./routers/vendor")(app);
 
 blocked((ms) => {
   if (ms > 3000) {

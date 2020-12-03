@@ -120,6 +120,18 @@ const returnMessages = {
       en: "Client email is not verified, please verify your email",
     },
   },
+  ERR_COMPANY_NAME_EMPTY: {
+    code: 19,
+    messages: {
+      en: "Company name cannot be empty",
+    },
+  },
+  ERR_COMPANY_DOMAIN_EMPTY: {
+    code: 20,
+    messages: {
+      en: "Company domain name cannot be empty",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

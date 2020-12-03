@@ -1,73 +1,33 @@
-const ClientService = require("../services/client");
+const ClientService = require("../services/authClient");
 const AppValidator = require("../util/appValidator");
 const BaseUtil = require("../util/baseUtil");
 const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Constants = require("./../util/constants");
 
-exports.initController = BaseUtil.createController((req) => {
-  let token = req.custom.tokenObject;
-  const language = req.custom.language;
-  return BB.all([])
-    .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ClientService.initService({ token, language }));
-});
-
 exports.loginController = BaseUtil.createController((req) => {
-  let { email, password, type } = req.query;
+  let { email, password } = req.query;
+  let __type = req.params.clientType.charAt(0).toUpperCase() + req.params.clientType.slice(1);
+
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
   return BB.all([
     AppValidator.validatePassword(
       password,
       Messages.RETURN_MESSAGES.ERR_INVALID_PASSWORD
     ).reflect(),
-    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
     AppValidator.validateEnum(
-      type,
+      __type,
       Object.values(Constants.ENUMS.CLIENT_TYPE),
       Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
     ).reflect(),
+    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
   ])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() =>
       ClientService.loginService({
         email,
         password,
-        type,
-      })
-    );
-});
-
-exports.signupController = BaseUtil.createController((req) => {
-  let { email, password, passwordConfirm, type, name, lastName } = req.query;
-  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
-  return BB.all([
-    AppValidator.validatePassword(
-      password,
-      Messages.RETURN_MESSAGES.ERR_INVALID_PASSWORD
-    ).reflect(),
-    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
-    AppValidator.validateEnum(
-      type,
-      Object.values(Constants.ENUMS.CLIENT_TYPE),
-      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
-    ).reflect(),
-    AppValidator.validatePasswords(
-      password,
-      passwordConfirm,
-      Messages.RETURN_MESSAGES.ERR_PASSWORDS_DO_NOT_MATCH
-    ).reflect(),
-    AppValidator.validateIfString(name, Messages.RETURN_MESSAGES.ERR_NAME_EMPTY),
-    AppValidator.validateIfString(lastName, Messages.RETURN_MESSAGES.ERR_LAST_NAME_EMPTY),
-  ])
-    .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() =>
-      ClientService.signupService({
-        email,
-        password,
-        type,
-        name,
-        lastName,
+        __type,
       })
     );
 });
@@ -119,12 +79,13 @@ exports.changePasswordController = BaseUtil.createController((req) => {
 });
 
 exports.forgotPasswordController = BaseUtil.createController((req) => {
-  let { email, type } = req.query;
+  let { email } = req.query;
+  let __type = req.params.clientType.charAt(0).toUpperCase() + req.params.clientType.slice(1);
   email = typeof email == "string" ? email.toLowerCase() : "";
   return BB.all([
     AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
     AppValidator.validateEnum(
-      type,
+      __type,
       Object.values(Constants.ENUMS.CLIENT_TYPE),
       Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
     ).reflect(),
@@ -133,7 +94,7 @@ exports.forgotPasswordController = BaseUtil.createController((req) => {
     .then(() =>
       ClientService.forgotPasswordService({
         email,
-        type,
+        __type,
       })
     );
 });
@@ -160,50 +121,6 @@ exports.resetPasswordController = BaseUtil.createController((req) => {
       ClientService.resetPasswordService({
         resetPasswordToken,
         newPassword,
-      })
-    );
-});
-
-exports.signupWithGoogleController = BaseUtil.createController((req) => {
-  let { email, type, googleID } = req.query;
-  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
-  return BB.all([
-    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
-    AppValidator.validateEnum(
-      type,
-      Object.values(Constants.ENUMS.CLIENT_TYPE),
-      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
-    ).reflect(),
-    AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),
-  ])
-    .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() =>
-      ClientService.signupWithGoogleService({
-        email,
-        type,
-        googleID,
-      })
-    );
-});
-
-exports.loginWithGoogleController = BaseUtil.createController((req) => {
-  let { email, type, googleID } = req.query;
-  email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
-  return BB.all([
-    AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
-    AppValidator.validateEnum(
-      type,
-      Object.values(Constants.ENUMS.CLIENT_TYPE),
-      Messages.RETURN_MESSAGES.ERR_CLIENT_TYPE_IS_INVALID
-    ).reflect(),
-    AppValidator.validateIfString(googleID, Messages.RETURN_MESSAGES.ERR_INVALID_GOOGLE_ID),
-  ])
-    .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() =>
-      ClientService.loginWithGoogleService({
-        email,
-        type,
-        googleID,
       })
     );
 });
