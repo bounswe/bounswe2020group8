@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import classes from "../UI.module.css";
-import { UserOutlined, LockOutlined, BankOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, BankOutlined, MailOutlined, CloudOutlined } from '@ant-design/icons';
 import UserInfo from "../../Context/UserInfo";
 
 const InputUI = (props) => {
@@ -12,6 +12,8 @@ const InputUI = (props) => {
         switch(param) {
             case "user":
                 return <span className={classes.Icon} style={props.styleIcon}><UserOutlined  className={classes.IconImg}/></span>;
+            case "domain":
+                return <span className={classes.Icon} style={props.styleIcon}><CloudOutlined  className={classes.IconImg}/></span>;
             case "locked":
                 return <span className={classes.Icon} style={props.styleIcon}><LockOutlined  className={classes.IconImg}/></span>;
             case "bank":
@@ -27,7 +29,6 @@ const InputUI = (props) => {
 
 
     const inputChange = (data) => {
-        console.log("data: " + data);
         switch (props.name) {
             case "email":
                 user.changeEmail(data);
@@ -45,12 +46,13 @@ const InputUI = (props) => {
                 user.setName(data);
                 return;
             case "surname":
-
-            case "company":
+                user.setSurname(data);
+            case "companyName":
                 user.setCompanyName(data);
                 return;
-            case "surname":
-                user.setSurname(data);
+            case "companyDomain":
+                user.setCompanyDomain(data);
+                return;
         }
     }
 

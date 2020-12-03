@@ -18,6 +18,7 @@ const App = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [companyDomain, setCompanyDomain] = useState("");
   const [error, setError] = useState(false);
 
   const loginHandler = (newEmail, newToken) => {
@@ -53,13 +54,15 @@ const App = () => {
           userType: userType,
           name: name,
           surname: surname,
-          companyName: name,
+          companyName: companyName,
+          companyDomain: companyDomain,
           error: error,
           login: loginHandler,
           changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
+          setCompanyDomain: setCompanyDomain,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,

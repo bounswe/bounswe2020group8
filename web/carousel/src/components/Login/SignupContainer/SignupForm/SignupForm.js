@@ -8,6 +8,7 @@ import UserInfo from "../../../Context/UserInfo";
 import classes from "./SignupForm.module.css";
 
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import GoogleAuth from "../../../GoogleAuth";
 
 const SignupForm = (props) => {
   // show missing fields
@@ -36,7 +37,6 @@ const SignupForm = (props) => {
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
-      console.log("returning");
       return;
     } else {
       if (user.error && !userType) {
@@ -75,8 +75,7 @@ const SignupForm = (props) => {
   const eraseError = () => {
     setVisible(false);
   };
-  console.log("userInfo err: " + user.error);
-  console.log("user type: " + userType);
+
 
   return (
     <Form
@@ -119,7 +118,7 @@ const SignupForm = (props) => {
           .
         </p>
       )}
-      <Form.Item name="email">
+      <Form.Item>
         <InputUI
           name="email"
           clicked={eraseError}
@@ -128,7 +127,7 @@ const SignupForm = (props) => {
           placeholder="E-mail"
         />
       </Form.Item>
-      <Form.Item name="signupPassword">
+      <Form.Item>
         <InputUI
           name="signupPassword"
           clicked={eraseError}
@@ -268,7 +267,7 @@ const SignupForm = (props) => {
           </p>
         </span>
       </Form.Item>
-      <Form.Item name="name" style={{display:"flex"}}>
+      <Form.Item style={{display:"flex"}}>
         <InputUI
           name="name"
           clicked={eraseError}
@@ -290,22 +289,22 @@ const SignupForm = (props) => {
       </Form.Item>
       {user.userType === "Vendor" ? (
         <>
-          <Form.Item name="company">
+          <Form.Item>
             <InputUI
-              name="company"
+              name="companyName"
               clicked={eraseError}
               inputType="text"
               placeholder="Company Name"
               iconSel="bank"
             />
           </Form.Item>
-          <Form.Item name="companyDomain">
+          <Form.Item>
             <InputUI
               name="companyDomain"
               clicked={eraseError}
               inputType="text"
               placeholder="Company Website Domain"
-              iconSel="user"
+              iconSel="domain"
             />
           </Form.Item>
         </>
@@ -323,6 +322,9 @@ const SignupForm = (props) => {
             setError(true);
           }}
         ></ButtonPrimary>
+        <div style={{marginLeft:"10px"}}>
+          {user.userType === "Customer" ? <GoogleAuth isSignup={false} style={{fontSize: "50px"}}/> : null}
+        </div>
         <br style={{ height: "10px" }} />
         <ButtonSecondary
           style={{

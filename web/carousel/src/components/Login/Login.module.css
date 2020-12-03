@@ -115,13 +115,14 @@
 
 .GoogleLoginButton {
     height: 40px;
-    width: 200px;
-    border-radius: 5;
+    width: 274px;
+    border-radius: 5px;
     background-color: white;
     align-items: center;
     justifyContent: center;
     display: flex;
     font-size: 14px;
+    text-align: center;
 
 }
 

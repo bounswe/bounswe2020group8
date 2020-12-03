@@ -121,69 +121,107 @@ class LoginComponent extends Component {
 
   // login request
   handleLoginClick = () => {
-    console.log("bas");
-    let userTypeToPayload;
-    if (this.context.userType === "Customer") {
-      userTypeToPayload = "CLIENT";
-    } else if (this.context.userType === "Vendor") {
-      userTypeToPayload = "VENDOR";
-    }
     const payload = {
-      password: this.context.password,
       email: this.context.email,
-      type: userTypeToPayload,
+      password: this.context.password,
     };
 
-    axios
-      .post(apiBaseUrl + "client/login", null, { params: payload })
-      .then((response) => {
-        this.setState({ isError: false });
-        console.log(response.data);
+    if (this.context.userType === "Customer") {
+      axios
+        .post(apiBaseUrl + "customer/login", null, { params: payload })
+        .then((response) => {
+          this.setState({ isError: false });
+          console.log(response.data);
 
-        this.context.login(this.state.email, response.data.tokenCode);
-        this.context.error = false;
+          this.context.login(this.state.email, response.data.tokenCode);
+          this.context.error = false;
 
-        this.props.signIn();
-        this.props.history.push("/");
-      })
-      .catch((err, response) => {
-        console.log(err);
-        this.context.error = true;
-        console.log("resp daata: " + response);
-        this.setState({ isError: true });
-      });
+          this.props.signIn();
+          this.props.history.push("/");
+        })
+        .catch((err, response) => {
+          console.log(err);
+          this.context.error = true;
+          console.log("resp daata: " + response);
+          this.setState({ isError: true });
+        });
+    } else if (this.context.userType === "Vendor") {
+      axios
+        .post(apiBaseUrl + "vendor/login", null, { params: payload })
+        .then((response) => {
+          this.setState({ isError: false });
+          console.log(response.data);
+
+          this.context.login(this.state.email, response.data.tokenCode);
+          this.context.error = false;
+
+          this.props.signIn();
+          this.props.history.push("/");
+        })
+        .catch((err, response) => {
+          console.log(err);
+          this.context.error = true;
+          console.log("resp daata: " + response);
+          this.setState({ isError: true });
+        });
+    }
   };
 
   // signup request
   handleSignupClick = () => {
-    console.log("type req: " + this.context.userType);
     let userTypeToPayload;
     if (this.context.userType === "Customer") {
       userTypeToPayload = "CLIENT";
     } else if (this.context.userType === "Vendor") {
       userTypeToPayload = "VENDOR";
     }
-    const payload = {
-      password: this.context.password,
-      passwordConfirm: this.context.password,
-      email: this.context.email,
-      type: userTypeToPayload,
-      name: this.context.name,
-      lastName: this.context.surname,
-    };
-    console.log(payload);
-    axios
-      .post(apiBaseUrl + "client/signup", null, { params: payload })
-      .then((response) => {
-        console.log(response);
-        this.context.error = false;
-        this.setState({ signUpMessage: "Verification e-mail has been sent" });
-      })
-      .catch((error) => {
-        console.log("ERROR: " + error);
-        this.context.error = true;
-        this.setState({ signUpMessage: error.response.data.returnMessage });
-      });
+    let payload;
+    if (this.context.userType === "Vendor") {
+      payload = {
+        name: this.context.name,
+        lastName: this.context.surname,
+        companyName: this.context.companyName,
+        companyDomainName: this.context.companyDomain,
+        email: this.context.email,
+        password: this.context.password,
+        passwordConfirm: this.context.passwordConfirm,
+      };
+
+      axios
+        .post(apiBaseUrl + "vendor/signup", null, { params: payload })
+        .then((response) => {
+          console.log(response);
+          this.context.error = false;
+          this.setState({ signUpMessage: "Verification e-mail has been sent" });
+        })
+        .catch((error) => {
+          console.log("ERROR: " + error);
+          this.context.error = true;
+          this.setState({ signUpMessage: error.response.data.returnMessage });
+        });
+
+    } else if (this.context.userType === "Customer") {
+      payload = {
+        name: this.context.name,
+        lastName: this.context.surname,
+        email: this.context.email,
+        password: this.context.password,
+        passwordConfirm: this.context.passwordConfirm,
+      };
+
+      axios
+        .post(apiBaseUrl + "customer/signup", null, { params: payload })
+        .then((response) => {
+          console.log(response);
+          this.context.error = false;
+          this.setState({ signUpMessage: "Verification e-mail has been sent" });
+        })
+        .catch((error) => {
+          console.log("ERROR: " + error);
+          this.context.error = true;
+          this.setState({ signUpMessage: error.response.data.returnMessage });
+        });
+    }
   };
 
   setRedirect = () => {
