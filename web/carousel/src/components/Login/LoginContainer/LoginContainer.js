@@ -10,7 +10,6 @@ const loginContainer = (props) => {
         <div className={classes.LoginContainer} >
             <LoginForm forgot={props.forgot} clicked={props.clicked} error={props.error}/>
             {/*google auth*/}
-            <GoogleAuth isSignup={false} style={{fontSize:"20px"}}/>
         </div>
     );
 }
