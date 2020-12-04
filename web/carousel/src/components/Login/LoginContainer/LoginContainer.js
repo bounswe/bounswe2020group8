@@ -4,13 +4,15 @@ import classes from "../Login.module.css";
 import LoginForm from "./LoginForm/LoginForm";
 
 const loginContainer = (props) => {
-
-    return (
-        <div className={classes.LoginContainer}>
-            <LoginForm forgot={props.forgot} clicked={props.clicked} error={props.error}/>
-            {/*google auth*/}
-        </div>
-    );
-}
+  return (
+    <div className={classes.LoginContainer}>
+      <LoginForm
+        forgot={props.forgot}
+        clicked={props.clicked}
+        error={props.error}
+      />
+    </div>
+  );
+};
 
 export default loginContainer;
