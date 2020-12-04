@@ -8,6 +8,7 @@ import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
 import GoogleAuth from "../../../GoogleAuth";
+import GoogleLoginButton from "../../../GoogleLoginButton";
 
 const LoginForm = (props) => {
   const [error, setError] = useState(false);
@@ -33,11 +34,9 @@ const LoginForm = (props) => {
     }
   }, [user.error, error]);
 
-
   const eraseError = () => {
     setVisible(false);
   };
-
 
   return (
     <Form
@@ -52,7 +51,9 @@ const LoginForm = (props) => {
         paddingTop: "40px",
       }}
     >
-      <p style={{marginTop:"-60px"}}>{user.userType === "Customer" ? "Customer Login" : "Vendor Login"}</p>
+      <p style={{ marginTop: "-60px" }}>
+        {user.userType === "Customer" ? "Customer Login" : "Vendor Login"}
+      </p>
       {visible ? (
         <p
           style={{
@@ -119,17 +120,24 @@ const LoginForm = (props) => {
           }}
         ></ButtonPrimary>
         <br style={{ height: "10px" }} />
-        <div style={{marginLeft:"10px"}}>
-          {user.userType === "Customer" ? <GoogleAuth isSignup={false} style={{fontSize: "50px"}}/> : null}
-        </div>
+
+        {user.userType === "Customer" ? <GoogleLoginButton /> : null}
         <ButtonSecondary
-          style={{ width: "274px", fontSize: "14px", textDecoration:"underline" }}
-          title={user.userType === "Customer" ? "Login as Vendor" : "Login as Customer"}
+          style={{
+            width: "274px",
+            fontSize: "14px",
+            textDecoration: "underline",
+          }}
+          title={
+            user.userType === "Customer"
+              ? "Login as Vendor"
+              : "Login as Customer"
+          }
           onClick={() => {
             setError(true);
-            {
-              user.userType === "Customer" ? user.setUserType("Vendor") : user.setUserType("Customer")
-            }
+            user.userType === "Customer"
+              ? user.setUserType("Vendor")
+              : user.setUserType("Customer");
           }}
         ></ButtonSecondary>
       </Form.Item>

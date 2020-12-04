@@ -9,6 +9,7 @@ import classes from "./SignupForm.module.css";
 
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import GoogleAuth from "../../../GoogleAuth";
+import GoogleLoginButton from "../../../GoogleLoginButton";
 
 const SignupForm = (props) => {
   // show missing fields
@@ -76,7 +77,6 @@ const SignupForm = (props) => {
     setVisible(false);
   };
 
-
   return (
     <Form
       name="normal_login"
@@ -90,7 +90,9 @@ const SignupForm = (props) => {
         marginTop: "40px",
       }}
     >
-      <p >{user.userType === "Customer" ? "Customer Signup" : "Vendor Signup"}</p>
+      <p>
+        {user.userType === "Customer" ? "Customer Signup" : "Vendor Signup"}
+      </p>
       {visible ? (
         <p
           style={{
@@ -267,7 +269,7 @@ const SignupForm = (props) => {
           </p>
         </span>
       </Form.Item>
-      <Form.Item style={{display:"flex"}}>
+      <Form.Item style={{ display: "flex" }}>
         <InputUI
           name="name"
           clicked={eraseError}
@@ -275,7 +277,7 @@ const SignupForm = (props) => {
           placeholder="Name"
           iconSel="user"
           width="100px"
-          styleInput={{width:"100px"}}
+          styleInput={{ width: "100px" }}
         />
         <InputUI
           name="surname"
@@ -283,8 +285,8 @@ const SignupForm = (props) => {
           inputType="text"
           placeholder="Surname"
           iconSel="user"
-          styleInput={{width:"100px"}}
-          styleIcon={{marginLeft:"10px"}}
+          styleInput={{ width: "100px" }}
+          styleIcon={{ marginLeft: "10px" }}
         />
       </Form.Item>
       {user.userType === "Vendor" ? (
@@ -308,9 +310,7 @@ const SignupForm = (props) => {
             />
           </Form.Item>
         </>
-      ) : (
-        null
-      )}
+      ) : null}
 
       {/*BUTTONS*/}
       <Form.Item style={{ marginBottom: "-20px" }}>
@@ -322,9 +322,11 @@ const SignupForm = (props) => {
             setError(true);
           }}
         ></ButtonPrimary>
-        <div style={{marginLeft:"10px"}}>
-          {user.userType === "Customer" ? <GoogleAuth isSignup={false} style={{fontSize: "50px"}}/> : null}
-        </div>
+
+        {user.userType === "Customer" ? (
+          <GoogleLoginButton title={"Sign up with Google"} />
+        ) : null}
+
         <br style={{ height: "10px" }} />
         <ButtonSecondary
           style={{

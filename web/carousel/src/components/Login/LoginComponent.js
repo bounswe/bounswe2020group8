@@ -10,6 +10,8 @@ import { connect } from "react-redux";
 import LoginSignButtons from "./LoginSignButtons/LoginSignButtons";
 import LoginContainer from "./LoginContainer/LoginContainer";
 import SignupContainer from "./SignupContainer/SignupContainer";
+import GoogleAuth from "../GoogleAuth";
+import GoogleLoginButton from "../GoogleLoginButton";
 
 const apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -35,10 +37,8 @@ class LoginComponent extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    // if(prevState.isError !== this.state.isError) {
     if (prevState.showLogin !== this.state.showLogin) {
       this.setState({ isError: false });
-      // this.state.isError = false;
     }
   }
 
@@ -68,19 +68,15 @@ class LoginComponent extends Component {
     }
   };
 
-  // general input change handler
-  onChangeInputHandler = (e, stateToChange) => {
-    const name = e.target.name;
-    if (name === "email") {
-      this.setState({ email: e.target.value });
-    } else if (name === "password") {
-      this.setState({ password: e.target.value });
-    }
-  };
+  // handleVendorClicked = () => {
+  //   console.log("clicked");
+  //   this.setState({ userType: "Vendor" });
+  // };
 
-  emailChangeHandler = (newEmail) => {
-    this.setState({ email: newEmail });
-  };
+  // handleCustomerClicked = () => {
+  //   console.log("customer-clicked");
+  //   this.setState({ userType: "Customer" });
+  // };
 
   static contextType = UserInfo;
 
@@ -98,14 +94,12 @@ class LoginComponent extends Component {
         <div className={classes.Container}>
           {this.state.showLogin ? (
             <LoginContainer
-              change={(event) => this.onChangeInputHandler(event)}
               forgot={this.forgotPasswordHandler}
               clicked={() => this.handleLoginClick()}
               error={this.state.isError}
             />
           ) : (
             <SignupContainer
-              change={(event) => this.onChangeInputHandler(event)}
               clicked={() => this.handleSignupClick()}
               error={this.state.isError}
             ></SignupContainer>
@@ -199,7 +193,6 @@ class LoginComponent extends Component {
           this.context.error = true;
           this.setState({ signUpMessage: error.response.data.returnMessage });
         });
-
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,
