@@ -95,3 +95,43 @@ exports.loginWithGoogleService = async function ({ email, googleID }) {
     tokenCode: newClientToken.tokenCode,
   };
 };
+
+exports.getProfile = async function ({ token }) {
+  const customer = await CustomerDataAccess.getCustomerByIdDB(token.customer._id);
+
+  if (isNull(customer)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
+  }
+
+  return Formatters.formatCustomer({
+    id: customer._id,
+    email: customer.email,
+    name: customer.name,
+    lastName: customer.lastName,
+    addresses: customer.addresses,
+    phoneNumber: customer.phoneNumber,
+    birthday: customer.birthday,
+  });
+};
+
+exports.patchProfile = async function ({ data, tokenCode }) {
+  const customer = await CustomerDataAccess.getCustomerByIdDB(tokenCode.customer._id);
+
+  if (isNull(customer)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
+  }
+
+  await CustomerDataAccess.updateCustomerDB(customer._id, data);
+  return {};
+};
+
+exports.deleteUser = async function ({ isSuspended, tokenCode }) {
+  const customer = await CustomerDataAccess.getCustomerByIdDB(tokenCode.customer._id);
+
+  if (isNull(customer)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
+  }
+
+  await CustomerDataAccess.updateCustomerDB(customer._id, isSuspended);
+  await ClientTokenDataAccess.removeClientTokenDB(customer._id);
+};

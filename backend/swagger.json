@@ -247,26 +247,44 @@
         }
       }
     },
-    "/customer/resetPassword": {
-      "post": {
+    "/customer/me": {
+      "patch": {
+        "tags": ["customer"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "tokenCode",
+            "description": "Customer token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "description": "Changed data object",
+            "required": true,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid tokenCode"
+          }
+        }
+      },
+      "get": {
         "tags": ["customer"],
         "parameters": [
           {
             "in": "query",
-            "name": "resetPasswordToken",
-            "description": "Reset Password Token",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "newPassword",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "query",
-            "name": "newPasswordCheck",
+            "name": "tokenCode",
+            "description": "Customer token code",
             "required": true,
             "type": "string"
           }
@@ -279,7 +297,37 @@
             }
           },
           "400": {
-            "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
+            "description": "Invalid tokenCode"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["customer"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "Vendor token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "isSuspended",
+            "description": "Suspension status",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid tokenCode"
           }
         }
       }
@@ -493,6 +541,91 @@
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
+          }
+        }
+      }
+    },
+    "/vendor/me": {
+      "patch": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "tokenCode",
+            "description": "Vendor token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "description": "Changed data object",
+            "required": true,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid tokenCode"
+          }
+        }
+      },
+      "get": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "Vendor token code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid tokenCode"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["vendor"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "tokenCode",
+            "description": "Vendor token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "isSuspended",
+            "description": "Suspension status",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid tokenCode"
           }
         }
       }

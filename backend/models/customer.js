@@ -9,7 +9,7 @@ var customerSchema = new Schema(
     orders: { type: String },
     cart: { type: String },
     addresses: { type: String },
-    telephoneNumber: { type: String },
+    phoneNumber: { type: String },
     birthday: { type: String },
     creditCards: { type: String },
   },

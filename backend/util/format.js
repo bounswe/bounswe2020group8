@@ -12,32 +12,44 @@ exports.formatClient = function ({ _id, email, type, name, lastName }) {
   };
 };
 
-exports.formatCustomer = function ({ _id, email, type, name, lastName }) {
-  return {
-    id: _id.toString(),
-    name,
-    lastName,
-    email,
-    type,
-  };
-};
-
-exports.formatVendor = function ({
+exports.formatCustomer = function ({
   _id,
   email,
-  type,
   name,
   lastName,
-  companyName,
-  companyDomainName,
+  addresses,
+  phoneNumber,
+  birthday,
 }) {
   return {
     id: _id.toString(),
     name,
     lastName,
     email,
-    type,
+    addresses,
+    phoneNumber,
+    birthday,
+  };
+};
+
+exports.formatVendor = function ({
+  _id,
+  email,
+  companyName,
+  companyDomainName,
+  aboutCompany,
+  address,
+  location,
+  IBAN,
+}) {
+  return {
+    id: _id.toString(),
+    email,
     companyName,
     companyDomainName,
+    aboutCompany,
+    address,
+    location,
+    IBAN,
   };
 };

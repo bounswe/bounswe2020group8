@@ -65,3 +65,41 @@ exports.loginWithGoogleController = BaseUtil.createController((req) => {
       })
     );
 });
+
+exports.getProfile = BaseUtil.createController((req) => {
+  let { tokenCode } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      CustomerService.getProfile({
+        tokenCode,
+      })
+    )
+  );
+});
+
+exports.patchProfile = BaseUtil.createController((req) => {
+  let { data, tokenCode } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      CustomerService.patchProfile({
+        data,
+        tokenCode,
+      })
+    )
+  );
+});
+
+exports.deleteUser = BaseUtil.createController((req) => {
+  let { isSuspended, tokenCode } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      CustomerService.deleteUser({
+        isSuspended,
+        tokenCode,
+      })
+    )
+  );
+});

@@ -9,7 +9,7 @@ var clientSchema = new Schema(
     name: { type: String },
     lastName: { type: String },
     password: { type: String },
-    isBanned: { type: Boolean },
+    isSuspended: { type: Boolean },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     googleID: { type: String, default: null },

@@ -50,3 +50,41 @@ exports.signupController = BaseUtil.createController((req) => {
       })
     );
 });
+
+exports.getProfile = BaseUtil.createController((req) => {
+  let { token } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      VendorService.getProfile({
+        token,
+      })
+    )
+  );
+});
+
+exports.patchProfile = BaseUtil.createController((req) => {
+  let { data, tokenCode } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      VendorService.patchProfile({
+        data,
+        tokenCode,
+      })
+    )
+  );
+});
+
+exports.deleteUser = BaseUtil.createController((req) => {
+  let { isSuspended, tokenCode } = req.body;
+
+  return BB.all(
+    [].then(() =>
+      VendorService.deleteUser({
+        isSuspended,
+        tokenCode,
+      })
+    )
+  );
+});
