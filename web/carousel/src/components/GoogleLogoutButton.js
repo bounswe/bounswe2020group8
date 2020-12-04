@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { signOut } from "../redux/auth/actions";
 
 const clientId =
-  "1005866627235-accsl31ht1m9lh95nufh4dejqb2vq774.apps.googleusercontent.com";
+  "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
 
 function Logout(props) {
   const onSuccess = () => {

@@ -14,34 +14,51 @@ import {
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { signIn, signOut } from "../../../redux/auth/actions";
-import GoogleLogoutButton from "../../GoogleLogoutButton";
+import { signOut } from "../../../redux/auth/actions";
+import { useGoogleLogout } from "react-google-login";
 
-const profileMenu = (
-  <Menu>
-    <Menu.Item>
-      <Link to="/profile">
-        <UserOutlined />
-        My Profile
-      </Link>
-    </Menu.Item>
-    <Menu.Item>
-      <Link to="/profile">
-        <ShoppingOutlined />
-        My Order
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="Logout">
-      <LogoutOutlined />
-      Log out
-    </Menu.Item>
-  </Menu>
-);
+function SideButtons(props) {
+  const clientId =
+    "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
 
-const sideButtons = (props) => {
+  const onLogoutSuccess = (res) => {
+    props.signOut();
+    console.log("Logged out Success");
+  };
+
+  const onFailure = () => {
+    console.log("Handle failure cases");
+  };
+
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+  });
+
+  const profileMenu = (
+    <Menu>
+      <Menu.Item>
+        <Link to="/profile">
+          <UserOutlined />
+          My Profile
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/profile">
+          <ShoppingOutlined />
+          My Order
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="Logout" onClick={signOut}>
+        <LogoutOutlined />
+        Log out
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className={classes.SideButtons}>
-      <GoogleLogoutButton />
       {props.isSignedIn ? (
         <DropdownContainer
           title={"PROFILE"}
@@ -59,7 +76,7 @@ const sideButtons = (props) => {
       <ButtonPrimary icon={<ShoppingCartOutlined />} title={"CART"} />
     </div>
   );
-};
+}
 
 const mapStateToProps = (state) => {
   return {
@@ -67,6 +84,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, { signIn, signOut })(sideButtons)
-);
+export default withRouter(connect(mapStateToProps, { signOut })(SideButtons));
