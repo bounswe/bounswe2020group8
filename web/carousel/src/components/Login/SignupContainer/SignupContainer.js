@@ -1,12 +1,8 @@
 import React, { useContext } from "react";
 import classes from "../Login.module.css";
-
 import SignupForm from "../SignupContainer/SignupForm/SignupForm";
-import UserInfo from "../../Context/UserInfo";
 
 const SignupContainer = (props) => {
-  const user = useContext(UserInfo);
-
   return (
     <div className={classes.SignupContainer}>
       <SignupForm

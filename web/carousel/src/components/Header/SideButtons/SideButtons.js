@@ -2,7 +2,6 @@ import React from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
-import LogoutButton from "../../LogoutButton";
 import DropdownContainer from "../../DropdownContainer/DropdownContainer";
 import {
   BookOutlined,
@@ -16,6 +15,7 @@ import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { signIn, signOut } from "../../../redux/auth/actions";
+import GoogleLogoutButton from "../../GoogleLogoutButton";
 
 const profileMenu = (
   <Menu>
@@ -41,7 +41,7 @@ const profileMenu = (
 const sideButtons = (props) => {
   return (
     <div className={classes.SideButtons}>
-      <LogoutButton></LogoutButton>
+      <GoogleLogoutButton />
       {props.isSignedIn ? (
         <DropdownContainer
           title={"PROFILE"}

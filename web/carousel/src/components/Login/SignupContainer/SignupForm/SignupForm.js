@@ -4,11 +4,8 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
-
 import classes from "./SignupForm.module.css";
-
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import GoogleAuth from "../../../GoogleAuth";
 import GoogleLoginButton from "../../../GoogleLoginButton";
 
 const SignupForm = (props) => {
@@ -324,7 +321,7 @@ const SignupForm = (props) => {
         ></ButtonPrimary>
 
         {user.userType === "Customer" ? (
-          <GoogleLoginButton title={"Sign up with Google"} />
+          <GoogleLoginButton title={"Sign up with Google"} isSignup={true} />
         ) : null}
 
         <br style={{ height: "10px" }} />

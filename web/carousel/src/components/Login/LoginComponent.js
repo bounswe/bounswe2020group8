@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import axios from "axios";
 import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
@@ -10,8 +9,6 @@ import { connect } from "react-redux";
 import LoginSignButtons from "./LoginSignButtons/LoginSignButtons";
 import LoginContainer from "./LoginContainer/LoginContainer";
 import SignupContainer from "./SignupContainer/SignupContainer";
-import GoogleAuth from "../GoogleAuth";
-import GoogleLoginButton from "../GoogleLoginButton";
 
 const apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -68,16 +65,6 @@ class LoginComponent extends Component {
     }
   };
 
-  // handleVendorClicked = () => {
-  //   console.log("clicked");
-  //   this.setState({ userType: "Vendor" });
-  // };
-
-  // handleCustomerClicked = () => {
-  //   console.log("customer-clicked");
-  //   this.setState({ userType: "Customer" });
-  // };
-
   static contextType = UserInfo;
 
   render() {
@@ -113,63 +100,43 @@ class LoginComponent extends Component {
     this.props.history.push("/forgot");
   };
 
-  // login request
   handleLoginClick = () => {
     const payload = {
       email: this.context.email,
       password: this.context.password,
     };
+    let url = apiBaseUrl;
 
     if (this.context.userType === "Customer") {
-      axios
-        .post(apiBaseUrl + "customer/login", null, { params: payload })
-        .then((response) => {
-          this.setState({ isError: false });
-          console.log(response.data);
-
-          this.context.login(this.state.email, response.data.tokenCode);
-          this.context.error = false;
-
-          this.props.signIn();
-          this.props.history.push("/");
-        })
-        .catch((err, response) => {
-          console.log(err);
-          this.context.error = true;
-          console.log("resp daata: " + response);
-          this.setState({ isError: true });
-        });
+      url += "customer/login";
     } else if (this.context.userType === "Vendor") {
-      axios
-        .post(apiBaseUrl + "vendor/login", null, { params: payload })
-        .then((response) => {
-          this.setState({ isError: false });
-          console.log(response.data);
-
-          this.context.login(this.state.email, response.data.tokenCode);
-          this.context.error = false;
-
-          this.props.signIn();
-          this.props.history.push("/");
-        })
-        .catch((err, response) => {
-          console.log(err);
-          this.context.error = true;
-          console.log("resp daata: " + response);
-          this.setState({ isError: true });
-        });
+      url += "vendor/login";
+    } else {
+      return;
     }
+    axios
+      .post(url, null, { params: payload })
+      .then((response) => {
+        this.setState({ isError: false });
+        console.log(response.data);
+        localStorage.setItem("token", response.data.tokenCode);
+        this.context.login(this.state.email, response.data.tokenCode);
+        this.context.error = false;
+
+        this.props.signIn();
+        this.props.history.push("/");
+      })
+      .catch((err, response) => {
+        console.log(err);
+        this.context.error = true;
+        console.log("resp daata: " + response);
+        this.setState({ isError: true });
+      });
   };
 
-  // signup request
   handleSignupClick = () => {
-    let userTypeToPayload;
-    if (this.context.userType === "Customer") {
-      userTypeToPayload = "CLIENT";
-    } else if (this.context.userType === "Vendor") {
-      userTypeToPayload = "VENDOR";
-    }
-    let payload;
+    let payload = {};
+    let url = apiBaseUrl;
     if (this.context.userType === "Vendor") {
       payload = {
         name: this.context.name,
@@ -180,19 +147,7 @@ class LoginComponent extends Component {
         password: this.context.password,
         passwordConfirm: this.context.passwordConfirm,
       };
-
-      axios
-        .post(apiBaseUrl + "vendor/signup", null, { params: payload })
-        .then((response) => {
-          console.log(response);
-          this.context.error = false;
-          this.setState({ signUpMessage: "Verification e-mail has been sent" });
-        })
-        .catch((error) => {
-          console.log("ERROR: " + error);
-          this.context.error = true;
-          this.setState({ signUpMessage: error.response.data.returnMessage });
-        });
+      url += "vendor/signup";
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,
@@ -201,33 +156,24 @@ class LoginComponent extends Component {
         password: this.context.password,
         passwordConfirm: this.context.passwordConfirm,
       };
-
-      axios
-        .post(apiBaseUrl + "customer/signup", null, { params: payload })
-        .then((response) => {
-          console.log(response);
-          this.context.error = false;
-          this.setState({ signUpMessage: "Verification e-mail has been sent" });
-        })
-        .catch((error) => {
-          console.log("ERROR: " + error);
-          this.context.error = true;
-          this.setState({ signUpMessage: error.response.data.returnMessage });
-        });
+      url += "customer/signup";
+    } else {
+      return;
     }
-  };
 
-  setRedirect = () => {
-    this.setState({
-      redirect: true,
-    });
-  };
-
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to="/signup" />;
-    }
+    axios
+      .post(url, null, { params: payload })
+      .then((response) => {
+        console.log(response);
+        this.context.error = false;
+        this.setState({ signUpMessage: "Verification e-mail has been sent" });
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+        this.context.error = true;
+        this.setState({ signUpMessage: error.response.data.returnMessage });
+      });
   };
 }
 
-export default withRouter(connect(null, { signIn, signOut })(LoginComponent));
+export default withRouter(connect(null, { signIn })(LoginComponent));

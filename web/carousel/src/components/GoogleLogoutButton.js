@@ -1,12 +1,14 @@
 import React from "react";
 import { GoogleLogout } from "react-google-login";
+import { connect } from "react-redux";
+import { signOut } from "../redux/auth/actions";
 
 const clientId =
   "1005866627235-accsl31ht1m9lh95nufh4dejqb2vq774.apps.googleusercontent.com";
 
-function Logout() {
+function Logout(props) {
   const onSuccess = () => {
-    console.log("Logout made successfully");
+    props.signOut();
     alert("Logout made successfully ✌");
   };
 
@@ -21,4 +23,4 @@ function Logout() {
   );
 }
 
-export default Logout;
+export default connect(null, { signOut })(Logout);

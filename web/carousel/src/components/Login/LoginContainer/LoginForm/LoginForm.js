@@ -7,7 +7,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
-import GoogleAuth from "../../../GoogleAuth";
 import GoogleLoginButton from "../../../GoogleLoginButton";
 
 const LoginForm = (props) => {
