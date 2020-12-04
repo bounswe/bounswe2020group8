@@ -51,7 +51,7 @@ exports.verifyEmailController = BaseUtil.createController((req) => {
 exports.changePasswordController = BaseUtil.createController((req) => {
   let token = req.custom.tokenObject;
   let client = req.custom.tokenObject.client;
-  let { newPassword, newPasswordRepeat } = req.query;
+  let { oldPassword, newPassword, newPasswordRepeat } = req.query;
   return BB.all([
     AppValidator.validateClient(client, false).reflect(),
     AppValidator.validatePassword(
@@ -72,8 +72,8 @@ exports.changePasswordController = BaseUtil.createController((req) => {
     .then(() =>
       ClientService.changePasswordService({
         token,
+        oldPassword,
         newPassword,
-        newPasswordRepeat,
       })
     );
 });

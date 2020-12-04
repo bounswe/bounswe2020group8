@@ -136,6 +136,12 @@
           },
           {
             "in": "query",
+            "name": "oldPassword",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
             "name": "newPassword",
             "required": true,
             "type": "string"
@@ -406,6 +412,12 @@
             "in": "query",
             "name": "tokenCode",
             "description": "token code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "oldPassword",
             "required": true,
             "type": "string"
           },
