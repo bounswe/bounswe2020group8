@@ -4,6 +4,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { signIn } from "../redux/auth/actions";
 import { connect } from "react-redux";
+import { useGoogleLogout } from "react-google-login";
 
 const apiBaseUrl = "http://18.198.51.178:8080/";
 const clientId =
@@ -11,6 +12,10 @@ const clientId =
 
 function GoogleLoginButton(props) {
   const onSuccess = (res) => {
+    console.log(
+      "AA ~ file: GoogleLoginButton.js ~ line 15 ~ onSuccess ~ res",
+      res
+    );
     const userProfile = res.profileObj;
     const query = {
       email: userProfile.email,
@@ -32,7 +37,8 @@ function GoogleLoginButton(props) {
         props.history.push("/");
       })
       .catch((err, response) => {
-        console.log(response);
+        console.log("response", response);
+        signOut();
       });
     //refreshTokenSetup(res);
   };
@@ -40,6 +46,15 @@ function GoogleLoginButton(props) {
   const onFailure = (res) => {
     alert(`Failed to login. 😢`);
   };
+  const onLogoutSuccess = (res) => {
+    alert("You have already sign up.");
+  };
+
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+  });
   return (
     <div>
       <GoogleLogin
