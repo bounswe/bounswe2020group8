@@ -1,6 +1,6 @@
 .AddressBox {
-  height: 250px;
-  width: 250px;
+  height: 300px;
+  width: 300px;
   border: solid 1px #e2e2e2;
   border-radius: 3px;
   margin: 35px;
@@ -16,7 +16,7 @@
   text-align: center;
   font-size: larger;
   color: white;
-  width: 250px;
+  width: 300px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

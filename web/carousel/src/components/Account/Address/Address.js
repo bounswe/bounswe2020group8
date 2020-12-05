@@ -3,7 +3,15 @@ import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-const address = (props) => {
+const Address = (props) => {
+  const handleEdit = () => {
+    props.setModal({
+      visible: true,
+      edit: true,
+      address: props.address,
+    });
+  };
+
   return (
     <div className={classes.AddressBox}>
       <div className={classes.Header}>
@@ -15,15 +23,18 @@ const address = (props) => {
             {props.address.firstName} {props.address.lastName}
           </b>
         </p>
-        <p>{props.address.phone}</p>
+        <p>
+          +{props.address.phonePrefix}
+          {props.address.phone}
+        </p>
         <p>{props.address.details}</p>
       </div>
       <div className={classes.ButtonRow}>
         <DeleteOutlined />
-        <EditOutlined />
+        <EditOutlined onClick={handleEdit} />
       </div>
     </div>
   );
 };
 
-export default address;
+export default Address;
