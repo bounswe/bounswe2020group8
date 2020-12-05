@@ -29,5 +29,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  margin-top: 0%;
   background-color: #fafafa;
 }
