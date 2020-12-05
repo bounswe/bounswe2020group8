@@ -74,15 +74,6 @@ exports.logParams = function (req, res, next) {
   next();
 };
 
-const clientEndpointsWithoutToken = [
-  "login",
-  "forgotPassword",
-  "resetPassword",
-  "signup",
-  "verifyEmail",
-  "loginWithGoogle",
-];
-
 exports.getToken = async function (req, res, next) {
   const logObj = {
     url: req.url,
@@ -99,36 +90,7 @@ exports.getToken = async function (req, res, next) {
   req.custom = {};
   req.custom.language = "en";
   req.custom.requestDate = Date.now();
-  if (req.url.indexOf("/vendor") != -1 || req.url.indexOf("/customer") != -1) {
-    if (!checkTokenCode(req)) {
-      res.send(401, "Unauthorized");
-      return;
-    }
-    let requiresClientToken = true;
-    clientEndpointsWithoutToken.forEach((e) => {
-      if (req.url.indexOf(e) != -1) {
-        requiresClientToken = false;
-      }
-    });
-    if (false) {
-      const tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(req.query.tokenCode);
-      if (!isNull(tokenWithClient) && !isNull(tokenWithClient.client)) {
-        req.custom.tokenObject = tokenWithClient;
-        next();
-      } else {
-        return res.status(401).send({
-          returnCode: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.code,
-          returnMessage: Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN.messages.en,
-        });
-      }
-    } else {
-      next();
-    }
-  } else {
-    // we will have admin endpoints here, we will get admintoken
-    res.send(401, "Unauthorized");
-    return;
-  }
+  next();
 };
 
 exports.returnResponse = async function (req, res, next) {
