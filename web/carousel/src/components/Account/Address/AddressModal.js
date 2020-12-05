@@ -108,7 +108,11 @@ const AddressModal = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input phone!",
+              message: "Please input an valid phone number",
+            },
+            {
+              type: "number",
+              message: "Please input an valid phone number",
             },
           ]}
         >
