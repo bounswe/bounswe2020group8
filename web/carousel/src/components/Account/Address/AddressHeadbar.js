@@ -10,6 +10,9 @@ const addressHeadbar = (props) => {
       <ButtonPrimary
         style={{ width: 140, height: 45 }}
         title="Add New Address"
+        onClick={() => {
+          props.setModal({ visible: true, edit: false, address: {} });
+        }}
       />
     </div>
   );
