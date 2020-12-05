@@ -22,8 +22,4 @@ router.post(
   RequestHelper.returnResponse
 );
 
-// This is a bit hacky, probably will be deleted later
-router.use((req, res, next) => {
-  return;
-});
 module.exports = router;

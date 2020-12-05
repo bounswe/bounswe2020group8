@@ -128,7 +128,6 @@ exports.returnResponse = async function (req, res, next) {
       }
     }
   }
-  next();
 };
 
 exports.getErrorMessageAndCode = function (err, language) {
