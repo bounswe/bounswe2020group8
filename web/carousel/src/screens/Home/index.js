@@ -1,4 +1,3 @@
-import ProductTable from "../../components/ProductList/ProductTable";
 import ProductCarousel from "../../components/ProductList/ProductCarousel";
 
 export default function Home() {
