@@ -85,7 +85,9 @@ exports.changePasswordController = BaseUtil.createController((req) => {
 
 exports.forgotPasswordController = BaseUtil.createController((req) => {
   let { email } = req.query;
-  let __type = req.params.clientType.charAt(0).toUpperCase() + req.params.clientType.slice(1);
+  const type = req.originalUrl.split("/")[1];
+  let __type = type.firstCharUpperCase();
+
   email = typeof email == "string" ? email.toLowerCase() : "";
   return BB.all([
     AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
