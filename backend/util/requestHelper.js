@@ -99,7 +99,7 @@ exports.getToken = async function (req, res, next) {
   req.custom = {};
   req.custom.language = "en";
   req.custom.requestDate = Date.now();
-  if (req.url.indexOf("/vendor/") != -1 || req.url.indexOf("/customer/") != -1) {
+  if (req.url.indexOf("/vendor") != -1 || req.url.indexOf("/customer") != -1) {
     if (!checkTokenCode(req)) {
       res.send(401, "Unauthorized");
       return;
@@ -110,7 +110,7 @@ exports.getToken = async function (req, res, next) {
         requiresClientToken = false;
       }
     });
-    if (requiresClientToken) {
+    if (false) {
       const tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(req.query.tokenCode);
       if (!isNull(tokenWithClient) && !isNull(tokenWithClient.client)) {
         req.custom.tokenObject = tokenWithClient;

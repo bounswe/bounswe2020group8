@@ -4,7 +4,6 @@ const Config = require("../config");
 const BB = require("bluebird");
 const crypto = require("crypto");
 const Request = require("request");
-
 // const xml2js = require('xml2js');
 exports.makeRandomString = function (lengthOfString, typeOfRandomString) {
   if (isNull(typeOfRandomString)) {
@@ -82,7 +81,7 @@ exports.asyncForEach = async function (array, callback) {
 exports.createController = function (logicFunction) {
   return function (req, res, next) {
     try {
-      logicFunction(req)
+      logicFunction(req, res, next)
         .then((respObj) => {
           req.custom.respObj = respObj;
         })
