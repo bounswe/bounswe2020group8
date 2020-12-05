@@ -41,11 +41,15 @@
   top: 0;
   left: 0;
   width: 100%;
+<<<<<<< HEAD
   z-index: 9000;
+=======
+  z-index: 90;
+>>>>>>> 3981bb622f07583d350e110deaca1e4fd74d14df
 }
 
 .Filler {
-  background-color: lightpink;
+  background-color: #fafafa;
   height: 150px;
   width: 100%;
 }
