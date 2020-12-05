@@ -96,15 +96,16 @@ exports.loginWithGoogleService = async function ({ email, googleID }) {
   };
 };
 
-exports.getProfile = async function ({ token }) {
-  const customer = await CustomerDataAccess.getCustomerByIdDB(token.customer._id);
+exports.getProfile = async function ({ tokenCode }) {
+  const customer_raw = await ClientTokenDataAccess.getClientTokenDB(tokenCode);
+  const customer = customer_raw.client;
 
   if (isNull(customer)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
   }
 
   return Formatters.formatCustomer({
-    id: customer._id,
+    _id: customer._id,
     email: customer.email,
     name: customer.name,
     lastName: customer.lastName,
