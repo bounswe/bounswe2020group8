@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
-import LogoutButton from "../../LogoutButton";
 import DropdownContainer from "../../DropdownContainer/DropdownContainer";
 import {
   BookOutlined,
@@ -76,8 +75,16 @@ class SideButtons extends Component {
             onClick={() => this.props.history.push("/login")}
           ></ButtonSecondary>
         )}
-        <ButtonPrimary icon={<HeartOutlined />} title={"LIST"} />
-        <ButtonPrimary icon={<ShoppingCartOutlined />} title={"CART"} />
+        <ButtonPrimary
+          icon={<HeartOutlined />}
+          title={"LIST"}
+          onClick={() => this.props.history.push("/account/list")}
+        />
+        <ButtonPrimary
+          icon={<ShoppingCartOutlined />}
+          title={"CART"}
+          onClick={() => this.props.history.push("/account/cart")}
+        />
       </div>
     );
   }
