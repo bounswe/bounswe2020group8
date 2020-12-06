@@ -16,17 +16,6 @@ const SignupForm = (props) => {
   const [error, setError] = useState(false);
   const [userType, setUserType] = useState(false);
 
-  // password states
-  const [passLength, setPassLength] = useState(false);
-  const [passDigit, setPassDigit] = useState(false);
-  const [passLetter, setPassLetter] = useState(false);
-  const [passLetterCapital, setPassLetterCapital] = useState(false);
-  const [passNoWhitespace, setPassNoWhitespace] = useState(true);
-
-  // confirm password
-  const [password, setPassword] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState(false);
-
   const isFirstRun = useRef(true);
   const user = useContext(UserInfo);
 
