@@ -138,6 +138,12 @@ const returnMessages = {
       en: "No document found with that ID",
     },
   },
+  ERR_NO_CLIENT_ASSOCIATED_WITH_TOKEN: {
+    code: 22,
+    messages: {
+      en: "No client found associated with given token",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

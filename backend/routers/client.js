@@ -1,28 +1,25 @@
+const express = require("express");
 const ClientController = require("../controllers/authClient");
 const RequestHelper = require("./../util/requestHelper");
 
-const rootPath = "/:clientType";
+const router = express.Router();
 
-module.exports = function (server) {
-  server.post(`${rootPath}login`, ClientController.loginController, RequestHelper.returnResponse);
-  server.get(
-    `${rootPath}/verifyEmail`,
-    ClientController.verifyEmailController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}/changePassword`,
-    ClientController.changePasswordController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}/forgotPassword`,
-    ClientController.forgotPasswordController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}/resetPassword`,
-    ClientController.resetPasswordController,
-    RequestHelper.returnResponse
-  );
-};
+router.post("/login", ClientController.loginController, RequestHelper.returnResponse);
+router.get("/verifyEmail", ClientController.verifyEmailController, RequestHelper.returnResponse);
+router.post(
+  "/changePassword",
+  ClientController.changePasswordController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/forgotPassword",
+  ClientController.forgotPasswordController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/resetPassword",
+  ClientController.resetPasswordController,
+  RequestHelper.returnResponse
+);
+
+module.exports = router;

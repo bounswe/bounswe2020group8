@@ -1,30 +1,21 @@
+const express = require("express");
 const VendorController = require("../controllers/vendor");
 const RequestHelper = require("./../util/requestHelper");
+const authController = require("../controllers/authClient");
 
-const rootPath = "/vendor";
+const router = express.Router();
 
-module.exports = function (server) {
-  server.post(
-    `${rootPath}/signup`,
-    VendorController.signupController,
-    RequestHelper.returnResponse
-  );
+router.post("/signup", VendorController.signupController, RequestHelper.returnResponse);
 
-  server.get(`${rootPath}`, VendorController.getAllVendorsController, RequestHelper.returnResponse);
+// BELOW ARE PROTECTED ROUTES
+router.use(authController.protectRoute);
 
-  server.get(
-    `${rootPath}/:id`,
-    VendorController.getOneVendorController,
-    RequestHelper.returnResponse
-  );
-  server.patch(
-    `${rootPath}/:id`,
-    VendorController.updateOneVendorController,
-    RequestHelper.returnResponse
-  );
-  server.delete(
-    `${rootPath}/:id`,
-    VendorController.deleteOneVendorController,
-    RequestHelper.returnResponse
-  );
-};
+router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
+
+router
+  .route("/:id")
+  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
+  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
+
+module.exports = router;

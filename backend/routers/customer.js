@@ -1,44 +1,30 @@
+const express = require("express");
 const CustomerController = require("../controllers/customer");
 const RequestHelper = require("./../util/requestHelper");
+const authController = require("../controllers/authClient");
+const router = express.Router();
 
-const rootPath = "/customer";
+router.post("/signup", CustomerController.signupController, RequestHelper.returnResponse);
+router.post(
+  "/signupWithGoogle",
+  CustomerController.signupWithGoogleController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/loginWithGoogle",
+  CustomerController.loginWithGoogleController,
+  RequestHelper.returnResponse
+);
 
-module.exports = function (server) {
-  server.post(
-    `${rootPath}/signup`,
-    CustomerController.signupController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}/signupWithGoogle`,
-    CustomerController.signupWithGoogleController,
-    RequestHelper.returnResponse
-  );
-  server.post(
-    `${rootPath}/loginWithGoogle`,
-    CustomerController.loginWithGoogleController,
-    RequestHelper.returnResponse
-  );
+// BELOW ARE PROTECTED ROUTES
+router.use(authController.protectRoute);
 
-  server.get(
-    `${rootPath}`,
-    CustomerController.getAllCustomersController,
-    RequestHelper.returnResponse
-  );
+router.get("/", CustomerController.getAllCustomersController, RequestHelper.returnResponse);
 
-  server.get(
-    `${rootPath}/:id`,
-    CustomerController.getOneCustomerController,
-    RequestHelper.returnResponse
-  );
-  server.patch(
-    `${rootPath}/:id`,
-    CustomerController.updateOneCustomerController,
-    RequestHelper.returnResponse
-  );
-  server.delete(
-    `${rootPath}/:id`,
-    CustomerController.deleteOneCustomerController,
-    RequestHelper.returnResponse
-  );
-};
+router
+  .route("/:id")
+  .get(CustomerController.getOneCustomerController, RequestHelper.returnResponse)
+  .patch(CustomerController.updateOneCustomerController, RequestHelper.returnResponse)
+  .delete(CustomerController.deleteOneCustomerController, RequestHelper.returnResponse);
+
+module.exports = router;
