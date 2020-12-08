@@ -1,6 +1,7 @@
 const express = require("express");
 const ClientController = require("../controllers/authClient");
 const RequestHelper = require("./../util/requestHelper");
+const authController = require("../controllers/authClient");
 
 const router = express.Router();
 
@@ -22,5 +23,9 @@ router.post(
   ClientController.resetPasswordController,
   RequestHelper.returnResponse
 );
+
+router.use(authController.protectRoute);
+
+router.post("/logout", ClientController.logoutController, RequestHelper.returnResponse);
 
 module.exports = router;

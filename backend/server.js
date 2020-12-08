@@ -14,6 +14,7 @@ const cors = require("cors");
 const clientRouter = require("./routers/client");
 const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
+const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
 
 BB.longStackTraces();
@@ -60,6 +61,7 @@ let blocked = require("blocked");
 app.use("/:clientType", clientRouter);
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
+app.use("/admin", adminRouter);
 app.use("/category", categoryRouter);
 
 blocked((ms) => {
