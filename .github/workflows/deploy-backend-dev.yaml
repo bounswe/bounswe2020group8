@@ -30,7 +30,7 @@ jobs:
       - name: Install private key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_DEV_BACKEND_KEY }}
           name: id_rsa
           known_hosts: " "
 
@@ -40,4 +40,17 @@ jobs:
           HOSTS=$( grep -oh -E "^([[:digit:]]+\.){3}[[:digit:]]+" dev-hosts)
           ssh-keyscan $HOSTS >> ~/.ssh/known_hosts
           ansible-playbook backend-dev.yml -i dev-hosts
+
+      - name: Notify Slack (#backend-log) with the status of dev deployment
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: merge, workflow
+          author_name: 'Backend Dev Deployment'
+          channel: '#backend-log'
+          text: ":ship_it_parrot: *${{ github.actor }}*"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: always() # Pick up events even if the job fails or is canceled.
           

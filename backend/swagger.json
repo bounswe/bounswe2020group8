@@ -21,6 +21,155 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
+    "/category": {
+      "get": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      }
+    },
+    "/category/{id}": {
+      "get": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/Category"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/responses/ApiResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      }
+    },
     "/customer/signup": {
       "post": {
         "tags": ["customer"],
@@ -551,7 +700,6 @@
         }
       }
     },
-
     "/vendor/signup": {
       "post": {
         "tags": ["vendor"],
@@ -1082,6 +1230,21 @@
           }
         ]
       },
+      "Category": {
+        "allOf": [
+          {
+            "$ref": "#/components/responses/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        ]
+      },
       "CustomerList": {
         "allOf": [
           {
@@ -1231,6 +1394,21 @@
           },
           "location": {
             "type": "object"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "mongoID"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "xml": {
