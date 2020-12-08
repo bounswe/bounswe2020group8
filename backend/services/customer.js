@@ -95,3 +95,18 @@ exports.loginWithGoogleService = async function ({ email, googleID }) {
     tokenCode: newClientToken.tokenCode,
   };
 };
+
+exports.getProfile = async function ({ client }) {
+  return Formatters.formatCustomer(client);
+};
+
+exports.patchProfile = async function ({ client, data }) {
+  const updatedCustomer = await CustomerDataAccess.updateCustomerDB(client._id, data);
+  return Formatters.formatCustomer(updatedCustomer);
+};
+
+exports.freezeProfile = async function ({ client, data }) {
+  const frozenCustomer = await CustomerDataAccess.updateCustomerDB(client._id, data);
+  await ClientTokenDataAccess.removeClientTokenDB(client._id);
+  return Formatters.formatCustomer(frozenCustomer);
+};

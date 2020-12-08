@@ -30,7 +30,7 @@ jobs:
       - name: Install private key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.SSH_DEV_BACKEND_KEY }}
+          key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
           name: id_rsa
           known_hosts: " "
 

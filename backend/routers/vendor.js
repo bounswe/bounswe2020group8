@@ -10,6 +10,12 @@ router.post("/signup", VendorController.signupController, RequestHelper.returnRe
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
 
+router
+  .route("/me")
+  .get(VendorController.getProfile, RequestHelper.returnResponse)
+  .patch(VendorController.patchProfile, RequestHelper.returnResponse)
+  .delete(VendorController.freezeProfile, RequestHelper.returnResponse);
+
 router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
 
 router

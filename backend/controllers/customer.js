@@ -68,6 +68,28 @@ exports.loginWithGoogleController = BaseUtil.createController((req) => {
     );
 });
 
+exports.getProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => CustomerService.getProfile({ client: req.client }));
+});
+
+exports.patchProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    CustomerService.patchProfile({
+      client: req.client,
+      data: req.body,
+    })
+  );
+});
+
+exports.freezeProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    CustomerService.freezeProfile({
+      client: req.client,
+      data: req.body,
+    })
+  );
+});
+
 exports.getAllCustomersController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.getAll(Customer)(req));
 });
