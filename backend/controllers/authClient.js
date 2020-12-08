@@ -4,10 +4,15 @@ const BaseUtil = require("../util/baseUtil");
 const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Constants = require("./../util/constants");
+const ClientTokenDataAccess = require("../dataAccess/clientToken");
+const { isNull } = require("underscore");
+const { isNullOrEmpty } = require("../util/coreUtil");
+const AppError = require("../util/appError");
 
 exports.loginController = BaseUtil.createController((req) => {
   let { email, password } = req.query;
-  let __type = req.params.clientType.charAt(0).toUpperCase() + req.params.clientType.slice(1);
+  const type = req.originalUrl.split("/")[1];
+  let __type = type.firstCharUpperCase();
 
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
   return BB.all([
@@ -80,7 +85,9 @@ exports.changePasswordController = BaseUtil.createController((req) => {
 
 exports.forgotPasswordController = BaseUtil.createController((req) => {
   let { email } = req.query;
-  let __type = req.params.clientType.charAt(0).toUpperCase() + req.params.clientType.slice(1);
+  const type = req.originalUrl.split("/")[1];
+  let __type = type.firstCharUpperCase();
+
   email = typeof email == "string" ? email.toLowerCase() : "";
   return BB.all([
     AppValidator.validateEmail(email, Messages.RETURN_MESSAGES.ERR_EMAIL_IS_INVALID).reflect(),
@@ -124,3 +131,27 @@ exports.resetPasswordController = BaseUtil.createController((req) => {
       })
     );
 });
+
+exports.protectRoute = async (req, res, next) => {
+  let tokenCode;
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    tokenCode = req.headers.authorization.split(" ")[1];
+  }
+
+  let tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(tokenCode);
+
+  if (isNullOrEmpty(tokenWithClient)) {
+    req.custom.respObj = new AppError(Messages.RETURN_MESSAGES.ERR_VALIDATION_ERROR);
+    return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+  }
+
+  let client = tokenWithClient.client;
+  if (isNullOrEmpty(client)) {
+    req.custom.respObj = new AppError(Messages.RETURN_MESSAGES.ERR_NO_CLIENT_ASSOCIATED_WITH_TOKEN);
+    return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+  }
+
+  // GRANT ACCESS TO PROTECTED ROUTE
+  req.client = client;
+  next();
+};

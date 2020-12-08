@@ -13,7 +13,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http");
+const clientRouter = require("./routers/client");
+const customerRouter = require("./routers/customer");
+const vendorRouter = require("./routers/vendor");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -55,9 +57,10 @@ process.on("SIGTERM", () => {
   });
 });
 let blocked = require("blocked");
-require("./routers/client")(app);
-require("./routers/customer")(app);
-require("./routers/vendor")(app);
+
+app.use("/:clientType", clientRouter);
+app.use("/customer", customerRouter);
+app.use("/vendor", vendorRouter);
 
 blocked((ms) => {
   if (ms > 3000) {
