@@ -18,6 +18,7 @@ const http = require("http");
 const clientRouter = require("./routers/client");
 const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
+const adminRouter = require("./routers/admin");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -63,6 +64,7 @@ let blocked = require("blocked");
 app.use("/:clientType", clientRouter);
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
+app.use("/admin", adminRouter);
 
 blocked((ms) => {
   if (ms > 3000) {

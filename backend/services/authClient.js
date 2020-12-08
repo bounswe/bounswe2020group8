@@ -36,6 +36,16 @@ exports.loginService = async function ({ email, password, __type }) {
   };
 };
 
+exports.logoutService = async function ({ tokenCode }) {
+  try {
+    await ClientTokenDataAccess.removeClientTokenByTokenCodeDB(tokenCode);
+  } catch {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_NO_CLIENT_ASSOCIATED_WITH_TOKEN);
+  }
+
+  return {};
+};
+
 exports.verifyEmailService = async function ({ verifyEmailToken }) {
   const client = await ClientDataAccess.getClientByVerifyEmailTokenDB(verifyEmailToken);
 

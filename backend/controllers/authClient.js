@@ -5,6 +5,8 @@ const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Constants = require("./../util/constants");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
+const AdminTokenDataAccess = require("../dataAccess/adminToken");
+
 const { isNull } = require("underscore");
 const { isNullOrEmpty } = require("../util/coreUtil");
 const AppError = require("../util/appError");
@@ -33,6 +35,16 @@ exports.loginController = BaseUtil.createController((req) => {
         email,
         password,
         __type,
+      })
+    );
+});
+
+exports.logoutController = BaseUtil.createController((req) => {
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      ClientService.logoutService({
+        tokenCode: req.tokenCode,
       })
     );
 });
@@ -138,8 +150,11 @@ exports.protectRoute = async (req, res, next) => {
   let tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(tokenCode);
 
   if (isNullOrEmpty(tokenWithClient)) {
-    req.custom.respObj = new AppError(Messages.RETURN_MESSAGES.ERR_VALIDATION_ERROR);
-    return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+    tokenWithClient = await AdminTokenDataAccess.getAdminTokenDB(tokenCode);
+    if (isNullOrEmpty(tokenWithClient)) {
+      req.custom.respObj = new AppError(Messages.RETURN_MESSAGES.ERR_VALIDATION_ERROR);
+      return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+    }
   }
 
   let client = tokenWithClient.client;
@@ -150,5 +165,6 @@ exports.protectRoute = async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.client = client;
+  req.tokenCode = tokenCode;
   next();
 };

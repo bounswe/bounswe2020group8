@@ -25,6 +25,12 @@ exports.removeClientTokenDB = function (_id) {
   });
 };
 
+exports.removeClientTokenByTokenCodeDB = function (tokenCode) {
+  return ClientToken.findOneAndDelete({
+    tokenCode,
+  });
+};
+
 exports.createClientTokenDB = function (clientToken) {
   return ClientToken.create(clientToken);
 };
