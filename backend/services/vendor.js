@@ -55,3 +55,18 @@ exports.signupService = async function ({
 
   return {};
 };
+
+exports.getProfile = async function ({ client }) {
+  return Formatters.formatVendor(client);
+};
+
+exports.patchProfile = async function ({ client, data }) {
+  const updatedVendor = await VendorDataAccess.updateVendorDB(client._id, data);
+  return Formatters.formatVendor(updatedVendor);
+};
+
+exports.freezeProfile = async function ({ client, data }) {
+  const frozenVendor = await VendorDataAccess.updateVendorDB(client._id, data);
+  await ClientTokenDataAccess.removeClientTokenDB(client._id);
+  return Formatters.formatVendor(frozenVendor);
+};
