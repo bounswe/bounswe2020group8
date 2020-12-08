@@ -73,21 +73,19 @@ exports.getProfile = BaseUtil.createController((req) => {
 });
 
 exports.patchProfile = BaseUtil.createController((req) => {
-  let { data } = req.body;
   return BB.all([]).then(() =>
     CustomerService.patchProfile({
       client: req.client,
-      data,
+      data: req.body,
     })
   );
 });
 
 exports.freezeProfile = BaseUtil.createController((req) => {
-  let { data } = req.body;
   return BB.all([]).then(() =>
     CustomerService.freezeProfile({
       client: req.client,
-      data,
+      data: req.body,
     })
   );
 });
