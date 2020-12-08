@@ -76,4 +76,3 @@ httpServer.listen(port, () => {
   console.log("node environment is: ", env);
   console.log("dyno is: ", Config.dyno);
 });
-
