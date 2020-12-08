@@ -76,7 +76,7 @@ class HomeFragment : Fragment() {
         }
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
-            intent.putExtra("id",product.id)
+            intent.putExtra("product",product)
             startActivity(intent)
         }
     }

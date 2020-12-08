@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import java.io.Serializable
 import java.util.*
 
 data class Product(
@@ -22,4 +23,4 @@ data class Product(
     val cargoCompany: String = "",
     val category: String = "",
     //val isConfirmed: Boolean
-    )
+    ) : Serializable
