@@ -5,10 +5,10 @@ const authController = require("../controllers/authClient");
 
 const router = express.Router();
 
-router.post("/login", AdminController.loginController, RequestHelper.returnResponse);
+router.post("/loginAdmin", AdminController.loginController, RequestHelper.returnResponse);
 
 router.use(authController.protectRoute);
 
-router.post("/logout", AdminController.logoutController, RequestHelper.returnResponse);
+router.post("/logoutAdmin", AdminController.logoutController, RequestHelper.returnResponse);
 
 module.exports = router;

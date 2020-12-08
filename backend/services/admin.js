@@ -1,8 +1,14 @@
 const AdminDataAccess = require("../dataAccess/admin");
 const AdminTokenDataAccess = require("../dataAccess/adminToken");
+const AppError = require("../util/appError");
+const Messages = require("../util/messages");
+const { sha1 } = require("../util/baseUtil");
+const { isNull } = require("../util/coreUtil");
 
 exports.loginService = async function ({ email, password }) {
+  console.log(email, password);
   const adminWithEmail = await AdminDataAccess.getAdminByEmailDB(email);
+  console.log(adminWithEmail);
 
   if (isNull(adminWithEmail)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_CLIENT_DOES_NOT_EXIST);
