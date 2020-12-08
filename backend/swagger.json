@@ -138,11 +138,15 @@
     "/customer/changePassword": {
       "post": {
         "tags": ["customer"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
-            "name": "tokenCode",
-            "description": "token code",
+            "name": "oldPassword",
             "required": true,
             "type": "string"
           },
@@ -310,6 +314,90 @@
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
+          }
+        }
+      }
+    },
+    "/customer/me": {
+      "patch": {
+        "tags": ["customer"],
+        "security": {
+          "bearerAuth": []
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "description": "Changed data object",
+            "required": true,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
+          }
+        }
+      },
+      "get": {
+        "tags": ["customer"],
+        "parameters": [],
+        "security": {
+          "bearerAuth": []
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["customer"],
+        "security": {
+          "bearerAuth": []
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "isActive",
+            "description": "Suspension status",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
           }
         }
       }
@@ -593,11 +681,15 @@
     "/vendor/changePassword": {
       "post": {
         "tags": ["vendor"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
-            "name": "tokenCode",
-            "description": "token code",
+            "name": "oldPassword",
             "required": true,
             "type": "string"
           },
@@ -697,6 +789,90 @@
           },
           "400": {
             "description": "Invalid resetPasswordToken or newPassword or newPasswordCheck"
+          }
+        }
+      }
+    },
+    "/vendor/me": {
+      "patch": {
+        "tags": ["vendor"],
+        "security": {
+          "bearerAuth": []
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "data",
+            "description": "Changed data object",
+            "required": true,
+            "type": "object"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
+          }
+        }
+      },
+      "get": {
+        "tags": ["vendor"],
+        "parameters": [],
+        "security": {
+          "bearerAuth": []
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["vendor"],
+        "security": {
+          "bearerAuth": []
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "isActive",
+            "description": "Suspension status",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bearer token"
           }
         }
       }

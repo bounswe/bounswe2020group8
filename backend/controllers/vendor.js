@@ -52,6 +52,32 @@ exports.signupController = BaseUtil.createController((req) => {
     );
 });
 
+exports.getProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.getProfile({
+      client: req.client,
+    })
+  );
+});
+
+exports.patchProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.patchProfile({
+      client: req.client,
+      data: req.body,
+    })
+  );
+});
+
+exports.freezeProfile = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.freezeProfile({
+      client: req.client,
+      data: req.body,
+    })
+  );
+});
+
 exports.getAllVendorsController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.getAll(Vendor)(req));
 });

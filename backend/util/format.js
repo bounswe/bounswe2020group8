@@ -12,32 +12,50 @@ exports.formatClient = function ({ _id, email, type, name, lastName }) {
   };
 };
 
-exports.formatCustomer = function ({ _id, email, type, name, lastName }) {
+exports.formatCustomer = function ({
+  _id,
+  email,
+  name,
+  lastName,
+  addresses,
+  phoneNumber,
+  birthday,
+  creditCards,
+}) {
   return {
-    id: _id.toString(),
-    name,
-    lastName,
-    email,
-    type,
+    data: {
+      id: _id.toString(),
+      name,
+      lastName,
+      email,
+      addresses,
+      phoneNumber,
+      birthday,
+      creditCards,
+    },
   };
 };
 
 exports.formatVendor = function ({
   _id,
   email,
-  type,
-  name,
-  lastName,
   companyName,
   companyDomainName,
+  aboutCompany,
+  address,
+  location,
+  IBAN,
 }) {
   return {
-    id: _id.toString(),
-    name,
-    lastName,
-    email,
-    type,
-    companyName,
-    companyDomainName,
+    data: {
+      id: _id.toString(),
+      email,
+      companyName,
+      companyDomainName,
+      aboutCompany,
+      address,
+      location,
+      IBAN,
+    },
   };
 };

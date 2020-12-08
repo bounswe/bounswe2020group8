@@ -51,8 +51,14 @@ exports.verifyEmailService = async function ({ verifyEmailToken }) {
   return {};
 };
 
-exports.changePasswordService = async function ({ token, newPassword }) {
-  await ClientDataAccess.updateClientPasswordDB(token.client._id, sha256(newPassword + "t2KB14o1"));
+exports.changePasswordService = async function ({ client, oldPassword, newPassword }) {
+  if (sha256(oldPassword + "t2KB14o1") !== client.password) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_PASSWORDS_DO_NOT_MATCH);
+  }
+  if (sha256(newPassword + "t2KB14o1") === client.password) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_INVALID_PASSWORD);
+  }
+  await ClientDataAccess.updateClientPasswordDB(client._id, sha256(newPassword + "t2KB14o1"));
 
   return {};
 };

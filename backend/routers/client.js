@@ -8,6 +8,7 @@ router.post("/login", ClientController.loginController, RequestHelper.returnResp
 router.get("/verifyEmail", ClientController.verifyEmailController, RequestHelper.returnResponse);
 router.post(
   "/changePassword",
+  ClientController.protectRoute,
   ClientController.changePasswordController,
   RequestHelper.returnResponse
 );
