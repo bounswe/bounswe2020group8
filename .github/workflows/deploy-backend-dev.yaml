@@ -1,0 +1,43 @@
+name: Backend-autodeploy-dev
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - backend
+    paths:
+      - 'backend/**'
+      - '.github/backend-deployment/dev-hosts'
+
+
+jobs:
+  build:
+    defaults:
+      run:
+        shell: bash
+    runs-on: ubuntu-latest
+    steps: 
+
+      - name: Check Ansible Playbook
+        run: |
+          ansible-playbook --version
+      
+      - name: Checkout to project
+        uses: actions/checkout@v2
+        with:
+          path: project
+
+
+      - name: Install private key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_BACKEND_PRIVATE_KEY }}
+          name: id_rsa
+          known_hosts: " "
+
+      - name: Run Ansible Playbook
+        working-directory: ./project/.github/backend-deployment
+        run: |
+          HOSTS=$( grep -oh -E "^([[:digit:]]+\.){3}[[:digit:]]+" dev-hosts)
+          ssh-keyscan $HOSTS >> ~/.ssh/known_hosts
+          ansible-playbook backend-dev.yml -i dev-hosts
+          
