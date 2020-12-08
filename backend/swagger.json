@@ -138,11 +138,15 @@
     "/customer/changePassword": {
       "post": {
         "tags": ["customer"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
-            "name": "tokenCode",
-            "description": "token code",
+            "name": "oldPassword",
             "required": true,
             "type": "string"
           },
@@ -593,11 +597,15 @@
     "/vendor/changePassword": {
       "post": {
         "tags": ["vendor"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
-            "name": "tokenCode",
-            "description": "token code",
+            "name": "oldPassword",
             "required": true,
             "type": "string"
           },

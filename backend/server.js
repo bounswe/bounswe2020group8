@@ -12,6 +12,7 @@ const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const http = require("http");
 const cors = require("cors");
 const clientRouter = require("./routers/client");
 const customerRouter = require("./routers/customer");
@@ -19,7 +20,6 @@ const vendorRouter = require("./routers/vendor");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
-const http = require("http");
 
 let swaggerDocument = require("./swagger.json");
 swaggerDocument.host = `${Config.hostAddr}:${Config.port}`;
@@ -68,14 +68,12 @@ blocked((ms) => {
     console.log("EventLoopBlocked", ms, Config.dyno, global.REQUEST_ID);
   }
 });
-const port = Config.port;
-app.listen(port, () => {
+
+const port = Config.httpPort;
+const httpServer = http.createServer(app);
+httpServer.listen(port, () => {
   const env = Config.env || Constants.NODE_ENV;
   console.log("%s is listening on %s", app.name, port, new Date());
   console.log("node environment is: ", env);
   console.log("dyno is: ", Config.dyno);
-});
-
-app.get("/", (req, res) => {
-  res.send(200, "Server is running");
 });
