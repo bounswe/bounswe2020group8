@@ -66,7 +66,7 @@ exports.patchProfile = async function ({ client, data }) {
 };
 
 exports.freezeProfile = async function ({ client, data }) {
-  const frozenVendor = await VendorDataAccess.updateCustomerDB(client._id, data);
+  const frozenVendor = await VendorDataAccess.updateVendorDB(client._id, data);
   await ClientTokenDataAccess.removeClientTokenDB(client._id);
   return Formatters.formatVendor(frozenVendor);
 };

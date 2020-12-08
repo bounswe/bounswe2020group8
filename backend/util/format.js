@@ -23,14 +23,16 @@ exports.formatCustomer = function ({
   creditCards,
 }) {
   return {
-    id: _id.toString(),
-    name,
-    lastName,
-    email,
-    addresses,
-    phoneNumber,
-    birthday,
-    creditCards,
+    data: {
+      id: _id.toString(),
+      name,
+      lastName,
+      email,
+      addresses,
+      phoneNumber,
+      birthday,
+      creditCards,
+    },
   };
 };
 
@@ -45,13 +47,15 @@ exports.formatVendor = function ({
   IBAN,
 }) {
   return {
-    id: _id.toString(),
-    email,
-    companyName,
-    companyDomainName,
-    aboutCompany,
-    address,
-    location,
-    IBAN,
+    data: {
+      id: _id.toString(),
+      email,
+      companyName,
+      companyDomainName,
+      aboutCompany,
+      address,
+      location,
+      IBAN,
+    },
   };
 };
