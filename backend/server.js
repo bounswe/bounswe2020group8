@@ -3,21 +3,18 @@ const mongooseConfig = require("./mongoose_config");
 const Config = require("./config");
 const Constants = require("./util/constants");
 const Messages = require("./util/messages");
-const BaseUtil = require("./util/baseUtil");
-const CoreUtil = require("./util/coreUtil");
 const RequestHelper = require("./util/requestHelper");
 const BB = require("bluebird");
-const _ = require("lodash");
 const swaggerUi = require("swagger-ui-express");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const http = require("http");
 const cors = require("cors");
-const http = require("http");
 const clientRouter = require("./routers/client");
 const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
+const categoryRouter = require("./routers/category");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -63,6 +60,7 @@ let blocked = require("blocked");
 app.use("/:clientType", clientRouter);
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
+app.use("/category", categoryRouter);
 
 blocked((ms) => {
   if (ms > 3000) {
