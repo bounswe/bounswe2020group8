@@ -1,11 +1,25 @@
+const express = require("express");
 const VendorController = require("../controllers/vendor");
 const RequestHelper = require("./../util/requestHelper");
+const authController = require("../controllers/authClient");
 
-const rootPath = "/vendor/";
+const router = express.Router();
 
-module.exports = function (server) {
-  server.post(`${rootPath}me`, VendorController.getProfile, RequestHelper.returnResponse);
-  server.patch(`${rootPath}me`, VendorController.patchProfile, RequestHelper.returnResponse);
-  server.delete(`${rootPath}me`, VendorController.deleteUser, RequestHelper.returnResponse);
-  server.post(`${rootPath}signup`, VendorController.signupController, RequestHelper.returnResponse);
-};
+router.post("/signup", VendorController.signupController, RequestHelper.returnResponse);
+
+// BELOW ARE PROTECTED ROUTES
+router.use(authController.protectRoute);
+
+router.post("/me", VendorController.getProfile, RequestHelper.returnResponse);
+router.patch("/me", VendorController.patchProfile, RequestHelper.returnResponse);
+router.delete("/me", VendorController.deleteUser, RequestHelper.returnResponse);
+
+router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
+
+router
+  .route("/:id")
+  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
+  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
+
+module.exports = router;

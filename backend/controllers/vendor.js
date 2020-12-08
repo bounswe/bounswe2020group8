@@ -3,7 +3,8 @@ const AppValidator = require("../util/appValidator");
 const BaseUtil = require("../util/baseUtil");
 const Messages = require("../util/messages");
 const BB = require("bluebird");
-const Constants = require("./../util/constants");
+const Vendor = require("../models/vendor");
+const factory = require("../services/crudFactory");
 
 exports.signupController = BaseUtil.createController((req) => {
   let {
@@ -87,4 +88,20 @@ exports.deleteUser = BaseUtil.createController((req) => {
       })
     )
   );
+});
+
+exports.getAllVendorsController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.getAll(Vendor)(req));
+});
+
+exports.getOneVendorController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.getOne(Vendor)(req));
+});
+
+exports.updateOneVendorController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.updateOne(Vendor)(req));
+});
+
+exports.deleteOneVendorController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.deleteOne(Vendor)(req));
 });
