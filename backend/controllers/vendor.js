@@ -53,40 +53,30 @@ exports.signupController = BaseUtil.createController((req) => {
 });
 
 exports.getProfile = BaseUtil.createController((req) => {
-  let { token } = req.body;
-
-  return BB.all(
-    [].then(() =>
-      VendorService.getProfile({
-        token,
-      })
-    )
+  return BB.all([]).then(() =>
+    VendorService.getProfile({
+      client: req.client,
+    })
   );
 });
 
 exports.patchProfile = BaseUtil.createController((req) => {
-  let { data, tokenCode } = req.body;
-
-  return BB.all(
-    [].then(() =>
-      VendorService.patchProfile({
-        data,
-        tokenCode,
-      })
-    )
+  let { data } = req.body;
+  return BB.all([]).then(() =>
+    VendorService.patchProfile({
+      client: req.client,
+      data,
+    })
   );
 });
 
-exports.deleteUser = BaseUtil.createController((req) => {
-  let { isSuspended, tokenCode } = req.body;
-
-  return BB.all(
-    [].then(() =>
-      VendorService.deleteUser({
-        isSuspended,
-        tokenCode,
-      })
-    )
+exports.freezeProfile = BaseUtil.createController((req) => {
+  let { data } = req.body;
+  return BB.all([]).then(() =>
+    VendorService.freezeProfile({
+      client: req.client,
+      data,
+    })
   );
 });
 

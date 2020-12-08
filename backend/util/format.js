@@ -20,6 +20,7 @@ exports.formatCustomer = function ({
   addresses,
   phoneNumber,
   birthday,
+  creditCards,
 }) {
   return {
     id: _id.toString(),
@@ -29,6 +30,7 @@ exports.formatCustomer = function ({
     addresses,
     phoneNumber,
     birthday,
+    creditCards,
   };
 };
 

@@ -56,43 +56,17 @@ exports.signupService = async function ({
   return {};
 };
 
-exports.getProfile = async function ({ token }) {
-  const vendor = await VendorDataAccess.getVendorByIdDB(token.customer._id);
-
-  if (isNull(vendor)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
-  }
-
-  return Formatters.formatVendor({
-    id: vendor._id,
-    email: vendor.email,
-    companyName: vendor.companyName,
-    companyDomainName: vendor.companyDomainName,
-    aboutCompany: vendor.aboutCompany,
-    address: vendor.address,
-    location: vendor.location,
-    IBAN: vendor.IBAN,
-  });
+exports.getProfile = async function ({ client }) {
+  return Formatters.formatVendor(client);
 };
 
-exports.patchProfile = async function ({ data, tokenCode }) {
-  const vendor = await CustomerDataAccess.getCustomerByIdDB(tokenCode.customer._id);
-
-  if (isNull(vendor)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
-  }
-
-  await VendorDataAccess.updateVendorDB(vendor._id, data);
-  return {};
+exports.patchProfile = async function ({ client, data }) {
+  const updatedVendor = await VendorDataAccess.updateVendorDB(client._id, data);
+  return Formatters.formatVendor(updatedVendor);
 };
 
-exports.deleteUser = async function ({ isSuspended, tokenCode }) {
-  const vendor = await VendorDataAccess.getCustomerByIdDB(tokenCode.vendor._id);
-
-  if (isNull(vendor)) {
-    throw new AppError(Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN);
-  }
-
-  await CustomerDataAccess.updateCustomerDB(vendor._id, isSuspended);
-  await ClientTokenDataAccess.removeClientTokenDB(vendor._id);
+exports.freezeProfile = async function ({ client, data }) {
+  const frozenVendor = await VendorDataAccess.updateCustomerDB(client._id, data);
+  await ClientTokenDataAccess.removeClientTokenDB(client._id);
+  return Formatters.formatVendor(frozenVendor);
 };

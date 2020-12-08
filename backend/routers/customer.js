@@ -19,9 +19,11 @@ router.post(
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
 
-router.post("/me", CustomerController.getProfile, RequestHelper.returnResponse);
-router.patch("/me", CustomerController.patchProfile, RequestHelper.returnResponse);
-router.delete("/me", CustomerController.deleteUser, RequestHelper.returnResponse);
+router
+  .route("/me")
+  .get(CustomerController.getProfile, RequestHelper.returnResponse)
+  .patch(CustomerController.patchProfile, RequestHelper.returnResponse)
+  .delete(CustomerController.freezeProfile, RequestHelper.returnResponse);
 
 router.get("/", CustomerController.getAllCustomersController, RequestHelper.returnResponse);
 

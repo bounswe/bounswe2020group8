@@ -69,33 +69,25 @@ exports.loginWithGoogleController = BaseUtil.createController((req) => {
 });
 
 exports.getProfile = BaseUtil.createController((req) => {
-  let { tokenCode } = req.body;
-
-  return BB.all([]).then(() =>
-    CustomerService.getProfile({
-      tokenCode,
-    })
-  );
+  return BB.all([]).then(() => CustomerService.getProfile({ client: req.client }));
 });
 
 exports.patchProfile = BaseUtil.createController((req) => {
-  let { data, tokenCode } = req.body;
-
+  let { data } = req.body;
   return BB.all([]).then(() =>
     CustomerService.patchProfile({
+      client: req.client,
       data,
-      tokenCode,
     })
   );
 });
 
-exports.deleteUser = BaseUtil.createController((req) => {
-  let { isSuspended, tokenCode } = req.body;
-
+exports.freezeProfile = BaseUtil.createController((req) => {
+  let { data } = req.body;
   return BB.all([]).then(() =>
-    CustomerService.deleteUser({
-      isSuspended,
-      tokenCode,
+    CustomerService.freezeProfile({
+      client: req.client,
+      data,
     })
   );
 });

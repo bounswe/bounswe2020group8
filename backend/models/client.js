@@ -10,6 +10,7 @@ var clientSchema = new Schema(
     lastName: { type: String },
     password: { type: String },
     isSuspended: { type: Boolean },
+    isActive: { type: Boolean },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     googleID: { type: String, default: null },
