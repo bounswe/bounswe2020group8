@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
+import PasswordForm from "../../components/PasswordForm/PasswordForm";
+import InputUI from "../../components/UI/InputUI/InputUI";
 
 const { Option } = Select;
 
 export default class Profile extends Component {
+  state = { visible: false };
   prefixSelector = () => {
     return (
       <Form.Item name="prefix" noStyle>
@@ -14,6 +17,10 @@ export default class Profile extends Component {
         </Select>
       </Form.Item>
     );
+  };
+
+  eraseError = () => {
+    this.setState({ visible: false });
   };
 
   onFinish = () => {
@@ -103,58 +110,27 @@ export default class Profile extends Component {
           onFinishFailed={this.onFinishFailed}
         >
           <Form.Item
-            label="Old Password"
             name="old-password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            label="New Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            name="confirm"
-            label="Confirm Password"
-            dependencies={["password"]}
-            hasFeedback
             rules={[
               {
                 required: true,
-                message: "Please confirm your password!",
+                message: "Please input your current password!",
               },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    "The two passwords that you entered do not match!"
-                  );
-                },
-              }),
             ]}
           >
-            <Input.Password />
+            <InputUI
+              inputType="password"
+              placeholder="Old-password"
+              iconSel="locked"
+            />
           </Form.Item>
-
+          <PasswordForm eraseError={this.eraseError} />
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <ButtonPrimary
-                title="Change Password"
-                style={{ width: 150, justifyContent: "right" }}
-                onClick={() => console.log("clicked")}
-              />
-            </div>
+            <ButtonPrimary
+              title="Change Password"
+              style={{ width: 150, justifyContent: "right" }}
+              onClick={() => console.log("clicked")}
+            />
           </Form.Item>
         </Form>
       </div>
@@ -180,9 +156,7 @@ export default class Profile extends Component {
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
 
-          <Col span={11} style={{ textAlign: "left" }}>
-            {this.renderPasswordChangeForm()}
-          </Col>
+          <Col span={11}>{this.renderPasswordChangeForm()}</Col>
         </Row>
       </div>
     );
