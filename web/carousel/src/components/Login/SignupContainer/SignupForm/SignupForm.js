@@ -4,10 +4,6 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
-
-import classes from "./SignupForm.module.css";
-
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import PasswordForm from "../../../PasswordForm/PasswordForm";
 
 const SignupForm = (props) => {
@@ -90,7 +86,7 @@ const SignupForm = (props) => {
           placeholder="E-mail"
         />
       </Form.Item>
-      <PasswordForm eraseError={eraseError}/>
+      <PasswordForm eraseError={eraseError} />
       <Form.Item name="name">
         <InputUI
           name="name"
