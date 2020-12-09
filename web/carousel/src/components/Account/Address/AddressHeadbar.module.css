@@ -5,8 +5,8 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
   border: solid white;
+  border-radius: 5px;
   background-color: white;
   margin: 35px;
   padding-left: 35px;
