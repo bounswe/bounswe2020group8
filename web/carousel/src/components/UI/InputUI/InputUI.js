@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import classes from "../UI.module.css";
-import { UserOutlined, LockOutlined, BankOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, BankOutlined, MailOutlined, CloudOutlined } from '@ant-design/icons';
 import UserInfo from "../../Context/UserInfo";
 
 const InputUI = (props) => {
@@ -11,13 +11,15 @@ const InputUI = (props) => {
     const renderSwitch = (param) => {
         switch(param) {
             case "user":
-                return <span className={classes.Icon}><UserOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><UserOutlined  className={classes.IconImg}/></span>;
+            case "domain":
+                return <span className={classes.Icon} style={props.styleIcon}><CloudOutlined  className={classes.IconImg}/></span>;
             case "locked":
-                return <span className={classes.Icon}><LockOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><LockOutlined  className={classes.IconImg}/></span>;
             case "bank":
-                return <span className={classes.Icon}><BankOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><BankOutlined  className={classes.IconImg}/></span>;
             case "email":
-                return <span className={classes.Icon}><MailOutlined  className={classes.IconImg}/></span>;
+                return <span className={classes.Icon} style={props.styleIcon}><MailOutlined  className={classes.IconImg}/></span>;
             default:
                 return null;
         }
@@ -27,7 +29,6 @@ const InputUI = (props) => {
 
 
     const inputChange = (data) => {
-        console.log("data: " + data);
         switch (props.name) {
             case "email":
                 user.changeEmail(data);
@@ -44,11 +45,14 @@ const InputUI = (props) => {
             case "name":
                 user.setName(data);
                 return;
-            case "company":
-                user.setCompanyName(data);
-                return;
             case "surname":
                 user.setSurname(data);
+            case "companyName":
+                user.setCompanyName(data);
+                return;
+            case "companyDomain":
+                user.setCompanyDomain(data);
+                return;
         }
     }
 
@@ -62,6 +66,7 @@ const InputUI = (props) => {
                 placeholder={props.placeholder}
                 style={hasIcon ? null : {paddingLeft:"0" }}
                 onClick={props.clicked}
+                style={props.styleInput}
             />
         </span>
     );
