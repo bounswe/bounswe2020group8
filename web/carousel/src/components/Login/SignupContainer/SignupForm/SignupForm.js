@@ -27,6 +27,10 @@ const SignupForm = (props) => {
       isFirstRun.current = false;
       return;
     } else {
+      if (user.error && !userType) {
+        setVisible(true);
+        setError(false);
+      } else setVisible(false);
       return () => {
         setUserType(false);
       };
@@ -90,7 +94,7 @@ const SignupForm = (props) => {
         />
       </Form.Item>
       <PasswordForm eraseError={eraseError} />
-      <Form.Item name="name">
+      <Form.Item>
         <InputUI
           name="name"
           clicked={eraseError}
