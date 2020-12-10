@@ -108,5 +108,7 @@ exports.patchProfile = async function ({ client, data }) {
 exports.freezeProfile = async function ({ client, data }) {
   const frozenCustomer = await CustomerDataAccess.updateCustomerDB(client._id, data);
   await ClientTokenDataAccess.removeClientTokenDB(client._id);
-  return Formatters.formatCustomer(frozenCustomer);
+  return {
+    data: null,
+  };
 };

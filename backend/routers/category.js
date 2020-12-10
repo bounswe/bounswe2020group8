@@ -7,8 +7,10 @@ const router = express.Router();
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
 
-router.get("/", CategoryController.getAllCategoryController, RequestHelper.returnResponse);
-router.post("/", CategoryController.createOneCategoryController, RequestHelper.returnResponse);
+router
+  .route("/")
+  .get(CategoryController.getAllCategoryController, RequestHelper.returnResponse)
+  .post(CategoryController.createOneCategoryController, RequestHelper.returnResponse);
 
 router
   .route("/:id")

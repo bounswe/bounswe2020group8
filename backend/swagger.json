@@ -24,9 +24,72 @@
     "/category": {
       "get": {
         "tags": ["category"],
+        "description": "Returns all the categories. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields's name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.",
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "name of the field to sort, An example would be: sort=name,lastName. Default doesn't sort anything",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "number of elements to return, default is 1000",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "page number for the results, default is 1",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "in": "query",
+            "name": "fields",
+            "description": "Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/CategoryList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authorization error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["category"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/Category"
+            }
           }
         ],
         "responses": {
@@ -52,38 +115,6 @@
         "security": [
           {
             "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/responses/Category"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Authorization error"
-          }
-        }
-      },
-      "post": {
-        "tags": ["category"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/components/schemas/Category"
-            }
           }
         ],
         "responses": {
@@ -252,6 +283,32 @@
           },
           "400": {
             "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/customer/logout": {
+      "post": {
+        "tags": ["customer"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token"
           }
         }
       }
@@ -476,10 +533,10 @@
         "parameters": [
           {
             "in": "body",
-            "name": "data",
-            "description": "Changed data object",
-            "required": true,
-            "type": "object"
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/Customer"
+            }
           }
         ],
         "responses": {
@@ -488,7 +545,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/Customer"
                 }
               }
             }
@@ -510,7 +567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/Customer"
                 }
               }
             }
@@ -525,22 +582,14 @@
         "security": {
           "bearerAuth": []
         },
-        "parameters": [
-          {
-            "in": "query",
-            "name": "isActive",
-            "description": "Suspension status",
-            "required": true,
-            "type": "boolean"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/NullData"
                 }
               }
             }
@@ -565,28 +614,28 @@
             "in": "query",
             "name": "sort",
             "description": "name of the field to sort, An example would be: sort=name,lastName. Default doesn't sort anything",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
             "in": "query",
             "name": "limit",
             "description": "number of elements to return, default is 1000",
-            "required": true,
+            "required": false,
             "type": "number"
           },
           {
             "in": "query",
             "name": "page",
             "description": "page number for the results, default is 1",
-            "required": true,
+            "required": false,
             "type": "number"
           },
           {
             "in": "query",
             "name": "fields",
             "description": "Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field",
-            "required": true,
+            "required": false,
             "type": "number"
           }
         ],
@@ -677,19 +726,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/responses/ApiResponse"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "type": "null"
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/responses/NullData"
                 }
               }
             }
@@ -770,13 +807,13 @@
         "parameters": [
           {
             "in": "query",
-            "name": "password",
+            "name": "email",
             "required": true,
             "type": "string"
           },
           {
             "in": "query",
-            "name": "email",
+            "name": "password",
             "required": true,
             "type": "string"
           }
@@ -794,6 +831,32 @@
           },
           "400": {
             "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/vendor/logout": {
+      "post": {
+        "tags": ["vendor"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token"
           }
         }
       }
@@ -950,10 +1013,10 @@
         "parameters": [
           {
             "in": "body",
-            "name": "data",
-            "description": "Changed data object",
-            "required": true,
-            "type": "object"
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/Vendor"
+            }
           }
         ],
         "responses": {
@@ -962,7 +1025,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/Vendor"
                 }
               }
             }
@@ -984,7 +1047,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/Vendor"
                 }
               }
             }
@@ -999,22 +1062,14 @@
         "security": {
           "bearerAuth": []
         },
-        "parameters": [
-          {
-            "in": "query",
-            "name": "isActive",
-            "description": "Suspension status",
-            "required": true,
-            "type": "boolean"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/responses/ApiResponse"
+                  "$ref": "#/components/responses/NullData"
                 }
               }
             }
@@ -1039,28 +1094,28 @@
             "in": "query",
             "name": "sort",
             "description": "name of the field to sort, An example would be: sort=name,lastName. Default doesn't sort anything",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
             "in": "query",
             "name": "limit",
             "description": "number of elements to return, default is 1000",
-            "required": true,
+            "required": false,
             "type": "number"
           },
           {
             "in": "query",
             "name": "page",
             "description": "page number for the results, default is 1",
-            "required": true,
+            "required": false,
             "type": "number"
           },
           {
             "in": "query",
             "name": "fields",
             "description": "Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field",
-            "required": true,
+            "required": false,
             "type": "number"
           }
         ],
@@ -1151,25 +1206,73 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/responses/ApiResponse"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "type": "null"
-                        }
-                      }
-                    }
-                  ]
+                  "$ref": "#/components/responses/NullData"
                 }
               }
             }
           },
           "400": {
             "description": "Authorization error"
+          }
+        }
+      }
+    },
+    "/admin/loginAdmin": {
+      "post": {
+        "tags": ["admin"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponseWtoken"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email or password or type"
+          }
+        }
+      }
+    },
+    "/admin/logoutAdmin": {
+      "post": {
+        "tags": ["admin"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token"
           }
         }
       }
@@ -1217,14 +1320,8 @@
           {
             "type": "object",
             "properties": {
-              "results": {
-                "type": "number"
-              },
               "data": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Customer"
-                }
+                "type": "null"
               }
             }
           }
@@ -1240,6 +1337,27 @@
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        ]
+      },
+      "CategoryList": {
+        "allOf": [
+          {
+            "$ref": "#/components/responses/ApiResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "results": {
+                "type": "number"
+              },
+              "data": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Category"
+                }
               }
             }
           }
@@ -1335,6 +1453,12 @@
           "email": {
             "type": "string"
           },
+          "isSuspended": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
           "shoppingLists": {
             "type": "object list"
           },
@@ -1377,6 +1501,12 @@
           "email": {
             "type": "string"
           },
+          "isSuspended": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
           "companyName": {
             "type": "string"
           },
@@ -1408,6 +1538,21 @@
             "format": "mongoID"
           },
           "name": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "mongoID"
+          },
+          "email": {
             "type": "string"
           }
         },

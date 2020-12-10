@@ -74,12 +74,12 @@
 
   - name: Stop backend-app
     command: pm2 stop backend-app chdir={{homeDir}}/{{appDir}}/{{projectName}}/backend
-    when: isNode.rc == 0
+    when:  file_details.stat.exists 
     ignore_errors: yes
     become: no
 
   - name: Start backend-app
     command: pm2 start server.js --name backend-app chdir={{homeDir}}/{{appDir}}/{{projectName}}/backend
     ignore_errors: yes
-    when: npm_finished is succeeded
+    when: npm_finished is succeeded and file_details.stat.exists 
     become: no

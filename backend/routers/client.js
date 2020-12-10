@@ -24,8 +24,11 @@ router.post(
   RequestHelper.returnResponse
 );
 
-router.use(authController.protectRoute);
-
-router.post("/logout", ClientController.logoutController, RequestHelper.returnResponse);
+router.post(
+  "/logout",
+  authController.protectRoute,
+  ClientController.logoutController,
+  RequestHelper.returnResponse
+);
 
 module.exports = router;
