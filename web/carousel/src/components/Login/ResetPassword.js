@@ -5,6 +5,8 @@ import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 
 import axios from "axios";
 import qs from "qs";
+import { Form } from "antd";
+import PasswordForm from "../PasswordForm/PasswordForm";
 
 let apiBaseUrl = "http://18.198.51.178:8080/";
 
@@ -18,6 +20,7 @@ class ResetPassword extends Component {
       errorMessage: "",
       password: "",
       passwordConfirm: "",
+      visible: false,
     };
   }
 
@@ -37,16 +40,34 @@ class ResetPassword extends Component {
       this.setState({ buttonActive: true });
     }
   };
-
+  eraseError = () => {
+    this.setState({ visible: false });
+  };
   render() {
-    console.log(this.props);
-
     return (
       <div className={classes.ResetPassword}>
         {!this.state.sent ? (
           <div>
             <h1>Reset your password</h1>
-            <form className={classes.Form}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Form style={{ alignItems: "center" }}>
+                <PasswordForm eraseError={this.eraseError} />
+                <Form.Item>
+                  <ButtonSecondary
+                    title="Reset Password"
+                    onClick={() => console.log("clicked reset")}
+                  />
+                </Form.Item>
+              </Form>
+            </div>
+
+            {/* <form className={classes.Form}>
               <br />
               <input
                 className={classes.Input}
@@ -93,7 +114,7 @@ class ResetPassword extends Component {
                 uppercase letter, one numeric digit, and must not contain white
                 space.
               </p>
-            </form>
+            </form> */}
           </div>
         ) : (
           <div>
