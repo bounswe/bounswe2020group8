@@ -102,7 +102,7 @@ export default class Profile extends Component {
     return (
       <div>
         <Form
-          style={{ backgroundColor: "#fafafa", width: 350 }}
+          style={{ width: 350 }} //backgroundColor: "#fafafa",
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -126,13 +126,22 @@ export default class Profile extends Component {
             />
           </Form.Item>
           <PasswordForm eraseError={this.eraseError} />
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <ButtonPrimary
-              title="Change Password"
-              style={{ width: 150, marginRight: "0.2" }}
-              onClick={() => console.log("clicked")}
-            />
-          </Form.Item>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingRight: 40,
+            }}
+          >
+            <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+              <ButtonPrimary
+                title="Change Password"
+                style={{ width: 150 }}
+                onClick={() => console.log("clicked")}
+              />
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );

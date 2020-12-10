@@ -58,12 +58,15 @@ class ResetPassword extends Component {
             >
               <Form style={{ alignItems: "center" }}>
                 <PasswordForm eraseError={this.eraseError} />
-                <Form.Item>
-                  <ButtonSecondary
-                    title="Reset Password"
-                    onClick={() => console.log("clicked reset")}
-                  />
-                </Form.Item>
+                <div>
+                  <Form.Item>
+                    <ButtonSecondary
+                      title="Reset Password"
+                      style={{ width: 300, fontSize: 20 }}
+                      onClick={() => console.log("clicked reset")}
+                    />
+                  </Form.Item>
+                </div>
               </Form>
             </div>
 
