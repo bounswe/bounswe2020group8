@@ -81,6 +81,5 @@
   - name: Start backend-app
     command: pm2 start server.js --name backend-app chdir={{homeDir}}/{{appDir}}/{{projectName}}/backend
     ignore_errors: yes
-    
     when: npm_finished is succeeded and file_details.stat.exists 
     become: no
