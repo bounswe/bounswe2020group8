@@ -3,9 +3,15 @@ const ClientBase = require("./client");
 
 const Schema = mongoose.Schema;
 
+var shoppingList = {
+    id: { type: String },
+    title: { type: String },
+    wishedProducts: { type: String }, // This will be product object later on
+}
+
 var customerSchema = new Schema(
   {
-    shoppingLists: { type: String },
+    shoppingLists: [shoppingList],
     orders: { type: String },
     cart: { type: String },
     addresses: { type: String },
