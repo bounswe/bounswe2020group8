@@ -70,7 +70,7 @@ blocked((ms) => {
   }
 });
 
-const port = Config.httpPort;
+const port = Config.port;
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => {
   const env = Config.env || Constants.NODE_ENV;
