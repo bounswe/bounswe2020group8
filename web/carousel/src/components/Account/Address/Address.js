@@ -1,5 +1,4 @@
 import classes from "./Address.module.css";
-import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
@@ -30,7 +29,7 @@ const Address = (props) => {
         <p>{props.address.details}</p>
       </div>
       <div className={classes.ButtonRow}>
-        <DeleteOutlined />
+        <DeleteOutlined style={{ fontSize: "20px" }} />
         <EditOutlined onClick={handleEdit} />
       </div>
     </div>

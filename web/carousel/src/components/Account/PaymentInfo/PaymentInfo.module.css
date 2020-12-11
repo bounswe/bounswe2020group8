@@ -1,0 +1,22 @@
+.PaymentInfoBox {
+  margin: 26px;
+  display: inline-block;
+  font-size: medium;
+  padding: 10px;
+}
+
+.CreditCard {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.Header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
