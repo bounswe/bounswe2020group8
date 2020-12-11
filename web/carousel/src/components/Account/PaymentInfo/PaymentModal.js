@@ -5,9 +5,6 @@ import Cards from "react-credit-cards";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import classes from "./PaymentModal.module.css";
 
-const { Option } = Select;
-const { TextArea } = Input;
-
 export default class PaymentModal extends Component {
   state = {
     cvc: "",

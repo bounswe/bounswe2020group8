@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Account.css";
 import "react-credit-cards/es/styles-compiled.css";
 
+import { DeleteOutlined } from "@ant-design/icons";
 import PaymentInfo from "../../components/Account/PaymentInfo/PaymentInfo";
 import PaymentInfoHeadbar from "../../components/Account/PaymentInfo/PaymentInfoHeadbar";
 import PaymentModal from "../../components/Account/PaymentInfo/PaymentModal";
