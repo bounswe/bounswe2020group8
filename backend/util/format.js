@@ -2,13 +2,15 @@ exports.formatClientToken = function ({ tokenCode, client }) {
   return { tokenCode, client: exports.formatClient(client) };
 };
 
-exports.formatClient = function ({ _id, email, type, name, lastName }) {
+exports.formatClient = function ({ _id, email, type, name, lastName, isActive, isSuspended }) {
   return {
     id: _id.toString(),
     name,
     lastName,
     email,
     type,
+    isActive,
+    isSuspended,
   };
 };
 
@@ -21,6 +23,8 @@ exports.formatCustomer = function ({
   phoneNumber,
   birthday,
   creditCards,
+  isActive,
+  isSuspended,
 }) {
   return {
     data: {
@@ -32,6 +36,8 @@ exports.formatCustomer = function ({
       phoneNumber,
       birthday,
       creditCards,
+      isActive,
+      isSuspended,
     },
   };
 };
@@ -45,6 +51,8 @@ exports.formatVendor = function ({
   address,
   location,
   IBAN,
+  isActive,
+  isSuspended,
 }) {
   return {
     data: {
@@ -56,6 +64,8 @@ exports.formatVendor = function ({
       address,
       location,
       IBAN,
+      isActive,
+      isSuspended,
     },
   };
 };
