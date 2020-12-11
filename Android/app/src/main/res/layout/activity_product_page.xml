@@ -1,34 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ProductPageActivity"
+            >
+
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProductPageActivity">
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/product_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.09">
+
         <ImageView
             android:id="@+id/image"
             android:layout_width="250dp"
-            android:layout_height="220dp"/>
+            android:layout_height="220dp"
+            android:layout_gravity="center"/>
         <TextView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="1"
-            android:paddingLeft="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingLeft="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#202020"
+            android:textSize="32sp"
+            android:gravity="center"/>
         <TextView
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="1"
             android:paddingLeft="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:textColor="#202020"
+            android:textSize="24sp"
+            android:gravity="center"/>
+        <LinearLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/login_password"
+        >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cart_button"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginEnd="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/addToCart"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/list_button"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_horizontal"
+                android:text="@string/addToList"/>
+
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+    <View android:id="@+id/underProduct"
+          style="@style/Divider" android:layout_marginTop="32dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/product_frame"/>
+    <TextView
+        android:id="@+id/descriptionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minLines="1"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/descriptionTitle"
+        android:textColor="#202020" android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/underProduct" app:layout_constraintVertical_bias="0.0"/>
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minLines="1"
+        android:paddingLeft="5dp"
+        android:paddingBottom="5dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" app:layout_constraintVertical_bias="0.0"/>
+    <View android:id="@+id/underDescription"
+          style="@style/Divider" android:layout_marginTop="32dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/description"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginEnd="732dp" android:layout_marginRight="732dp"
+        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/underDescription"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add a comment"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/underDescription">
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <RatingBar
+        android:id="@+id/rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@color/colorWhite" android:numStars="5"
+        android:isIndicator="false"
+        android:stepSize="1" app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/comments"
+        app:layout_constraintVertical_bias="1.0"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:hint="Add a comment"
+        app:layout_constraintTop_toBottomOf="@+id/comments"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

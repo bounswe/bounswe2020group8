@@ -2,6 +2,7 @@ package com.example.carousel
 
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.ArrayList
 
 data class Product(
     val id: Int,
@@ -12,7 +13,7 @@ data class Product(
     val price: Double,
     val rating: Double = 0.0,
     val numberOfRatings: Int = 0,
-    //val comments: Comments[]
+    val comments: ArrayList<Comment> = ArrayList<Comment>(),
     //val photoUrl: String,
     val photoUrl: Int, //temporarily
     val tags: String = "",
