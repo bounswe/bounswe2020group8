@@ -15,7 +15,9 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         val homeFragment = HomeFragment()
+        val categoriesFragment = CategoriesFragment()
         val cartFragment = CartFragment()
+        val searchFragment = SearchFragment()
         val memberAccountPageFragment = MemberAccountPageFragment()
         val login = 0
         setCurrentFragment(homeFragment)
@@ -23,7 +25,9 @@ class DashboardActivity : AppCompatActivity() {
         bottomAppBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
+                R.id.categories -> setCurrentFragment(categoriesFragment)
                 R.id.settings -> setCurrentFragment(cartFragment)
+                R.id.search -> setCurrentFragment(searchFragment)
                 R.id.person -> setCurrentFragment(memberAccountPageFragment)
             }
             true

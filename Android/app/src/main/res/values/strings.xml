@@ -67,4 +67,8 @@
     <string name="new_password_confirm">Confirm Password</string>
     <string name="send_button">Send</string>
     <string name="forgot_password_cancel">Cancel</string>
+    <string name="sort">SORT</string>
+    <string name="filter">FILTER</string>
+    <string name="categories">Categories</string>
+    <string name="search">Search</string>
 </resources>
