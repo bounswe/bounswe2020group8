@@ -4,10 +4,9 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
-
 import classes from "./SignupForm.module.css";
-
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import GoogleLoginButton from "../../../GoogleLoginButton";
 import PasswordForm from "../../../PasswordForm/PasswordForm";
 
 const SignupForm = (props) => {
@@ -26,9 +25,12 @@ const SignupForm = (props) => {
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
-      console.log("returning");
       return;
     } else {
+      if (user.error && !userType) {
+        setVisible(true);
+        setError(false);
+      } else setVisible(false);
       return () => {
         setUserType(false);
       };
@@ -38,8 +40,6 @@ const SignupForm = (props) => {
   const eraseError = () => {
     setVisible(false);
   };
-  console.log("userInfo err: " + user.error);
-  console.log("user type: " + userType);
 
   return (
     <Form
@@ -51,9 +51,12 @@ const SignupForm = (props) => {
         margin: "auto",
         display: "grid",
         fontSize: "16px",
-        paddingTop: "40px",
+        marginTop: "40px",
       }}
     >
+      <p>
+        {user.userType === "Customer" ? "Customer Signup" : "Vendor Signup"}
+      </p>
       {visible ? (
         <p
           style={{
@@ -81,7 +84,7 @@ const SignupForm = (props) => {
           .
         </p>
       )}
-      <Form.Item name="email">
+      <Form.Item>
         <InputUI
           name="email"
           clicked={eraseError}
@@ -90,37 +93,49 @@ const SignupForm = (props) => {
           placeholder="E-mail"
         />
       </Form.Item>
-      <PasswordForm eraseError={eraseError}/>
-      <Form.Item name="name">
+      <PasswordForm eraseError={eraseError} />
+      <Form.Item>
         <InputUI
           name="name"
           clicked={eraseError}
           inputType="text"
           placeholder="Name"
           iconSel="user"
+          width="100px"
+          styleInput={{ width: "100px" }}
+        />
+        <InputUI
+          name="surname"
+          clicked={eraseError}
+          inputType="text"
+          placeholder="Surname"
+          iconSel="user"
+          styleInput={{ width: "100px" }}
+          styleIcon={{ marginLeft: "10px" }}
         />
       </Form.Item>
       {user.userType === "Vendor" ? (
-        <Form.Item name="company">
-          <InputUI
-            name="company"
-            clicked={eraseError}
-            inputType="text"
-            placeholder="Company Name"
-            iconSel="bank"
-          />
-        </Form.Item>
-      ) : (
-        <Form.Item name="surname">
-          <InputUI
-            name="surname"
-            clicked={eraseError}
-            inputType="text"
-            placeholder="Surname"
-            iconSel="user"
-          />
-        </Form.Item>
-      )}
+        <>
+          <Form.Item>
+            <InputUI
+              name="companyName"
+              clicked={eraseError}
+              inputType="text"
+              placeholder="Company Name"
+              iconSel="bank"
+            />
+          </Form.Item>
+          <Form.Item>
+            <InputUI
+              name="companyDomain"
+              clicked={eraseError}
+              inputType="text"
+              placeholder="Company Website Domain"
+              iconSel="domain"
+            />
+          </Form.Item>
+        </>
+      ) : null}
 
       {/*BUTTONS*/}
       <Form.Item style={{ marginBottom: "-20px" }}>
@@ -132,6 +147,11 @@ const SignupForm = (props) => {
             setError(true);
           }}
         ></ButtonPrimary>
+
+        {user.userType === "Customer" ? (
+          <GoogleLoginButton title={"Sign up with Google"} isSignup={true} />
+        ) : null}
+
         <br style={{ height: "10px" }} />
         <ButtonSecondary
           style={{
