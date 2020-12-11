@@ -10,19 +10,26 @@ import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.RequestLogin
+import com.example.carousel.pojo.ResponseLogin
+import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.gson.Gson
+import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.view.*
 import okhttp3.*
+import org.json.JSONObject
 import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    //private val baseUrl = "http://10.0.2.2:3000"
     private val baseUrl = "http://18.198.51.178:8080"
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
@@ -30,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        bindProgressButton(findViewById<RadioButton>(R.id.login_button))
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -52,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
+        GoogleSignIn.getLastSignedInAccount(this)
         //if(account!=null) {
 
         //}
@@ -66,50 +73,29 @@ class LoginActivity : AppCompatActivity() {
             true -> type = "CLIENT";
             false -> type = "VENDOR"
         }
-        loginCall(email, password, type)
 
-
+        val t = RequestLogin(email = email, password = password)
+        val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+        apiCallerLogin.Button = view.login_button
+        apiCallerLogin.Caller = ApiClient.getClient.login(t)
+        apiCallerLogin.Success = {
+            if (it != null) {
+                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+                    val intent = Intent()
+                    intent.putExtra("token", it.tokenCode)
+                    intent.putExtra("login", 1)
+                    intent.putExtra("fullName", it.returnMessage)
+                    setResult(RESULT_OK, intent)
+                    finish();
+                })
+            }
+        }
+        apiCallerLogin.Failure = {}
+        apiCallerLogin.run()
     }
 
     private fun loginCall(email: String, password: String, type: String) {
-        val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client/login?email=$email&password=$password&type=$type"
-        val request = Request.Builder()
-            .addHeader("accept", "application/json")
-            .url(httpUrl)
-            .post(postBody)
-            .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Failure", e.stackTraceToString())
-            }
-
-
-            override fun onResponse(call: Call, response: Response) {
-                val json =
-                    Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
-                val responseCode = response.code
-                if (responseCode == 200) {
-                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent()
-                        intent.putExtra("token", json.tokenCode)
-                        intent.putExtra("login", 1)
-                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
-                        setResult(RESULT_OK, intent)
-                        finish();
-                    })
-                } else {
-                    this@LoginActivity.runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            json.returnMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                }
-            }
-        })
     }
 
     private fun signInCall(email: String?, googleId: String?) {
@@ -136,7 +122,10 @@ class LoginActivity : AppCompatActivity() {
                         val intent = Intent()
                         intent.putExtra("token", json.tokenCode)
                         intent.putExtra("login", 1)
-                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
+                        intent.putExtra(
+                            "fullName",
+                            "${json.client.name} ${json.client.lastName}"
+                        )
                         setResult(RESULT_OK, intent)
                         finish();
                     })
