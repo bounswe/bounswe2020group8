@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        bindProgressButton(findViewById<RadioButton>(R.id.login_button))
+        bindProgressButton(login_button)
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -66,8 +66,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(view: View) {
-        val email = findViewById<EditText>(R.id.login_email).text.toString()
-        val password = findViewById<EditText>(R.id.login_password).text.toString()
+        val email = login_email.text.toString()
+        val password = login_password.text.toString()
         val type: String
         when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
             true -> type = "CLIENT";
@@ -76,8 +76,8 @@ class LoginActivity : AppCompatActivity() {
 
         val t = RequestLogin(email = email, password = password)
         val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
-        apiCallerLogin.Button = view.login_button
-        apiCallerLogin.Caller = ApiClient.getClient.login(t)
+        apiCallerLogin.Button = login_button
+        apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
         apiCallerLogin.Success = {
             if (it != null) {
                 this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
@@ -92,10 +92,6 @@ class LoginActivity : AppCompatActivity() {
         }
         apiCallerLogin.Failure = {}
         apiCallerLogin.run()
-    }
-
-    private fun loginCall(email: String, password: String, type: String) {
-
     }
 
     private fun signInCall(email: String?, googleId: String?) {

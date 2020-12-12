@@ -9,6 +9,11 @@ data class ResponseLogin(
     @Expose @SerializedName("returnCode") val returnCode: Int
 )
 
+data class ResponseCustomerSignup(
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+    @Expose @SerializedName("returnCode") val returnCode: Int
+)
+
 data class ResponseError(
     @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int

@@ -1,13 +1,15 @@
 package com.example.carousel
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_dashboard.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.activity_dashboard.*
+
 
 class DashboardActivity : AppCompatActivity() {
-
+    var sp: SharedPreferences? = null
     private lateinit var textMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
