@@ -1,5 +1,6 @@
 package com.example.carousel.pojo
 
+import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -12,6 +13,12 @@ data class ResponseLogin(
 data class ResponseCustomerSignup(
     @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int
+)
+
+data class ResponseStandard(
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("data") val data: JsonObject
 )
 
 data class ResponseError(

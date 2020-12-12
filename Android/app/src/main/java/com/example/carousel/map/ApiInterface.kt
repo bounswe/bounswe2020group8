@@ -26,4 +26,7 @@ interface ApiInterface {
         @Query("password") password: String,
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseCustomerSignup>
 
+    @GET("/customer/me")
+    fun customerMe(): Call<ResponseStandard>
+
 }

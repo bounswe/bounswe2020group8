@@ -1,11 +1,18 @@
 package com.example.carousel.map
 
-import com.example.carousel.map.ApiInterface
+import android.content.Intent
+import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import com.google.gson.GsonBuilder
-import okhttp3.*
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import kotlin.jvm.Throws
 
 
 object ApiClient {
@@ -24,6 +31,7 @@ object ApiClient {
             val client = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .addInterceptor(HeaderInterceptor())
+                .authenticator(HeaderInterceptor())
                 .build()
 
             val retrofit = Retrofit.Builder()

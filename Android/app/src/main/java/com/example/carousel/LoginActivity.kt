@@ -1,19 +1,21 @@
 package com.example.carousel
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.RequestLogin
 import com.example.carousel.pojo.ResponseLogin
+import com.example.carousel.pojo.ResponseStandard
 import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -21,11 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.gson.Gson
-import com.tapadoo.alerter.Alerter
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.view.*
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
 
@@ -74,18 +73,34 @@ class LoginActivity : AppCompatActivity() {
             false -> type = "VENDOR"
         }
 
-        val t = RequestLogin(email = email, password = password)
         val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
         apiCallerLogin.Button = login_button
         apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
-        apiCallerLogin.Success = {
+        apiCallerLogin.Success = { it ->
             if (it != null) {
                 this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                    val intent = Intent()
-                    intent.putExtra("token", it.tokenCode)
-                    intent.putExtra("login", 1)
-                    intent.putExtra("fullName", it.returnMessage)
-                    setResult(RESULT_OK, intent)
+
+                    val prefs =
+                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putString("token", it.tokenCode)
+                    editor.putBoolean("isAuthenticated", true)
+                    editor.apply()
+                    ApplicationContext.instance.authenticate(it.tokenCode)
+
+                    val apiCallerGetUser: ApiCaller<ResponseStandard> = ApiCaller(this@LoginActivity)
+                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                    apiCallerGetUser.Success = {
+                        if (it != null) {
+                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+
+                                finish();
+                            })
+                        }
+                    }
+                    apiCallerGetUser.Failure = {}
+                    apiCallerGetUser.run()
                     finish();
                 })
             }
