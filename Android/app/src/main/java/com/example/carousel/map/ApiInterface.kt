@@ -18,15 +18,30 @@ interface ApiInterface {
         @Query("password") password: String
     ): Call<ResponseLogin>
 
+    //customer login request
+    @POST("/customer/sigIn")
+    fun signIn(
+        @Query("email") email: String,
+        @Query("googleID") googleID: String
+    ): Call<ResponseLogin>
+
     @POST("/customer/signup")
     fun customerSignup(
         @Query("name") name: String,
         @Query("lastName") lastName: String,
         @Query("email") email: String,
         @Query("password") password: String,
-        @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseCustomerSignup>
+        @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
+
+    @POST("/vendor/signup")
+    fun vendorSignup(
+        @Query("name") name: String,
+        @Query("lastName") lastName: String,
+        @Query("email") email: String,
+        @Query("password") password: String,
+        @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
 
     @GET("/customer/me")
-    fun customerMe(): Call<ResponseStandard>
+    fun customerMe(): Call<ResponseCustomerMe>
 
 }

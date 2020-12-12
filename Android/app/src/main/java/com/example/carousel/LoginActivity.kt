@@ -13,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.RequestLogin
-import com.example.carousel.pojo.ResponseLogin
-import com.example.carousel.pojo.ResponseStandard
+import com.example.carousel.pojo.*
 import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -88,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                     editor.apply()
                     ApplicationContext.instance.authenticate(it.tokenCode)
 
-                    val apiCallerGetUser: ApiCaller<ResponseStandard> = ApiCaller(this@LoginActivity)
+                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
                     apiCallerGetUser.Success = {
                         if (it != null) {
@@ -110,47 +108,42 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signInCall(email: String?, googleId: String?) {
-        val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client/loginWithGoogle?email=$email&googleId=$googleId"
-        val request = Request.Builder()
-            .addHeader("accept", "application/json")
-            .url(httpUrl)
-            .post(postBody)
-            .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Failure", e.stackTraceToString())
+        val apiCallerSignIn: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+        apiCallerSignIn.Button = login_button
+        apiCallerSignIn.Caller = ApiClient.getClient.signIn(email!!, googleId!!)
+        apiCallerSignIn.Success = { it ->
+            if (it != null) {
+                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+                    val prefs =
+                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putString("token", it.tokenCode)
+                    editor.putBoolean("isAuthenticated", true)
+                    editor.apply()
+                    ApplicationContext.instance.authenticate(it.tokenCode)
+
+                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
+                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                    apiCallerGetUser.Success = {
+                        if (it != null) {
+                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+
+                                finish();
+                            })
+                        }
+                    }
+                    apiCallerGetUser.Failure = {}
+                    apiCallerGetUser.run()
+                    finish();
+                })
             }
+        }
+        apiCallerSignIn.Failure = {}
+        apiCallerSignIn.run()
 
-
-            override fun onResponse(call: Call, response: Response) {
-                val json =
-                    Gson().fromJson(response.body?.string(), SignInWithGoogleJSON::class.java)
-                val responseCode = response.code
-                if (responseCode == 200) {
-                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent()
-                        intent.putExtra("token", json.tokenCode)
-                        intent.putExtra("login", 1)
-                        intent.putExtra(
-                            "fullName",
-                            "${json.client.name} ${json.client.lastName}"
-                        )
-                        setResult(RESULT_OK, intent)
-                        finish();
-                    })
-                } else {
-                    this@LoginActivity.runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Invalid email or password",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                }
-            }
-        })
     }
 
     fun signup(view: View) {
