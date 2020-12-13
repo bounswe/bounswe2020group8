@@ -66,7 +66,7 @@
     <string name="new_password">New Password</string>
     <string name="new_password_confirm">Confirm Password</string>
     <string name="send_button">Send</string>
-    <string name="forgot_password_cancel">Cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="descriptionTitle">Description</string>
     <string name="addToCart">Add to Cart</string>
     <string name="addToList">Add to List</string>

@@ -6,12 +6,12 @@ import kotlin.collections.ArrayList
 
 data class Product(
     val id: Int,
-    //val vendorId: String,
+    val vendorId: String = "Belethor",
     val title: String,
     val description: String = "",
     val amountLeft: Int = 0,
     val price: Double,
-    val rating: Double = 0.0,
+    val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
     val comments: ArrayList<Comment> = ArrayList<Comment>(),
     //val photoUrl: String,

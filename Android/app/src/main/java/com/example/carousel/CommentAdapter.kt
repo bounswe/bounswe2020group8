@@ -1,16 +1,13 @@
 package com.example.carousel
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class CommentAdapter (    private val commentList: ArrayList<Comment> ) : RecyclerView.Adapter<CommentAdapter.ViewHolder>(){
-    var onItemClick: ((Comment) -> Unit)? = null
 
     override fun getItemCount(): Int {
         return commentList.size
@@ -20,12 +17,6 @@ class CommentAdapter (    private val commentList: ArrayList<Comment> ) : Recycl
         val username: TextView = itemView.findViewById(R.id.comment_owner)
         val rating: RatingBar = itemView.findViewById(R.id.rating)
         val body: TextView = itemView.findViewById(R.id.body)
-
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(commentList[adapterPosition])
-            }
-        }
 
     }
 
@@ -39,5 +30,12 @@ class CommentAdapter (    private val commentList: ArrayList<Comment> ) : Recycl
         holder.rating.rating = commentList[position].rating
         holder.body.text = commentList[position].body
 
+    }
+    fun getRating(): Float{
+        var sum = 0f
+        for(item in commentList){
+            sum+= item.rating
+        }
+        return sum/commentList.size
     }
 }
