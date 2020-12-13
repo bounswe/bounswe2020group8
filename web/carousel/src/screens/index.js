@@ -8,6 +8,7 @@ import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
 import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
+import Search from "./Search";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
+            <Route path="/search" exact component={Search} />
             <Route render={() => <NotFound />} />
           </Switch>
         </Router>

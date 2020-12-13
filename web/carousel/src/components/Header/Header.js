@@ -33,13 +33,13 @@ class Header extends Component {
   // detect enter on search bar
   keyPressHandler = (e) => {
     if (e.key === "Enter") {
-      alert("Searching");
+      this.props.history.push("/search");
     }
   };
 
   // clicked on search incon
   iconPressHandler = (e) => {
-    alert("Searching");
+    this.props.history.push("/search");
   };
 
   render() {
