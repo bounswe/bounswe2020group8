@@ -54,6 +54,9 @@ const InputUI = (props) => {
       case "password":
         user.setPassword(data);
         return;
+      case "oldPassword":
+        user.setOldPassword(data);
+        return;
       case "signupPassword":
         user.setPassword(data);
         return;

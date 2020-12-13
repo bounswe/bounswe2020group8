@@ -46,6 +46,17 @@ const PasswordForm = (props) => {
 
   return (
     <>
+      {props.showOldPassword ? (
+        <Form.Item name="oldPassword">
+          <InputUI
+            name="oldPassword"
+            clicked={props.eraseError}
+            inputType="password"
+            placeholder="Old-password"
+            iconSel="locked"
+          />
+        </Form.Item>
+      ) : null}
       <Form.Item name="signupPassword">
         <InputUI
           name="signupPassword"
