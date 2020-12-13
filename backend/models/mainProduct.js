@@ -7,13 +7,6 @@ const parameter = {
   values: [{ type: String }],
 };
 
-const link = {
-  paramName = {type: String},
-  values: [{
-    paramValue: {type: String},
-    childLinks: [{type: Schema.Types.ObjectId, ref: "Product"}]
-  }]
-}
 var mainProductSchema = new Schema(
   {
     title: { type: String },
@@ -28,7 +21,6 @@ var mainProductSchema = new Schema(
     category: { type: String },
     isConfirmed: { type: Boolean },
     tags: [{ type: String }],
-    links: [{type: link}],
   },
   {
     collection: "MainProducts",

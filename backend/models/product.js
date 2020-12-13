@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const vendor = {
+const vendorSpecific = {
   vendorID: { type: String },
   price: { type: Number },
   amountLeft: { type: Number },
@@ -11,12 +11,17 @@ const vendor = {
   isConfirmed: { type: Boolean },
 };
 
+const parameter = {
+  name: { type: String },
+  value: { type: String },
+};
+
 var productSchema = new Schema(
   {
     tags: [{ type: String }],
-    parameters: [{ type: String }],
-    vendors: [{ type: vendor }],
-    default: { type: vendor },
+    parameters: [{ type: parameter }],
+    vendorSpecifics: [{ type: vendorSpecific }],
+    default: { type: vendorSpecific },
     photos: { type: Boolean },
     parentProduct: { type: Object },
   },
