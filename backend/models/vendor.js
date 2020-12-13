@@ -13,14 +13,18 @@ var address = {
   phone: {type: String},
 }
 
+var location = {
+  location: {type: String},
+}
+
 var vendorSchema = new Schema(
   {
     companyName: { type: String },
     companyDomainName: { type: String },
     aboutCompany: { type: String },
-    IBAN: { type: String },
-    address: { type: address },
-    location: { type: String },
+    IBAN: {type: String },
+    address: {type: address },
+    location: {type: String },
   },
   { collection: "Clients" }
 );
