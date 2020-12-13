@@ -13,11 +13,12 @@ const vendor = {
 
 var productSchema = new Schema(
   {
-    parameters: { type: String },
+    tags: [{ type: String }],
+    parameters: [{ type: String }],
     vendors: [{ type: vendor }],
     default: { type: vendor },
     photos: { type: Boolean },
-    parentProducts: { type: Object },
+    parentProduct: { type: Object },
   },
   {
     collection: "Products",
