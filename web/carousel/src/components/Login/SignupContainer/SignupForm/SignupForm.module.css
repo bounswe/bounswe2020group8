@@ -1,0 +1,25 @@
+
+.PasswordCheck {
+    height: 8px;
+    font-size: 6px;
+    text-align: left;
+    align-items: center;
+    margin-top: -4px;
+    margin-left: 10px;
+    display: block;
+}
+
+.Span {
+    display: flex;
+    height: 13px;
+    margin-left: 10px;
+}
+
+.Icon {
+    height: 10px;
+    width: 10px;
+    font-size: 10px;
+    margin-top: -5px;
+    margin-right: -8px;
+    color: forestgreen;
+}

@@ -1,11 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
+import PasswordForm from "../../components/PasswordForm/PasswordForm";
+import UserInfo from "../../components/Context/UserInfo";
+import axios from "axios";
 
 const { Option } = Select;
+const apiBaseUrl = "http://18.198.51.178:8080/";
 
 export default class Profile extends Component {
+  state = { visible: false };
+  static contextType = UserInfo;
+
   prefixSelector = () => {
     return (
       <Form.Item name="prefix" noStyle>
@@ -16,12 +23,31 @@ export default class Profile extends Component {
     );
   };
 
-  onFinish = () => {
-    console.log("finished");
+  eraseError = () => {
+    this.setState({ visible: false });
   };
 
-  onFinishFailed = () => {
-    console.log("unfinished");
+  onChangePassword = () => {
+    const url = apiBaseUrl + "customer/changePassword";
+    const payload = {
+      oldPassword: this.context.oldPassword,
+      newPassword: this.context.password,
+      newPasswordRepeat: this.context.passwordConfirm,
+    };
+    axios
+      .post(url, null, { params: payload })
+      .then((response) => {
+        console.log(response.data);
+        this.context.error = false;
+        this.setState({ visible: false });
+        this.props.history.push("/");
+      })
+      .catch((err, response) => {
+        console.log(err);
+        this.context.error = true;
+        this.setState({ visible: true });
+        console.log("resp daata: " + response);
+      });
   };
 
   renderProfileChangeForm() {
@@ -95,67 +121,45 @@ export default class Profile extends Component {
     return (
       <div>
         <Form
+          style={{ width: 350 }}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           size="middle"
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
         >
-          <Form.Item
-            label="Old Password"
-            name="old-password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+          <div style={{ padding: 10 }}>
+            {this.state.visible ? (
+              <p
+                style={{
+                  backgroundColor: "#ffb3b3",
+                  color: "darkred",
+                  margin: "auto",
+                  marginTop: "-20px",
+                  border: "1px solid darkred",
+                  width: "240px",
+                }}
+              >
+                Invalid password!
+              </p>
+            ) : null}
+          </div>
+          <PasswordForm showOldPassword eraseError={this.eraseError} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              paddingRight: 40,
+            }}
           >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            label="New Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            name="confirm"
-            label="Confirm Password"
-            dependencies={["password"]}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Please confirm your password!",
-              },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    "The two passwords that you entered do not match!"
-                  );
-                },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
+            <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
               <ButtonPrimary
                 title="Change Password"
-                style={{ width: 150, justifyContent: "right" }}
-                onClick={() => console.log("clicked")}
+                style={{ width: 150 }}
+                onClick={this.onChangePassword}
               />
-            </div>
-          </Form.Item>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );
@@ -180,9 +184,7 @@ export default class Profile extends Component {
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
 
-          <Col span={11} style={{ textAlign: "left" }}>
-            {this.renderPasswordChangeForm()}
-          </Col>
+          <Col span={11}>{this.renderPasswordChangeForm()}</Col>
         </Row>
       </div>
     );

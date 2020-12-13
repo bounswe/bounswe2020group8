@@ -44,7 +44,7 @@ class Account extends Component {
         <Menu
           mode="inline"
           selectedKeys={[path[2]]}
-          openKeys={[submenukeys[path[[2]]]]}
+          defaultOpenKeys={[submenukeys[path[2]]]}
           style={{ height: "100%" }}
         >
           <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
