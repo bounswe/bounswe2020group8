@@ -7,6 +7,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
+import GoogleLoginButton from "../../../GoogleLoginButton";
 
 const LoginForm = (props) => {
   const [error, setError] = useState(false);
@@ -18,7 +19,7 @@ const LoginForm = (props) => {
   useEffect(() => {
     if (isFirstRun.current) {
       isFirstRun.current = false;
-      console.log("returning");
+      user.setUserType("Customer");
       return;
     } else {
       if (user.error) {
@@ -49,6 +50,9 @@ const LoginForm = (props) => {
         paddingTop: "40px",
       }}
     >
+      <p style={{ marginTop: "-60px" }}>
+        {user.userType === "Customer" ? "Customer Login" : "Vendor Login"}
+      </p>
       {visible ? (
         <p
           style={{
@@ -115,13 +119,24 @@ const LoginForm = (props) => {
           }}
         ></ButtonPrimary>
         <br style={{ height: "10px" }} />
+
+        {user.userType === "Customer" ? <GoogleLoginButton /> : null}
         <ButtonSecondary
-          style={{ width: "274px", fontSize: "16px" }}
-          title={"Login as Vendor"}
+          style={{
+            width: "274px",
+            fontSize: "14px",
+            textDecoration: "underline",
+          }}
+          title={
+            user.userType === "Customer"
+              ? "Login as Vendor"
+              : "Login as Customer"
+          }
           onClick={() => {
             setError(true);
-            props.clicked();
-            user.setUserType("Vendor");
+            user.userType === "Customer"
+              ? user.setUserType("Vendor")
+              : user.setUserType("Customer");
           }}
         ></ButtonSecondary>
       </Form.Item>

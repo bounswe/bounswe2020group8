@@ -16,78 +16,90 @@ import {
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { signIn, signOut } from "../../../redux/auth/actions";
+import { signOut } from "../../../redux/auth/actions";
+import { useGoogleLogout } from "react-google-login";
 
-class SideButtons extends Component {
-  profileMenu() {
-    return (
-      <Menu>
-        <Menu.Item>
-          <Link to="/account/profile">
-            <UserOutlined />
-            My Profile
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/account/active-order">
-            <ShoppingOutlined />
-            My Order
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/account/comments">
-            <CommentOutlined />
-            My Feedbacks
-          </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link to="/account/recommendation">
-            <NotificationOutlined />
-            New Recommendations
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="Logout" onClick={() => this.handleLogoutClicked()}>
-          <Link to="/">
-            <LogoutOutlined />
-            Log out
-          </Link>
-        </Menu.Item>
-      </Menu>
-    );
-  }
-  handleLogoutClicked() {
-    this.props.signOut();
-  }
+function SideButtons(props) {
+  const clientId =
+    "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
 
-  render() {
-    return (
-      <div className={classes.SideButtons}>
-        {this.props.isSignedIn ? (
-          <DropdownContainer
-            title={"ACCOUNT"}
-            icon={<UserOutlined />}
-            list={this.profileMenu()}
-          />
-        ) : (
-          <ButtonSecondary
-            title={"LOGIN"}
-            icon={<BookOutlined />}
-            onClick={() => this.props.history.push("/login")}
-          ></ButtonSecondary>
-        )}
-        <ButtonPrimary
-          icon={<HeartOutlined />}
-          title={"LIST"}
-          onClick={() => this.props.history.push("/account/list")}
+  const onLogoutSuccess = (res) => {
+    props.signOut();
+    console.log("Logged out Success");
+  };
+
+  const onFailure = () => {
+    console.log("Handle failure cases");
+  };
+
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess,
+    onFailure,
+  });
+
+  const profileMenu = (
+    <Menu>
+      <Menu.Item>
+        <Link to="/account/profile">
+          <UserOutlined />
+          My Profile
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/account/active-order">
+          <ShoppingOutlined />
+          My Order
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/account/comments">
+          <CommentOutlined />
+          My Feedbacks
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/account/recommendation">
+          <NotificationOutlined />
+          New Recommendations
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="Logout" onClick={signOut}>
+        <Link to="/">
+          <LogoutOutlined />
+          Log out
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+
+  return (
+    <div className={classes.SideButtons}>
+      {props.isSignedIn ? (
+        <DropdownContainer
+          title={"ACCOUNT"}
+          icon={<UserOutlined />}
+          list={profileMenu}
         />
-        <ButtonPrimary
-          icon={<ShoppingCartOutlined />}
-          title={"CART"}
-          onClick={() => this.props.history.push("/account/cart")}
-        />
-      </div>
-    );
-  }
+      ) : (
+        <ButtonSecondary
+          title={"LOGIN"}
+          icon={<BookOutlined />}
+          onClick={() => props.history.push("/login")}
+        ></ButtonSecondary>
+      )}
+      <ButtonPrimary
+        icon={<HeartOutlined />}
+        title={"LIST"}
+        onClick={() => props.history.push("/account/list")}
+      />
+      <ButtonPrimary
+        icon={<ShoppingCartOutlined />}
+        title={"CART"}
+        onClick={() => props.history.push("/account/cart")}
+      />
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {
@@ -96,6 +108,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, { signIn, signOut })(SideButtons)
-);
+export default withRouter(connect(mapStateToProps, { signOut })(SideButtons));

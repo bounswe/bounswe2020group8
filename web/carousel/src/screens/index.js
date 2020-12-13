@@ -7,8 +7,8 @@ import Reset from "./Reset";
 import Account from "./Account";
 import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
-
 import Header from "../components/Header/Header";
+import NotFound from "./NotFound";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ const App = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
+  const [companyDomain, setCompanyDomain] = useState("");
   const [error, setError] = useState(false);
 
   const loginHandler = (newEmail, newToken) => {
@@ -59,7 +60,8 @@ const App = () => {
           userType: userType,
           name: name,
           surname: surname,
-          companyName: name,
+          companyName: companyName,
+          companyDomain: companyDomain,
           error: error,
           login: loginHandler,
           changeEmail: emailChangeHandler,
@@ -67,6 +69,7 @@ const App = () => {
           setOldPassword: oldPasswordChangeHandler,
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
+          setCompanyDomain: setCompanyDomain,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,
@@ -82,6 +85,7 @@ const App = () => {
             <Route path="/forgot" exact component={Forgot} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/account" component={Account} />
+            <Route render={() => <NotFound />} />
           </Switch>
         </Router>
       </UserInfo.Provider>
