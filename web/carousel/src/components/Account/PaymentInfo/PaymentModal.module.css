@@ -1,0 +1,17 @@
+.Form {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.Input {
+  background: #f9f9f9;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  outline: none;
+  font-weight: 300;
+}

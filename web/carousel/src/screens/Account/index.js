@@ -18,6 +18,7 @@ import List from "./List";
 import Cart from "./Cart";
 import Comments from "./Comments";
 import Rate from "./Rate";
+import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
 
 const { SubMenu } = Menu;
@@ -103,6 +104,7 @@ class Account extends Component {
           <Route path="/account" exact component={Profile} />
           <Route path="/account/profile" exact component={Profile} />
           <Route path="/account/address" exact component={Address} />
+          <Route path="/account/payment" exact component={PaymentInfo} />
           <Route path="/account/active-order" exact component={ActiveOrder} />
           <Route
             path="/account/inactive-order"

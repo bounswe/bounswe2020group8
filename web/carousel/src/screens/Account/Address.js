@@ -6,7 +6,11 @@ import AddressHeadbar from "../../components/Account/Address/AddressHeadbar";
 import AddressModal from "../../components/Account/Address/AddressModal";
 
 const AddressList = (props) => {
-  const [modal, setModal] = useState({ visible: false, address: {} });
+  const [modal, setModal] = useState({
+    visible: false,
+    edit: false,
+    address: {},
+  });
 
   var addressList = [];
   for (var i = 0; i < 15; i++) {
