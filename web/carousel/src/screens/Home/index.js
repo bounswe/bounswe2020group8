@@ -2,7 +2,6 @@ import ProductCarousel from "../../components/ProductList/ProductCarousel";
 import beautyBanner from "../../assets/images/beauty_banner.png";
 import fashionBanner from "../../assets/images/fashion_banner.png";
 import smartphonesBanner from "../../assets/images/smartphones_banner.png";
-import AliceCarousel from "react-alice-carousel";
 
 import { Carousel } from "antd";
 
@@ -79,15 +78,20 @@ export default function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <div style={{paddingTop: "30px"}}>
-
-        <div style={{width: '70%', margin: "50px auto", alignContent: "center"}}>
-          <Carousel autoplay>
-            <img src={fashionBanner} />
-            <img src={beautyBanner} />
-            <img src={smartphonesBanner} />
-          </Carousel>
-        </div>
+        <div style={{ paddingTop: "30px" }}>
+          <div
+            style={{
+              width: "70%",
+              margin: "50px auto",
+              alignContent: "center",
+            }}
+          >
+            <Carousel autoplay>
+              <img src={fashionBanner} />
+              <img src={beautyBanner} />
+              <img src={smartphonesBanner} />
+            </Carousel>
+          </div>
         </div>
 
         <ProductCarousel title={"Hotsellers"} productList={productList} />
