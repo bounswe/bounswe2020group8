@@ -37,9 +37,7 @@ exports.signupController = BaseUtil.createController((req) => {
 });
 
 exports.addToCartController = BaseUtil.createController((req) => {
-  let { email, item } = req.query;
-  ShoppingCartService.addToCartService({
-    email,
-    item,
-  });
+  let { id, cart } = req.query;
+  console.log(cart);
+  return BB.all([ShoppingCartService.addToCartService(id, cart)]);
 });
