@@ -35,6 +35,18 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
+exports.updateCustomerCartDB = function (_id, cart) {
+  return Customer.findByIdAndUpdate(
+    _id,
+    {
+      $set: {
+        cart,
+      },
+    },
+    { _id: 1 }
+  );
+};
+
 exports.updateCustomerVerifyEmailTokenDB = function (_id, verifyEmailToken) {
   return Customer.findByIdAndUpdate(
     _id,

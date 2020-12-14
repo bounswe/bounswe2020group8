@@ -16,6 +16,7 @@ const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
 const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
+const shoppingCartRouter = require("./routers/shoppingCart");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -63,6 +64,7 @@ app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
 app.use("/admin", adminRouter);
 app.use("/category", categoryRouter);
+app.use("/shoppingCart", shoppingCartRouter);
 
 blocked((ms) => {
   if (ms > 3000) {
