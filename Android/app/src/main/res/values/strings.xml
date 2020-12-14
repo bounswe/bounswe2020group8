@@ -59,7 +59,7 @@
     <string name="productName8">SAMSUNG 870 QVO SATA III 2.5\' SSD $199.99</string>
     <string name="productName9">Introducing Fire TV Stick Lite with Alexa Voice Remote Lite $18.99</string>
     <string name="productName10">To Kill a Mockingbird $14.99</string>
-    <string name="productName11">Arlo VMC2030-100NAS Essential Spotlight Camera $99.99</string>
+    <string name="productName11">Arlo VMC2030–100NAS Essential Spotlight Camera $99.99</string>
     <string name="productName12">Compact Wireless Smart Speaker $180.99</string>
     <string name="title2">New Arrivals</string>
     <string name="title3">Top Sellers</string>
@@ -71,4 +71,7 @@
     <string name="filter">FILTER</string>
     <string name="categories">Categories</string>
     <string name="search">Search</string>
+    <string name="api_error">Server is currently unavailable</string>
+    <string name="alert_error_title">Error</string>
+    <string name="submitting">Sending</string>
 </resources>
