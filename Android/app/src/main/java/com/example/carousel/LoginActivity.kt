@@ -1,15 +1,20 @@
 package com.example.carousel
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.*
+import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,7 +27,6 @@ import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    //private val baseUrl = "http://10.0.2.2:3000"
     private val baseUrl = "http://18.198.51.178:8080"
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
@@ -30,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+        bindProgressButton(login_button)
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -52,105 +56,94 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
+        GoogleSignIn.getLastSignedInAccount(this)
         //if(account!=null) {
 
         //}
     }
 
     fun login(view: View) {
-        val email = findViewById<EditText>(R.id.login_email).text.toString()
-        val password = findViewById<EditText>(R.id.login_password).text.toString()
+        val email = login_email.text.toString()
+        val password = login_password.text.toString()
         val type: String
         when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
             true -> type = "CLIENT";
             false -> type = "VENDOR"
         }
-        loginCall(email, password, type)
+
+        val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+        apiCallerLogin.Button = login_button
+        apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
+        apiCallerLogin.Success = { it ->
+            if (it != null) {
+                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+                    val prefs =
+                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putString("token", it.tokenCode)
+                    editor.putBoolean("isAuthenticated", true)
+                    editor.apply()
+                    ApplicationContext.instance.authenticate(it.tokenCode)
+
+                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
+                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                    apiCallerGetUser.Success = {
+                        if (it != null) {
+                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
 
 
-    }
-
-    private fun loginCall(email: String, password: String, type: String) {
-        val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client/login?email=$email&password=$password&type=$type"
-        val request = Request.Builder()
-            .addHeader("accept", "application/json")
-            .url(httpUrl)
-            .post(postBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Failure", e.stackTraceToString())
+                                finish();
+                            })
+                        }
+                    }
+                    apiCallerGetUser.Failure = {}
+                    apiCallerGetUser.run()
+                    finish();
+                })
             }
-
-
-            override fun onResponse(call: Call, response: Response) {
-                val json =
-                    Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
-                val responseCode = response.code
-                if (responseCode == 200) {
-                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent()
-                        intent.putExtra("token", json.tokenCode)
-                        intent.putExtra("login", 1)
-                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
-                        setResult(RESULT_OK, intent)
-                        finish();
-                    })
-                } else {
-                    this@LoginActivity.runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            json.returnMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                }
-            }
-        })
+        }
+        apiCallerLogin.Failure = {}
+        apiCallerLogin.run()
     }
 
     private fun signInCall(email: String?, googleId: String?) {
-        val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client/loginWithGoogle?email=$email&googleId=$googleId"
-        val request = Request.Builder()
-            .addHeader("accept", "application/json")
-            .url(httpUrl)
-            .post(postBody)
-            .build()
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("Failure", e.stackTraceToString())
+        val apiCallerSignIn: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+        apiCallerSignIn.Button = login_button
+        apiCallerSignIn.Caller = ApiClient.getClient.signIn(email!!, googleId!!)
+        apiCallerSignIn.Success = { it ->
+            if (it != null) {
+                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+                    val prefs =
+                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                    val editor = prefs.edit()
+                    editor.putString("token", it.tokenCode)
+                    editor.putBoolean("isAuthenticated", true)
+                    editor.apply()
+                    ApplicationContext.instance.authenticate(it.tokenCode)
+
+                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
+                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                    apiCallerGetUser.Success = {
+                        if (it != null) {
+                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+
+                                finish();
+                            })
+                        }
+                    }
+                    apiCallerGetUser.Failure = {}
+                    apiCallerGetUser.run()
+                    finish();
+                })
             }
+        }
+        apiCallerSignIn.Failure = {}
+        apiCallerSignIn.run()
 
-
-            override fun onResponse(call: Call, response: Response) {
-                val json =
-                    Gson().fromJson(response.body?.string(), SignInWithGoogleJSON::class.java)
-                val responseCode = response.code
-                if (responseCode == 200) {
-                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                        val intent = Intent()
-                        intent.putExtra("token", json.tokenCode)
-                        intent.putExtra("login", 1)
-                        intent.putExtra("fullName", "${json.client.name} ${json.client.lastName}")
-                        setResult(RESULT_OK, intent)
-                        finish();
-                    })
-                } else {
-                    this@LoginActivity.runOnUiThread(Runnable {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Invalid email or password",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    })
-                }
-            }
-        })
     }
 
     fun signup(view: View) {
