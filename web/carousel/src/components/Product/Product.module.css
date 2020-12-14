@@ -1,0 +1,61 @@
+.ProductPage {
+  text-align: center;
+  align-items: center;
+  margin: auto;
+  width: 90%;
+}
+
+.ProductOverview {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  display: inline-flex;
+  width: 900px;
+  height: 600px;
+}
+
+.ProductRight {
+  width:50%;
+  height: 600px;
+}
+
+.ProductPhotos {
+  border: black solid 1px;
+  width: 450px;
+  height: 600px;
+}
+
+.ProductHeader {
+  border: black solid 1px;
+  width: 450px;
+  height: 300px;
+}
+
+.ProductActions {
+  border: black solid 1px;
+  width: 450px;
+  height: 300px;
+}
+
+.ProductInfo {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  border: black solid 1px;
+  width: 900px;
+  height: 1000px;
+}
+
+.SectionToggle {
+  border-bottom: black solid 1px;
+  height: 60px;
+  width: 100%;
+  display: inline-flex;
+}
+
+.SectionToggle button {
+  width: 300px;
+  border: 1px solid #e6e6e6;
+  outline: none;
+  cursor: pointer;
+}
