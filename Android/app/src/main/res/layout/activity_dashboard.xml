@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        android:background="#ededed"
+        android:background="@color/colorWhite"
         android:id="@+id/coordinator">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -39,15 +39,15 @@
             />
 
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:visibility="visible"
-            app:labelVisibilityMode="labeled"
-            android:backgroundTint="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/bottom_nav_menu" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="@color/colorPrimary"
+        android:visibility="visible"
+        app:labelVisibilityMode="labeled"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:menu="@menu/bottom_nav_menu" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

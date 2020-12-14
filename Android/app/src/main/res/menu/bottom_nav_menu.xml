@@ -8,9 +8,17 @@
             android:title="@string/home"
             android:icon="@drawable/ic_home"/>
         <item
+            android:id="@+id/categories"
+            android:title="@string/categories"
+            android:icon="@drawable/ic_categories"/>
+        <item
             android:id="@+id/settings"
             android:title="@string/cart"
             android:icon="@drawable/ic_basket"/>
+        <item
+            android:id="@+id/search"
+            android:title="@string/search"
+            android:icon="@drawable/ic_search"/>
         <item
             android:id="@+id/person"
             android:title="@string/account"
