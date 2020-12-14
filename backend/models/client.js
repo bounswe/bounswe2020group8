@@ -4,12 +4,12 @@ const Constants = require("../util/constants");
 const Schema = mongoose.Schema;
 
 var Message = {
-  sender: {type: String},
-  receiver: {type: String},
-  message: {type: String},
-  isRead: {type: String},
-  time: {type: Date}
-}
+  sender: { type: String },
+  receiver: { type: String },
+  message: { type: String },
+  isRead: { type: String },
+  time: { type: Date },
+};
 
 var clientSchema = new Schema(
   {
