@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import java.io.*
 
 
-class MemberAccountPageFragment : Fragment() {
+class MemberAccountPageFragment : Fragment(){
 
 	private lateinit var mAdapter : CustomAdapter
     var login = 0
@@ -35,12 +35,15 @@ class MemberAccountPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (readFromFile(context) != ""){
-            login = 1
-        }
-        else{
-            login = 0
-        }
+//        if (readFromFile(context) != ""){
+//            login = 1
+//        }
+//        else{
+//            login = 0
+//        }
+
+        login = 1
+
         mAdapter =  CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account" )
         mAdapter.addItem("User Information", drawable.ic_person )
@@ -64,12 +67,42 @@ class MemberAccountPageFragment : Fragment() {
             startActivityForResult(intent,11)
         }
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            if (pos == 4) {
+            if(pos == 1){
+                val fragment = UserInformationFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 2){
+                val fragment = ChangePasswordFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 3) {
+                val fragment = Settings()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if (pos == 4) {
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
                 writeToFile("", context)
                 (activity as DashboardActivity).refresh()
+            }else if(pos == 6) {
+                val fragment = About()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 7) {
+                val fragment = Legals()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 8) {
+                val fragment = Contacts()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
             }
             //TicketList Object
         }
