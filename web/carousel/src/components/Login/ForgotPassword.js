@@ -90,32 +90,18 @@ class ForgotPassword extends Component {
   sendLinkHandler = (e) => {
     e.preventDefault();
 
-    let userTypeToPayload = "CLIENT";
-    // var self = this;c
-    if (this.state.userType === "Customer") {
-      userTypeToPayload = "CLIENT";
-    } else {
-      userTypeToPayload = "VENDOR";
-    }
-
     let payload = {
       email: this.state.email,
-      type: userTypeToPayload,
     };
 
     axios
-      .post(apiBaseUrl + "client/forgotPassword", null, { params: payload })
+      .post(apiBaseUrl + "customer/forgotPassword", null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
-        console.log("oldu");
         this.setState({ sent: true });
-        // this.context.login(self.state.email, response.data.tokenCode);
-        // this.props.history.push("/");
       })
       .catch((err, response) => {
         console.log(err);
-        console.log("olmadı");
         this.setState({ isError: true });
       });
     console.log(this.state);

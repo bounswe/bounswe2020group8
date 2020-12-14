@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
@@ -73,6 +73,14 @@ function SideButtons(props) {
     </Menu>
   );
 
+  const handleUrlClick = (path) => {
+    if (props.isSignedIn) {
+      props.history.push("/account/" + path);
+    } else {
+      props.history.push("/login");
+    }
+  };
+
   return (
     <div className={classes.SideButtons}>
       {props.isSignedIn ? (
@@ -91,12 +99,12 @@ function SideButtons(props) {
       <ButtonPrimary
         icon={<HeartOutlined />}
         title={"LIST"}
-        onClick={() => props.history.push("/account/list")}
+        onClick={() => handleUrlClick("list")}
       />
       <ButtonPrimary
         icon={<ShoppingCartOutlined />}
         title={"CART"}
-        onClick={() => props.history.push("/account/cart")}
+        onClick={() => handleUrlClick("cart")}
       />
     </div>
   );

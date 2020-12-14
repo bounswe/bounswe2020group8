@@ -29,13 +29,18 @@ export default class Profile extends Component {
 
   onChangePassword = () => {
     const url = apiBaseUrl + "customer/changePassword";
+    const token = localStorage.getItem("token");
     const payload = {
       oldPassword: this.context.oldPassword,
       newPassword: this.context.password,
       newPasswordRepeat: this.context.passwordConfirm,
     };
+
     axios
-      .post(url, null, { params: payload })
+      .post(url, null, {
+        params: payload,
+        headers: { Authorization: "Bearer " + token },
+      })
       .then((response) => {
         console.log(response.data);
         this.context.error = false;
@@ -177,14 +182,14 @@ export default class Profile extends Component {
             display: "flex",
           }}
         >
-          <Col span={11} style={{ textAlign: "left" }}>
+          <Col span={10} style={{ textAlign: "left" }}>
             {this.renderProfileChangeForm()}
           </Col>
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
 
-          <Col span={11}>{this.renderPasswordChangeForm()}</Col>
+          <Col span={12}>{this.renderPasswordChangeForm()}</Col>
         </Row>
       </div>
     );

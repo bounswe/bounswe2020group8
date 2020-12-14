@@ -46,6 +46,7 @@ const SignupForm = (props) => {
       initialValues={{ remember: true }}
       style={{
         height: "500px",
+        width: "400px",
         margin: "auto",
         display: "grid",
         fontSize: "16px",
