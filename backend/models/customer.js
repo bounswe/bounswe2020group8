@@ -24,7 +24,6 @@ var address = {
 
 var photo = {
   id: {type: String},
-  path: {type: String},
 }
 
 var product = {
