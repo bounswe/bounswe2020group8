@@ -1,5 +1,6 @@
 import classes from "./Address.module.css";
 
+import handleSubmit from "../../UI/ConfirmPopup/ConfirmPopup";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const Address = (props) => {
@@ -30,7 +31,11 @@ const Address = (props) => {
       </div>
       <div className={classes.ButtonRow}>
         <DeleteOutlined
-          onClick={() => props.handleDelete(props.address)}
+          onClick={() =>
+            handleSubmit("Are you sure to delete this address?", () =>
+              props.handleDelete(props.address)
+            )
+          }
           style={{ fontSize: "20px" }}
         />
         <EditOutlined onClick={handleEdit} />

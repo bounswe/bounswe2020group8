@@ -12,10 +12,8 @@ const getElements = (field, setState) => {
 
   API.get("customer/me", config)
     .then((res) => {
-      console.log(res);
       console.log(res.data.data[field]);
       const list = JSON.parse(res.data.data[field] || "[]");
-      console.log(list);
       setState(list);
     })
     .catch((err) => console.log(err));

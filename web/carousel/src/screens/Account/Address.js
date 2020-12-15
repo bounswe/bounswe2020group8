@@ -22,21 +22,8 @@ const AddressList = (props) => {
   });
 
   useEffect(() => {
-    setAddressList(getElements("addresses", setAddressList));
+    getElements("addresses", setAddressList);
   }, []);
-
-  // var addressList = [];
-  // for (var i = 0; i < 15; i++) {
-  //   addressList.push({
-  //     id: i,
-  //     title: "Home",
-  //     firstName: "Yasin",
-  //     lastName: "Kaya",
-  //     phone: "5545342432",
-  //     phonePrefix: "90",
-  //     details: "Gumus Mahallesi, Baris sokak No: 6, daire: 7 Adalar/Istanbul",
-  //   });
-  // }
 
   return (
     <div className="account-page-container">
