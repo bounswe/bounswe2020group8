@@ -48,11 +48,11 @@ const AddressList = (props) => {
           address={modal.address}
           setModal={setModal}
           handleAddAddress={(newAddress) =>
-            handleAddItem("address", setAddressList, addressList, newAddress)
+            handleAddItem("addresses", setAddressList, addressList, newAddress)
           }
           handleUpdateAddress={(updatedAddress) =>
-            handleAddItem(
-              "address",
+            handleUpdateItem(
+              "addresses",
               setAddressList,
               addressList,
               updatedAddress
@@ -60,11 +60,25 @@ const AddressList = (props) => {
           }
         />
       ) : null}
-      {/* {addressList.map((address) => {
-        return (
-          <Address key={address.id} address={address} setModal={setModal} />
-        );
-      })} */}
+      {addressList
+        ? addressList.map((address) => {
+            return (
+              <Address
+                key={address.id}
+                address={address}
+                setModal={setModal}
+                handleDelete={(address) =>
+                  handleRemoveItem(
+                    "addresses",
+                    setAddressList,
+                    addressList,
+                    address.id
+                  )
+                }
+              />
+            );
+          })
+        : null}
     </div>
   );
 };

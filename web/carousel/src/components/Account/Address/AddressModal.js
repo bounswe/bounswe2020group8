@@ -40,8 +40,9 @@ const AddressModal = (props) => {
       props.setModal({ visible: false, edit: false, address: {} });
 
       if (props.edit) {
+        props.handleUpdateAddress({ id: props.address.id, ...values });
       } else {
-        props.handleAddAddress(address);
+        props.handleAddAddress(values);
       }
     });
   };
@@ -66,7 +67,7 @@ const AddressModal = (props) => {
         form={form}
       >
         <Form.Item
-          name="Title"
+          name="title"
           label="Address Title"
           initialValue={address.title}
           rules={[
@@ -80,7 +81,7 @@ const AddressModal = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="FirstName"
+          name="firstName"
           label="Name"
           initialValue={address.firstName}
           rules={[
@@ -93,7 +94,7 @@ const AddressModal = (props) => {
           <Input placeholder="Enter the Name" />
         </Form.Item>
         <Form.Item
-          name="LastName"
+          name="lastName"
           label="Last Name"
           initialValue={address.lastName}
           rules={[
@@ -118,6 +119,7 @@ const AddressModal = (props) => {
           ]}
         >
           <Input
+            name="phonePrefix"
             placeholder="Enter the phone number"
             addonBefore={prefixSelector(address.phonePrefix)}
             style={{ width: "100%" }}
@@ -125,7 +127,7 @@ const AddressModal = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="addressDetail"
+          name="details"
           label="Address Details"
           initialValue={address.details}
           rules={[

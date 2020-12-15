@@ -23,13 +23,16 @@ const Address = (props) => {
           </b>
         </p>
         <p>
-          +{props.address.phonePrefix}
+          +{props.address.prefix}
           {props.address.phone}
         </p>
         <p>{props.address.details}</p>
       </div>
       <div className={classes.ButtonRow}>
-        <DeleteOutlined style={{ fontSize: "20px" }} />
+        <DeleteOutlined
+          onClick={() => props.handleDelete(props.address)}
+          style={{ fontSize: "20px" }}
+        />
         <EditOutlined onClick={handleEdit} />
       </div>
     </div>
