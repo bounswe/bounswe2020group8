@@ -20,6 +20,8 @@ const userInfo = React.createContext({
   setSurname: () => {},
   companyName: "",
   setCompanyName: () => {},
+  companyDomain: "",
+  setCompanyDomain: () => {},
   error: false,
   setError: () => {},
 });

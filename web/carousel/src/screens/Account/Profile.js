@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
@@ -28,7 +28,15 @@ export default class Profile extends Component {
   };
 
   onChangePassword = () => {
-    const url = apiBaseUrl + "customer/changePassword";
+    let url = apiBaseUrl;
+
+    if (this.context.userType === "Customer") {
+      url += "customer/changePassword";
+    } else if (this.context.userType === "Vendor") {
+      url += "vendor/changePassword";
+    } else {
+      return;
+    }
     const token = localStorage.getItem("token");
     const payload = {
       oldPassword: this.context.oldPassword,
@@ -42,7 +50,6 @@ export default class Profile extends Component {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response.data);
         this.context.error = false;
         this.setState({ visible: false });
         this.props.history.push("/");
@@ -51,7 +58,6 @@ export default class Profile extends Component {
         console.log(err);
         this.context.error = true;
         this.setState({ visible: true });
-        console.log("resp daata: " + response);
       });
   };
 
@@ -88,7 +94,7 @@ export default class Profile extends Component {
           </Form.Item>
 
           <Form.Item name="email" label="E-mail">
-            <Input placeholder="@gmail.com" disabled />
+            <Input placeholder={this.context.email} disabled />
           </Form.Item>
 
           <Form.Item name="phone" label="Phone Number">

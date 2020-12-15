@@ -66,8 +66,11 @@ const InputUI = (props) => {
       case "name":
         user.setName(data);
         return;
-      case "company":
+      case "companyName":
         user.setCompanyName(data);
+        return;
+      case "companyDomain":
+        user.setCompanyDomain(data);
         return;
       case "surname":
         user.setSurname(data);
