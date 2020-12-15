@@ -21,9 +21,9 @@ export default class PaymentModal extends Component {
 
     let issuer = "";
 
-    if (this.state.number[0] === 4) {
+    if (this.state.number[0] === "4") {
       issuer = "visa";
-    } else if (this.state.number[0] === 5) {
+    } else if (this.state.number[0] === "5") {
       issuer = "mastercard";
     }
 

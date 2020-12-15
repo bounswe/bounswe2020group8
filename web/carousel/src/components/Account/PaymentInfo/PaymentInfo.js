@@ -22,6 +22,7 @@ const PaymentInfo = (props) => {
             props.creditCard.number.slice(props.creditCard.number.length - 4)
           }
           preview={true}
+          issuer={props.creditCard.issuer}
         />
       </div>
       <div
