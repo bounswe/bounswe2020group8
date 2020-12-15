@@ -16,11 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <SearchView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search a product, category or brand"/>
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"

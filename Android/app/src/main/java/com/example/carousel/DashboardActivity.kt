@@ -1,13 +1,16 @@
 package com.example.carousel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_dashboard.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.carousel.application.ApplicationContext
+import kotlinx.android.synthetic.main.activity_dashboard.*
+
 
 class DashboardActivity : AppCompatActivity() {
-
     private lateinit var textMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,15 +18,27 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         val homeFragment = HomeFragment()
+        val categoriesFragment = CategoriesFragment()
         val cartFragment = CartFragment()
+        val searchFragment = SearchFragment()
         val memberAccountPageFragment = MemberAccountPageFragment()
         val login = 0
         setCurrentFragment(homeFragment)
-
+        val prefs = getSharedPreferences(
+            "userInfo",
+            Context.MODE_PRIVATE
+        )
+        if (prefs.getBoolean("isAuthenticated", false)) {
+            ApplicationContext.instance.authenticate(
+                prefs.getString("token", "")!!
+            )
+        }
         bottomAppBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
+                R.id.categories -> setCurrentFragment(categoriesFragment)
                 R.id.settings -> setCurrentFragment(cartFragment)
+                R.id.search -> setCurrentFragment(searchFragment)
                 R.id.person -> setCurrentFragment(memberAccountPageFragment)
             }
             true
@@ -38,8 +53,7 @@ class DashboardActivity : AppCompatActivity() {
             commit()
         }
 
-    public fun refresh()
-    {
+    fun refresh() {
         finish()
         startActivity(intent)
     }

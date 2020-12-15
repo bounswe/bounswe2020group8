@@ -61,13 +61,25 @@
     <string name="productName10">To Kill a Mockingbird</string>
     <string name="productName11">Arlo VMC2030-100NAS Essential Spotlight Camera</string>
     <string name="productName12">Compact Wireless Smart Speaker</string>
+
     <string name="title2">New Arrivals</string>
     <string name="title3">Top Sellers</string>
     <string name="new_password">New Password</string>
     <string name="new_password_confirm">Confirm Password</string>
     <string name="send_button">Send</string>
+
     <string name="cancel">Cancel</string>
     <string name="descriptionTitle">Description</string>
     <string name="addToCart">Add to Cart</string>
     <string name="addToList">Add to List</string>
+
+    <string name="forgot_password_cancel">Cancel</string>
+    <string name="sort">SORT</string>
+    <string name="filter">FILTER</string>
+    <string name="categories">Categories</string>
+    <string name="search">Search</string>
+    <string name="api_error">Server is currently unavailable</string>
+    <string name="alert_error_title">Error</string>
+    <string name="submitting">Sending</string>
+
 </resources>
