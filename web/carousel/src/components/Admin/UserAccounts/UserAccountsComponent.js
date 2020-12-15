@@ -4,6 +4,7 @@ import axios from "axios";
 import { SearchOutlined } from "@ant-design/icons";
 import Table from "antd/lib/table";
 
+import PopUp from "../../UI/PopUp/PopUp";
 import classes from "./UserAccountsComponent.module.css";
 import { Space } from "antd";
 
@@ -14,7 +15,17 @@ const TOKEN = localStorage.getItem("token");
 export default class UserAccountsComponent extends Component {
   constructor(props) {
     super(props);
-    this.state = { users: null, userEmpty: true, columns: [], data: null, sortParams:"" };
+    this.state =
+      { users: null,
+        userEmpty: true,
+        columns: [],
+        data: null,
+        sortParams:"",
+        showPopup:false,
+        id: "",
+        actionType:"",
+        userName: "",
+      };
   }
 
   componentDidMount() {
@@ -52,7 +63,7 @@ export default class UserAccountsComponent extends Component {
       .then(axios.spread((...responses) => {
         const customersResponse = responses[0];
         const vendorsResponse = responses[1];
-        // console.log(request);
+        //console.log(responses[0]);
         const allUsers = [...customersResponse.data.data, ...vendorsResponse.data.data];
         this.setState({
           searched: true,
@@ -71,12 +82,16 @@ export default class UserAccountsComponent extends Component {
     this.setState((state) => {
       let list = [];
       for (let i = 0; i < data.length; i++) {
+        console.log(data[i].isActive);
+        let isActive = "Active";
+        if (!data[i].isActive) isActive = "Inactive";
         list = list.concat([
           {
             key: i,
             name: data[i].name,
             email: data[i].email,
             type: data[i].__type,
+            status: isActive,
             isSuspended: data[i].isSuspended,
             id: data[i]._id,
           },
@@ -132,6 +147,7 @@ export default class UserAccountsComponent extends Component {
     }
 
     if(actionType === "delete") {
+      this.setState({showPopup: false})
       this.deleteUserHandler(id, actionApi, config);
     } else if (actionType === "suspend") {
       this.suspendUserHandler(id, actionApi, config, true);
@@ -169,8 +185,8 @@ export default class UserAccountsComponent extends Component {
       },
       {
         title: "Status",
-        dataIndex: "isSuspended",
-        key: "isSuspended",
+        dataIndex: "status",
+        key: "status",
       },
       {
         title: "Action",
@@ -190,7 +206,7 @@ export default class UserAccountsComponent extends Component {
             <br />
             <a
               className={classes.TableActionsDelete}
-              onClick={() => this.actionHandler(record.key, "delete")}
+              onClick={() => this.setState({id:record.key, actionType: "delete", showPopup: true, userName: record.email})}
             >
               Delete
             </a>
@@ -200,9 +216,19 @@ export default class UserAccountsComponent extends Component {
     ];
 
     const users = this.state.users ? [this.state.users][0] : null;
-
+    console.log([this.state.users][0]);
     return (
       <div>
+        {this.state.showPopup ?
+          <PopUp
+            clickYes={() => this.actionHandler(this.state.id, this.state.actionType)}
+            clickNo={() => this.setState({showPopup: false})}
+            buttonYes="Delete"
+            buttonNo="Cancel"
+            title={this.state.userName}
+          /> :
+          <p />
+        }
         <p>Search for users</p>
         <span className={classes.InputSpan}>
           <input
