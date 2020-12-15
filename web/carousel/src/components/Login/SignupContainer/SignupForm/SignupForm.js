@@ -90,7 +90,7 @@ const SignupForm = (props) => {
           clicked={eraseError}
           iconSel="email"
           inputType="text"
-          placeholder="E-mail"
+          placeholder={user.userType === "Customer" ? "user@email.com" : "user@company.com" }
         />
       </Form.Item>
       <PasswordForm eraseError={eraseError} />

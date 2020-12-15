@@ -9,6 +9,7 @@ import AdminAccount from "./AdminAccount";
 import UserInfo from "../components/Context/UserInfo";
 
 import Header from "../components/Header/Header";
+import AdminLogin from "./AdminLogin";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/forgot" exact component={Forgot} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/admin" component={AdminAccount} />
+            <Route path="/administration/login/admin" component={AdminLogin} />
           </Switch>
         </Router>
       </UserInfo.Provider>
