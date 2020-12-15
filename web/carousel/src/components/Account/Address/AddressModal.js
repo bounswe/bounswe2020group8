@@ -36,9 +36,14 @@ const AddressModal = (props) => {
   };
 
   const handleFormSubmit = () => {
-    form.validateFields().then((values) => console.log(values));
-    // Submit the form
-    props.setModal({ visible: false, edit: false, address: {} });
+    form.validateFields().then((values) => {
+      props.setModal({ visible: false, edit: false, address: {} });
+
+      if (props.edit) {
+      } else {
+        props.handleAddAddress(address);
+      }
+    });
   };
 
   const handleCancel = () => {
@@ -108,10 +113,6 @@ const AddressModal = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input an valid phone number",
-            },
-            {
-              type: "number",
               message: "Please input an valid phone number",
             },
           ]}
