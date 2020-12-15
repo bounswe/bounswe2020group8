@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import classes from "../Product.module.css";
 
 const styleActive = {
@@ -10,14 +10,20 @@ const stylePassive = {
   backgroundColor: "#eeeeee",
 };
 
-const SectionToggle = () => {
+const SectionToggle = ({section}) => {
   const[featuresStyle, setFeaturesStyle] = useState(true);
   const[sellersStyle, setSellersStyle] = useState(false);
   const[commentsStyle, setCommentsStyle] = useState(false);
 
-  const selectInfo = (e) => {
-    console.log(e.target.id);
-    const id = e.target.id;
+  useEffect(() => {
+    if(section !== "") {
+      selectInfo(section);
+    }
+  },[section]);
+
+  const selectInfo = (value) => {
+    const id = value;
+
     if (id === "features") {
       setFeaturesStyle(true);
       setSellersStyle(false);
@@ -38,21 +44,21 @@ const SectionToggle = () => {
       <button
         style={featuresStyle ? styleActive : stylePassive}
         id="features"
-        onClick={(event) => selectInfo(event)}
+        onClick={(event) => selectInfo(event.target.id)}
       >
         Features
       </button>
       <button
         style={sellersStyle ? styleActive : stylePassive}
         id="sellers"
-        onClick={(event) => selectInfo(event)}
+        onClick={(event) => selectInfo(event.target.id)}
       >
         Other Sellers
       </button>
       <button
         style={commentsStyle ? styleActive : stylePassive}
         id="comments"
-        onClick={(event) => selectInfo(event)}
+        onClick={(event) => selectInfo(event.target.id)}
       >
         Comments
       </button>

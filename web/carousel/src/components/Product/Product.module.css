@@ -11,30 +11,56 @@
   align-items: center;
   display: inline-flex;
   width: 900px;
-  height: 600px;
+  height: 480px;
 }
 
 .ProductRight {
   width:50%;
-  height: 600px;
+  height: 480px;
 }
 
 .ProductPhotos {
   border: black solid 1px;
-  width: 450px;
-  height: 600px;
+  width: 500px;
+  height: 480px;
 }
 
 .ProductHeader {
   border: black solid 1px;
-  width: 450px;
-  height: 300px;
+  border-top-right-radius: 15px;
+  display: grid;
+  width: 390px;
+  height: 240px;
+  background-color: #fafafa;
+}
+
+.ProductHeader_name {
+  font-size: 28px;
+  height: 40px;
+  color: black;
+}
+
+.ProductHeader_rating {
+  text-align: center;
+  align-items: center;
+  width: 40%;
+  height: 30px;
+  color: #d33a09;
+  margin-bottom: 100px;
+}
+
+.ProductHeader_price {
+  font-size: 34px;
+  color: #d33a09;
 }
 
 .ProductActions {
   border: black solid 1px;
-  width: 450px;
-  height: 300px;
+  border-bottom-right-radius: 15px;
+  border-top: none;
+  width: 390px;
+  height: 240px;
+  background-color: #fafafa;
 }
 
 .ProductInfo {
