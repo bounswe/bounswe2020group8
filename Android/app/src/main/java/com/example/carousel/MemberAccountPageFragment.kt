@@ -52,6 +52,11 @@ class MemberAccountPageFragment : Fragment() {
             0
         }
 
+//        login = 1
+
+//        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+//        val token = prefs?.getString("token","aaa")
+//        println(token)
 
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account")
@@ -64,6 +69,7 @@ class MemberAccountPageFragment : Fragment() {
         mAdapter.addItem("Legals", drawable.ic_file)
         mAdapter.addItem("Contact", drawable.ic_contact)
         listView.adapter = (mAdapter)
+
         if (login == 0) {
             view.guest.visibility = View.VISIBLE
             val intent = Intent(activity, LoginActivity::class.java)
@@ -71,18 +77,50 @@ class MemberAccountPageFragment : Fragment() {
         } else {
             view.login_user.visibility = View.VISIBLE
         }
+
         view.login_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent, 11)
         }
+
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            if (pos == 4) {
+            if(pos == 1){
+                val fragment = UserInformationFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 2){
+                val fragment = ChangePasswordFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 3) {
+                val fragment = Settings()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if (pos == 4) {
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
                 ApplicationContext.instance.terminateAuthentication()
                 prefs!!.edit().clear().apply()
                 (activity as DashboardActivity).refresh()
+            }else if(pos == 6) {
+                val fragment = About()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 7) {
+                val fragment = Legals()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 8) {
+                val fragment = Contacts()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
             }
             //TicketList Object
         }
@@ -90,6 +128,9 @@ class MemberAccountPageFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val result = data?.getIntExtra("login", login)
+        val token = data?.getStringExtra("token")
+        writeToFile(token, context)
 
         if (ApplicationContext.instance.isUserAuthenticated()) {
             login = 1
@@ -98,4 +139,42 @@ class MemberAccountPageFragment : Fragment() {
         }
     }
 
+    private fun readFromFile(context: Context?): String? {
+        var ret = ""
+        try {
+            val inputStream: InputStream? = context?.openFileInput("config.txt")
+            if (inputStream != null) {
+                val inputStreamReader = InputStreamReader(inputStream)
+                val bufferedReader = BufferedReader(inputStreamReader)
+                var receiveString: String? = ""
+                val stringBuilder = StringBuilder()
+                while (bufferedReader.readLine().also({ receiveString = it }) != null) {
+                    stringBuilder.append("\n").append(receiveString)
+                }
+                inputStream.close()
+                ret = stringBuilder.toString()
+            }
+        } catch (e: FileNotFoundException) {
+            Log.e("login activity", "File not found: " + e.toString())
+        } catch (e: IOException) {
+            Log.e("login activity", "Can not read file: $e")
+        }
+        return ret
+    }
+
+    private fun writeToFile(data: String?, context: Context?) {
+        try {
+            val outputStreamWriter = OutputStreamWriter(
+                context?.openFileOutput(
+                    "config.txt",
+                    Context.MODE_PRIVATE
+                )
+            )
+            if(data!=null)
+                outputStreamWriter.write(data)
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File write failed: " + e.toString())
+        }
+    }
 }

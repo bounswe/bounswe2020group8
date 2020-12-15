@@ -44,4 +44,10 @@ interface ApiInterface {
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
 
+    @POST("/customer/changePassword")
+    fun customerChangePassword(
+        @Query("oldPassword") oldPassword: String,
+        @Query("newPassword") newPassword: String,
+        @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
+
 }

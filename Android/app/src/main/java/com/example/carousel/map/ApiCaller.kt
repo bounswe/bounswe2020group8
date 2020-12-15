@@ -3,6 +3,7 @@ package com.example.carousel.map
 import android.app.Activity
 import android.graphics.Color
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.example.carousel.R
 import com.example.carousel.pojo.ResponseError
@@ -46,6 +47,12 @@ class ApiCaller<T : Any> {
         ButtonLoadingTextRes = null
     }
 
+    constructor(activity: Fragment?) {
+        TargetActivity = activity as Activity
+        Caller = null
+        Button = null
+        ButtonLoadingTextRes = null
+    }
 
     fun run() {
 

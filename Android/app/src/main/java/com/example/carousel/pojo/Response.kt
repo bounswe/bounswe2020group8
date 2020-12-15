@@ -45,3 +45,8 @@ data class DataCustomerMe(
 data class ExampleObject(
     @Expose @SerializedName("id") val id: String,
 )
+
+data class ResponseChangePassword(
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String
+)
