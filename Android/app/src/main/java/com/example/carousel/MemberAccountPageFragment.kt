@@ -52,6 +52,11 @@ class MemberAccountPageFragment : Fragment() {
             0
         }
 
+//        login = 1
+
+//        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
+//        val token = prefs?.getString("token","aaa")
+//        println(token)
 
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account")
@@ -64,6 +69,7 @@ class MemberAccountPageFragment : Fragment() {
         mAdapter.addItem("Legals", drawable.ic_file)
         mAdapter.addItem("Contact", drawable.ic_contact)
         listView.adapter = (mAdapter)
+
         if (login == 0) {
             view.guest.visibility = View.VISIBLE
             val intent = Intent(activity, LoginActivity::class.java)
@@ -71,10 +77,12 @@ class MemberAccountPageFragment : Fragment() {
         } else {
             view.login_user.visibility = View.VISIBLE
         }
+
         view.login_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent, 11)
         }
+
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
             if(pos == 1){
                 val fragment = UserInformationFragment()

@@ -23,6 +23,11 @@
         <u>Forgot my password</u>
     </string>
 
+    <!--Change Password Titles-->
+    <string name="old_password">Old Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_cancel">Cancel</string>
+
 
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">Settings</string>
