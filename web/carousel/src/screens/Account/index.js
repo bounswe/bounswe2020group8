@@ -130,15 +130,19 @@ class Account extends Component {
 
   renderCustomerAccount() {
     return (
-      <div>
+      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
         {this.renderSideBar()}
         {this.renderContent()}
-      </div>
+      </Layout>
     );
   }
 
   renderVendorAccount() {
-    return <div>Vendor Account</div>;
+    return (
+      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
+        Vendor site
+      </Layout>
+    );
   }
 
   render() {
@@ -146,14 +150,9 @@ class Account extends Component {
       <div>
         <Layout>
           <Content style={{ padding: "0 50px", zIndex: 10 }}>
-            <Layout
-              className="site-layout-background"
-              style={{ padding: "24px 0" }}
-            >
-              {this.context.UserType === "Customer"
-                ? this.renderCustomerAccount()
-                : this.renderVendorAccount()}
-            </Layout>
+            {this.context.userType === "Customer"
+              ? this.renderCustomerAccount()
+              : this.renderVendorAccount()}
           </Content>
         </Layout>
       </div>
