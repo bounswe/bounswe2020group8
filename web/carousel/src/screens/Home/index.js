@@ -1,4 +1,10 @@
-import ProductTable from "../../components/Product/ProductTable"
+import ProductCarousel from "../../components/ProductList/ProductCarousel";
+import beautyBanner from "../../assets/images/beauty_banner.png";
+import fashionBanner from "../../assets/images/fashion_banner.png";
+import smartphonesBanner from "../../assets/images/smartphones_banner.png";
+import AliceCarousel from "react-alice-carousel";
+
+import { Carousel } from "antd";
 
 export default function Home() {
   const productList = [
@@ -9,66 +15,84 @@ export default function Home() {
       price: 2199.99,
     },
     {
-     imageUrl: "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-     name: "PlayStation 4 Pro 1TB",
-     price: 399.99, 
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
+      name: "PlayStation 4 Pro 1TB",
+      price: 399.99,
     },
     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/418Ty89Cf3L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/418Ty89Cf3L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
       name: "Samsung Galaxy Tab S6 Lite 10.4",
-      price: 249.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/31DQ1NOBi4L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
+      price: 249.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/31DQ1NOBi4L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
       name: "Bose Noise Cancelling Wireless Bluetooth Headphones 700",
-      price: 339.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51TVrxhgLaL._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
+      price: 339.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/51TVrxhgLaL._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
       name: "Sony X800H 43 Inch TV",
-      price: 448.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/81fstJkUlaL._AC_SL1500_.jpg",
+      price: 448.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/81fstJkUlaL._AC_SL1500_.jpg",
       name: "ASUS F512DA-EB51 VivoBook 15",
-      price: 14.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/71y%2BUGuJl5L._SL1500_.jpg",
+      price: 14.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/71y%2BUGuJl5L._SL1500_.jpg",
       name: "DualSense Wireless Controller ",
-      price: 69.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/91S1PIX%2ByWL._AC_SL1500_.jpg",
-      name: "SAMSUNG 870 QVO SATA III 2.5\" SSD",
-      price: 199.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
+      price: 69.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/91S1PIX%2ByWL._AC_SL1500_.jpg",
+      name: 'SAMSUNG 870 QVO SATA III 2.5" SSD',
+      price: 199.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
       name: "To Kill a Mockingbird",
-      price: 14.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
-      name: "OTG USB Pen Drive WANSENDA",
-      price: 8.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/61BhxjpQn6L._AC_SL1500_.jpg",
+      price: 14.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/61BhxjpQn6L._AC_SL1500_.jpg",
       name: "Arlo VMC2030-100NAS Essential Spotlight Camera",
-      price: 99.99, 
-     },
-     {
-      imageUrl: "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
+      price: 99.99,
+    },
+    {
+      imageUrl:
+        "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
       name: "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
-      price: 18.99, 
-     }, 
+      price: 18.99,
+    },
   ];
 
   return (
     <div className="App">
       <header className="App-header">
-        <ProductTable productList={productList} columnSize={3} />
+        <div style={{paddingTop: "30px"}}>
+
+        <div style={{width: '70%', margin: "50px auto", alignContent: "center"}}>
+          <Carousel autoplay>
+            <img src={fashionBanner} />
+            <img src={beautyBanner} />
+            <img src={smartphonesBanner} />
+          </Carousel>
+        </div>
+        </div>
+
+        <ProductCarousel title={"Hotsellers"} productList={productList} />
+        <ProductCarousel title={"Recommendations"} productList={productList} />
+        <ProductCarousel title={"Trendings"} productList={productList} />
       </header>
     </div>
   );
