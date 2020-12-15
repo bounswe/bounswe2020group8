@@ -57,11 +57,6 @@
     become: no
 
 
-  - name: Running NPM install
-    npm: path={{homeDir}}/{{appDir}}/{{projectName}}/web/carousel
-    register: npm_finished
-    become: no
-
   - name: Docker pull
     shell: |
       docker pull {{imageName}}
