@@ -19,18 +19,6 @@ var shoppingList = {
   wishedProducts: [],
 };
 
-var order = {
-  customerID: { type: String },
-  product: { type: String },
-  id: { type: String },
-  email: { type: String },
-  shippingAddress: { type: address },
-  billingAddress: { type: address },
-  creditCard: { type: String },
-  shippingInfo: { type: String },
-  refundProcess: { type: String },
-};
-
 var shoppingCart = {
   productsIn: { type: String },
   productAmount: { type: Number },
@@ -46,7 +34,7 @@ var creditCard = {
 var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
-    orders: [order],
+    orderIds: [],
     cart: { type: shoppingCart },
     addresses: [address],
     phoneNumber: { type: String },
