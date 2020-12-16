@@ -132,7 +132,7 @@ export default class Profile extends Component {
     return (
       <div>
         <Form
-          style={{ width: 350 }}
+          style={{ width: 400 }}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -160,7 +160,7 @@ export default class Profile extends Component {
               display: "flex",
               flexDirection: "row",
               justifyContent: "flex-end",
-              paddingRight: 40,
+              paddingRight: 100,
             }}
           >
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>

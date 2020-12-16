@@ -83,7 +83,7 @@ const PasswordForm = (props) => {
             style={passLength ? { color: "forestgreen" } : { color: "red" }}
             className={classes.PasswordCheck}
           >
-            Password should be between 6-20 letters.
+            Password should be between 6-20 characters.
           </p>
         </span>
         <span className={classes.Span}>
