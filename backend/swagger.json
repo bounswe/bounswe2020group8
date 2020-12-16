@@ -1465,7 +1465,7 @@
           "orderIds": {
             "type": "object list"
           },
-          "cart": {
+          "shoppingCart": {
             "type": "object"
           },
           "addresses": {

@@ -36,7 +36,7 @@ var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
     orderIds: [],
-    cart: { type: shoppingCart },
+    shoppingCart: { type: shoppingCart },
     addresses: [address],
     phoneNumber: { type: String },
     birthday: { type: String },
