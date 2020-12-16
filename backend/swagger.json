@@ -1547,7 +1547,7 @@
         "xml": {
           "name": "User"
         }
-      },    
+      },
       "Admin": {
         "type": "object",
         "properties": {
@@ -1561,6 +1561,8 @@
         }
       },
       "Order": {
+          "type:" : "object",
+          "properties": {
           "orderID": {
             "type": "string"
           },
