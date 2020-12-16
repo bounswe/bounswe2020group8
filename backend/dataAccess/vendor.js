@@ -77,6 +77,6 @@ exports.updateVendorDB = function (_id, fields) {
     {
       $set: fields,
     },
-    { _id: 1 }
+    { _id: 1, new: true, runValidators: true }
   );
 };
