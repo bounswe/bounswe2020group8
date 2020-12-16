@@ -3,7 +3,7 @@ import axios from "axios";
 import UserInfo from "../Context/UserInfo";
 import { withRouter } from "react-router-dom";
 import classes from "./Login.module.css";
-import { signIn, signOut } from "../../redux/auth/actions";
+import { signIn } from "../../redux/auth/actions";
 import { connect } from "react-redux";
 
 import LoginSignButtons from "./LoginSignButtons/LoginSignButtons";
@@ -16,10 +16,6 @@ class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      userType: "Customer",
-      redirect: false,
       isError: false,
       errorMessage: "",
       buttonColors: {
@@ -118,9 +114,8 @@ class LoginComponent extends Component {
       .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
         localStorage.setItem("token", response.data.tokenCode);
-        this.context.login(this.state.email, response.data.tokenCode);
+        this.context.login(this.context.email, response.data.tokenCode);
         this.context.error = false;
 
         this.props.signIn();
@@ -129,7 +124,7 @@ class LoginComponent extends Component {
       .catch((err, response) => {
         console.log(err);
         this.context.error = true;
-        console.log("resp daata: " + response);
+        console.log("resp data: " + response);
         this.setState({ isError: true });
       });
   };

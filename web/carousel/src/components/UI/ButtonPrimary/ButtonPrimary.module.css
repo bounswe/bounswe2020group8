@@ -1,5 +1,5 @@
 .ButtonPrimary {
-  background-color: #ff6d00;
+  background-color: #d33a09;
   /*border: 2px black solid;*/
   border: none;
   color: white;
@@ -14,6 +14,6 @@
 }
 
 .ButtonPrimary:hover {
-  background-color: #d33a09;
+  background-color: #d50000;
   transition: all 0.3s ease-out;
 }

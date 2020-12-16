@@ -1,7 +1,6 @@
 import { Form } from "antd";
 
 import React, { useState, useContext, useEffect, useRef } from "react";
-import TextField from "material-ui/TextField";
 import InputUI from "../UI/InputUI/InputUI";
 import classes from "./PasswordForm.module.css";
 import UserInfo from "../Context/UserInfo";
@@ -47,6 +46,17 @@ const PasswordForm = (props) => {
 
   return (
     <>
+      {props.showOldPassword ? (
+        <Form.Item name="oldPassword">
+          <InputUI
+            name="oldPassword"
+            clicked={props.eraseError}
+            inputType="password"
+            placeholder="Old-password"
+            iconSel="locked"
+          />
+        </Form.Item>
+      ) : null}
       <Form.Item name="signupPassword">
         <InputUI
           name="signupPassword"

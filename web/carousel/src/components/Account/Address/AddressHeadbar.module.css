@@ -1,0 +1,13 @@
+.Headbar {
+  height: 100px;
+  width: 1040px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid white;
+  border-radius: 5px;
+  background-color: white;
+  margin: 35px;
+  padding-left: 35px;
+}
