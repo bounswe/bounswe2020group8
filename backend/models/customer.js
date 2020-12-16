@@ -4,7 +4,6 @@ const ClientBase = require("./client");
 const Schema = mongoose.Schema;
 
 var address = {
-  id: { type: String },
   addressName: { type: String },
   name: { type: String },
   addressLine: { type: String },
@@ -15,7 +14,6 @@ var address = {
 };
 
 var shoppingList = {
-  id: { type: String },
   title: { type: String },
   wishedProducts: [],
 };
