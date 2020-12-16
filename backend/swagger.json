@@ -1338,7 +1338,7 @@
           "shoppingLists": {
             "type": "object list"
           },
-          "orders": {
+          "orderIds": {
             "type": "object list"
           },
           "cart": {
@@ -1386,6 +1386,9 @@
           "aboutCompany": {
             "type": "string"
           },
+          "products": {
+            "type": "string"
+          },
           "IBAN": {
             "type": "string"
           },
@@ -1410,6 +1413,45 @@
           "name": {
             "type": "string"
           }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "mongoID"
+          },
+          "orderID": {
+            "type": "string"
+          },
+          "customerID": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "object"
+          },
+          "billingAddress": {
+            "type": "object"
+          },
+          "creditCard": {
+            "type": "string"
+          },
+          "shippingInfo": {
+            "type": "string"
+          },
+          "refundProcess": {
+            "type": "string"
+          },
         },
         "xml": {
           "name": "User"
