@@ -43,9 +43,7 @@ const Product = (props) => {
       <div  style={{height:"40px"}}/>
       <div className={classes.ProductInfo} ref={sectionRef}>
         <SectionToggle section={infoSection}/>
-        <div>
-          Info Section
-        </div>
+
       </div>
     </div>
   );
