@@ -61,6 +61,7 @@ class MemberAccountPageFragment : Fragment() {
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account")
         mAdapter.addItem("User Information", drawable.ic_person)
+        mAdapter.addItem("My Lists", drawable.ic_list)
         mAdapter.addItem("Change Password", drawable.ic_key)
         mAdapter.addItem("Settings", drawable.ic_settings)
         mAdapter.addItem("Logout", drawable.ic_exit)
@@ -68,6 +69,7 @@ class MemberAccountPageFragment : Fragment() {
         mAdapter.addItem("About", drawable.ic_info)
         mAdapter.addItem("Legals", drawable.ic_file)
         mAdapter.addItem("Contact", drawable.ic_contact)
+
         listView.adapter = (mAdapter)
 
         if (login == 0) {
@@ -89,34 +91,41 @@ class MemberAccountPageFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 2){
+            }
+            else if(pos == 2) {
+                val fragment = ShoppingListFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }
+            else if(pos == 3){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 3) {
+            }else if(pos == 4) {
                 val fragment = Settings()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if (pos == 4) {
+            }else if (pos == 5) {
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
                 ApplicationContext.instance.terminateAuthentication()
                 prefs!!.edit().clear().apply()
                 (activity as DashboardActivity).refresh()
-            }else if(pos == 6) {
+            }else if(pos == 7) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 7) {
+            }else if(pos == 8) {
                 val fragment = Legals()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 8) {
+            }else if(pos == 9) {
                 val fragment = Contacts()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)

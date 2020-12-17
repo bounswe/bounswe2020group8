@@ -92,7 +92,7 @@ class SignupCustomerActivity : AppCompatActivity() {
     }
     private fun signupCall(name: String, lastName: String, email: String, password: String, password2: String, type: String) {
         val postBody = FormBody.Builder().build()
-        val httpUrl = "$baseUrl/client/signup?name=$name&lastName=$lastName&email=$email&password=$password&passwordConfirm=$password2&type=$type"
+        val httpUrl = "$baseUrl/customer/signup?name=$name&lastName=$lastName&email=$email&password=$password&passwordConfirm=$password2&type=$type"
         val request = Request.Builder()
             .addHeader("accept", "application/json")
             .url(httpUrl)
@@ -106,7 +106,8 @@ class SignupCustomerActivity : AppCompatActivity() {
 
 
             override fun onResponse(call: Call, response: Response) {
-                val json = Gson().fromJson(response.body?.string(), LoginWithPasswordJSON::class.java)
+                val json = Gson().fromJson(response.body?.string(), SignUpWithPasswordJSON::class.java)
+                response.body?.string()?.let { Log.d("SIGNUP: ", it) }
                 val responseCode = response.code
                 if(responseCode == 200) {
                     this@SignupCustomerActivity.runOnUiThread(Runnable { //Handle UI here
