@@ -23,7 +23,8 @@ import java.io.*
 class MemberAccountPageFragment : Fragment() {
     private var prefs : SharedPreferences? = null
     private lateinit var mAdapter: CustomAdapter
-    var login = 0
+    //var login = 0
+    var login = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
 
     override fun onCreateView(
@@ -49,7 +50,8 @@ class MemberAccountPageFragment : Fragment() {
         login = if (ApplicationContext.instance.isUserAuthenticated()) {
             1
         } else {
-            0
+            //0
+            1
         }
 
 //        login = 1
