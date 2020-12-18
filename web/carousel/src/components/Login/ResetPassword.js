@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import classes from "./ResetPassword.module.css";
 import { withRouter } from "react-router-dom";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
-
-import axios from "axios";
 import qs from "qs";
 import { Form } from "antd";
 import PasswordForm from "../PasswordForm/PasswordForm";
-
-let apiBaseUrl = "http://18.198.51.178:8080/";
+import services from "../../apis/services";
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -98,18 +95,16 @@ class ResetPassword extends Component {
       newPasswordCheck: this.state.passwordConfirm,
     };
 
-    axios
-      .post(apiBaseUrl + "customer/resetPassword", null, { params: payload })
+    services
+      .post("/customer/resetPassword", null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
         this.setState({ sent: true });
       })
       .catch((err, response) => {
         console.log(err);
         this.setState({ isError: true });
       });
-    console.log(this.state);
   };
 
   checkErrorState() {

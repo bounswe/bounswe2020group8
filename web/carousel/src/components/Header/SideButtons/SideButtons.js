@@ -19,9 +19,7 @@ import { connect } from "react-redux";
 import { signOut } from "../../../redux/auth/actions";
 import { useGoogleLogout } from "react-google-login";
 import UserInfo from "../../Context/UserInfo";
-import axios from "axios";
-
-const apiBaseUrl = "http://18.198.51.178:8080/";
+import services from "../../../apis/services";
 
 function SideButtons(props) {
   const clientId =
@@ -29,17 +27,17 @@ function SideButtons(props) {
   const user = useContext(UserInfo);
 
   const onLogoutSuccess = (res) => {
-    let url = apiBaseUrl;
+    let url = "";
     if (user.userType === "Customer") {
-      url += "customer/logout";
+      url = "/customer/logout";
     } else if (user.userType === "Vendor") {
-      url += "vendor/logout";
+      url = "/vendor/logout";
     } else {
       return;
     }
     const token = localStorage.getItem("token");
 
-    axios
+    services
       .post(url, null, {
         headers: { Authorization: "Bearer " + token },
       })
@@ -56,7 +54,7 @@ function SideButtons(props) {
   };
 
   const onFailure = () => {
-    console.log("Handle failure cases");
+    console.log("components > Header > Sidebuttons");
   };
 
   const { signOut } = useGoogleLogout({

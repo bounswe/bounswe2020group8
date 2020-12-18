@@ -4,10 +4,9 @@ import classes from "../../components/Account/Address/AddressHeadbar.module.css"
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
-import axios from "axios";
+import services from "../../apis/services";
 
 const { Option } = Select;
-const apiBaseUrl = "http://18.198.51.178:8080/";
 
 export default class Profile extends Component {
   state = { visible: false };
@@ -28,12 +27,11 @@ export default class Profile extends Component {
   };
 
   onChangePassword = () => {
-    let url = apiBaseUrl;
-
+    let url = "";
     if (this.context.userType === "Customer") {
-      url += "customer/changePassword";
+      url = "/customer/changePassword";
     } else if (this.context.userType === "Vendor") {
-      url += "vendor/changePassword";
+      url = "/vendor/changePassword";
     } else {
       return;
     }
@@ -43,8 +41,7 @@ export default class Profile extends Component {
       newPassword: this.context.password,
       newPasswordRepeat: this.context.passwordConfirm,
     };
-
-    axios
+    services
       .post(url, null, {
         params: payload,
         headers: { Authorization: "Bearer " + token },
