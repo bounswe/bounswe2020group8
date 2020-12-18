@@ -144,6 +144,18 @@ const returnMessages = {
       en: "No client found associated with given token",
     },
   },
+  ERR_UNAUTHORIZED_ACTION: {
+    code: 23,
+    messages: {
+      en: "Action performed is unauthorized!",
+    },
+  },
+  ERR_VENDOR_ALREADY_EXISTS: {
+    code: 24,
+    messages: {
+      en: "Vendor already exists in the document!",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

@@ -16,6 +16,53 @@ router
   .patch(VendorController.patchProfile, RequestHelper.returnResponse)
   .delete(VendorController.freezeProfile, RequestHelper.returnResponse);
 
+router.get(
+  "/me/product",
+  VendorController.getAllMyProductsController,
+  RequestHelper.returnResponse
+);
+
+router.get(
+  "/me/mainProduct",
+  VendorController.getAllMyMainProductsController,
+  RequestHelper.returnResponse
+);
+router
+  .route("/me/product/:id")
+  .get(VendorController.getMyProductController, RequestHelper.returnResponse)
+  .patch(VendorController.updateMyProductController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteMyProductController, RequestHelper.returnResponse);
+
+router.delete(
+  "/me/mainProduct/:mpid",
+  VendorController.deleteMeFromMainProductController,
+  RequestHelper.returnResponse
+);
+
+router.post(
+  "/me/product/existing/:pid",
+  VendorController.addMeToExistingProductController,
+  RequestHelper.returnResponse
+);
+
+router.post(
+  "/me/product/new",
+  VendorController.createMyNewProductController,
+  RequestHelper.returnResponse
+);
+
+router.get(
+  "/me/productRequest",
+  VendorController.getAllMyProductRequestsController,
+  RequestHelper.returnResponse
+);
+
+router
+  .route("/me/productRequest/:id")
+  .get(VendorController.getMyProductRequestController, RequestHelper.returnResponse)
+  .patch(VendorController.updateMyProductRequestController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteMyProductRequestController, RequestHelper.returnResponse);
+
 router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
 
 router

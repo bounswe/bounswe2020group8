@@ -10,7 +10,7 @@ const parameter = {
 var mainProductSchema = new Schema(
   {
     title: { type: String },
-    parameters: [{ type: parameter }],
+    parameters: [parameter],
     description: { type: String },
     rating: { type: Number },
     numberOfRating: { type: Number },
@@ -20,6 +20,7 @@ var mainProductSchema = new Schema(
     updatedAt: { type: Date, default: Date.now },
     category: { type: String },
     isConfirmed: { type: Boolean },
+    // might add a field for filtering
     tags: [{ type: String }],
   },
   {
