@@ -103,6 +103,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginLeft="12dp"
                     android:gravity="center_horizontal"
+                    android:onClick="addToList"
                     android:text="@string/addToList"/>
 
             </LinearLayout>

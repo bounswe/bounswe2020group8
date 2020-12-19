@@ -18,7 +18,37 @@
         android:id="@+id/list_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal" app:layout_constraintBottom_toBottomOf="parent"
+                      app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.496"
+                      app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                      app:layout_constraintVertical_bias="0.09">
+            <Button style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:id="@+id/createListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:text="CREATE"
+                    app:icon="@drawable/ic_add"
+            />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Button style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:id="@+id/deleteListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="@string/delete"
+                    app:icon="@drawable/ic_delete"
+            />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products_in_list"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
