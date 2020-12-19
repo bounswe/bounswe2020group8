@@ -106,6 +106,16 @@ exports.validateIfString = function (isStrValue, errObj) {
   });
 };
 
+exports.validateIfValEqual = function (val1, val2, errObj) {
+  return new BB((resolve, reject) => {
+    if (val1 != val2) {
+      reject(new AppError(errObj));
+    } else {
+      resolve();
+    }
+  });
+};
+
 exports.validateIfNullOrEmpty = function (value, errObj) {
   return new BB((resolve, reject) => {
     if (CoreUtil.isNullOrEmpty(value)) {

@@ -4,6 +4,8 @@ const BaseUtil = require("../util/baseUtil");
 const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Vendor = require("../models/vendor");
+const ProductRequest = require("../models/productRequest");
+
 const factory = require("../services/crudFactory");
 
 exports.signupController = BaseUtil.createController((req) => {
@@ -92,4 +94,102 @@ exports.updateOneVendorController = BaseUtil.createController((req) => {
 
 exports.deleteOneVendorController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.deleteOne(Vendor)(req));
+});
+
+exports.getAllMyMainProductsController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.getAllMyMainProductsService({
+      vid: req.client._id,
+    })
+  );
+});
+
+exports.getAllMyProductsController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.getAllMyProductsService({
+      vid: req.client._id,
+    })
+  );
+});
+
+exports.getMyProductController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.getMyProductService({
+      vid: req.client._id,
+      pid: req.params.id,
+    })
+  );
+});
+
+exports.updateMyProductController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.updateMyProductService({
+      vid: req.client._id,
+      pid: req.params.id,
+      data: req.body,
+    })
+  );
+});
+
+exports.deleteMyProductController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.deleteMyProductService({
+      vid: req.client._id,
+      pid: req.params.id,
+    })
+  );
+});
+
+exports.deleteMeFromMainProductController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.deleteMeFromMainProductService({
+      vid: req.client._id,
+      mpid: req.params.mpid,
+    })
+  );
+});
+
+exports.addMeToExistingProductController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.addMeToExistingProductService({
+      vid: req.client._id,
+      pid: req.params.pid,
+      data: req.body,
+    })
+  );
+});
+
+exports.createMyNewProductController = BaseUtil.createController((req) => {
+  console.log("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+  return BB.all([]).then(() =>
+    VendorService.createMyNewProductService({
+      vid: req.client._id,
+      data: req.body,
+    })
+  );
+});
+
+exports.getAllMyProductRequestsController = BaseUtil.createController((req) => {
+  req.query.vendorID = req.client._id;
+  return BB.all([]).then(() => factory.getAll(ProductRequest)(req));
+});
+
+exports.getMyProductRequestController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.getOne(ProductRequest)(req));
+});
+
+exports.updateMyProductRequestController = BaseUtil.createController((req) => {
+  const status = req.body.status;
+
+  return BB.all([
+    AppValidator.validateIfValEqual(
+      status,
+      "PENDING",
+      Messages.RETURN_MESSAGES.ERR_UNAUTHORIZED_ACTION
+    ),
+  ]).then(() => factory.updateOne(ProductRequest)(req));
+});
+
+exports.deleteMyProductRequestController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() => factory.deleteOne(ProductRequest)(req));
 });
