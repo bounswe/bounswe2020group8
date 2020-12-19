@@ -24,7 +24,7 @@ import java.io.IOException
 class SignupCustomerActivity : AppCompatActivity() {
     lateinit var textView: TextView
 
-    private val baseUrl = "http://18.198.51.178:8080"
+    private val baseUrl = "http://54.165.207.44:8080"
     private val client = OkHttpClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
