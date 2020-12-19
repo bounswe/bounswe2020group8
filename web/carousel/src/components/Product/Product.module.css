@@ -15,14 +15,16 @@
 }
 
 .ProductRight {
-  width:50%;
+  width: 50%;
   height: 480px;
 }
 
 .ProductPhotos {
+  padding-top: 40px;
   border: black solid 1px;
   width: 500px;
   height: 480px;
+  text-align: center;
 }
 
 .ProductHeader {
