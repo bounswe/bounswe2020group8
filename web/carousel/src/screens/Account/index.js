@@ -6,6 +6,7 @@ import {
   HeartOutlined,
   ShoppingCartOutlined,
   NotificationOutlined,
+  GiftOutlined,
   CommentOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
@@ -21,6 +22,7 @@ import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
+import Product from "./Product";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -28,7 +30,7 @@ const { Content, Sider } = Layout;
 class Account extends Component {
   static contextType = UserInfo;
 
-  renderSideBar() {
+  renderCustomerSideBar() {
     const { location } = this.props;
     const path = location.pathname.split("/");
 
@@ -100,6 +102,70 @@ class Account extends Component {
     );
   }
 
+  renderVendorSideBar() {
+    const { location } = this.props;
+    const path = location.pathname.split("/");
+
+    const submenukeys = {
+      profile: "/profile",
+      address: "/profile",
+      payment: "/profile",
+      "active-order": "/order",
+      "inactive-order": "/order",
+      comments: "/comments",
+      rate: "/comments",
+    };
+
+    return (
+      <Sider className="site-layout-background" width={250}>
+        <Menu
+          mode="inline"
+          selectedKeys={[path[2]]}
+          defaultOpenKeys={[submenukeys[path[2]]]}
+          style={{ height: "100%" }}
+        >
+          <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
+            <Menu.Item key="profile">
+              <Link to="/account/profile">Profile Info</Link>
+            </Menu.Item>
+            <Menu.Item key="address">
+              <Link to="/account/address">Address Info</Link>
+            </Menu.Item>
+            {/* <Menu.Item key="payment">
+              <Link to="/account/payment">Payment Info</Link>
+            </Menu.Item> */}
+          </SubMenu>
+
+          <Menu.Item key="product" icon={<GiftOutlined />}>
+            <Link to="/account/product"> My Products</Link>
+          </Menu.Item>
+
+          <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
+            <Menu.Item key="active-order">
+              <Link to="/account/active-order">Active Orders</Link>
+            </Menu.Item>
+            <Menu.Item key="inactive-order">
+              <Link to="/account/inactive-order">Inactive Orders</Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <SubMenu
+            key="/comments"
+            icon={<CommentOutlined />}
+            title="My Feedbacks"
+          >
+            <Menu.Item key="comments">
+              <Link to="/account/comments">Comments</Link>
+            </Menu.Item>
+            <Menu.Item key="rate">
+              <Link to="/account/rate">Rates</Link>
+            </Menu.Item>
+          </SubMenu>
+        </Menu>
+      </Sider>
+    );
+  }
+
   renderContent() {
     return (
       <Content style={{ padding: "0 24px", minHeight: 280 }}>
@@ -116,6 +182,7 @@ class Account extends Component {
           />
           <Route path="/account/list" exact component={List} />
           <Route path="/account/cart" exact component={Cart} />
+          <Route path="/account/product" exact component={Product} />
           <Route path="/account/comments" exact component={Comments} />
           <Route path="/account/rate" exact component={Rate} />
           <Route
@@ -131,7 +198,7 @@ class Account extends Component {
   renderCustomerAccount() {
     return (
       <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        {this.renderSideBar()}
+        {this.renderCustomerSideBar()}
         {this.renderContent()}
       </Layout>
     );
@@ -140,12 +207,14 @@ class Account extends Component {
   renderVendorAccount() {
     return (
       <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        Vendor site
+        {this.renderVendorSideBar()}
+        {this.renderContent()}
       </Layout>
     );
   }
 
   render() {
+    console.log(this.context);
     return (
       <div>
         <Layout>

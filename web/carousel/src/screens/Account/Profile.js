@@ -58,16 +58,14 @@ export default class Profile extends Component {
       });
   };
 
-  renderProfileChangeForm() {
+  renderCustomerProfileChangeForm() {
     return (
-      <div>
+      <Col span={10} style={{ textAlign: "left" }}>
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           size="middle"
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
         >
           <Form.Item
             name="Name"
@@ -121,7 +119,77 @@ export default class Profile extends Component {
             </div>
           </Form.Item>
         </Form>
-      </div>
+      </Col>
+    );
+  }
+
+  renderVendorProfileChangeForm() {
+    return (
+      <Col span={10} style={{ textAlign: "left" }}>
+        <Form
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14 }}
+          layout="horizontal"
+          size="middle"
+        >
+          <Form.Item
+            name="name"
+            label="Company Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="location"
+            label="Company Location"
+            rules={[
+              {
+                required: true,
+                message: "Please input your location!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="email" label="E-mail">
+            <Input placeholder={this.context.email} disabled />
+          </Form.Item>
+
+          <Form.Item name="domain" label="Company Web Domain">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="phone" label="Contact Number">
+            <Input
+              addonBefore={this.prefixSelector()}
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <ButtonPrimary
+                title="Save Changes"
+                style={{ width: 150 }}
+                onClick={() => console.log("clicked")}
+              />
+            </div>
+          </Form.Item>
+        </Form>
+      </Col>
     );
   }
 
@@ -185,9 +253,10 @@ export default class Profile extends Component {
             display: "flex",
           }}
         >
-          <Col span={10} style={{ textAlign: "left" }}>
-            {this.renderProfileChangeForm()}
-          </Col>
+          {this.context.userType === "Customer"
+            ? this.renderCustomerProfileChangeForm()
+            : this.renderVendorProfileChangeForm()}
+
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>

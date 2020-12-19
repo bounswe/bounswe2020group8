@@ -11,6 +11,7 @@ import {
   ShoppingCartOutlined,
   CommentOutlined,
   NotificationOutlined,
+  GiftOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
@@ -83,12 +84,22 @@ function SideButtons(props) {
           My Feedbacks
         </Link>
       </Menu.Item>
-      <Menu.Item>
-        <Link to="/account/recommendation">
-          <NotificationOutlined />
-          New Recommendations
-        </Link>
-      </Menu.Item>
+      {user.userType === "Customer" ? (
+        <Menu.Item>
+          <Link to="/account/recommendation">
+            <NotificationOutlined />
+            New Recommendations
+          </Link>
+        </Menu.Item>
+      ) : (
+        <Menu.Item>
+          <Link to="/account/product">
+            <GiftOutlined />
+            My Products
+          </Link>
+        </Menu.Item>
+      )}
+
       <Menu.Item key="Logout" onClick={signOut}>
         <Link to="/">
           <LogoutOutlined />
