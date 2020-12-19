@@ -21,7 +21,7 @@ import { useGoogleLogout } from "react-google-login";
 import UserInfo from "../../Context/UserInfo";
 import axios from "axios";
 
-const apiBaseUrl = "http://18.198.51.178:8080/";
+const apiBaseUrl = "http://54.165.207.44:8080/";
 
 function SideButtons(props) {
   const clientId =

@@ -7,7 +7,7 @@ import UserInfo from "../../components/Context/UserInfo";
 import axios from "axios";
 
 const { Option } = Select;
-const apiBaseUrl = "http://18.198.51.178:8080/";
+const apiBaseUrl = "http://54.165.207.44:8080/";
 
 export default class Profile extends Component {
   state = { visible: false };

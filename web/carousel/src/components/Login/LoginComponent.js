@@ -10,7 +10,7 @@ import LoginSignButtons from "./LoginSignButtons/LoginSignButtons";
 import LoginContainer from "./LoginContainer/LoginContainer";
 import SignupContainer from "./SignupContainer/SignupContainer";
 
-const apiBaseUrl = "http://18.198.51.178:8080/";
+const apiBaseUrl = "http://54.165.207.44:8080/";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -142,6 +142,7 @@ class LoginComponent extends Component {
         password: this.context.password,
         passwordConfirm: this.context.passwordConfirm,
       };
+      console.log(this.context.vendorLocation);
       url += "vendor/signup";
     } else if (this.context.userType === "Customer") {
       payload = {

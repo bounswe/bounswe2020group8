@@ -8,7 +8,7 @@ import qs from "qs";
 import { Form } from "antd";
 import PasswordForm from "../PasswordForm/PasswordForm";
 
-let apiBaseUrl = "http://18.198.51.178:8080/";
+let apiBaseUrl = "http://54.165.207.44:8080/";
 
 class ResetPassword extends Component {
   constructor(props) {

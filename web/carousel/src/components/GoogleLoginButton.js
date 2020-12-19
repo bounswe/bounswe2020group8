@@ -6,7 +6,7 @@ import { signIn } from "../redux/auth/actions";
 import { connect } from "react-redux";
 import { useGoogleLogout } from "react-google-login";
 
-const apiBaseUrl = "http://18.198.51.178:8080/";
+const apiBaseUrl = "http://54.165.207.44:8080/";
 const clientId =
   "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
 

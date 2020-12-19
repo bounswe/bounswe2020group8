@@ -21,6 +21,7 @@ const App = () => {
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyDomain, setCompanyDomain] = useState("");
+  const [vendorLocation, setVendorLocation] = useState(null);
   const [error, setError] = useState(false);
 
   const loginHandler = (newEmail, newToken) => {
@@ -45,6 +46,9 @@ const App = () => {
   const companyNameChangeHandler = (newCompanyName) => {
     setCompanyName(newCompanyName);
   };
+  const vendorLocationChangeHandler = (newVendorLocation) => {
+    setVendorLocation(newVendorLocation);
+  };
   const setErrorHandler = (newError) => {
     setError(newError);
   };
@@ -62,6 +66,7 @@ const App = () => {
           surname: surname,
           companyName: companyName,
           companyDomain: companyDomain,
+          vendorLocation: vendorLocation,
           error: error,
           login: loginHandler,
           changeEmail: emailChangeHandler,
@@ -70,6 +75,7 @@ const App = () => {
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
+          setVendorLocation: vendorLocationChangeHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,

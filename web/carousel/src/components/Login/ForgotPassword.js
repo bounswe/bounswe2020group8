@@ -6,7 +6,7 @@ import UserInfo from "../Context/UserInfo";
 
 import axios from "axios";
 
-let apiBaseUrl = "http://18.198.51.178:8080/";
+let apiBaseUrl = "http://54.165.207.44:8080/";
 
 class ForgotPassword extends Component {
   constructor(props) {
