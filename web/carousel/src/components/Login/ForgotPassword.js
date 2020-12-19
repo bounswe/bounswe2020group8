@@ -25,7 +25,6 @@ class ForgotPassword extends Component {
   };
 
   render() {
-    console.log(this.state.userType);
     return (
       <div className={classes.ForgotPassword}>
         {!this.state.sent ? (
@@ -87,11 +86,19 @@ class ForgotPassword extends Component {
   sendLinkHandler = (e) => {
     e.preventDefault();
 
-    let payload = {
+    const payload = {
       email: this.state.email,
     };
+    let url = "";
+    if (this.context.userType === "Customer") {
+      url = "/customer/forgotPassword";
+    } else if (this.context.userType === "Vendor") {
+      url = "/vendor/forgotPassword";
+    } else {
+      return;
+    }
     services
-      .post("/customer/forgotPassword", null, { params: payload })
+      .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
         this.setState({ sent: true });
