@@ -58,6 +58,9 @@ class ShoppingListFragment : Fragment() {
         view.createListButton.setOnClickListener { view ->
             createList(view)
         }
+        view.addToCartButton.setOnClickListener { view ->
+           addListToCart(view)
+        }
         return view
     }
 
@@ -165,7 +168,7 @@ class ShoppingListFragment : Fragment() {
         }
     }
 
-    fun deleteList(view: View) {
+    private fun deleteList(view: View) {
         val spinner = list_choice
         removeList(selectedList)
         selectedList = 0
@@ -179,9 +182,15 @@ class ShoppingListFragment : Fragment() {
         adapter.notifyDataSetChanged()
     }
 
-    fun createList(view: View) {
+    private fun createList(view: View) {
         val intent = Intent(this.context, CreateListActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun addListToCart(view: View){
+        for(product in lists[selectedList]){
+            CartFragment.addToCart(product)
+        }
     }
 
 }

@@ -88,6 +88,9 @@ class ProductPageActivity : AppCompatActivity() {
 
 
     }
+    fun addToCart(view: View){
+        this.product?.let { CartFragment.addToCart(it) }
+    }
 
 
 

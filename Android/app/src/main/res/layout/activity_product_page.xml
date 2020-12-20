@@ -95,6 +95,7 @@
                     android:layout_marginEnd="12dp"
                     android:layout_marginRight="12dp"
                     android:gravity="center_horizontal"
+                    android:onClick="addToCart"
                     android:text="@string/addToCart"/>
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/list_button"
