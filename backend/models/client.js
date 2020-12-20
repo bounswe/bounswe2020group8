@@ -7,7 +7,7 @@ var Message = {
   sender: { type: String },
   receiver: { type: String },
   message: { type: String },
-  isRead: { type: String },
+  isRead: { type: Boolean },
   time: { type: Date },
 };
 

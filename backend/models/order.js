@@ -13,13 +13,13 @@ var address = {
 
 var orderSchema = new Schema(
   {
-    orderID: { type: String },
-    customerID: { type: String },
+    orderID: { type: Schema.Types.ObjectId },
+    customerID: { type: Schema.Types.ObjectId },
     product: { type: String },
     email: { type: String },
     shippingAddress: { type: address },
     billingAddress: { type: address },
-    creditCard: { type: String },
+    creditCard: { type: Schema.Types.ObjectId },
     shippingInfo: { type: String },
     refundProcess: { type: String },
   },
