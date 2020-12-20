@@ -1462,11 +1462,8 @@
           "shoppingLists": {
             "type": "object list"
           },
-          "orderIds": {
-            "type": "object list"
-          },
           "shoppingCart": {
-            "type": "object"
+            "type": "(productId, productAmount) tuple list"
           },
           "addresses": {
             "type": "object list"
@@ -1516,9 +1513,6 @@
           "aboutCompany": {
             "type": "string"
           },
-          "products": {
-            "type": "string"
-          },
           "IBAN": {
             "type": "string"
           },
@@ -1561,9 +1555,9 @@
         }
       },
       "Order": {
-          "type:" : "object",
-          "properties": {
-          "orderID": {
+        "type:": "object",
+        "properties": {
+          "_id": {
             "type": "string"
           },
           "customerID": {

@@ -15,12 +15,11 @@ var address = {
 
 var shoppingList = {
   title: { type: String },
-  wishedProducts: [],
+  wishedProducts: [{ type: Schema.Types.ObjectId }],
 };
 
 var shoppingCart = {
-  productsIn: { type: String },
-  productAmount: { type: Number },
+  productsIn: [({ type: Schema.Types.ObjectId }, { type: Number })], // productId and productAmount
 };
 
 var creditCard = {
@@ -33,7 +32,6 @@ var creditCard = {
 var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
-    orderIds: [],
     shoppingCart: { type: shoppingCart },
     addresses: [address],
     phoneNumber: { type: String },
