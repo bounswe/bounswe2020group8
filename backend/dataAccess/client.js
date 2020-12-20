@@ -28,7 +28,7 @@ exports.updateClientPasswordDB = function (_id, password) {
         password,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 
@@ -40,7 +40,7 @@ exports.updateClientVerifyEmailTokenDB = function (_id, verifyEmailToken) {
         verifyEmailToken,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 
@@ -52,7 +52,7 @@ exports.updateClientResetPasswordTokenDB = function (_id, resetPasswordToken) {
         resetPasswordToken,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 

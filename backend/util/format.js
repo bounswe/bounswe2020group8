@@ -4,7 +4,7 @@ exports.formatClientToken = function ({ tokenCode, client }) {
 
 exports.formatClient = function ({ _id, email, type, name, lastName, isActive, isSuspended }) {
   return {
-    id: _id.toString(),
+    _id: _id.toString(),
     name,
     lastName,
     email,
@@ -28,7 +28,7 @@ exports.formatCustomer = function ({
 }) {
   return {
     data: {
-      id: _id.toString(),
+      _id: _id.toString(),
       name,
       lastName,
       email,
@@ -56,7 +56,7 @@ exports.formatVendor = function ({
 }) {
   return {
     data: {
-      id: _id.toString(),
+      _id: _id.toString(),
       email,
       companyName,
       companyDomainName,
