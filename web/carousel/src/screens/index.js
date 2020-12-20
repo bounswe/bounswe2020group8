@@ -79,12 +79,17 @@ const App = () => {
         <Router>
           <Header />
           <Switch>
-            <Route path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
-            <Route path="/reset" exact component={Reset} />
-            <Route path="/account" component={Account} />
+            {userType === "Vendor" ? (
+              <Route path="/v" exact component={Home} />
+            ) : (
+              <div>
+                <Route path="/" exact component={Home} />
+                <Route path="/account" component={Account} />
+              </div>
+            )}
             <Route render={() => <NotFound />} />
           </Switch>
         </Router>

@@ -115,7 +115,7 @@ const LoginForm = (props) => {
           onClick={() => {
             setError(true);
             props.clicked();
-            user.setUserType("Customer");
+            // user.setUserType("Customer");
           }}
         ></ButtonPrimary>
         <br style={{ height: "10px" }} />
