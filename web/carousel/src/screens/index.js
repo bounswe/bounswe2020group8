@@ -12,10 +12,11 @@ import NotFound from "./NotFound";
 
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
+  console.log("authed: ", localStorage.getItem("login"));
   return (
     <Route
       {...rest}
-      render={(props) => authed === true
+      render={(props) => localStorage.getItem("login") === "true"
         ? <Component {...props} />
         : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
     />
@@ -108,7 +109,7 @@ const App = () => {
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
             <Route path="/reset" exact component={Reset} />
-            <PrivateRoute authed={localStorage.getItem("login") === "true"} path='/account' component={Account}/>
+            <PrivateRoute authed={localStorage.getItem("login")} path='/account' component={Account}/>
             {/*<Route path="/account" component={Account} />*/}
             <Route render={() => <NotFound />} />
           </Switch>
