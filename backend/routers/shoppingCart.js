@@ -7,6 +7,6 @@ const router = express.Router();
 
 console.log("hey!")
 
-router.post("/cart", ShoppingCartController.addToCartController, RequestHelper.returnResponse);
+router.post("/add", ShoppingCartController.addToCartController, RequestHelper.returnResponse);
 
 module.exports = router;

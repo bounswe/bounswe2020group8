@@ -35,12 +35,15 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
-exports.updateCustomerCartDB = function (_id, lastName) {
+exports.updateCustomerCartDB = function (_id, shoppingCart) {
+  console.log("dataAccess");
+  console.log(_id);
+  console.log(shoppingCart);
   return Customer.findByIdAndUpdate(
     _id,
     {
       $set: {
-        lastName,
+        shoppingCart,
       },
     },
     { _id: 1 }

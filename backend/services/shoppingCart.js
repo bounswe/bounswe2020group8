@@ -9,6 +9,9 @@ const sendEmail = require("../util/emailer");
 const Config = require("../config");
 //
 
-exports.addToCartService = async function ({ id, cart }) {
-  const updatedCustomer = await CustomerDataAccess.updateCustomerCartDB(id, cart);
+exports.addToCartService = async function ({ id, product }) {
+  console.log("addToCartService");
+  console.log(id);
+  console.log(product);
+  const updatedCustomer = await CustomerDataAccess.updateCustomerCartDB(id, product);
 };
