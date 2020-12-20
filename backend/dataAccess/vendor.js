@@ -31,7 +31,7 @@ exports.updateVendorPasswordDB = function (_id, password) {
         password,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 
@@ -43,7 +43,7 @@ exports.updateVendorVerifyEmailTokenDB = function (_id, verifyEmailToken) {
         verifyEmailToken,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 
@@ -55,7 +55,7 @@ exports.updateVendorResetPasswordTokenDB = function (_id, resetPasswordToken) {
         resetPasswordToken,
       },
     },
-    { _id: 1 }
+    { _id: 1, new: true }
   );
 };
 

@@ -1440,7 +1440,7 @@
       "Customer": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "format": "mongoID"
           },
@@ -1488,7 +1488,7 @@
       "Vendor": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "format": "mongoID"
           },
@@ -1536,7 +1536,7 @@
       "Category": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "format": "mongoID"
           },
@@ -1551,7 +1551,7 @@
       "Admin": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "format": "mongoID"
           }
