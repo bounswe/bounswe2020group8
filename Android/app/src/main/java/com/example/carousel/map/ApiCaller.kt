@@ -2,6 +2,7 @@ package com.example.carousel.map
 
 import android.app.Activity
 import android.graphics.Color
+import android.util.Log
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -79,7 +80,7 @@ class ApiCaller<T : Any> {
 
             override fun onFailure(call: Call<T>?, t: Throwable?) {
                 Failure()
-
+                Log.i("FAİLURE", t?.message.toString())
                 revertAnimation()
                 Alerter.create(TargetActivity)
                     .setTitle(TargetActivity?.getString(R.string.alert_error_title).toString())

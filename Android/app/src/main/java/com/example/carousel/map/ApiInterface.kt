@@ -50,4 +50,10 @@ interface ApiInterface {
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
 
+    @POST("/vendor/changePassword")
+    fun vendorChangePassword(
+        @Query("oldPassword") oldPassword: String,
+        @Query("newPassword") newPassword: String,
+        @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
+
 }

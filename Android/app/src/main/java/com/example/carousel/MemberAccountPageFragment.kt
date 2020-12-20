@@ -100,6 +100,9 @@ class MemberAccountPageFragment : Fragment() {
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if (pos == 4) {
+
+
+
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
