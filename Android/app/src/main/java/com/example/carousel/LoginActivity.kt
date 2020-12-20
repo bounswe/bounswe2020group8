@@ -83,8 +83,9 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", type)
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode, type)
 
                     val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
@@ -121,8 +122,9 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", "CLIENT")
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode,"CLIENT")
 
                     val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()

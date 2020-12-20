@@ -30,7 +30,7 @@ class DashboardActivity : AppCompatActivity() {
         )
         if (prefs.getBoolean("isAuthenticated", false)) {
             ApplicationContext.instance.authenticate(
-                prefs.getString("token", "")!!
+                prefs.getString("token", "")!!, prefs.getString("type", "GUEST")!!
             )
         }
         bottomAppBar.setOnNavigationItemSelectedListener {

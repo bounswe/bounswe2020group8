@@ -80,7 +80,6 @@ class ApiCaller<T : Any> {
 
             override fun onFailure(call: Call<T>?, t: Throwable?) {
                 Failure()
-                Log.i("FAİLURE", t?.message.toString())
                 revertAnimation()
                 Alerter.create(TargetActivity)
                     .setTitle(TargetActivity?.getString(R.string.alert_error_title).toString())

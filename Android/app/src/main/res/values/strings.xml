@@ -6,6 +6,10 @@
     <string name="signup_button">SIGN UP</string>
     <string name="signup_header">Sign Up Page</string>
 
+    <string name="type_customer">CUSTOMER</string>
+    <string name="type_vendor">VENDOR</string>
+    <string name="type_guest">GUEST</string>
+
     <string name="signup_button_vendor">SIGN UP AS VENDOR</string>
     <string name="signup_button_customer">SIGN UP AS CUSTOMER</string>
     <string name="signup_name">Name</string>

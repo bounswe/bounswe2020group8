@@ -25,6 +25,12 @@ interface ApiInterface {
         @Query("googleID") googleID: String
     ): Call<ResponseLogin>
 
+    @POST("/customer/logout")
+    fun customerLogout(): Call<ResponseHeader>
+
+    @POST("/vendor/logout")
+    fun vendorLogout(): Call<ResponseHeader>
+
     @POST("/customer/signup")
     fun customerSignup(
         @Query("name") name: String,
@@ -43,6 +49,9 @@ interface ApiInterface {
 
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
+
+    @GET("/vendor/me")
+    fun vendorMe(): Call<ResponseVendorMe>
 
     @POST("/customer/changePassword")
     fun customerChangePassword(

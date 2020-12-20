@@ -12,10 +12,18 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
 import com.example.carousel.R.drawable
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.ResponseHeader
+import com.example.carousel.pojo.ResponseLogin
+import com.example.carousel.pojo.ResponseVendorMe
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_acount_page.*
+import kotlinx.android.synthetic.main.fragment_acount_page.login_button
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import java.io.*
 
@@ -24,6 +32,7 @@ class MemberAccountPageFragment : Fragment() {
     private var prefs : SharedPreferences? = null
     private lateinit var mAdapter: CustomAdapter
     var login = 0
+    var type = "GUEST"
     private var mGoogleSignInClient: GoogleSignInClient? = null
 
     override fun onCreateView(
@@ -52,6 +61,10 @@ class MemberAccountPageFragment : Fragment() {
             0
         }
 
+        type = ApplicationContext.instance.whoAmI().toString()
+        println(type)
+
+
 //        login = 1
 
 //        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
@@ -76,6 +89,7 @@ class MemberAccountPageFragment : Fragment() {
             startActivityForResult(intent, 11)
         } else {
             view.login_user.visibility = View.VISIBLE
+
         }
 
         view.login_button.setOnClickListener {
@@ -86,6 +100,7 @@ class MemberAccountPageFragment : Fragment() {
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
             if(pos == 1){
                 val fragment = UserInformationFragment()
+
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
@@ -100,14 +115,7 @@ class MemberAccountPageFragment : Fragment() {
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if (pos == 4) {
-
-
-
-                mGoogleSignInClient?.signOut()
-                view?.guest?.visibility = View.VISIBLE
-                view?.login_user?.visibility = View.INVISIBLE
-                ApplicationContext.instance.terminateAuthentication()
-                prefs!!.edit().clear().apply()
+                logout()
                 (activity as DashboardActivity).refresh()
             }else if(pos == 6) {
                 val fragment = About()
@@ -180,4 +188,72 @@ class MemberAccountPageFragment : Fragment() {
             Log.e("Exception", "File write failed: " + e.toString())
         }
     }
+//    private fun whoAmI(){
+//        val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
+//        apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+//        apiCallerGetUser.Success = { it ->
+//            if (it != null) {
+//                activity?.runOnUiThread(Runnable { //Handle UI here
+//                    type = "customer"
+//                    println(type)
+//                })
+//            }
+//        }
+//        apiCallerGetUser.Failure = {
+//
+//            val apiCallerGetUser: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+//            apiCallerGetUser.Caller = ApiClient.getClient.vendorMe()
+//            apiCallerGetUser.Success = { it ->
+//                if (it != null) {
+//                    activity?.runOnUiThread(Runnable { //Handle UI here
+//                        type = "vendor"
+//                        println(type)
+//                    })
+//                }
+//            }
+//            apiCallerGetUser.Failure = {
+//                println(type)
+//            }
+//            apiCallerGetUser.run()
+//        }
+//        apiCallerGetUser.run()
+//
+//    }
+
+    private fun logout(){
+
+        val apiCallerCustomerLogout: ApiCaller<ResponseHeader> = ApiCaller(activity)
+        apiCallerCustomerLogout.Caller = ApiClient.getClient.customerLogout()
+        apiCallerCustomerLogout.Success = { it ->
+            if (it != null) {
+                activity?.runOnUiThread(Runnable { //Handle UI here
+                    println("customer logout")
+                })
+            }
+        }
+        apiCallerCustomerLogout.Failure = {
+
+            val apiCallerVendorLogout: ApiCaller<ResponseHeader> = ApiCaller(activity)
+            apiCallerCustomerLogout.Caller = ApiClient.getClient.vendorLogout()
+            apiCallerCustomerLogout.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread(Runnable { //Handle UI here
+                        println("vendor logout")
+                    })
+                }
+            }
+            apiCallerCustomerLogout.Failure = {
+                println("failed logout")
+            }
+            apiCallerCustomerLogout.run()
+        }
+        apiCallerCustomerLogout.run()
+
+        mGoogleSignInClient?.signOut()
+        view?.guest?.visibility = View.VISIBLE
+        view?.login_user?.visibility = View.INVISIBLE
+        ApplicationContext.instance.terminateAuthentication()
+        prefs!!.edit().clear().apply()
+    }
+
 }
