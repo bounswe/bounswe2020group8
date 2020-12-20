@@ -83,7 +83,6 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
-            <Route path="/reset" exact component={Reset} />
             <Route path="/account" component={Account} />
             <Route render={() => <NotFound />} />
           </Switch>

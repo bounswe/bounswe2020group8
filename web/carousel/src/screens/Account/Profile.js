@@ -162,7 +162,11 @@ export default class Profile extends Component {
             <Input placeholder={this.context.email} disabled />
           </Form.Item>
 
-          <Form.Item name="domain" label="Company Web Domain">
+          <Form.Item name="iban" label="IBAN">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="domain" label="Company Website">
             <Input />
           </Form.Item>
 

@@ -22,7 +22,8 @@ import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
-import Product from "./Product";
+import AllProducts from "./AllProduct";
+import NewProduct from "./NewProduct";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -109,7 +110,8 @@ class Account extends Component {
     const submenukeys = {
       profile: "/profile",
       address: "/profile",
-      payment: "/profile",
+      "all-products": "/products",
+      "new-product": "/products",
       "active-order": "/order",
       "inactive-order": "/order",
       comments: "/comments",
@@ -131,14 +133,16 @@ class Account extends Component {
             <Menu.Item key="address">
               <Link to="/account/address">Address Info</Link>
             </Menu.Item>
-            {/* <Menu.Item key="payment">
-              <Link to="/account/payment">Payment Info</Link>
-            </Menu.Item> */}
           </SubMenu>
 
-          <Menu.Item key="product" icon={<GiftOutlined />}>
-            <Link to="/account/product"> My Products</Link>
-          </Menu.Item>
+          <SubMenu key="/products" icon={<GiftOutlined />} title="My products">
+            <Menu.Item key="all-products">
+              <Link to="/account/all-products">All products</Link>
+            </Menu.Item>
+            <Menu.Item key="new-product">
+              <Link to="/account/new-product">Create new product</Link>
+            </Menu.Item>
+          </SubMenu>
 
           <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
             <Menu.Item key="active-order">
@@ -182,7 +186,8 @@ class Account extends Component {
           />
           <Route path="/account/list" exact component={List} />
           <Route path="/account/cart" exact component={Cart} />
-          <Route path="/account/product" exact component={Product} />
+          <Route path="/account/all-products" exact component={AllProducts} />
+          <Route path="/account/new-product" exact component={NewProduct} />
           <Route path="/account/comments" exact component={Comments} />
           <Route path="/account/rate" exact component={Rate} />
           <Route

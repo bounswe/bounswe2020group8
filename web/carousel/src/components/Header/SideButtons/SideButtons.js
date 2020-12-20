@@ -93,7 +93,7 @@ function SideButtons(props) {
         </Menu.Item>
       ) : (
         <Menu.Item>
-          <Link to="/account/product">
+          <Link to="/account/all-products">
             <GiftOutlined />
             My Products
           </Link>
