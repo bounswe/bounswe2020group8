@@ -3,15 +3,40 @@ const ClientBase = require("./client");
 
 const Schema = mongoose.Schema;
 
+var address = {
+  addressName: { type: String },
+  name: { type: String },
+  addressLine: { type: String },
+  city: { type: String },
+  state: { type: String },
+  zipCode: { type: String },
+  phone: { type: String },
+};
+
+var shoppingList = {
+  title: { type: String },
+  wishedProducts: [{ type: Schema.Types.ObjectId }],
+};
+
+var shoppingCart = {
+  productsIn: [({ type: Schema.Types.ObjectId }, { type: Number })], // productId and productAmount
+};
+
+var creditCard = {
+  creditCardNumber: { type: String },
+  creditCardCvc: { type: String },
+  creditCardData: { type: String },
+  creditCardName: { type: String },
+};
+
 var customerSchema = new Schema(
   {
-    shoppingLists: { type: String },
-    orders: { type: String },
-    cart: { type: String },
-    addresses: { type: String },
+    shoppingLists: [shoppingList],
+    shoppingCart: { type: shoppingCart },
+    addresses: [address],
     phoneNumber: { type: String },
     birthday: { type: String },
-    creditCards: { type: String },
+    creditCards: [creditCard],
   },
   { collection: "Clients" }
 );

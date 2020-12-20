@@ -1462,11 +1462,8 @@
           "shoppingLists": {
             "type": "object list"
           },
-          "orders": {
-            "type": "object list"
-          },
-          "cart": {
-            "type": "object"
+          "shoppingCart": {
+            "type": "(productId, productAmount) tuple list"
           },
           "addresses": {
             "type": "object list"
@@ -1551,6 +1548,41 @@
           "_id": {
             "type": "string",
             "format": "mongoID"
+          }
+        },
+        "xml": {
+          "name": "User"
+        }
+      },
+      "Order": {
+        "type:": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "customerID": {
+            "type": "string"
+          },
+          "product": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "shippingAddress": {
+            "type": "object"
+          },
+          "billingAddress": {
+            "type": "object"
+          },
+          "creditCard": {
+            "type": "string"
+          },
+          "shippingInfo": {
+            "type": "string"
+          },
+          "refundProcess": {
+            "type": "string"
           },
           "email": {
             "type": "string"
