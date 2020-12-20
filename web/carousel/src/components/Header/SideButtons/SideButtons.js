@@ -37,6 +37,7 @@ function SideButtons(props) {
     }
     const token = localStorage.getItem("token");
 
+    console.log("log out");
     services
       .post(url, null, {
         headers: { Authorization: "Bearer " + token },
@@ -45,6 +46,9 @@ function SideButtons(props) {
         props.signOut();
         user.error = false;
         console.log("Logged out Success");
+        localStorage.setItem("userType", "guest");
+        localStorage.setItem("token", "");
+        localStorage.setItem("login", "false");
         props.history.push("/");
       })
       .catch((err, response) => {
@@ -89,7 +93,7 @@ function SideButtons(props) {
           New Recommendations
         </Link>
       </Menu.Item>
-      <Menu.Item key="Logout" onClick={signOut}>
+      <Menu.Item key="Logout" onClick={() => (signOut(),localStorage.setItem("login", "false"), localStorage.setItem("userType", "guest"))}>
         <Link to="/">
           <LogoutOutlined />
           Log out
@@ -106,9 +110,11 @@ function SideButtons(props) {
     }
   };
 
+  let userType = localStorage.getItem("userType");
+  let loggedIn = localStorage.getItem("login");
   return (
     <div className={classes.SideButtons}>
-      {props.isSignedIn ? (
+      {localStorage.getItem("login") === "true" ? (
         <DropdownContainer
           title={"ACCOUNT"}
           icon={<UserOutlined />}
@@ -121,16 +127,17 @@ function SideButtons(props) {
           onClick={() => props.history.push("/login")}
         ></ButtonSecondary>
       )}
-      <ButtonPrimary
-        icon={<HeartOutlined />}
-        title={"LIST"}
-        onClick={() => handleUrlClick("list")}
-      />
-      <ButtonPrimary
-        icon={<ShoppingCartOutlined />}
-        title={"CART"}
-        onClick={() => handleUrlClick("cart")}
-      />
+      {userType !== "Vendor" ?
+        <><ButtonPrimary
+          icon={<HeartOutlined/>}
+          title={"LIST"}
+          onClick={() => handleUrlClick("list")}
+        />
+          <ButtonPrimary
+          icon={<ShoppingCartOutlined/>}
+          title={"CART"}
+          onClick={() => handleUrlClick("cart")}
+          /> </> : null}
     </div>
   );
 }

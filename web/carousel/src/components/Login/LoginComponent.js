@@ -107,20 +107,31 @@ class LoginComponent extends Component {
     } else {
       return;
     }
+    localStorage.setItem("login", "false");
     services
       .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
         localStorage.setItem("token", response.data.tokenCode);
+
         this.context.login(this.context.email, response.data.tokenCode);
         this.context.error = false;
 
+        localStorage.setItem("login", "true");
         this.props.signIn();
-        this.props.history.push("/");
+        if (this.context.userType === "Customer") {
+          localStorage.setItem("userType", "Customer");
+          this.props.history.push("/");
+        } else if (this.context.userType === "Vendor") {
+          localStorage.setItem("userType", "Vendor");
+          this.props.history.push("/account");
+        }
+
       })
       .catch((err, response) => {
         console.log(err);
         this.context.error = true;
+        localStorage.setItem("userType", "guest");
         console.log("resp data: " + response);
         this.setState({ isError: true });
       });

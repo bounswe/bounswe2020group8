@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import SideButtons from "./SideButtons/SideButtons";
 import classes from "./Header.module.css";
 import logo from "../../assets/images/carousel_logo.jpg";
+import UserInfo from "../Context/UserInfo";
 
 class Header extends Component {
   state = {
@@ -20,6 +21,8 @@ class Header extends Component {
     "Furniture",
     "Personal Care",
   ];
+
+  static contextType = UserInfo;
 
   searchStringChangeHandler = (event, id) => {
     this.setState({ searchValue: "" });
@@ -43,6 +46,10 @@ class Header extends Component {
   };
 
   render() {
+    const userType = localStorage.getItem("userType");
+    console.log(localStorage.getItem("userType"));
+    console.log(localStorage.getItem("login"));
+
     return (
       <>
         <header className={classes.Header}>
@@ -51,20 +58,21 @@ class Header extends Component {
               src={logo}
               alt={"carouselSite"}
               className={classes.Img}
-              onClick={() => this.props.history.push("/")}
+              onClick={ userType !== "Vendor" ? () => this.props.history.push("/") : null}
             />
 
-            <SearchBar
-              searchString={this.state.searchValue}
-              changeString={this.searchStringChangeHandler}
-              written={this.state.searchOn}
-              defaultString={this.state.placeholderSearchString}
-              keyHandler={this.keyPressHandler}
-              iconHandler={this.iconPressHandler}
-            />
+            {userType !== "Vendor" ?
+              <SearchBar
+                searchString={this.state.searchValue}
+                changeString={this.searchStringChangeHandler}
+                written={this.state.searchOn}
+                defaultString={this.state.placeholderSearchString}
+                keyHandler={this.keyPressHandler}
+                iconHandler={this.iconPressHandler}
+              /> : null}
             <SideButtons />
           </div>
-          <Categories categories={this.categories} />
+          {userType !== "Vendor" ? <Categories categories={this.categories}/> : null}
         </header>
         <div className={classes.Filler} />
       </>

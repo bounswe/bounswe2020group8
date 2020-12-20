@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
@@ -9,6 +9,30 @@ import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
 import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
+
+
+function PrivateRoute ({component: Component, authed, ...rest}) {
+  return (
+    <Route
+      {...rest}
+      render={(props) => authed === true
+        ? <Component {...props} />
+        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+    />
+  )
+}
+
+function HomeRoute ({component: Component, authed, ...rest}) {
+  return (
+    <Route
+
+      {...rest}
+      render={(props) => authed === true
+        ? <Component {...props} />
+        : <Redirect to={{pathname: '/account', state: {from: props.location}}} />}
+    />
+  )
+}
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -84,7 +108,8 @@ const App = () => {
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
             <Route path="/reset" exact component={Reset} />
-            <Route path="/account" component={Account} />
+            <PrivateRoute authed={localStorage.getItem("login") === "true"} path='/account' component={Account}/>
+            {/*<Route path="/account" component={Account} />*/}
             <Route render={() => <NotFound />} />
           </Switch>
         </Router>
