@@ -7,8 +7,12 @@ class ApplicationContext {
         val instance = ApplicationContext()
     }
 
-    fun authenticate(token: String) {
-        this.user = AuthenticatedUser(token)
+    fun authenticate(token: String, type: String) {
+        this.user = AuthenticatedUser(token, type)
+    }
+
+    fun whoAmI(): String? {
+        return this.user?.type
     }
 
     fun isUserAuthenticated() : Boolean {

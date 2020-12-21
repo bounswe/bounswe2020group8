@@ -27,7 +27,7 @@ import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    private val baseUrl = "http://18.198.51.178:8080"
+    private val baseUrl = "http://54.165.207.44:8080/"
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val client = OkHttpClient()
@@ -83,23 +83,22 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", type)
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode, type)
 
                     val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
                     apiCallerGetUser.Success = {
                         if (it != null) {
                             this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-
-
                                 finish();
                             })
                         }
                     }
                     apiCallerGetUser.Failure = {}
                     apiCallerGetUser.run()
-                    finish();
+//                    finish();
                 })
             }
         }
@@ -121,8 +120,9 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", "CLIENT")
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode,"CLIENT")
 
                     val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
