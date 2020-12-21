@@ -62,7 +62,7 @@
     <string name="productName2">PlayStation 4 Pro 1TB</string>
     <string name="productName3">Samsung Galaxy Tab S6 Lite 10.4</string>
     <string name="productName4">Bose Noise Cancelling Wireless Bluetooth Headphones 700</string>
-    <string name="productName5">Sony X800H 43 Inch TV </string>
+    <string name="productName5">Sony X800H 43 Inch TV</string>
     <string name="productName6">ASUS F512DA-EB51 VivoBook 15</string>
     <string name="productName7">DualSense Wireless Controller</string>
     <string name="productName8">SAMSUNG 870 QVO SATA III 2.5\' SSD</string>
@@ -81,6 +81,7 @@
     <string name="descriptionTitle">Description</string>
     <string name="addToCart">Add to Cart</string>
     <string name="addToList">Add to List</string>
+    <string name="add">Add</string>
 
     <string name="forgot_password_cancel">Cancel</string>
     <string name="sort">SORT</string>
@@ -90,5 +91,10 @@
     <string name="api_error">Server is currently unavailable</string>
     <string name="alert_error_title">Error</string>
     <string name="submitting">Sending</string>
+    <string name="select">Select</string>
+    <string name="delete">Delete</string>
+    <string name="create">Create</string>
+    <string name="list">Select a list</string>
+
 
 </resources>

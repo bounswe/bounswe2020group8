@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ProductPageActivity"
+        <activity android:name=".CreateListActivity">
+        </activity>
+        <activity
+            android:name=".ProductPageActivity"
             android:theme="@style/AppThemeActionBar">
         </activity>
         <activity android:name=".ForgotPasswordActivity">
