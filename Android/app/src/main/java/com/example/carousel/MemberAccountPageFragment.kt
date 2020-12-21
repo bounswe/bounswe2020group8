@@ -38,51 +38,20 @@ class MemberAccountPageFragment : Fragment() {
     var name : String? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         prefs = activity?.getSharedPreferences("userInfo", Context.MODE_PRIVATE)
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-
         mGoogleSignInClient = activity?.let { GoogleSignIn.getClient(it, gso) }
+        type = ApplicationContext.instance.whoAmI().toString()
         return inflater.inflate(R.layout.fragment_acount_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        login = if (ApplicationContext.instance.isUserAuthenticated()) {
-            1
-        } else {
-            0
-        }
-
-
-//        login = 1
-
-
-        mAdapter = CustomAdapter(context as Context)
-        mAdapter.addSectionHeaderItem(name.toString())
-        mAdapter.addSectionHeaderItem("Account")
-        mAdapter.addItem("User Information", drawable.ic_person)
-        mAdapter.addItem("My Lists", drawable.ic_list)
-        mAdapter.addItem("Change Password", drawable.ic_key)
-        mAdapter.addItem("Settings", drawable.ic_settings)
-        mAdapter.addItem("Logout", drawable.ic_exit)
-        mAdapter.addSectionHeaderItem("Carousel")
-        mAdapter.addItem("About", drawable.ic_info)
-        mAdapter.addItem("Legals", drawable.ic_file)
-        mAdapter.addItem("Contact", drawable.ic_contact)
-
-        listView.adapter = (mAdapter)
-
+        login = if (ApplicationContext.instance.isUserAuthenticated()) {1} else {0}
         if (login == 0) {
             activity?.supportFragmentManager?.popBackStack()
             view.guest.visibility = View.VISIBLE
@@ -91,6 +60,73 @@ class MemberAccountPageFragment : Fragment() {
         } else {
             view.login_user.visibility = View.VISIBLE
         }
+
+        if(type.equals("CLIENT")){
+            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
+            apiCaller.Caller = ApiClient.getClient.customerMe()
+            apiCaller.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread(Runnable { //Handle UI here
+                        name = it.data.name+" "+it.data.lastName
+                        mAdapter = CustomAdapter(context as Context)
+                        mAdapter.addSectionHeaderItem(name.toString())
+                        mAdapter.addSectionHeaderItem("Account")
+                        mAdapter.addItem("User Information", drawable.ic_person)
+                        mAdapter.addItem("My Lists", drawable.ic_list)
+                        mAdapter.addItem("Change Password", drawable.ic_key)
+                        mAdapter.addItem("Settings", drawable.ic_settings)
+                        mAdapter.addItem("Logout", drawable.ic_exit)
+                        mAdapter.addSectionHeaderItem("Carousel")
+                        mAdapter.addItem("About", drawable.ic_info)
+                        mAdapter.addItem("Legals", drawable.ic_file)
+                        mAdapter.addItem("Contact", drawable.ic_contact)
+                        listView.adapter = (mAdapter)
+                    })
+                }
+            }
+            apiCaller.Failure = {}
+            apiCaller.run()
+
+        }else if(type.equals("VENDOR")){
+            val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+            apiCaller.Caller = ApiClient.getClient.vendorMe()
+            apiCaller.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread(Runnable { //Handle UI here
+                        name = it.data.name+" "+it.data.lastName
+                    })
+                }
+            }
+            apiCaller.Failure = {}
+            apiCaller.run()
+        }else{
+
+        }
+
+//        mAdapter = CustomAdapter(context as Context)
+//        mAdapter.addSectionHeaderItem(name.toString())
+//        mAdapter.addSectionHeaderItem("Account")
+//        mAdapter.addItem("User Information", drawable.ic_person)
+//        mAdapter.addItem("My Lists", drawable.ic_list)
+//        mAdapter.addItem("Change Password", drawable.ic_key)
+//        mAdapter.addItem("Settings", drawable.ic_settings)
+//        mAdapter.addItem("Logout", drawable.ic_exit)
+//        mAdapter.addSectionHeaderItem("Carousel")
+//        mAdapter.addItem("About", drawable.ic_info)
+//        mAdapter.addItem("Legals", drawable.ic_file)
+//        mAdapter.addItem("Contact", drawable.ic_contact)
+//
+//        listView.adapter = (mAdapter)
+
+//        if (login == 0) {
+//            activity?.supportFragmentManager?.popBackStack()
+//            view.guest.visibility = View.VISIBLE
+//            val intent = Intent(activity, LoginActivity::class.java)
+//            startActivityForResult(intent, 11)
+//        } else {
+//            view.login_user.visibility = View.VISIBLE
+//            whoAmI(type,false)
+//        }
 
         view.login_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
@@ -156,7 +192,7 @@ class MemberAccountPageFragment : Fragment() {
         if (ApplicationContext.instance.isUserAuthenticated()) {
             login = 1
             type = ApplicationContext.instance.whoAmI().toString()
-            whoAmI(type)
+            whoAmI(type,true)
             view?.guest?.visibility = View.INVISIBLE
             view?.login_user?.visibility = View.VISIBLE
         }
@@ -201,7 +237,7 @@ class MemberAccountPageFragment : Fragment() {
         }
     }
 
-    private fun whoAmI(type: String) {
+    private fun whoAmI(type: String, redirect: Boolean) {
         if(type.equals("CLIENT")){
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.customerMe()
@@ -209,11 +245,9 @@ class MemberAccountPageFragment : Fragment() {
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.name+" "+it.data.lastName
-                        val fragment = MemberAccountPageFragment()
-                        activity?.supportFragmentManager?.beginTransaction()
-                            ?.replace(R.id.fragment_account_page, fragment)
-                            ?.commit()
-                        activity!!.bottomAppBar.selectedItemId = R.id.home
+                        if(redirect) {
+                            redirectToHome()
+                        }
 
                     })
                 }
@@ -221,28 +255,34 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Failure = {}
             apiCaller.run()
 
-        }else{
+        }else if(type.equals("VENDOR")){
             val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.vendorMe()
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.name+" "+it.data.lastName
-                        val fragment = MemberAccountPageFragment()
-                        activity?.supportFragmentManager?.beginTransaction()
-                            ?.replace(R.id.fragment_account_page, fragment)
-                            ?.commit()
-                        activity!!.bottomAppBar.selectedItemId = R.id.home
+                        if(redirect) {
+                            redirectToHome()
+                        }
                     })
                 }
             }
-            apiCaller.Failure = {
-            }
+            apiCaller.Failure = {}
             apiCaller.run()
+        }else{
+
         }
 
     }
 
+    private fun redirectToHome() {
+        val fragment = MemberAccountPageFragment()
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_account_page, fragment)
+            ?.commit()
+        activity!!.bottomAppBar.selectedItemId = R.id.home
+    }
     private fun logout(type: String){
         if(type.equals("CLIENT")){
             val apiCallerLogoutCustomer: ApiCaller<ResponseHeader> = ApiCaller(activity)
