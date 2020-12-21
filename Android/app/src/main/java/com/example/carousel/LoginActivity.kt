@@ -92,8 +92,6 @@ class LoginActivity : AppCompatActivity() {
                     apiCallerGetUser.Success = {
                         if (it != null) {
                             this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-
-
                                 finish();
                             })
                         }

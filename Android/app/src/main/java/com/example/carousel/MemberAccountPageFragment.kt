@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.example.carousel.R.drawable
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
@@ -81,6 +82,7 @@ class MemberAccountPageFragment : Fragment() {
         listView.adapter = (mAdapter)
 
         if (login == 0) {
+            activity?.supportFragmentManager?.popBackStack()
             view.guest.visibility = View.VISIBLE
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent, 11)
@@ -112,6 +114,7 @@ class MemberAccountPageFragment : Fragment() {
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if (pos == 4) {
+                type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
