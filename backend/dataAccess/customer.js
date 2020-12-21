@@ -34,18 +34,38 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
-exports.updateCustomerCartDB = function (_id, productId, vendorId, amount) {
+exports.updateCustomerCartDB1 = function (_id, productId, vendorId, amount) {
   console.log("dataAccess");
   console.log(_id);
-  return Customer.findByIdAndUpdate(
-    _id,
+  return Customer.findOneAndUpdate(
+    {_id: _id,
+     shoppingCart: {"$not": {$elemMatch: {productId: productId, vendorId: vendorId}}}
+    },
     {
-      $set: {
-        "shoppingCart.${productId}.${vendorId}": amount,
+      $addToSet: {
+        shoppingCart: {productId: productId, vendorId: vendorId, amount: 0},
       },
     },
-    { _id: 1 }
+    { "new": true}
   );
+
+};
+
+exports.updateCustomerCartDB2 = function (_id, productId, vendorId, amount) {
+  console.log("dataAccess");
+  console.log(_id);
+  return Customer.findOneAndUpdate(
+    {_id: _id,
+    shoppingCart: {$elemMatch: {productId: productId, vendorId: vendorId}}
+    },
+    {
+      $set: {
+        "shoppingCart.$.amount": amount,
+      },
+    },
+    { "new": true, "safe": true}
+  );
+
 };
 
 exports.updateCustomerVerifyEmailTokenDB = function (_id, verifyEmailToken) {

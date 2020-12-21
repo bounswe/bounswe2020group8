@@ -12,5 +12,6 @@ const Config = require("../config");
 exports.addToCartService = async function ({ id, productId, vendorId, amount}) {
   console.log("addToCartService");
   console.log(id);
-  const updatedCustomer = await CustomerDataAccess.updateCustomerCartDB(id, productId, vendorId, amount);
+  const updatedCustomer1 = await CustomerDataAccess.updateCustomerCartDB1(id, productId, vendorId, amount);
+  const updatedCustomer2 = await CustomerDataAccess.updateCustomerCartDB2(id, productId, vendorId, amount);
 };
