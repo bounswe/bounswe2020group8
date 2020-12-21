@@ -3,9 +3,11 @@ package com.example.carousel
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
 
 
@@ -32,6 +34,7 @@ class ProductPageActivity : AppCompatActivity() {
         }
         createCommentList(product!!.comments)
         updateReviews()
+
     }
     private fun createCommentList(commentList: ArrayList<Comment>){
         this.adapter = CommentAdapter(commentList)
@@ -59,5 +62,36 @@ class ProductPageActivity : AppCompatActivity() {
         overallRating.rating = newRating
         reviewsTitle.text = "Reviews (${product!!.comments.size})"
     }
+    fun addToList(view: View){
+        val items = ShoppingListFragment.ShoppingList.listNames
+        var checkedItem = 0
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.list))
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                // Respond to neutral button press
+
+            }
+            .setPositiveButton(resources.getString(R.string.select)) { dialog, which ->
+                // Respond to positive button press
+                this.product?.let { ShoppingListFragment.addToList(checkedItem, it) }
+
+            }
+            // Single-choice items (initialized with checked item)
+            .setSingleChoiceItems(items.toTypedArray(), checkedItem) { dialog, which ->
+                checkedItem=which
+
+                // Respond to item chosen
+            }
+
+            .show()
+
+
+    }
+    fun addToCart(view: View){
+        this.product?.let { CartFragment.addToCart(it) }
+    }
+
+
 
 }
