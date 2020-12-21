@@ -67,9 +67,6 @@ class MemberAccountPageFragment : Fragment() {
 
 //        login = 1
 
-//        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
-//        val token = prefs?.getString("token","aaa")
-//        println(token)
 
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account")
@@ -100,11 +97,11 @@ class MemberAccountPageFragment : Fragment() {
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
             if(pos == 1){
                 val fragment = UserInformationFragment()
-
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if(pos == 2){
+
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
@@ -115,7 +112,12 @@ class MemberAccountPageFragment : Fragment() {
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if (pos == 4) {
-                logout()
+                logout(type)
+                mGoogleSignInClient?.signOut()
+                view?.guest?.visibility = View.VISIBLE
+                view?.login_user?.visibility = View.INVISIBLE
+                ApplicationContext.instance.terminateAuthentication()
+                prefs!!.edit().clear().apply()
                 (activity as DashboardActivity).refresh()
             }else if(pos == 6) {
                 val fragment = About()
@@ -132,6 +134,7 @@ class MemberAccountPageFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
+
             }
             //TicketList Object
         }
@@ -188,72 +191,33 @@ class MemberAccountPageFragment : Fragment() {
             Log.e("Exception", "File write failed: " + e.toString())
         }
     }
-//    private fun whoAmI(){
-//        val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-//        apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-//        apiCallerGetUser.Success = { it ->
-//            if (it != null) {
-//                activity?.runOnUiThread(Runnable { //Handle UI here
-//                    type = "customer"
-//                    println(type)
-//                })
-//            }
-//        }
-//        apiCallerGetUser.Failure = {
-//
-//            val apiCallerGetUser: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//            apiCallerGetUser.Caller = ApiClient.getClient.vendorMe()
-//            apiCallerGetUser.Success = { it ->
-//                if (it != null) {
-//                    activity?.runOnUiThread(Runnable { //Handle UI here
-//                        type = "vendor"
-//                        println(type)
-//                    })
-//                }
-//            }
-//            apiCallerGetUser.Failure = {
-//                println(type)
-//            }
-//            apiCallerGetUser.run()
-//        }
-//        apiCallerGetUser.run()
-//
-//    }
 
-    private fun logout(){
-
-        val apiCallerCustomerLogout: ApiCaller<ResponseHeader> = ApiCaller(activity)
-        apiCallerCustomerLogout.Caller = ApiClient.getClient.customerLogout()
-        apiCallerCustomerLogout.Success = { it ->
-            if (it != null) {
-                activity?.runOnUiThread(Runnable { //Handle UI here
-                    println("customer logout")
-                })
-            }
-        }
-        apiCallerCustomerLogout.Failure = {
-
-            val apiCallerVendorLogout: ApiCaller<ResponseHeader> = ApiCaller(activity)
-            apiCallerCustomerLogout.Caller = ApiClient.getClient.vendorLogout()
-            apiCallerCustomerLogout.Success = { it ->
+    private fun logout(type: String){
+        if(type.equals("CLIENT")){
+            val apiCallerLogoutCustomer: ApiCaller<ResponseHeader> = ApiCaller(activity)
+            apiCallerLogoutCustomer.Caller = ApiClient.getClient.customerLogout()
+            apiCallerLogoutCustomer.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        println("vendor logout")
                     })
                 }
             }
-            apiCallerCustomerLogout.Failure = {
-                println("failed logout")
+            apiCallerLogoutCustomer.Failure = {
             }
-            apiCallerCustomerLogout.run()
+            apiCallerLogoutCustomer.run()
+
+        }else{
+            val apiCallerLogoutVendor: ApiCaller<ResponseHeader> = ApiCaller(activity)
+            apiCallerLogoutVendor.Caller = ApiClient.getClient.vendorLogout()
+            apiCallerLogoutVendor.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread(Runnable { //Handle UI here
+                    })
+                }
+            }
+            apiCallerLogoutVendor.Failure = {
+            }
+            apiCallerLogoutVendor.run()
         }
-        apiCallerCustomerLogout.run()
-
-        mGoogleSignInClient?.signOut()
-        view?.guest?.visibility = View.VISIBLE
-        view?.login_user?.visibility = View.INVISIBLE
-        ApplicationContext.instance.terminateAuthentication()
-        prefs!!.edit().clear().apply()
     }
-
 }
