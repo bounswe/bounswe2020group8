@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const Customer = mongoose.model("Customer");
 
 exports.populateCustomerDB = function (obj, path = "customer") {
@@ -35,15 +34,14 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
-exports.updateCustomerCartDB = function (_id, shoppingCart) {
+exports.updateCustomerCartDB = function (_id, productId, vendorId, amount) {
   console.log("dataAccess");
   console.log(_id);
-  console.log(shoppingCart);
   return Customer.findByIdAndUpdate(
     _id,
     {
       $set: {
-        shoppingCart,
+        "shoppingCart.${productId}.${vendorId}": amount,
       },
     },
     { _id: 1 }
