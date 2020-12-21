@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     apiCallerGetUser.Failure = {}
                     apiCallerGetUser.run()
-                    finish();
+//                    finish();
                 })
             }
         }
