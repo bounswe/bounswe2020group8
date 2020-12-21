@@ -2,10 +2,9 @@ import { Tag, Input } from "antd";
 import { TweenOneGroup } from "rc-tween-one";
 import { PlusOutlined } from "@ant-design/icons";
 import React from "react";
-import axios from "axios";
+import services from "../../../apis/services";
 import "./CategoriesComponent.module.css";
 
-const apiBaseUrl = "http://54.165.207.44:8080/";
 const TOKEN = localStorage.getItem("token");
 
 export default class CategoriesComponent extends React.Component {
@@ -17,18 +16,18 @@ export default class CategoriesComponent extends React.Component {
   };
 
   async componentWillMount() {
-    var config = {
+    let config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
-    await axios
-      .get(apiBaseUrl + "category", config)
+    await services
+      .get( "/category", config)
       .then((response) => {
         console.log(response.data);
-        var categoryList = response.data.data;
-        var category_arr = [];
-        var category_id_dic = {};
+        let categoryList = response.data.data;
+        let category_arr = [];
+        let category_id_dic = {};
         categoryList.forEach((element) => {
           if (typeof element["name"] != "undefined") {
             category_arr.push(element["name"]);
@@ -45,15 +44,15 @@ export default class CategoriesComponent extends React.Component {
       });
   }
   handleClose = (removedTag) => {
-    var id = this.state.categoryIdDic[removedTag];
+    let id = this.state.categoryIdDic[removedTag];
     console.log(id);
-    var config = {
+    let config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
-    axios
-      .delete(apiBaseUrl + "category/" + id, config)
+    services
+      .delete( "/category/" + id, config)
       .then((response) => {})
       .catch((err, response) => {});
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
@@ -71,16 +70,16 @@ export default class CategoriesComponent extends React.Component {
 
   handleInputConfirm = () => {
     const { inputValue } = this.state;
-    var postData = {
+    let postData = {
       name: inputValue,
     };
-    var config = {
+    let config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
-    axios
-      .post(apiBaseUrl + "category", postData, config)
+    services
+      .post("/category", postData, config)
       .then((response) => {
         this.state.categoryIdDic[inputValue] = response.data.data["_id"];
       })

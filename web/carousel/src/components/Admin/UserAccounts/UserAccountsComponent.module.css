@@ -28,6 +28,21 @@
   border-left: none !important;
 }
 
+.Delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 0, 0);
+  opacity: 0;
+  z-index: 10;
+  margin-top: -183px;
+  width: 290px;
+  height: 183px;
+  border-radius: 14.5px;
+  font-size: 50px;
+  color: black;
+}
+
 .InputSpan {
   height: 40px;
   display: inline-flex;

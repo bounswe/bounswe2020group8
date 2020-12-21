@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
+import services from "../../../apis/services";
 
 import { SearchOutlined } from "@ant-design/icons";
 import Table from "antd/lib/table";
@@ -8,7 +9,6 @@ import PopUp from "../../UI/PopUp/PopUp";
 import classes from "./UserAccountsComponent.module.css";
 import { Space } from "antd";
 
-const apiBaseUrl = "http://18.198.51.178:8080/";
 const TOKEN = localStorage.getItem("token");
 
 
@@ -42,8 +42,8 @@ export default class UserAccountsComponent extends Component {
       config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
       };
-      getCustomer = axios.get(apiBaseUrl + "customer", config);
-      getVendor = axios.get(apiBaseUrl + "vendor", config);
+      getCustomer = services.get("/customer", config);
+      getVendor = services.get( "/vendor", config);
     } else {
       let regex = new RegExp(  value , "g");
       console.log(regex);
@@ -51,11 +51,11 @@ export default class UserAccountsComponent extends Component {
         headers: { Authorization: `Bearer ${TOKEN}` },
         params: {
           "email[regex]": value,
-          "name[regex]": value,
+          // "name[regex]": value,
         },
       };
-      getCustomer = axios.get(apiBaseUrl + "customer", config);
-      getVendor = axios.get(apiBaseUrl + "vendor", config);
+      getCustomer = services.get("/customer", config);
+      getVendor = services.get("/vendor", config);
     }
 
 
@@ -82,7 +82,6 @@ export default class UserAccountsComponent extends Component {
     this.setState((state) => {
       let list = [];
       for (let i = 0; i < data.length; i++) {
-        console.log(data[i].isActive);
         let isActive = "Active";
         if (!data[i].isActive) isActive = "Inactive";
         list = list.concat([
@@ -107,7 +106,7 @@ export default class UserAccountsComponent extends Component {
 
 
   suspendUserHandler = (id, apiURL, config, suspend) => {
-    axios.patch(apiURL, {isSuspended:suspend} , config)
+    services.patch(apiURL, {isSuspended:suspend} , config)
       .then((response) => {
         console.log("res: ", response);
         this.searchRequest();
@@ -120,7 +119,7 @@ export default class UserAccountsComponent extends Component {
 
 
   deleteUserHandler = (id, apiURL, config) => {
-    axios
+    services
       .delete(apiURL, config)
       .then((response) => {
         console.log("res: ", response);
@@ -141,9 +140,9 @@ export default class UserAccountsComponent extends Component {
     let actionApi = "";
 
     if (this.state.users[id].type === "Customer") {
-      actionApi = apiBaseUrl + "customer/" + selectedUserId;
+      actionApi = "/customer/" + selectedUserId;
     } else {
-      actionApi = apiBaseUrl + "vendor/" + selectedUserId;
+      actionApi = "/vendor/" + selectedUserId;
     }
 
     if(actionType === "delete") {
@@ -216,7 +215,7 @@ export default class UserAccountsComponent extends Component {
     ];
 
     const users = this.state.users ? [this.state.users][0] : null;
-    console.log([this.state.users][0]);
+
     return (
       <div>
         {this.state.showPopup ?
@@ -226,7 +225,8 @@ export default class UserAccountsComponent extends Component {
             buttonYes="Delete"
             buttonNo="Cancel"
             title={this.state.userName}
-          /> :
+          />
+          :
           <p />
         }
         <p>Search for users</p>

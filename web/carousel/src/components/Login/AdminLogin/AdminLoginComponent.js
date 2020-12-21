@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
+import services from "../../../apis/services";
 import UserInfo from "../../Context/UserInfo";
 import { withRouter } from "react-router-dom";
-import classes from "../Login.module.css";
 import { signIn, signOut } from "../../../redux/auth/actions";
 import { connect } from "react-redux";
-
-import LoginSignButtons from "../LoginSignButtons/LoginSignButtons";
-import LoginContainer from "../LoginContainer/LoginContainer";
-import SignupContainer from "../SignupContainer/SignupContainer";
-
-const apiBaseUrl = "http://18.198.51.178:8080/";
 
 class AdminLoginComponent extends Component {
   constructor(props) {
@@ -71,9 +64,9 @@ class AdminLoginComponent extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    let url = apiBaseUrl + "admin/loginAdmin";
+    let url = "/admin/loginAdmin";
 
-    axios
+    services
       .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
