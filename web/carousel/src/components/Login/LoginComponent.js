@@ -142,7 +142,7 @@ class LoginComponent extends Component {
         password: this.context.password,
         passwordConfirm: this.context.passwordConfirm,
       };
-      console.log(this.context.vendorLocation);
+      console.log(this.context.vendorLocations);
       url += "vendor/signup";
     } else if (this.context.userType === "Customer") {
       payload = {

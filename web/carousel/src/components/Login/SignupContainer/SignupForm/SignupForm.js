@@ -135,15 +135,16 @@ const SignupForm = (props) => {
             />
           </Form.Item>
           <Form.Item>
-            <p>Please Mark the Location of Company</p>
+            <p>Please Mark the Locations of Company</p>
             <MapComponent
               isMarkerShown
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=SECRET_KEY_HERE&v=3.exp&libraries=geometry,drawing,places"
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
-              markerLocation={user.vendorLocation}
-              setLocation={user.setVendorLocation}
+              markerLocations={user.vendorLocations}
+              addLocation={user.addVendorLocation}
+              removeLocation={user.removeVendorLocation}
             />
           </Form.Item>
         </>

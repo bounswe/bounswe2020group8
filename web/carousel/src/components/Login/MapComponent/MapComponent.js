@@ -11,19 +11,20 @@ const MapComponent = withScriptjs(
       defaultZoom={8}
       defaultCenter={{ lat: 41.08478565714733, lng: 29.051027297973633 }}
       onClick={(ev) => {
-        props.setLocation({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
+        props.addLocation({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
         console.log("latitide = ", ev.latLng.lat());
         console.log("longitude = ", ev.latLng.lng());
       }}
     >
-      {props.markerLocation && (
+      {props.markerLocations.map((marker) => (
         <Marker
+          onClick={() => props.removeLocation(marker.lat, marker.lng)}
           position={{
-            lat: props.markerLocation.lat,
-            lng: props.markerLocation.lng,
+            lat: marker.lat,
+            lng: marker.lng,
           }}
         />
-      )}
+      ))}
     </GoogleMap>
   ))
 );
