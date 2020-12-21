@@ -21,6 +21,7 @@ const App = () => {
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyDomain, setCompanyDomain] = useState("");
+  const [vendorLocations, setVendorLocations] = useState([]);
   const [error, setError] = useState(false);
 
   const loginHandler = (newEmail, newToken) => {
@@ -45,6 +46,22 @@ const App = () => {
   const companyNameChangeHandler = (newCompanyName) => {
     setCompanyName(newCompanyName);
   };
+  const addVendorLocationHandler = (newVendorLocation) => {
+    setVendorLocations([...vendorLocations, newVendorLocation]);
+  };
+  const removeVendorLocationHandler = (
+    removedLocationLat,
+    removedLocationLng
+  ) => {
+    setVendorLocations(
+      vendorLocations.filter(
+        (location) =>
+          location.lat !== removedLocationLat ||
+          location.lng !== removedLocationLng
+      )
+    );
+  };
+
   const setErrorHandler = (newError) => {
     setError(newError);
   };
@@ -62,6 +79,7 @@ const App = () => {
           surname: surname,
           companyName: companyName,
           companyDomain: companyDomain,
+          vendorLocations: vendorLocations,
           error: error,
           login: loginHandler,
           changeEmail: emailChangeHandler,
@@ -70,6 +88,8 @@ const App = () => {
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
+          addVendorLocation: addVendorLocationHandler,
+          removeVendorLocation: removeVendorLocationHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,

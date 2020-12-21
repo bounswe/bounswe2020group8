@@ -24,6 +24,8 @@ const userInfo = React.createContext({
   setCompanyDomain: () => {},
   error: false,
   setError: () => {},
+  vendorLocations: [],
+  setVendorLocations: () => {},
 });
 
 export default userInfo;

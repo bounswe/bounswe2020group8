@@ -6,6 +6,7 @@ import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
 import GoogleLoginButton from "../../../GoogleLoginButton";
 import PasswordForm from "../../../PasswordForm/PasswordForm";
+import MapComponent from "../../MapComponent/MapComponent";
 
 const SignupForm = (props) => {
   // show missing fields
@@ -45,12 +46,12 @@ const SignupForm = (props) => {
       className="login-form"
       initialValues={{ remember: true }}
       style={{
-        height: "500px",
         width: "400px",
         margin: "auto",
         display: "grid",
         fontSize: "16px",
         marginTop: "40px",
+        marginBottom: "50px",
       }}
     >
       <p>
@@ -131,6 +132,19 @@ const SignupForm = (props) => {
               inputType="text"
               placeholder="Company Website Domain"
               iconSel="domain"
+            />
+          </Form.Item>
+          <Form.Item>
+            <p>Please Mark the Locations of Company</p>
+            <MapComponent
+              isMarkerShown
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `400px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+              markerLocations={user.vendorLocations}
+              addLocation={user.addVendorLocation}
+              removeLocation={user.removeVendorLocation}
             />
           </Form.Item>
         </>
