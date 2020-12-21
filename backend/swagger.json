@@ -1519,8 +1519,20 @@
           "address": {
             "type": "object"
           },
-          "location": {
-            "type": "object"
+
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "longitude": {
+                  "type": "Number"
+                },
+                "latitude": {
+                  "type": "Number"
+                }
+              }
+            }
           }
         },
         "xml": {
@@ -1582,9 +1594,6 @@
             "type": "string"
           },
           "refundProcess": {
-            "type": "string"
-          },
-          "email": {
             "type": "string"
           }
         },
