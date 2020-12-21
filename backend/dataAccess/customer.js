@@ -63,7 +63,24 @@ exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amoun
         "shoppingCart.$.amount": amount,
       },
     },
-    { "new": true, "safe": true}
+    { "new": true}
+  );
+
+};
+
+exports.deleteFromCustomerShoppingCartDB = function (_id, productId, vendorId) {
+  console.log("dataAccess");
+  console.log(_id);
+  return Customer.findOneAndUpdate(
+    {_id: _id,
+    },
+    {
+      $pull: {
+        shoppingCart: { productId: productId , vendorId: vendorId },
+
+      },
+    },
+    { "new": true}
   );
 
 };
