@@ -6,14 +6,27 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
 
-
-exports.updateShoppingCartService = async function ({ id, productId, vendorId, amount}) {
-  updatedCustomer = await CustomerDataAccess.addToCustomerShoppingCartDB(id, productId, vendorId, amount);
-  updatedCustomer = await CustomerDataAccess.updateCustomerShoppingCartDB(id, productId, vendorId, amount);
+exports.updateShoppingCartService = async function ({ id, productId, vendorId, amount }) {
+  updatedCustomer = await CustomerDataAccess.addToCustomerShoppingCartDB(
+    id,
+    productId,
+    vendorId,
+    amount
+  );
+  updatedCustomer = await CustomerDataAccess.updateCustomerShoppingCartDB(
+    id,
+    productId,
+    vendorId,
+    amount
+  );
   return updatedCustomer;
 };
 
-exports.deleteFromShoppingCartService = async function ({ id, productId, vendorId}) {
-  const updatedCustomer = await CustomerDataAccess.deleteFromCustomerShoppingCartDB(id, productId, vendorId);
+exports.deleteFromShoppingCartService = async function ({ id, productId, vendorId }) {
+  const updatedCustomer = await CustomerDataAccess.deleteFromCustomerShoppingCartDB(
+    id,
+    productId,
+    vendorId
+  );
   return updatedCustomer;
 };

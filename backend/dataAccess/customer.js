@@ -38,51 +38,45 @@ exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount
   console.log("dataAccess");
   console.log(_id);
   return Customer.findOneAndUpdate(
-    {_id: _id,
-     shoppingCart: {"$not": {$elemMatch: {productId: productId, vendorId: vendorId}}}
+    {
+      _id: _id,
+      shoppingCart: { $not: { $elemMatch: { productId: productId, vendorId: vendorId } } },
     },
     {
       $addToSet: {
-        shoppingCart: {productId: productId, vendorId: vendorId, amount: 0},
+        shoppingCart: { productId: productId, vendorId: vendorId, amount: 0 },
       },
     },
-    { "new": true}
+    { new: true }
   );
-
 };
 
 exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
   console.log("dataAccess");
   console.log(_id);
   return Customer.findOneAndUpdate(
-    {_id: _id,
-    shoppingCart: {$elemMatch: {productId: productId, vendorId: vendorId}}
-    },
+    { _id: _id, shoppingCart: { $elemMatch: { productId: productId, vendorId: vendorId } } },
     {
       $set: {
         "shoppingCart.$.amount": amount,
       },
     },
-    { "new": true}
+    { new: true }
   );
-
 };
 
 exports.deleteFromCustomerShoppingCartDB = function (_id, productId, vendorId) {
   console.log("dataAccess");
   console.log(_id);
   return Customer.findOneAndUpdate(
-    {_id: _id,
-    },
+    { _id: _id },
     {
       $pull: {
-        shoppingCart: { productId: productId , vendorId: vendorId },
-
+        shoppingCart: { productId: productId, vendorId: vendorId },
       },
     },
-    { "new": true}
+    { new: true }
   );
-
 };
 
 exports.updateCustomerVerifyEmailTokenDB = function (_id, verifyEmailToken) {
