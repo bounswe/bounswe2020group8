@@ -18,6 +18,7 @@ exports.signupService = async function ({
   lastName,
   companyName,
   companyDomainName,
+  locations,
 }) {
   const vendorWithEmail = await VendorDataAccess.getVendorByEmailDB(email);
 
@@ -34,6 +35,7 @@ exports.signupService = async function ({
       lastName,
       companyName,
       companyDomainName,
+      locations,
     })
   ).toObject();
 
