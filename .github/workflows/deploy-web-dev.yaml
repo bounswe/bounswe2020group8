@@ -1,4 +1,4 @@
-name: Backend-autodeploy-dev
+name: Web-autodeploy-dev
 on:
   workflow_dispatch:
   push:
