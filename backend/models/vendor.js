@@ -14,8 +14,8 @@ var address = {
 };
 
 var location = {
-  longitude: { type: String },
-  latitude: { type: String },
+  longitude: { type: Number },
+  latitude: { type: Number },
 };
 
 var vendorSchema = new Schema(
@@ -24,8 +24,8 @@ var vendorSchema = new Schema(
     companyDomainName: { type: String },
     aboutCompany: { type: String },
     IBAN: { type: String },
-    address: { type: address },
-    location: { type: location },
+    address: address,
+    locations: [location],
   },
   { collection: "Clients" }
 );
