@@ -34,7 +34,7 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
-exports.updateCustomerCartDB1 = function (_id, productId, vendorId, amount) {
+exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
   console.log("dataAccess");
   console.log(_id);
   return Customer.findOneAndUpdate(
@@ -51,7 +51,7 @@ exports.updateCustomerCartDB1 = function (_id, productId, vendorId, amount) {
 
 };
 
-exports.updateCustomerCartDB2 = function (_id, productId, vendorId, amount) {
+exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
   console.log("dataAccess");
   console.log(_id);
   return Customer.findOneAndUpdate(
