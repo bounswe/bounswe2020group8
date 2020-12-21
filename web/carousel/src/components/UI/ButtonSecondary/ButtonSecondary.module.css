@@ -9,9 +9,6 @@
   font-weight: bold;
   outline: none;
   border-radius: 5px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 }
 
 .ButtonSecondary:hover {

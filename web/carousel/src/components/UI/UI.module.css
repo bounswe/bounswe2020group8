@@ -1,94 +1,82 @@
-@import '../../../node_modules/antd/dist/antd.css';
+@import "../../../node_modules/antd/dist/antd.css";
 
 .Form {
-    max-width: 300px;
-    color: blue !important;
-    display: grid;
-    height: 400px;
+  max-width: 300px;
+  color: blue !important;
+  display: grid;
+  height: 400px;
 }
 
 .login-form {
-    max-width: 300px;
-    color: blue !important;
-    display: grid;
-    font-size: 14px;
-    height: 450px;
+  max-width: 300px;
+  color: blue !important;
+  display: grid;
+  font-size: 14px;
+  height: 450px;
 }
 .login-form-forgot {
-    float: right;
+  float: right;
 }
 .ant-col-rtl .login-form-forgot {
-    float: left;
+  float: left;
 }
 .login-form-button {
-    width: 100%;
+  width: 100%;
 }
 
-.Icon{
-    border-bottom: 1px solid gray;
-    height: 34px;
-    width: 34px;
+.Icon {
+  border-bottom: 1px solid gray;
+  height: 34px;
+  width: 34px;
+  background-color: white;
 }
 .IconImg {
-    margin-top: 10px;
-    margin-left: -18px;
+  margin-top: 10px;
 }
-
-
 
 .LinkText {
-    text-decoration: underline;
-    color: black;
-    height: 26px;
+  text-decoration: underline;
+  color: black;
+  height: 26px;
 }
 .LinkText:hover {
-    color: #FF6D00;
+  color: #ff6d00;
 }
 
 .InputSpan {
-    height: 34px;
-    display: inline-flex;
+  height: 34px;
+  display: inline-flex;
 }
 
 .Input {
-    outline: none !important;
-    border: none !important;
-    border-bottom: 1px solid gray !important;
-    border-radius: 0 !important;
-    padding-left: 10px;
-    padding-top: 6px;
-    height: 34px;
-    width: 240px;
-    bottom: 0;
-    font-size:16px;
+  outline: none !important;
+  border: none !important;
+  border-bottom: 1px solid gray !important;
+  border-radius: 0 !important;
+  padding-left: 10px;
+  padding-top: 6px;
+  height: 34px;
+  width: 310px;
+  bottom: 0;
+  font-size: 16px;
 }
 
 .Input:focus {
-
 }
 
 /*Input::placeholder {*/
 /*    color: #ffb3b3;*/
 /*}*/
 
-.Input:hover{
-    outline: unset;
-    border: unset;
+.Input:hover {
+  outline: unset;
+  border: unset;
 }
-
 
 .Input:focus-visible,
 Input:focus,
-Input:focus-within{
-    outline: none;
-    border: none;
-    border-bottom: 1px solid gray !important;
+Input:focus-within {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid gray !important;
 }
-
-
-
-
-
-
-
-

@@ -4,8 +4,6 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import InputUI from "../../../UI/InputUI/InputUI";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
-import classes from "./SignupForm.module.css";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import GoogleLoginButton from "../../../GoogleLoginButton";
 import PasswordForm from "../../../PasswordForm/PasswordForm";
 
@@ -48,6 +46,7 @@ const SignupForm = (props) => {
       initialValues={{ remember: true }}
       style={{
         height: "500px",
+        width: "400px",
         margin: "auto",
         display: "grid",
         fontSize: "16px",

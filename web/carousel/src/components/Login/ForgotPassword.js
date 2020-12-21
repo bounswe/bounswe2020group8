@@ -3,10 +3,7 @@ import classes from "./ForgotPassword.module.css";
 import { withRouter } from "react-router-dom";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../Context/UserInfo";
-
-import axios from "axios";
-
-let apiBaseUrl = "http://18.198.51.178:8080/";
+import services from "../../apis/services";
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -28,7 +25,6 @@ class ForgotPassword extends Component {
   };
 
   render() {
-    console.log(this.state.userType);
     return (
       <div className={classes.ForgotPassword}>
         {!this.state.sent ? (
@@ -90,35 +86,27 @@ class ForgotPassword extends Component {
   sendLinkHandler = (e) => {
     e.preventDefault();
 
-    let userTypeToPayload = "CLIENT";
-    // var self = this;c
-    if (this.state.userType === "Customer") {
-      userTypeToPayload = "CLIENT";
-    } else {
-      userTypeToPayload = "VENDOR";
-    }
-
-    let payload = {
+    const payload = {
       email: this.state.email,
-      type: userTypeToPayload,
     };
-
-    axios
-      .post(apiBaseUrl + "client/forgotPassword", null, { params: payload })
+    let url = "";
+    if (this.context.userType === "Customer") {
+      url = "/customer/forgotPassword";
+    } else if (this.context.userType === "Vendor") {
+      url = "/vendor/forgotPassword";
+    } else {
+      return;
+    }
+    services
+      .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
-        console.log("oldu");
         this.setState({ sent: true });
-        // this.context.login(self.state.email, response.data.tokenCode);
-        // this.props.history.push("/");
       })
       .catch((err, response) => {
         console.log(err);
-        console.log("olmadı");
         this.setState({ isError: true });
       });
-    console.log(this.state);
   };
 
   checkErrorState() {
