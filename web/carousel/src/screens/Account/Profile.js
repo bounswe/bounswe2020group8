@@ -5,11 +5,12 @@ import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
+import MapComponent from "../../components/MapComponent/MapComponent";
 
 const { Option } = Select;
 
 export default class Profile extends Component {
-  state = { visible: false };
+  state = { visible: false, locations: [] };
   static contextType = UserInfo;
 
   prefixSelector = () => {
@@ -24,6 +25,19 @@ export default class Profile extends Component {
 
   eraseError = () => {
     this.setState({ visible: false });
+  };
+
+  addVendorLocationHandler = (newLocation) => {
+    this.setState({ locations: [...this.locations, newLocation] });
+  };
+  removeLocationHandler = (removedLocationLat, removedLocationLng) => {
+    this.state({
+      locations: this.locations.filter(
+        (location) =>
+          location.lat !== removedLocationLat ||
+          location.lng !== removedLocationLng
+      ),
+    });
   };
 
   onChangePassword = () => {
@@ -114,7 +128,7 @@ export default class Profile extends Component {
               <ButtonPrimary
                 title="Save Changes"
                 style={{ width: 150 }}
-                onClick={() => console.log("clicked")}
+                onClick={() => console.log("clicked")} // TODO: implement this function to backend
               />
             </div>
           </Form.Item>
@@ -145,17 +159,17 @@ export default class Profile extends Component {
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="location"
-            label="Company Location"
-            rules={[
-              {
-                required: true,
-                message: "Please input your location!",
-              },
-            ]}
-          >
-            <Input />
+          <Form.Item name="location" label="Company Locations">
+            <MapComponent
+              isMarkerShown
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: `400px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}
+              markerLocations={this.context.vendorLocations}
+              addLocation={this.context.addVendorLocation}
+              removeLocation={this.context.removeVendorLocation}
+            />
           </Form.Item>
 
           <Form.Item name="email" label="E-mail">

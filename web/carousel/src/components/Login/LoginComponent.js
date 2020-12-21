@@ -140,6 +140,7 @@ class LoginComponent extends Component {
         passwordConfirm: this.context.passwordConfirm,
       };
       url = "/vendor/signup";
+      // TODO: Add vendor location
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,

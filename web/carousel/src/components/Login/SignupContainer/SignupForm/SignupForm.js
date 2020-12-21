@@ -6,7 +6,7 @@ import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../../../Context/UserInfo";
 import GoogleLoginButton from "../../../GoogleLoginButton";
 import PasswordForm from "../../../PasswordForm/PasswordForm";
-import MapComponent from "../../MapComponent/MapComponent";
+import MapComponent from "../../../MapComponent/MapComponent";
 
 const SignupForm = (props) => {
   // show missing fields
