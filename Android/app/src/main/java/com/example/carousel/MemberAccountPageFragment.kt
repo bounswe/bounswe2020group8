@@ -98,13 +98,17 @@ class MemberAccountPageFragment : Fragment() {
         }
 
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            if(pos == 2){
+            if(pos == 2) {
                 val fragment = UserInformationFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if(pos == 3){
-
+                val fragment = ShoppingListFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+            }else if(pos == 4){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
