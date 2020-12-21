@@ -23,8 +23,7 @@ import java.io.*
 class MemberAccountPageFragment : Fragment() {
     private var prefs : SharedPreferences? = null
     private lateinit var mAdapter: CustomAdapter
-    //var login = 0
-    var login = 1
+    var login = 0
     private var mGoogleSignInClient: GoogleSignInClient? = null
 
     override fun onCreateView(
@@ -50,15 +49,9 @@ class MemberAccountPageFragment : Fragment() {
         login = if (ApplicationContext.instance.isUserAuthenticated()) {
             1
         } else {
-            //0
-            1
+            0
         }
 
-//        login = 1
-
-//        val prefs = activity?.getPreferences(Context.MODE_PRIVATE)
-//        val token = prefs?.getString("token","aaa")
-//        println(token)
 
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem("Account")

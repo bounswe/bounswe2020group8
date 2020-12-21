@@ -50,4 +50,8 @@ interface ApiInterface {
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
 
+    @PATCH("/customer/me")
+    fun customerUpdate(
+        @Body data: DataCustomerMe): Call<ResponseCustomerMe>
+
 }

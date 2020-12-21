@@ -27,7 +27,6 @@ import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    private val baseUrl = "http://18.198.51.178:8080"
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val client = OkHttpClient()
@@ -85,21 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     editor.putBoolean("isAuthenticated", true)
                     editor.apply()
                     ApplicationContext.instance.authenticate(it.tokenCode)
-
-                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
-                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-                    apiCallerGetUser.Success = {
-                        if (it != null) {
-                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-
-
-                                finish();
-                            })
-                        }
-                    }
-                    apiCallerGetUser.Failure = {}
-                    apiCallerGetUser.run()
-                    finish();
+                    finish()
                 })
             }
         }
@@ -123,20 +108,6 @@ class LoginActivity : AppCompatActivity() {
                     editor.putBoolean("isAuthenticated", true)
                     editor.apply()
                     ApplicationContext.instance.authenticate(it.tokenCode)
-
-                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
-                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-                    apiCallerGetUser.Success = {
-                        if (it != null) {
-                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-
-
-                                finish();
-                            })
-                        }
-                    }
-                    apiCallerGetUser.Failure = {}
-                    apiCallerGetUser.run()
                     finish();
                 })
             }
@@ -176,6 +147,9 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("TAG", "signInResult:failed code=" + e.statusCode)
             }
         }
+    }
+    companion object User {
+        lateinit var user: DataCustomerMe
     }
 }
 

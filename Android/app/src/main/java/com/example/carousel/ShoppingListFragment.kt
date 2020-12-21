@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ResponseCustomerMe
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -23,24 +27,13 @@ import kotlinx.android.synthetic.main.fragment_shopping_list.*;
 import kotlinx.android.synthetic.main.fragment_shopping_list.view.*
 import okhttp3.internal.notify
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShoppingListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShoppingListFragment : Fragment() {
 
     private var prefs: SharedPreferences? = null
     private lateinit var adapter: ListsAdapter
     private lateinit var spinnerAdapter: ArrayAdapter<String>
-    //private lateinit var mAdapter: CustomAdapter
-    //var login = 0
-    //private var mGoogleSignInClient: GoogleSignInClient? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,6 +113,22 @@ class ShoppingListFragment : Fragment() {
         }
     }
 
+    override fun onPause(){
+        super.onPause()
+    if(isChanged) {
+        val apiCallerPatchUser: ApiCaller<ResponseCustomerMe> = ApiCaller(requireActivity())
+        LoginActivity.user.shoppingLists = lists
+        apiCallerPatchUser.Caller = ApiClient.getClient.customerUpdate(LoginActivity.user)
+        apiCallerPatchUser.Success = {
+            if (it != null) {
+                LoginActivity.user = it.data
+                isChanged = false
+             }
+        }
+        apiCallerPatchUser.Failure = {}
+        apiCallerPatchUser.run()
+    }
+    }
     private fun createProductList(products: ArrayList<Product>) {
         adapter = ListsAdapter(products)
 
@@ -138,33 +147,32 @@ class ShoppingListFragment : Fragment() {
         var lists = ArrayList<ArrayList<Product>>()
         var listNames = ArrayList<String>()
         var selectedList = 0
-
+        var isChanged = false
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShoppingListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-
         fun addList(listName: String) {
             lists.add(ArrayList<Product>())
             listNames.add(listName)
+            isChanged = true
         }
 
         fun addToList(listIndex: Int, product: Product) {
             lists[listIndex].add(product)
+            isChanged = true
         }
 
         fun removeList(listIndex: Int) {
-            listNames.removeAt(listIndex)
-            lists.removeAt(listIndex)
+            if(lists.isNotEmpty()) {
+                listNames.removeAt(listIndex)
+                lists.removeAt(listIndex)
+                isChanged = true
+            }
         }
 
         fun removeFromList(productIndex: Int) {
-            if (lists[selectedList].isNotEmpty())
+            if (lists[selectedList].isNotEmpty()) {
                 lists[selectedList].removeAt(productIndex)
+                isChanged = true
+            }
         }
     }
 
@@ -175,7 +183,8 @@ class ShoppingListFragment : Fragment() {
         if (lists.isNotEmpty()) {
             spinner.setSelection(selectedList)
             adapter.replaceProducts(lists[selectedList])
-        } else {
+        }
+        else{
             adapter.replaceProducts(ArrayList<Product>())
         }
         spinnerAdapter.notifyDataSetChanged()
