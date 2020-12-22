@@ -5,10 +5,11 @@ import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
+import { withRouter } from "react-router-dom";
 
 const { Option } = Select;
 
-export default class Profile extends Component {
+class Profile extends Component {
   state = { visible: false, phone: "", birthday: "2001-01-01" };
   static contextType = UserInfo;
 
@@ -45,7 +46,7 @@ export default class Profile extends Component {
     this.setState({ visible: false });
   };
 
-  onChangePassword = () => {
+  onPasswordChange = () => {
     let url = "";
     if (this.context.userType === "Customer") {
       url = "/customer/changePassword";
@@ -77,6 +78,37 @@ export default class Profile extends Component {
       });
   };
 
+  onProfileChange = async (values) => {
+    console.log("values", values);
+    if (values.name) {
+      this.context.setName(values.name);
+    }
+    if (values.surname) {
+      this.context.setSurname(values.surname);
+    }
+    if (values.phoneNumber) {
+      this.setState({ phone: values.phone });
+    }
+    if (values.birthday) {
+      this.setState({ birthday: values.birthday });
+    }
+    const token = localStorage.getItem("token");
+    const payload = {
+      name: this.context.name,
+      lastName: this.context.surname,
+      phoneNumber: this.state.phoneNumber,
+      birthday: this.state.birthday,
+    };
+    const response = await services.patch("/customer/me", payload, {
+      headers: { Authorization: "Bearer " + token },
+    });
+    if (response) {
+      this.props.history.push("/account/profile");
+    } else {
+      console.log("try again");
+    }
+  };
+
   renderProfileChangeForm() {
     return (
       <div>
@@ -85,27 +117,13 @@ export default class Profile extends Component {
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           size="middle"
-          onFinish={this.onFinish}
-          onFinishFailed={this.onFinishFailed}
+          onFinish={this.onProfileChange}
         >
-          <Form.Item
-            name="Name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Name!",
-              },
-            ]}
-          >
+          <Form.Item name="name" label="Name">
             <Input placeholder={this.context.name} />
           </Form.Item>
 
-          <Form.Item
-            name="Surname"
-            label="Surname"
-            rules={[{ required: true, message: "Please input your Surname!" }]}
-          >
+          <Form.Item name="surname" label="Surname">
             <Input placeholder={this.context.surname} />
           </Form.Item>
 
@@ -121,7 +139,7 @@ export default class Profile extends Component {
             />
           </Form.Item>
 
-          <Form.Item label="Birthday Date">
+          <Form.Item name="birthday" label="Birthday Date">
             <DatePicker placeholder={this.state.birthday} />
           </Form.Item>
 
@@ -133,11 +151,7 @@ export default class Profile extends Component {
                 justifyContent: "flex-end",
               }}
             >
-              <ButtonPrimary
-                title="Save Changes"
-                style={{ width: 150 }}
-                onClick={() => console.log("clicked")}
-              />
+              <ButtonPrimary title="Save Changes" style={{ width: 150 }} />
             </div>
           </Form.Item>
         </Form>
@@ -184,7 +198,7 @@ export default class Profile extends Component {
               <ButtonPrimary
                 title="Change Password"
                 style={{ width: 150 }}
-                onClick={this.onChangePassword}
+                onClick={this.onPasswordChange}
               />
             </Form.Item>
           </div>
@@ -218,3 +232,5 @@ export default class Profile extends Component {
     );
   }
 }
+
+export default withRouter(Profile);
