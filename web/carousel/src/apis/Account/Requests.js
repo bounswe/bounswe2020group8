@@ -1,5 +1,5 @@
 import { configConsumerProps } from "antd/lib/config-provider";
-import API from "./AccountAPI";
+import services from "../services";
 
 // This piece of code assumes that the functions are used for "addresses" or "credit cards"
 
@@ -10,7 +10,8 @@ const getElements = (field, setState) => {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };
 
-  API.get("customer/me", config)
+  services
+    .get("customer/me", config)
     .then((res) => {
       console.log(res.data.data[field]);
       const list = JSON.parse(res.data.data[field] || "[]");
@@ -24,7 +25,7 @@ const patchField = async (field, list) => {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };
 
-  const res = await API.patch(
+  const res = await services.patch(
     "customer/me",
     { [field]: JSON.stringify(list) },
     config
