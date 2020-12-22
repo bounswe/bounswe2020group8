@@ -82,9 +82,11 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", type)
                     editor.apply()
                     ApplicationContext.instance.authenticate(it.tokenCode)
                     finish()
+                 
                 })
             }
         }
@@ -106,6 +108,7 @@ class LoginActivity : AppCompatActivity() {
                     val editor = prefs.edit()
                     editor.putString("token", it.tokenCode)
                     editor.putBoolean("isAuthenticated", true)
+                    editor.putString("type", "CLIENT")
                     editor.apply()
                     ApplicationContext.instance.authenticate(it.tokenCode)
                     finish();

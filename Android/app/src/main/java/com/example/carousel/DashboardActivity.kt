@@ -34,7 +34,7 @@ class DashboardActivity : AppCompatActivity() {
         )
         if (prefs.getBoolean("isAuthenticated", false)) {
             ApplicationContext.instance.authenticate(
-                prefs.getString("token", "")!!
+                prefs.getString("token", "")!!, prefs.getString("type", "GUEST")!!
             )
             val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@DashboardActivity)
             apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
