@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class CartAdapter (    private var productList: ArrayList<Product>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){

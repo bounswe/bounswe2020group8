@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.carousel.application.ApplicationContext
@@ -50,8 +51,9 @@ class ProductPageActivity : AppCompatActivity() {
     fun addReview(view: View){
         val comment = textInputEditText.text.toString()
         val rating = rating.rating
-        val user = "Onur Enginer"
-        val id = "12345"
+        val user = "${LoginActivity.user.name} ${LoginActivity.user.lastName}"
+        //val id = LoginActivity.user._id
+        val id = LoginActivity.user.id
         product!!.comments.add(Comment(comment, rating, user, id))
         adapter.notifyDataSetChanged()
         updateReviews()
@@ -66,7 +68,8 @@ class ProductPageActivity : AppCompatActivity() {
         reviewsTitle.text = "Reviews (${product!!.comments.size})"
     }
     fun addToList(view: View){
-        val items = ShoppingListFragment.ShoppingList.listNames
+        val items = ShoppingListFragment.ShoppingList.listNames.toMutableList()
+        items.add("Create A New List")
         var checkedItem = 0
 
         MaterialAlertDialogBuilder(this)
@@ -77,7 +80,14 @@ class ProductPageActivity : AppCompatActivity() {
             }
             .setPositiveButton(resources.getString(R.string.select)) { dialog, which ->
                 // Respond to positive button press
-                this.product?.let { ShoppingListFragment.addToList(checkedItem, it) }
+                if(checkedItem == items.lastIndex) {
+                    val intent = Intent(this, CreateListActivity::class.java)
+                    startActivity(intent)
+                }
+                else{
+                    this.product?.let { com.example.carousel.ShoppingListFragment.addToList(checkedItem, it) }
+                    android.widget.Toast.makeText(this,"Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
+                }
 
             }
             // Single-choice items (initialized with checked item)
@@ -98,6 +108,7 @@ class ProductPageActivity : AppCompatActivity() {
         }
         else {
             this.product?.let { CartFragment.addToCart(it) }
+            Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
         }
     }
 
