@@ -1,12 +1,15 @@
 package com.example.carousel
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.carousel.application.ApplicationContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
 
@@ -89,7 +92,13 @@ class ProductPageActivity : AppCompatActivity() {
 
     }
     fun addToCart(view: View){
-        this.product?.let { CartFragment.addToCart(it) }
+        if (!ApplicationContext.instance.isUserAuthenticated()) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+        else {
+            this.product?.let { CartFragment.addToCart(it) }
+        }
     }
 
 

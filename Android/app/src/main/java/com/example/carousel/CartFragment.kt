@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import kotlinx.android.synthetic.main.fragment_cart.*
+import kotlinx.android.synthetic.main.fragment_cart.view.*
+import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -65,7 +67,7 @@ class CartFragment : Fragment() {
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
-            startActivity(intent)
+            startActivityForResult(intent,11)
         }
         updateTotalCost(adapter.totalCost())
         val observer = object : RecyclerView.AdapterDataObserver(){
@@ -75,6 +77,12 @@ class CartFragment : Fragment() {
             }
         }
         adapter.registerAdapterDataObserver(observer)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (ApplicationContext.instance.isUserAuthenticated())
+            cart_view.visibility = View.VISIBLE
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,7 +96,7 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (!ApplicationContext.instance.isUserAuthenticated()) {
             val intent = Intent(activity, LoginActivity::class.java)
-            startActivityForResult(intent, 11)
+            startActivity(intent)
         }
         else {
             view.cart_view.visibility = View.VISIBLE
