@@ -1,46 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GoogleLogin } from "react-google-login";
-import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { signIn } from "../redux/auth/actions";
 import { connect } from "react-redux";
 import { useGoogleLogout } from "react-google-login";
+import services from "../apis/services";
+import userInfo from "./Context/UserInfo";
 
-const apiBaseUrl = "http://18.198.51.178:8080/";
 const clientId =
   "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
 
 function GoogleLoginButton(props) {
+  const user = useContext(userInfo);
+
   const onSuccess = (res) => {
-    console.log(
-      "AA ~ file: GoogleLoginButton.js ~ line 15 ~ onSuccess ~ res",
-      res
-    );
     const userProfile = res.profileObj;
     const query = {
       email: userProfile.email,
       googleID: userProfile.googleId,
     };
-    let url = apiBaseUrl;
+    let url = "";
     if (props.isSignup) {
-      url += "customer/signupWithGoogle";
+      url = "/customer/signupWithGoogle";
     } else {
-      url += "customer/loginWithGoogle";
+      url = "/customer/loginWithGoogle";
     }
 
-    axios
+    services
       .post(url, null, { params: query })
       .then((response) => {
         const { tokenCode } = response.data;
         localStorage.setItem("token", tokenCode);
+        user.login(userProfile.email, tokenCode);
         props.signIn();
         props.history.push("/");
       })
       .catch((err, response) => {
-        console.log("response", response);
+        console.log(err);
         signOut();
       });
-    //refreshTokenSetup(res);
   };
 
   const onFailure = (res) => {
