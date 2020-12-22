@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
@@ -18,18 +18,43 @@ import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../../redux/auth/actions";
 import { useGoogleLogout } from "react-google-login";
+import UserInfo from "../../Context/UserInfo";
+import services from "../../../apis/services";
 
 function SideButtons(props) {
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
+  const user = useContext(UserInfo);
 
   const onLogoutSuccess = (res) => {
-    props.signOut();
-    console.log("Logged out Success");
+    let url = "";
+    if (user.userType === "Customer") {
+      url = "/customer/logout";
+    } else if (user.userType === "Vendor") {
+      url = "/vendor/logout";
+    } else {
+      return;
+    }
+    const token = localStorage.getItem("token");
+
+    services
+      .post(url, null, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((response) => {
+        props.signOut();
+        user.error = false;
+        console.log("Logged out Success");
+        props.history.push("/");
+      })
+      .catch((err, response) => {
+        console.log(err);
+        user.error = true;
+      });
   };
 
   const onFailure = () => {
-    console.log("Handle failure cases");
+    console.log("components > Header > Sidebuttons");
   };
 
   const { signOut } = useGoogleLogout({

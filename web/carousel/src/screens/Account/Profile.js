@@ -1,13 +1,12 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
-import axios from "axios";
+import services from "../../apis/services";
 
 const { Option } = Select;
-const apiBaseUrl = "http://18.198.51.178:8080/";
 
 export default class Profile extends Component {
   state = { visible: false };
@@ -28,21 +27,26 @@ export default class Profile extends Component {
   };
 
   onChangePassword = () => {
-    const url = apiBaseUrl + "customer/changePassword";
+    let url = "";
+    if (this.context.userType === "Customer") {
+      url = "/customer/changePassword";
+    } else if (this.context.userType === "Vendor") {
+      url = "/vendor/changePassword";
+    } else {
+      return;
+    }
     const token = localStorage.getItem("token");
     const payload = {
       oldPassword: this.context.oldPassword,
       newPassword: this.context.password,
       newPasswordRepeat: this.context.passwordConfirm,
     };
-
-    axios
+    services
       .post(url, null, {
         params: payload,
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
-        console.log(response.data);
         this.context.error = false;
         this.setState({ visible: false });
         this.props.history.push("/");
@@ -51,7 +55,6 @@ export default class Profile extends Component {
         console.log(err);
         this.context.error = true;
         this.setState({ visible: true });
-        console.log("resp daata: " + response);
       });
   };
 
@@ -88,7 +91,7 @@ export default class Profile extends Component {
           </Form.Item>
 
           <Form.Item name="email" label="E-mail">
-            <Input placeholder="@gmail.com" disabled />
+            <Input placeholder={this.context.email} disabled />
           </Form.Item>
 
           <Form.Item name="phone" label="Phone Number">
@@ -126,7 +129,7 @@ export default class Profile extends Component {
     return (
       <div>
         <Form
-          style={{ width: 350 }}
+          style={{ width: 400 }}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -154,7 +157,7 @@ export default class Profile extends Component {
               display: "flex",
               flexDirection: "row",
               justifyContent: "flex-end",
-              paddingRight: 40,
+              paddingRight: 100,
             }}
           >
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>

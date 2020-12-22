@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import classes from "./ResetPassword.module.css";
 import { withRouter } from "react-router-dom";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
-
-import axios from "axios";
 import qs from "qs";
 import { Form } from "antd";
 import PasswordForm from "../PasswordForm/PasswordForm";
-
-let apiBaseUrl = "http://18.198.51.178:8080/";
+import services from "../../apis/services";
+import userInfo from "../Context/UserInfo";
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -23,23 +21,8 @@ class ResetPassword extends Component {
       visible: false,
     };
   }
+  static contextType = userInfo;
 
-  passwordChangeHandler = (e) => {
-    this.setState({ password: e.target.value });
-  };
-  passwordConfirmChangeHandler = (e) => {
-    this.setState({ passwordConfirm: e.target.value });
-  };
-
-  passwordCheckHandler = () => {
-    const pass1 = this.state.password;
-    const pass2 = this.state.passwordConfirm;
-    if (pass1 !== pass2) {
-      this.setState({ buttonActive: false });
-    } else if (pass1 === pass2) {
-      this.setState({ buttonActive: true });
-    }
-  };
   eraseError = () => {
     this.setState({ visible: false });
   };
@@ -63,7 +46,7 @@ class ResetPassword extends Component {
                     <ButtonSecondary
                       title="Reset Password"
                       style={{ width: 300, fontSize: 20 }}
-                      onClick={() => console.log("clicked reset")}
+                      onClick={this.resetPasswordHandler}
                     />
                   </Form.Item>
                 </div>
@@ -80,45 +63,29 @@ class ResetPassword extends Component {
     );
   }
 
-  resetPasswordPassiveHandler = (e) => {
-    e.preventDefault();
-  };
-
-  resetPasswordHandler = (e) => {
-    e.preventDefault();
-
+  resetPasswordHandler = () => {
     const token = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).token;
 
-    console.log(token);
-    let payload = {
+    const payload = {
       resetPasswordToken: token,
-      newPassword: this.state.password,
-      newPasswordCheck: this.state.passwordConfirm,
+      newPassword: this.context.password,
+      newPasswordCheck: this.context.passwordConfirm,
     };
+    const url = "/client/resetPassword";
 
-    axios
-      .post(apiBaseUrl + "customer/resetPassword", null, { params: payload })
+    services
+      .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
         this.setState({ sent: true });
       })
       .catch((err, response) => {
         console.log(err);
         this.setState({ isError: true });
       });
-    console.log(this.state);
   };
-
-  checkErrorState() {
-    if (this.state.isError) {
-      this.setState({ errorMessage: "Incorrect password information" });
-    } else {
-      this.setState({ errorMessage: "nope" });
-    }
-  }
 }
 
 export default withRouter(ResetPassword);

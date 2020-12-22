@@ -3,6 +3,7 @@ import classes from "./ConfirmPopup.module.css";
 
 import { confirmAlert } from "react-confirm-alert";
 import ButtonPrimary from "../ButtonPrimary/ButtonPrimary";
+import ButtonSecondary from "../ButtonSecondary/ButtonSecondary";
 
 const handleSubmit = (title, handleConfirm) => {
   confirmAlert({
@@ -16,9 +17,9 @@ const handleSubmit = (title, handleConfirm) => {
                 handleConfirm();
                 onClose();
               }}
-              title="Yes"
+              title="Delete"
             />
-            <ButtonPrimary onClick={onClose} title="No" />
+            <ButtonSecondary onClick={onClose} title="Cancel" />
           </div>
         </div>
       );

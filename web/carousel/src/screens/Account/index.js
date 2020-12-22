@@ -20,11 +20,14 @@ import Comments from "./Comments";
 import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
+import UserInfo from "../../components/Context/UserInfo";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class Account extends Component {
+  static contextType = UserInfo;
+
   renderSideBar() {
     const { location } = this.props;
     const path = location.pathname.split("/");
@@ -125,18 +128,31 @@ class Account extends Component {
     );
   }
 
+  renderCustomerAccount() {
+    return (
+      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
+        {this.renderSideBar()}
+        {this.renderContent()}
+      </Layout>
+    );
+  }
+
+  renderVendorAccount() {
+    return (
+      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
+        Vendor site
+      </Layout>
+    );
+  }
+
   render() {
     return (
       <div>
         <Layout>
           <Content style={{ padding: "0 50px", zIndex: 10 }}>
-            <Layout
-              className="site-layout-background"
-              style={{ padding: "24px 0" }}
-            >
-              {this.renderSideBar()}
-              {this.renderContent()}
-            </Layout>
+            {this.context.userType === "Customer"
+              ? this.renderCustomerAccount()
+              : this.renderVendorAccount()}
           </Content>
         </Layout>
       </div>

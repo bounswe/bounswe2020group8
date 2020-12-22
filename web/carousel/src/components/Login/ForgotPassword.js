@@ -3,10 +3,7 @@ import classes from "./ForgotPassword.module.css";
 import { withRouter } from "react-router-dom";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 import UserInfo from "../Context/UserInfo";
-
-import axios from "axios";
-
-let apiBaseUrl = "http://18.198.51.178:8080/";
+import services from "../../apis/services";
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -28,7 +25,6 @@ class ForgotPassword extends Component {
   };
 
   render() {
-    console.log(this.state.userType);
     return (
       <div className={classes.ForgotPassword}>
         {!this.state.sent ? (
@@ -90,12 +86,19 @@ class ForgotPassword extends Component {
   sendLinkHandler = (e) => {
     e.preventDefault();
 
-    let payload = {
+    const payload = {
       email: this.state.email,
     };
-
-    axios
-      .post(apiBaseUrl + "customer/forgotPassword", null, { params: payload })
+    let url = "";
+    if (this.context.userType === "Customer") {
+      url = "/customer/forgotPassword";
+    } else if (this.context.userType === "Vendor") {
+      url = "/vendor/forgotPassword";
+    } else {
+      return;
+    }
+    services
+      .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
         this.setState({ sent: true });
@@ -104,7 +107,6 @@ class ForgotPassword extends Component {
         console.log(err);
         this.setState({ isError: true });
       });
-    console.log(this.state);
   };
 
   checkErrorState() {

@@ -79,15 +79,20 @@ export default function Home() {
   return (
     <div className="App">
       <header className="App-header">
-        <div style={{paddingTop: "30px"}}>
-
-        <div style={{width: '70%', margin: "50px auto", alignContent: "center"}}>
-          <Carousel autoplay>
-            <img src={fashionBanner} />
-            <img src={beautyBanner} />
-            <img src={smartphonesBanner} />
-          </Carousel>
-        </div>
+        <div style={{ paddingTop: "30px" }}>
+          <div
+            style={{
+              width: "50%",
+              margin: "50px auto",
+              alignContent: "center",
+            }}
+          >
+            <Carousel autoplay>
+              <img src={fashionBanner} />
+              <img src={beautyBanner} />
+              <img src={smartphonesBanner} />
+            </Carousel>
+          </div>
         </div>
 
         <ProductCarousel title={"Hotsellers"} productList={productList} />
