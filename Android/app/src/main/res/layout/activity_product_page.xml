@@ -1,10 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProductPageActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ProductPageActivity"
+            >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/product_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.09">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="250dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minLines="1"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:textColor="#202020"
+                android:textSize="32sp"/>
+            <RatingBar
+                android:id="@+id/overallRating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorWhite"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="5"
+                android:layout_gravity="center_horizontal"
+                android:stepSize="0.1" app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/comments"
+                app:layout_constraintVertical_bias="1.0"/>
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minLines="1"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="#202020"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/vendor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minLines="1"
+                android:paddingLeft="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="#202020"
+                android:textSize="24sp"/>
+            <LinearLayout
+                android:id="@+id/productActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+            >
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cart_button"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="center_horizontal"
+                    android:onClick="addToCart"
+                    android:text="@string/addToCart"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/list_button"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:gravity="center_horizontal"
+                    android:onClick="addToList"
+                    android:text="@string/addToList"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <View android:id="@+id/underProduct"
+              style="@style/Divider" android:layout_marginTop="32dp"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/product_frame"/>
+        <TextView
+            android:id="@+id/descriptionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minLines="1"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/descriptionTitle"
+            android:textColor="#202020" android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/underProduct" app:layout_constraintVertical_bias="0.0"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minLines="1"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTitle" app:layout_constraintVertical_bias="0.0"/>
+        <View android:id="@+id/underDescription"
+              style="@style/Divider" android:layout_marginTop="32dp"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/description"/>
+        <TextView
+            android:id="@+id/reviewsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minLines="1"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:text="Reviews"
+            android:textColor="#202020" android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/underDescription" app:layout_constraintVertical_bias="0.0"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/reviewsTitle"/>
+        <View android:id="@+id/underComments"
+              style="@style/Divider" android:layout_marginTop="32dp"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/comments"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add a review"
+            android:imeOptions="actionSend"
+            app:layout_constraintTop_toBottomOf="@+id/underComments">
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <RatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/colorWhite" android:isIndicator="false"
+            android:numStars="5"
+            android:rating="1"
+            android:stepSize="1" app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/comments"
+            app:layout_constraintVertical_bias="1.0"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:hint="Add a review"
+
+
+            app:layout_constraintTop_toBottomOf="@+id/comments"/>
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputEditText"
+        >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:onClick="addReview"
+                android:text="Add"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_toStartOf="@id/comment_button"
+                android:layout_toLeftOf="@id/comment_button"
+                android:onClick="cancel"
+                android:text="@string/cancel"/>
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

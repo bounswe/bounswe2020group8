@@ -40,7 +40,17 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val productsDeals = ArrayList<Product>()
         //val productsDeals = ArrayList<Product>()
-        productsDeals.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1))
+        productsDeals.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1,
+        description = "Ninth-generation 6-Core Intel Core i7 Processor\n" +
+                "Stunning 16-inch Retina Display with True Tone technology\n" +
+                "Touch Bar and Touch ID\n" +
+                "AMD Radeon Pro 5300M Graphics with GDDR6 memory\n" +
+                "Ultrafast SSD\n" +
+                "Intel UHD Graphics 630\n" +
+                "Six-speaker system with force-cancelling woofers\n" +
+                "Four Thunderbolt 3 (USB-C) ports\n" +
+                "Up to 11 hours of battery life\n" +
+                "802.11AC Wi-Fi"))
         productsDeals.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2))
         productsDeals.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3))
         productsDeals.add(Product(title = "Bose Noise Cancelling Wireless Bluetooth Headphones 700", price = 339.99, id = 4, photoUrl = R.drawable.image4))
@@ -76,7 +86,7 @@ class HomeFragment : Fragment() {
         }
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
-            intent.putExtra("id",product.id)
+            intent.putExtra("product",product)
             startActivity(intent)
         }
     }

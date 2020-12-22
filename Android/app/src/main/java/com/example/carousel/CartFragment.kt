@@ -1,10 +1,15 @@
 package com.example.carousel
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_cart.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,18 +22,56 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var adapter: CartAdapter
+    private var totalCost = 0.0
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if(cart.isEmpty()) {
+            addToCart(
+                Product(
+                    title = "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
+                    price = 18.99,
+                    id = 9,
+                    photoUrl = R.drawable.image9
+                )
+            )
+            addToCart(
+                Product(
+                    title = "To Kill a Mockingbird 14.99",
+                    price = 14.99,
+                    id = 10,
+                    photoUrl = R.drawable.image10
+                )
+            )
+            addToCart(
+                Product(
+                    title = "Arlo VMC2030-100NAS Essential Spotlight Camera",
+                    price = 99.99,
+                    id = 11,
+                    photoUrl = R.drawable.image11
+                )
+            )
         }
+        adapter = CartAdapter(cart)
+        products_in_cart.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            setAdapter(this@CartFragment.adapter)
+        }
+        adapter.onItemClick = { product ->
+            val intent = Intent(this.context, ProductPageActivity::class.java)
+            intent.putExtra("product", product)
+            startActivity(intent)
+        }
+        updateTotalCost(adapter.totalCost())
+        val observer = object : RecyclerView.AdapterDataObserver(){
+            override fun onChanged() {
+                super.onChanged()
+                updateTotalCost(adapter.totalCost())
+            }
+        }
+        adapter.registerAdapterDataObserver(observer)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,24 +79,31 @@ class CartFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cart, container, false)
     }
+    private fun updateTotalCost(newCost: Double){
+        totalCost = newCost
+        total_cost.text = "\$${String.format("%.2f",totalCost)}"
+    }
+    companion object ShoppingCart {
+        var cart = ArrayList<Product>()
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CartFragment().apply {
+            ShoppingListFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+
+        fun addToCart(product: Product) {
+            cart.add(product)
+        }
+
+        fun removeFromCart(productIndex: Int) {
+            if (cart.isNotEmpty())
+                cart.removeAt(productIndex)
+        }
     }
+
 }

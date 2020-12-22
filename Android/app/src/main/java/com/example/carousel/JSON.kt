@@ -14,6 +14,11 @@ data class LoginWithPasswordJSON(
     @SerializedName("client") val client: ClientJSON
 )
 
+data class SignUpWithPasswordJSON(
+    @SerializedName("returnCode") val returnCode: Int,
+    @SerializedName("returnMessage") val returnMessage: String,
+)
+
 data class SignInWithGoogleJSON(
     @SerializedName("tokenCode") val tokenCode: String,
     @SerializedName("client") val client: ClientJSON

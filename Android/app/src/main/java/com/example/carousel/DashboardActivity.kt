@@ -1,13 +1,16 @@
 package com.example.carousel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_dashboard.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.carousel.application.ApplicationContext
+import kotlinx.android.synthetic.main.activity_dashboard.*
+
 
 class DashboardActivity : AppCompatActivity() {
-
     private lateinit var textMessage: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +24,15 @@ class DashboardActivity : AppCompatActivity() {
         val memberAccountPageFragment = MemberAccountPageFragment()
         val login = 0
         setCurrentFragment(homeFragment)
-
+        val prefs = getSharedPreferences(
+            "userInfo",
+            Context.MODE_PRIVATE
+        )
+        if (prefs.getBoolean("isAuthenticated", false)) {
+            ApplicationContext.instance.authenticate(
+                prefs.getString("token", "")!!, prefs.getString("type", "GUEST")!!
+            )
+        }
         bottomAppBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> setCurrentFragment(homeFragment)
@@ -42,8 +53,7 @@ class DashboardActivity : AppCompatActivity() {
             commit()
         }
 
-    public fun refresh()
-    {
+    fun refresh() {
         finish()
         startActivity(intent)
     }
