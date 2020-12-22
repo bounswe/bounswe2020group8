@@ -2,7 +2,6 @@ import Image from "react-image-resizer";
 
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import ReactImageZoom from "react-image-zoom";
 
 const ProductPhotoCarousel = (props) => {
   const renderDotsItem = ({ isActive, activeIndex }) => {
