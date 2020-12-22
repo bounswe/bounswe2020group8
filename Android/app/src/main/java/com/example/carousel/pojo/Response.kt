@@ -34,22 +34,22 @@ data class ResponseError(
 )
 
 data class DataCustomerMe(
-    @Expose @SerializedName("id") val id: String,
+    @Expose @SerializedName("_id") val id: String,
     @Expose @SerializedName("name")val name: String,
     @Expose @SerializedName("lastName")val lastName: String,
     @Expose @SerializedName("email")val email: String,
     @Expose @SerializedName("isSuspended")val isSuspended: Boolean,
     @Expose @SerializedName("isActive")val isActive: Boolean,
-    @Expose @SerializedName("shoppingLists")val shoppingLists: List<ExampleObject>,
-    @Expose @SerializedName("shoppingCart")val cart: List<ExampleObject>,
-    @Expose @SerializedName("addresses")val addresses: List<ExampleObject>,
-    @Expose @SerializedName("telephoneNumber")val telephoneNumber: String,
-    @Expose @SerializedName("birthday")val birthday: String,
-    @Expose @SerializedName("creditCards")val creditCards: List<ExampleObject>
+    @Expose @SerializedName("shoppingLists")val shoppingLists: List<ExampleObject>?,
+    @Expose @SerializedName("shoppingCart")val cart: List<ExampleObject>?,
+    @Expose @SerializedName("addresses")val addresses: List<ExampleObject>?,
+    @Expose @SerializedName("phoneNumber")val telephoneNumber: String?,
+    @Expose @SerializedName("birthday")val birthday: String?,
+    @Expose @SerializedName("creditCards")val creditCards: List<ExampleObject>?
 )
 
 data class DataVendorMe(
-    @Expose @SerializedName("id") val id: String,
+    @Expose @SerializedName("_id") val id: String,
     @Expose @SerializedName("name")val name: String,
     @Expose @SerializedName("lastName")val lastName: String,
     @Expose @SerializedName("email")val email: String,

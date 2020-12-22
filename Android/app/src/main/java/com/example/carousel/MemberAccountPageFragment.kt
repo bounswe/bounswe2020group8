@@ -60,49 +60,8 @@ class MemberAccountPageFragment : Fragment() {
         } else {
             view.login_user.visibility = View.VISIBLE
         }
-        pageRender(type, false)
 
-//        if(type.equals("CLIENT")){
-//            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-//            apiCaller.Caller = ApiClient.getClient.customerMe()
-//            apiCaller.Success = { it ->
-//                if (it != null) {
-//                    activity?.runOnUiThread(Runnable { //Handle UI here
-//                        name = it.data.name+" "+it.data.lastName
-//                        mAdapter = CustomAdapter(context as Context)
-//                        mAdapter.addSectionHeaderItem(name.toString())
-//                        mAdapter.addSectionHeaderItem("Account")
-//                        mAdapter.addItem("User Information", drawable.ic_person)
-//                        mAdapter.addItem("My Lists", drawable.ic_list)
-//                        mAdapter.addItem("Change Password", drawable.ic_key)
-//                        mAdapter.addItem("Settings", drawable.ic_settings)
-//                        mAdapter.addItem("Logout", drawable.ic_exit)
-//                        mAdapter.addSectionHeaderItem("Carousel")
-//                        mAdapter.addItem("About", drawable.ic_info)
-//                        mAdapter.addItem("Legals", drawable.ic_file)
-//                        mAdapter.addItem("Contact", drawable.ic_contact)
-//                        listView.adapter = (mAdapter)
-//                    })
-//                }
-//            }
-//            apiCaller.Failure = {}
-//            apiCaller.run()
-//
-//        }else if(type.equals("VENDOR")){
-//            val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//            apiCaller.Caller = ApiClient.getClient.vendorMe()
-//            apiCaller.Success = { it ->
-//                if (it != null) {
-//                    activity?.runOnUiThread(Runnable { //Handle UI here
-//                        name = it.data.name+" "+it.data.lastName
-//                    })
-//                }
-//            }
-//            apiCaller.Failure = {}
-//            apiCaller.run()
-//        }else{
-//
-//        }
+        pageRender(type, false)
 
         view.login_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
@@ -251,6 +210,21 @@ class MemberAccountPageFragment : Fragment() {
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.name+" "+it.data.lastName
+
+                        mAdapter = CustomAdapter(context as Context) //this section will change for vendor profile
+                        mAdapter.addSectionHeaderItem(name.toString())
+                        mAdapter.addSectionHeaderItem("Account")
+                        mAdapter.addItem("User Information", drawable.ic_person)
+                        mAdapter.addItem("My Lists", drawable.ic_list)
+                        mAdapter.addItem("Change Password", drawable.ic_key)
+                        mAdapter.addItem("Settings", drawable.ic_settings)
+                        mAdapter.addItem("Logout", drawable.ic_exit)
+                        mAdapter.addSectionHeaderItem("Carousel")
+                        mAdapter.addItem("About", drawable.ic_info)
+                        mAdapter.addItem("Legals", drawable.ic_file)
+                        mAdapter.addItem("Contact", drawable.ic_contact)
+                        listView.adapter = (mAdapter)
+
                         if(redirect) {
                             redirectToHome()
                         }
