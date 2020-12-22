@@ -8,12 +8,14 @@
     android:background="#FFFFFF"
     android:clickable="true">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <LinearLayout android:id="@+id/cart_view"
+                  android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal"
                   android:orientation="vertical" app:layout_constraintBottom_toBottomOf="parent"
                   app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.496"
                   app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                  app:layout_constraintVertical_bias="0.09">
+                  app:layout_constraintVertical_bias="0.09"
+                  android:visibility="invisible">
     <Spinner
         android:id="@+id/list_choice"
         android:layout_width="match_parent"
