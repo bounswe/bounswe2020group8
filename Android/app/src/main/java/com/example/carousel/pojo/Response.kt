@@ -35,20 +35,34 @@ data class ResponseError(
 )
 
 data class DataCustomerMe(
-    @Expose @SerializedName("id") var id: String,
+    @Expose @SerializedName("_id") var id: String,
     @Expose @SerializedName("name")var name: String,
     @Expose @SerializedName("lastName")var lastName: String,
     @Expose @SerializedName("email")var email: String,
     @Expose @SerializedName("isSuspended")var isSuspended: Boolean,
     @Expose @SerializedName("isActive")var isActive: Boolean,
-    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>,
-    @Expose @SerializedName("orders")var orders: List<ExampleObject>,
-    @Expose @SerializedName("cart")var cart: List<ExampleObject>,
-    @Expose @SerializedName("addresses")var addresses: List<ExampleObject>,
-    @Expose @SerializedName("telephoneNumber")var telephoneNumber: String,
-    @Expose @SerializedName("birthday")var birthday: String,
-    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>
+    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
+    @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
+    @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
+    @Expose @SerializedName("addresses")var addresses: List<ExampleObject>?,
+    @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
+    @Expose @SerializedName("birthday")var birthday: String?,
+    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>?
 )
+//data class DataCustomerMe(
+//    @Expose @SerializedName("_id") val id: String,
+//    @Expose @SerializedName("name")val name: String,
+//    @Expose @SerializedName("lastName")val lastName: String,
+//    @Expose @SerializedName("email")val email: String,
+//    @Expose @SerializedName("isSuspended")val isSuspended: Boolean,
+//    @Expose @SerializedName("isActive")val isActive: Boolean,
+//    @Expose @SerializedName("shoppingLists")val shoppingLists: List<ExampleObject>?,
+//    @Expose @SerializedName("shoppingCart")val cart: List<ExampleObject>?,
+//    @Expose @SerializedName("addresses")val addresses: List<ExampleObject>?,
+//    @Expose @SerializedName("phoneNumber")val telephoneNumber: String?,
+//    @Expose @SerializedName("birthday")val birthday: String?,
+//    @Expose @SerializedName("creditCards")val creditCards: List<ExampleObject>?
+//)
 
 data class DataVendorMe(
     @Expose @SerializedName("id") val id: String,
