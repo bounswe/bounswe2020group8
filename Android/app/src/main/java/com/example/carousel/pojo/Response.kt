@@ -41,13 +41,13 @@ data class DataCustomerMe(
     @Expose @SerializedName("email")var email: String,
     @Expose @SerializedName("isSuspended")var isSuspended: Boolean,
     @Expose @SerializedName("isActive")var isActive: Boolean,
-    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>,
-    @Expose @SerializedName("orders")var orders: List<ExampleObject>,
-    @Expose @SerializedName("cart")var cart: List<ExampleObject>,
-    @Expose @SerializedName("addresses")var addresses: List<ExampleObject>,
-    @Expose @SerializedName("telephoneNumber")var telephoneNumber: String,
-    @Expose @SerializedName("birthday")var birthday: String,
-    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>
+    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
+    @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
+    @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
+    @Expose @SerializedName("addresses")var addresses: List<ExampleObject>?,
+    @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
+    @Expose @SerializedName("birthday")var birthday: String?,
+    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>?
 )
 //data class DataCustomerMe(
 //    @Expose @SerializedName("_id") val id: String,

@@ -100,10 +100,7 @@ class UserInformationFragment : Fragment(){
                     }
                 }
                 updateInfo(type, newInfo)
-                val fragment = MemberAccountPageFragment()
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_account_page, fragment)
-                    ?.commit()
+
             }
         }
     }
@@ -148,18 +145,16 @@ class UserInformationFragment : Fragment(){
         }
     }
     private fun updateInfo(type: String, info: String) {
-
         if(type.equals("CLIENT")){
-
-
             var id: String
             var name: String
             var lastName: String
             var email: String
             var isSuspended: Boolean
             var isActive: Boolean
-            var shoppingLists: List<ExampleObject>?
-            var shoppingCart: List<ExampleObject>?
+            var shoppingLists: List<List<Product>>?
+            var orders: List<ExampleObject>?
+            var cart: List<ExampleObject>?
             var addresses: List<ExampleObject>?
             var telephoneNumber: String?
             var birthday: String?
@@ -184,7 +179,8 @@ class UserInformationFragment : Fragment(){
                         isSuspended = it.data.isSuspended
                         isActive = it.data.isActive
                         shoppingLists = it.data.shoppingLists
-                        shoppingCart = it.data.cart
+                        orders = it.data.orders
+                        cart = it.data.cart
                         addresses = it.data.addresses
 
                         telephoneNumber = infoTemp.subSequence(0, infoTemp.indexOf(",")).toString()
@@ -202,33 +198,23 @@ class UserInformationFragment : Fragment(){
                             isSuspended,
                             isActive,
                             shoppingLists,
-                            shoppingCart,
+                            orders,
+                            cart,
                             addresses,
                             telephoneNumber,
                             birthday,
                             creditCards
                         )
-//                        var infoJsonString = "{\n" +
-//                                "  \"_id\": \""+id+"\",\n" +
-//                                "  \"name\": \""+name+"\",\n" +
-//                                "  \"lastName\": \""+lastName+"\",\n" +
-//                                "  \"email\": \""+email+"\",\n" +
-//                                "  \"isSuspended\": "+isSuspended+",\n" +
-//                                "  \"isActive\": "+isActive+",\n" +
-//                                "  \"shoppingLists\": \""+shoppingLists+"\",\n" +
-//                                "  \"shoppingCart\": \""+shoppingCart+"\",\n" +
-//                                "  \"addresses\": \""+addresses+"\",\n" +
-//                                "  \"telephoneNumber\": \""+telephoneNumber+"\",\n" +
-//                                "  \"birthday\": \""+birthday+"\",\n" +
-//                                "  \"creditCards\": \""+creditCards+"\"\n" +
-//                                "}"
-//                        var infoJason =
                         val apiCallerPatch: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
                         apiCallerPatch.Caller = ApiClient.getClient.customerUpdate(newData)
                         apiCallerPatch.Success = { it ->
                             if (it != null) {
                                 activity?.runOnUiThread(Runnable { //Handle UI here
                                     pageRender(type)
+                                    val fragment = MemberAccountPageFragment()
+                                    activity?.supportFragmentManager?.beginTransaction()
+                                        ?.replace(R.id.fragment_account_page, fragment)
+                                        ?.commit()
                                 })
                             }
                         }
