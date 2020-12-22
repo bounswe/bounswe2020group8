@@ -65,9 +65,6 @@ class MemberAccountPageFragment : Fragment() {
         }
 
 
-//        login = 1
-
-
         mAdapter = CustomAdapter(context as Context)
         mAdapter.addSectionHeaderItem(name.toString())
         mAdapter.addSectionHeaderItem("Account")
