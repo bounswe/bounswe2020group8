@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     editor.putBoolean("isAuthenticated", true)
                     editor.putString("type", type)
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode, type)
                     finish()
                  
                 })
@@ -110,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
                     editor.putBoolean("isAuthenticated", true)
                     editor.putString("type", "CLIENT")
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode)
+                    ApplicationContext.instance.authenticate(it.tokenCode,  "CLIENT")
                     finish();
                 })
             }
