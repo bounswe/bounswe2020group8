@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -56,6 +57,8 @@ class SearchFragment : Fragment() {
         }
 
         filterButton.setOnClickListener {
+            //val intent = Intent(activity, FilterActivity::class.java)
+            //startActivity(intent)
             drawer_layout.openDrawer(Gravity.RIGHT);
         }
 
@@ -98,12 +101,16 @@ class SearchFragment : Fragment() {
         resultingProducts.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2))
         resultingProducts.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3))
         resultingProducts.add(Product(title = "Bose Noise Cancelling Wireless Bluetooth Headphones 700", price = 339.99, id = 4, photoUrl = R.drawable.image4))
+        resultingProducts.add(Product(title = "Sony X800H 43 Inch TV", price = 448.99, id = 5, photoUrl = R.drawable.image5))
+        resultingProducts.add(Product(title = "ASUS F512DA-EB51 VivoBook 15", price = 14.99, id = 6, photoUrl = R.drawable.image6))
+        resultingProducts.add(Product(title = "DualSense Wireless Controller \$69.99", price = 69.99, id = 7, photoUrl = R.drawable.image7))
+        resultingProducts.add(Product(title = "SAMSUNG 870 QVO SATA III 2.5\\' SSD", price = 199.99, id = 8, photoUrl = R.drawable.image8))
         createProductList(resultingProducts, results)
     }
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
         val adapter = ProductsAdapter(products)
         recyclerId.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
         }
         adapter.onItemClick = { product ->
@@ -112,4 +119,5 @@ class SearchFragment : Fragment() {
             startActivity(intent)
         }
     }
+
 }

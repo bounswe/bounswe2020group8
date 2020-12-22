@@ -1,64 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SearchFragment">
+
+    <androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" >
-
-        <SearchView
-            android:id="@+id/searchView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search a product, category or brand"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/sortButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="68dp"
-            android:layout_marginLeft="68dp"
-            android:text="@string/sort"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" >
 
-        <Button
-            android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/filter"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sortButton"
-            app:layout_constraintTop_toBottomOf="@+id/searchView" />
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search a product, category or brand"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/results"
-            android:layout_width="411dp"
-            android:layout_height="685dp"
-            app:layout_constraintTop_toBottomOf="@+id/sortButton"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/sortButton"
+                    android:layout_width="205dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="#ffffff"
+                    android:textColor="#292929"
+                    android:text="@string/sort"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/filterNavigation"
-        android:layout_width="300dp"
+                <Button
+                    android:id="@+id/filterButton"
+                    android:layout_width="204dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="#ffffff"
+                    android:textColor="#292929"
+                    android:text="@string/filter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/sortButton"
+                    app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+        </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_gravity="end"
-        app:headerLayout="@layout/filter_navigation_header"
-        app:menu="@menu/filter_navigation_items" />
+        android:background="#ffffffff" >
+
+        <Button
+            android:id="@+id/price_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF"/>
+        <TextView
+            android:id="@+id/min_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="minmax"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rating"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brand"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Size"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Material"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+    </LinearLayout>
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
 
 
-
+</FrameLayout>
 

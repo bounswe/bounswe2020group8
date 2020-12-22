@@ -1,6 +1,6 @@
 /practice_app/myvenv/
 /practice_app/myenv/
-/.idea/
+/**/.idea/
 Android/.idea/
 /practice_app/**/*.pyc
 /practice_app/*/__pycache__/
