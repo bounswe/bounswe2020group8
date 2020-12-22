@@ -37,7 +37,6 @@ class ChangePasswordFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         view.change_password_button.setOnClickListener {
 
             val oldPasswordEditText = view.findViewById(R.id.old_password) as EditText

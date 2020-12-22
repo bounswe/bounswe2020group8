@@ -1,80 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_account_page"
-    >
-<RelativeLayout
-    android:id="@+id/login_user"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="invisible">
-<!--    <LinearLayout-->
-<!--        android:id="@+id/user"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:layout_marginLeft="15dp"-->
-<!--        android:layout_marginRight="15dp"-->
-<!--        android:layout_marginBottom="15dp"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:orientation="horizontal"-->
-<!--        tools:ignore="UseCompoundDrawables">-->
-
-<!--        <ImageView-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:textColor="@color/colorPrimaryDark"-->
-<!--            android:gravity="center"-->
-
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:src="@drawable/ic_person"-->
-<!--            android:contentDescription="TODO" />-->
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/userName"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:text="@string/username"-->
-<!--            android:textAllCaps="true"-->
-<!--            android:textSize="30sp"-->
-<!--            android:textStyle="bold"/>-->
-
-
-<!--    </LinearLayout>-->
-
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="687dp"
-        tools:ignore="UnknownId">
-
-    </ListView>
-
-</RelativeLayout>
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/fragment_account_page"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF" android:clickable="true">
     <RelativeLayout
+        android:id="@+id/login_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible">
+        <!--    <LinearLayout-->
+        <!--        android:id="@+id/user"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_marginTop="15dp"-->
+        <!--        android:layout_marginLeft="15dp"-->
+        <!--        android:layout_marginRight="15dp"-->
+        <!--        android:layout_marginBottom="15dp"-->
+        <!--        android:layout_gravity="center_vertical"-->
+        <!--        android:orientation="horizontal"-->
+        <!--        tools:ignore="UseCompoundDrawables">-->
+
+        <!--        <ImageView-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:textColor="@color/colorPrimaryDark"-->
+        <!--            android:gravity="center"-->
+
+        <!--            android:layout_gravity="center_vertical"-->
+        <!--            android:src="@drawable/ic_person"-->
+        <!--            android:contentDescription="TODO" />-->
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/userName"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_vertical"-->
+        <!--            android:layout_marginTop="15dp"-->
+        <!--            android:text="@string/username"-->
+        <!--            android:textAllCaps="true"-->
+        <!--            android:textSize="30sp"-->
+        <!--            android:textStyle="bold"/>-->
+
+
+        <!--    </LinearLayout>-->
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="687dp"
+            tools:ignore="UnknownId">
+
+        </ListView>
+
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/guest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="invisible">
         <TextView
             android:id="@id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/please_login" />
+            android:text="@string/please_login"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/text"
+            android:layout_centerHorizontal="true"
             android:text="@string/login_button"
-            />
+        />
     </RelativeLayout>
 </RelativeLayout>
