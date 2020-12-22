@@ -84,7 +84,7 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
-            <Route path="/product" exact component={Product} />
+            <Route path="/product/:id" exact component={Product} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/account" component={Account} />
             <Route render={() => <NotFound />} />
