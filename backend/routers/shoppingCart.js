@@ -15,5 +15,11 @@ router.post(
   ShoppingCartController.deleteFromShoppingCartController,
   RequestHelper.returnResponse
 );
+router.get(
+  "/reset",
+  ShoppingCartController.resetShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.get("/get", ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse);
 
 module.exports = router;

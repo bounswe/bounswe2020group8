@@ -18,3 +18,13 @@ exports.deleteFromShoppingCartController = BaseUtil.createController((req) => {
   let { id, productId, vendorId } = req.query;
   return BB.all([ShoppingCartService.deleteFromShoppingCartService({ id, productId, vendorId })]);
 });
+
+exports.resetShoppingCartController = BaseUtil.createController((req) => {
+  let { id } = req.query;
+  return BB.all([ShoppingCartService.resetShoppingCartService({ id })]);
+});
+
+exports.getShoppingCartController = BaseUtil.createController((req) => {
+  let { id } = req.query;
+  return BB.all([ShoppingCartService.getShoppingCartService({ id })]);
+});

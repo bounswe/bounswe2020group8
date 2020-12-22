@@ -30,3 +30,13 @@ exports.deleteFromShoppingCartService = async function ({ id, productId, vendorI
   );
   return updatedCustomer;
 };
+
+exports.resetShoppingCartService = async function ({ id }) {
+  const updatedCustomer = await CustomerDataAccess.resetCustomerShoppingCartDB(id);
+  return updatedCustomer;
+};
+
+exports.getShoppingCartService = async function ({ id }) {
+  const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(id);
+  return shoppingCart;
+};

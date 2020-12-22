@@ -35,8 +35,6 @@ exports.updateCustomerPasswordDB = function (_id, password) {
 };
 
 exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
-  console.log("dataAccess");
-  console.log(_id);
   return Customer.findOneAndUpdate(
     {
       _id: _id,
@@ -52,8 +50,6 @@ exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount
 };
 
 exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
-  console.log("dataAccess");
-  console.log(_id);
   return Customer.findOneAndUpdate(
     { _id: _id, shoppingCart: { $elemMatch: { productId: productId, vendorId: vendorId } } },
     {
@@ -66,8 +62,6 @@ exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amoun
 };
 
 exports.deleteFromCustomerShoppingCartDB = function (_id, productId, vendorId) {
-  console.log("dataAccess");
-  console.log(_id);
   return Customer.findOneAndUpdate(
     { _id: _id },
     {
@@ -77,6 +71,22 @@ exports.deleteFromCustomerShoppingCartDB = function (_id, productId, vendorId) {
     },
     { new: true }
   );
+};
+
+exports.resetCustomerShoppingCartDB = function (_id) {
+  return Customer.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: {
+        shoppingCart: [],
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.getCustomerShoppingCartDB = function (_id) {
+  return Customer.findById({ _id: _id }).select("shoppingCart");
 };
 
 exports.updateCustomerVerifyEmailTokenDB = function (_id, verifyEmailToken) {
