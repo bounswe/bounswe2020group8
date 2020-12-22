@@ -9,7 +9,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.application.ApplicationContext
+import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import kotlinx.android.synthetic.main.fragment_cart.*
+import kotlinx.android.synthetic.main.fragment_cart.view.*
+import kotlinx.android.synthetic.main.fragment_shopping_list.*
+import kotlinx.android.synthetic.main.fragment_shopping_list.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +32,7 @@ class CartFragment : Fragment() {
     private var totalCost = 0.0
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         if(cart.isEmpty()) {
             addToCart(
                 Product(
@@ -61,7 +67,7 @@ class CartFragment : Fragment() {
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
-            startActivity(intent)
+            startActivityForResult(intent,11)
         }
         updateTotalCost(adapter.totalCost())
         val observer = object : RecyclerView.AdapterDataObserver(){
@@ -72,12 +78,29 @@ class CartFragment : Fragment() {
         }
         adapter.registerAdapterDataObserver(observer)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (ApplicationContext.instance.isUserAuthenticated())
+            cart_view.visibility = View.VISIBLE
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_cart, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (!ApplicationContext.instance.isUserAuthenticated()) {
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+        else {
+            view.cart_view.visibility = View.VISIBLE
+        }
     }
     private fun updateTotalCost(newCost: Double){
         totalCost = newCost
