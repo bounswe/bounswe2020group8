@@ -9,8 +9,27 @@ import services from "../../apis/services";
 const { Option } = Select;
 
 export default class Profile extends Component {
-  state = { visible: false };
+  state = { visible: false, phone: "", birthday: "2001-01-01" };
   static contextType = UserInfo;
+
+  async componentDidMount() {
+    const token = localStorage.getItem("token");
+    const response = await services.get("/customer/me", {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    if (response) {
+      const data = response.data.data;
+      this.context.setName(data.name);
+      this.context.setSurname(data.lastName);
+      if (data.phoneNumber) {
+        this.setState({ phone: data.phoneNumber });
+      }
+      if (data.birthday) {
+        this.setState({ birthday: data.birthday });
+      }
+    }
+  }
 
   prefixSelector = () => {
     return (
@@ -79,7 +98,7 @@ export default class Profile extends Component {
               },
             ]}
           >
-            <Input />
+            <Input placeholder={this.context.name} />
           </Form.Item>
 
           <Form.Item
@@ -87,7 +106,7 @@ export default class Profile extends Component {
             label="Surname"
             rules={[{ required: true, message: "Please input your Surname!" }]}
           >
-            <Input />
+            <Input placeholder={this.context.surname} />
           </Form.Item>
 
           <Form.Item name="email" label="E-mail">
@@ -98,11 +117,12 @@ export default class Profile extends Component {
             <Input
               addonBefore={this.prefixSelector()}
               style={{ width: "100%" }}
+              placeholder={this.state.phone}
             />
           </Form.Item>
 
           <Form.Item label="Birthday Date">
-            <DatePicker />
+            <DatePicker placeholder={this.state.birthday} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
