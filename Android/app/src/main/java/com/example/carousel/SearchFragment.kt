@@ -61,6 +61,17 @@ class SearchFragment : Fragment() {
             //startActivity(intent)
             drawer_layout.openDrawer(Gravity.RIGHT);
         }
+        expandable_price.visibility = View.GONE
+
+        price_filter.setOnClickListener {
+            if(expandable_price.visibility == View.GONE) {
+                expandable_price.visibility = View.VISIBLE
+            }
+            else {
+                expandable_price.visibility = View.GONE
+            }
+        }
+
 
 
 
@@ -118,6 +129,15 @@ class SearchFragment : Fragment() {
             intent.putExtra("id", product.id)
             startActivity(intent)
         }
+    }
+    public fun expand_price(v: View) {
+        if(expandable_price.visibility == View.GONE) {
+            expandable_price.visibility = View.VISIBLE
+        }
+        else {
+            expandable_price.visibility = View.GONE
+        }
+
     }
 
 }
