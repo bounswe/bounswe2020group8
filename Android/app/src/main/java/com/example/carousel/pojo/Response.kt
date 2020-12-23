@@ -1,5 +1,7 @@
 package com.example.carousel.pojo
 
+import com.example.carousel.AddressJSON
+import com.example.carousel.CreditCardJSON
 import com.example.carousel.Product
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
@@ -44,25 +46,12 @@ data class DataCustomerMe(
     @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
     @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
     @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
-    @Expose @SerializedName("addresses")var addresses: List<ExampleObject>?,
+    @Expose @SerializedName("addresses")var addresses: ArrayList<AddressJSON>?,
     @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
     @Expose @SerializedName("birthday")var birthday: String?,
-    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>?
+    @Expose @SerializedName("creditCards")var creditCards:  ArrayList<CreditCardJSON>?
 )
-//data class DataCustomerMe(
-//    @Expose @SerializedName("_id") val id: String,
-//    @Expose @SerializedName("name")val name: String,
-//    @Expose @SerializedName("lastName")val lastName: String,
-//    @Expose @SerializedName("email")val email: String,
-//    @Expose @SerializedName("isSuspended")val isSuspended: Boolean,
-//    @Expose @SerializedName("isActive")val isActive: Boolean,
-//    @Expose @SerializedName("shoppingLists")val shoppingLists: List<ExampleObject>?,
-//    @Expose @SerializedName("shoppingCart")val cart: List<ExampleObject>?,
-//    @Expose @SerializedName("addresses")val addresses: List<ExampleObject>?,
-//    @Expose @SerializedName("phoneNumber")val telephoneNumber: String?,
-//    @Expose @SerializedName("birthday")val birthday: String?,
-//    @Expose @SerializedName("creditCards")val creditCards: List<ExampleObject>?
-//)
+
 
 data class DataVendorMe(
     @Expose @SerializedName("id") val id: String,

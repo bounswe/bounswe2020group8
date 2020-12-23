@@ -8,20 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_cart.view.*
-import kotlinx.android.synthetic.main.fragment_shopping_list.*
-import kotlinx.android.synthetic.main.fragment_shopping_list.view.*
-import android.content.Context
-import android.opengl.Visibility
 import android.view.animation.DecelerateInterpolator
 import com.example.carousel.application.ApplicationContext
-import kotlinx.android.synthetic.main.product_cart_view.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,6 +66,7 @@ class CartFragment : Fragment() {
             setAdapter(this@CartFragment.adapter)
         }
         updateCartInfo(adapter.totalCost(), adapter.itemCount)
+
         product_dropdown.setOnClickListener {
             if(isCollapsed) {
                 products_in_cart.animateVisibility(true)
@@ -86,6 +79,9 @@ class CartFragment : Fragment() {
 
                 isCollapsed = true
             }
+        }
+        purchase_cart_button.setOnClickListener{
+            purchase()
         }
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
@@ -194,5 +190,10 @@ class CartFragment : Fragment() {
         valueAnimator.duration = 300
         valueAnimator.interpolator = DecelerateInterpolator()
         valueAnimator.start()
+    }
+    private fun purchase(){
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.activity_main_nav_host_fragment, OrderFragment())
+            ?.commit()
     }
 }
