@@ -10,12 +10,10 @@ exports.deleteOneMainProductService = async function ({ mpid }) {
 
 exports.deleteVendorFromMainProductService = async function ({ mpid, vid }) {
   try {
-    let emptyProductIDs = await ProductDataAccess.deleteVendorFromProductsByVendorIdDB(mpid, vid);
-    console.log(emptyProductIDs);
-    //await ProductDataAccess.deleteProductsByIdDB(emptyProductIDs);
+    await ProductDataAccess.deleteVendorFromProductsByVendorIdDB(mpid, vid);
     return {};
   } catch (error) {
     console.log(error);
-    return { error: "error occured" };
+    throw error;
   }
 };

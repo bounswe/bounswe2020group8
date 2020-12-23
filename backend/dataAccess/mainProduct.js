@@ -23,7 +23,6 @@ exports.createMainProductDB = function (mainProduct) {
 };
 
 exports.getMainProductsByVendorDB = function (vendorID) {
-  console.log(vendorID);
   return Product.aggregate([
     {
       $unwind: "$vendorSpecifics",
@@ -41,20 +40,6 @@ exports.getMainProductsByVendorDB = function (vendorID) {
         foreignField: "_id",
         as: "data",
       },
-    },
-  ]);
-};
-
-exports.getVendorMainProductByMainProductIdDB = function (vendorID, mainProductID) {
-  return MainProduct.aggregate([
-    {
-      $unwind: "$vendorSpecifics",
-    },
-    {
-      $match: { _id: mainProductID, "vendors.vendorID": vendorID },
-    },
-    {
-      $project: { default: 0 },
     },
   ]);
 };

@@ -156,6 +156,18 @@ const returnMessages = {
       en: "Vendor already exists in the document!",
     },
   },
+  REQUEST_STATUS_IS_INVALID: {
+    code: 25,
+    messages: {
+      en: "Request status can be one of 'PENDING', 'ACCEPTED' and 'DECLINED'",
+    },
+  },
+  ERR_MAIN_PRODUCT_DOES_NOT_EXIST: {
+    code: 26,
+    messages: {
+      en: "There is no such main product for this product",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
