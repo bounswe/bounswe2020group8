@@ -81,13 +81,14 @@
             android:text="Price"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="221dp"
+            android:layout_height="336dp"
             android:id="@+id/expandable_price">
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/min_price"
                 android:layout_width="115dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="28dp"
@@ -105,10 +106,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:text="-"
-                app:layout_constraintStart_toEndOf="@+id/editText"
+                app:layout_constraintStart_toEndOf="@+id/min_price"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
+                android:id="@+id/max_price"
                 android:layout_width="115dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="4dp"
@@ -118,71 +120,58 @@
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button12"
+            <CheckBox
+                android:id="@+id/button_0_50"
                 style="@style/Widget.Carousel.FilterButton"
-                android:layout_width="102dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="48dp"
                 android:text="$ 0 - 50"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button"
+            <CheckBox
+                android:id="@+id/button_50_100"
                 style="@style/Widget.Carousel.FilterButton"
-                android:layout_width="117dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="20dp"
                 android:text="$ 50 - 100"
-                app:layout_constraintStart_toEndOf="@+id/button12"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_0_50" />
 
-            <Button
-                android:id="@+id/button9"
+            <CheckBox
+                android:id="@+id/button_100_250"
                 style="@style/Widget.Carousel.FilterButton"
-                android:layout_width="117dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="20dp"
                 android:text="$ 100 - 250"
-                app:layout_constraintStart_toEndOf="@+id/button"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_50_100" />
 
-            <Button
-                android:id="@+id/button10"
+            <CheckBox
+                android:id="@+id/button_200_500"
                 style="@style/Widget.Carousel.FilterButton"
-                android:layout_width="117dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:text="$ 250 - 500"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button12" />
+                app:layout_constraintTop_toBottomOf="@+id/button_100_250" />
 
-            <Button
-                android:id="@+id/button11"
+            <CheckBox
+                android:id="@+id/button_500_plus"
                 style="@style/Widget.Carousel.FilterButton"
-                android:layout_width="165dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="2dp"
                 android:text="$ 500 and above"
-                app:layout_constraintStart_toEndOf="@+id/button10"
-                app:layout_constraintTop_toBottomOf="@+id/button12" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_200_500" />
 
             <Button
+                android:id="@+id/price_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="OK"
                 android:backgroundTint="#70d44c"
+                android:text="OK"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -241,6 +230,7 @@
             android:id="@+id/button8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:text="Material"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />

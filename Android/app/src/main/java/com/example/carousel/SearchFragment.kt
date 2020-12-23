@@ -1,21 +1,24 @@
 package com.example.carousel
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
+
 
 class SearchFragment : Fragment() {
     private val baseUrl = "http://18.198.51.178:8080"
@@ -69,8 +72,15 @@ class SearchFragment : Fragment() {
             }
             else {
                 expandable_price.visibility = View.GONE
+                val minp = min_price.getText()
+                val maxp = max_price.getText()
             }
         }
+        // ok button will be removed soon
+        price_ok.setOnClickListener {
+            expandable_price.visibility = View.GONE
+        }
+
 
 
 
