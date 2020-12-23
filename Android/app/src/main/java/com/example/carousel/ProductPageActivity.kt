@@ -48,6 +48,16 @@ class ProductPageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+            if(requestCode == 12 && data.getBooleanExtra("isCreated",false)){
+                this.product?.let { com.example.carousel.ShoppingListFragment.addToList(ShoppingListFragment.lists.lastIndex, it) }
+                android.widget.Toast.makeText(this,"Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
     fun addReview(view: View){
         val comment = textInputEditText.text.toString()
         val rating = rating.rating
@@ -82,7 +92,7 @@ class ProductPageActivity : AppCompatActivity() {
                 // Respond to positive button press
                 if(checkedItem == items.lastIndex) {
                     val intent = Intent(this, CreateListActivity::class.java)
-                    startActivity(intent)
+                    startActivityForResult(intent, 12)
                 }
                 else{
                     this.product?.let { com.example.carousel.ShoppingListFragment.addToList(checkedItem, it) }

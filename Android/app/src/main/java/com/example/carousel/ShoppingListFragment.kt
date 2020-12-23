@@ -179,30 +179,34 @@ class ShoppingListFragment : Fragment() {
 
     private fun deleteList(view: View) {
         var isConfirmed = false
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(resources.getString(R.string.delete_list_title))
-            .setMessage(resources.getString(R.string.delete_list_body))
-            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
-                // Respond to neutral button press
-            }
-            .setPositiveButton(resources.getString(R.string.delete)) { dialog, which ->
-                // Respond to positive button press
-                val spinner = list_choice
-                removeList(selectedList)
-                selectedList = 0
-                if (lists.isNotEmpty()) {
-                    spinner.setSelection(selectedList)
-                    adapter.replaceProducts(lists[selectedList])
-                } else {
-                    adapter.replaceProducts(ArrayList<Product>())
+        if(selectedList<2){
+            Toast.makeText(requireContext(),"Can't Delete A Default List!", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.delete_list_title))
+                .setMessage(resources.getString(R.string.delete_list_body))
+                .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                    // Respond to neutral button press
                 }
-                spinnerAdapter.notifyDataSetChanged()
-                adapter.notifyDataSetChanged()
-                Toast.makeText(requireContext(),"List Deleted Successfully", Toast.LENGTH_SHORT).show()
-            }
-            .show()
+                .setPositiveButton(resources.getString(R.string.delete)) { dialog, which ->
+                    // Respond to positive button press
+                    val spinner = list_choice
+                    removeList(selectedList)
+                    selectedList = 0
+                    if (lists.isNotEmpty()) {
+                        spinner.setSelection(selectedList)
+                        adapter.replaceProducts(lists[selectedList])
+                    } else {
+                        adapter.replaceProducts(ArrayList<Product>())
+                    }
+                    spinnerAdapter.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(requireContext(), "List Deleted Successfully", Toast.LENGTH_SHORT).show()
+                }
+                .show()
 
-
+        }
     }
 
     private fun createList(view: View) {

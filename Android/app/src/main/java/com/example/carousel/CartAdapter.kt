@@ -3,10 +3,7 @@ package com.example.carousel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
 class CartAdapter (    private var productList: ArrayList<Product>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
@@ -20,7 +17,7 @@ class CartAdapter (    private var productList: ArrayList<Product>) : RecyclerVi
         val title: TextView = itemView.findViewById(R.id.title)
         val price: TextView = itemView.findViewById(R.id.price)
         val remove: Button = itemView.findViewById(R.id.remove_product)
-
+        val addFavorite: ToggleButton = itemView.findViewById(R.id.favourite_product)
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(productList[adapterPosition])
@@ -42,7 +39,9 @@ class CartAdapter (    private var productList: ArrayList<Product>) : RecyclerVi
             CartFragment.removeFromCart(position)
             this.notifyDataSetChanged()
         }
-
+        holder.addFavorite.setOnClickListener{
+            //ShoppingListFragment.lists[0].add(productList[position])
+        }
     }
     fun totalCost(): Double{
         var sum : Double = 0.0

@@ -37,16 +37,37 @@
         android:layout_gravity="center_vertical"
         android:paddingLeft="5dp"
         android:paddingBottom="5dp"/>
-    <View android:layout_width="0dp" android:layout_height="0dp"
-          android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+    <androidx.appcompat.widget.AppCompatToggleButton
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:id="@+id/favourite_product"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/button_favorite"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+    />
+
     <Button
         android:id="@+id/remove_product"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         app:icon="@drawable/ic_delete"
     />
+    </LinearLayout>
 </LinearLayout>
 <View android:id="@+id/product_divider"
       style="@style/Divider" android:layout_marginTop="16dp"/>
