@@ -1588,7 +1588,21 @@
             "type": "object"
           },
           "creditCard": {
-            "type": "string"
+            "type": "object",
+              "properties": {
+                "creditCardNumber": {
+                  "type": "String"
+                },
+                "creditCardCvc": {
+                  "type": "String"
+                },
+                "creditCardData": {
+                  "type": "String"
+                },
+                "creditCardName": {
+                  "type": "String"
+                }
+              }
           },
           "shippingInfo": {
             "type": "string"
