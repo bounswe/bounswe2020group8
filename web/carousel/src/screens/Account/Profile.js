@@ -27,7 +27,8 @@ class Profile extends Component {
         this.setState({ phone: data.phoneNumber });
       }
       if (data.birthday) {
-        this.setState({ birthday: data.birthday });
+        const date = data.birthday.split("T");
+        this.setState({ birthday: date[0] });
       }
     }
   }
@@ -79,7 +80,6 @@ class Profile extends Component {
   };
 
   onProfileChange = async (values) => {
-    console.log("values", values);
     if (values.name) {
       this.context.setName(values.name);
     }
