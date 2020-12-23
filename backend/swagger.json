@@ -1460,13 +1460,67 @@
             "type": "boolean"
           },
           "shoppingLists": {
-            "type": "object list"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "String"
+                },
+                "wishedProducts": {
+                  "type": "array",
+                  "items": {
+                    "type": "ObjectId"
+                  }
+                }
+              }
+            }
           },
           "shoppingCart": {
-            "type": "(productId, productAmount) tuple list"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "String"
+                },
+                "vendorId": {
+                  "type": "String"
+                },
+                "amount": {
+                  "type": "Number"
+                }
+              }
+            }
           },
           "addresses": {
-            "type": "object list"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "addressName": {
+                  "type": "String"
+                },
+                "name": {
+                  "type": "String"
+                },
+                "addressLine": {
+                  "type": "String"
+                },
+                "city": {
+                  "type": "String"
+                },
+                "state": {
+                  "type": "String"
+                },
+                "zipCode": {
+                  "type": "String"
+                },
+                "phone": {
+                  "type": "String"
+                }
+              }
+            }
           },
           "telephoneNumber": {
             "type": "string"
@@ -1475,7 +1529,24 @@
             "type": "string"
           },
           "creditCards": {
-            "type": "object list"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "creditCardNumber": {
+                  "type": "String"
+                },
+                "creditCardCvc": {
+                  "type": "String"
+                },
+                "creditCardData": {
+                  "type": "String"
+                },
+                "creditCardName": {
+                  "type": "String"
+                }
+              }
+            }
           }
         },
         "xml": {
@@ -1517,7 +1588,30 @@
             "type": "string"
           },
           "address": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "addressName": {
+                "type": "String"
+              },
+              "name": {
+                "type": "String"
+              },
+              "addressLine": {
+                "type": "String"
+              },
+              "city": {
+                "type": "String"
+              },
+              "state": {
+                "type": "String"
+              },
+              "zipCode": {
+                "type": "String"
+              },
+              "phone": {
+                "type": "String"
+              }
+            }
           },
 
           "locations": {
@@ -1582,13 +1676,73 @@
             "type": "string"
           },
           "shippingAddress": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "addressName": {
+                "type": "String"
+              },
+              "name": {
+                "type": "String"
+              },
+              "addressLine": {
+                "type": "String"
+              },
+              "city": {
+                "type": "String"
+              },
+              "state": {
+                "type": "String"
+              },
+              "zipCode": {
+                "type": "String"
+              },
+              "phone": {
+                "type": "String"
+              }
+            }
           },
           "billingAddress": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+              "addressName": {
+                "type": "String"
+              },
+              "name": {
+                "type": "String"
+              },
+              "addressLine": {
+                "type": "String"
+              },
+              "city": {
+                "type": "String"
+              },
+              "state": {
+                "type": "String"
+              },
+              "zipCode": {
+                "type": "String"
+              },
+              "phone": {
+                "type": "String"
+              }
+            }
           },
           "creditCard": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "creditCardNumber": {
+                "type": "String"
+              },
+              "creditCardCvc": {
+                "type": "String"
+              },
+              "creditCardData": {
+                "type": "String"
+              },
+              "creditCardName": {
+                "type": "String"
+              }
+            }
           },
           "shippingInfo": {
             "type": "string"
