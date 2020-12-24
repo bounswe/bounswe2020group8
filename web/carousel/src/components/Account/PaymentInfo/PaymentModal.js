@@ -20,7 +20,7 @@ export default class PaymentModal extends Component {
     );
 
     const creditCard = {
-      creditCardNumber: this.state.number,
+      creditCardNumber: this.state.number.replace(/\W/gi, ""),
       creditCardCvc: this.state.cvc,
       creditCardData: this.state.expiry,
       creditCardName: this.state.name,
