@@ -59,7 +59,7 @@ const AddressList = (props) => {
                     "addresses",
                     setAddressList,
                     addressList,
-                    address.id
+                    address._id
                   )
                 }
               />

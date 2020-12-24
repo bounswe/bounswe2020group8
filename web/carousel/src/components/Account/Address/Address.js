@@ -15,19 +15,17 @@ const Address = (props) => {
   return (
     <div className={classes.AddressBox}>
       <div className={classes.Header}>
-        <b>{props.address.title}</b>
+        <b>{props.address.addressName}</b>
       </div>
       <div className={classes.Details}>
         <p>
-          <b>
-            {props.address.firstName} {props.address.lastName}
-          </b>
+          <b>{props.address.name}</b>
         </p>
+        <p>{props.address.phone}</p>
         <p>
-          +{props.address.prefix}
-          {props.address.phone}
+          {props.address.city}/{props.address.state}
         </p>
-        <p>{props.address.details}</p>
+        <p>{props.address.addressLine}</p>
       </div>
       <div className={classes.ButtonRow}>
         <DeleteOutlined

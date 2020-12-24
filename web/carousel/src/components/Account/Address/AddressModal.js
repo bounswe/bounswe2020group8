@@ -21,20 +21,6 @@ const AddressModal = (props) => {
   const title = props.edit ? "Edit the Address" : "Add a New Address";
   const address = props.edit ? props.address : {};
 
-  const prefixSelector = (phonePrefix) => {
-    return (
-      <Form.Item
-        initialValue={phonePrefix ? phonePrefix : "90"}
-        name="prefix"
-        noStyle
-      >
-        <Select style={{ width: 70 }}>
-          <Option value="90">+90</Option>
-        </Select>
-      </Form.Item>
-    );
-  };
-
   const handleFormSubmit = () => {
     form.validateFields().then((values) => {
       props.setModal({ visible: false, edit: false, address: {} });
@@ -67,9 +53,9 @@ const AddressModal = (props) => {
         form={form}
       >
         <Form.Item
-          name="title"
-          label="Address Title"
-          initialValue={address.title}
+          name="addressName"
+          label="Address Name"
+          initialValue={address.addressName}
           rules={[
             {
               required: true,
@@ -81,9 +67,9 @@ const AddressModal = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="firstName"
+          name="name"
           label="Name"
-          initialValue={address.firstName}
+          initialValue={address.name}
           rules={[
             {
               required: true,
@@ -94,17 +80,43 @@ const AddressModal = (props) => {
           <Input placeholder="Enter the Name" />
         </Form.Item>
         <Form.Item
-          name="lastName"
-          label="Last Name"
-          initialValue={address.lastName}
+          name="city"
+          label="City"
+          initialValue={address.city}
           rules={[
             {
               required: true,
-              message: "Please input last name!",
+              message: "Please input city!",
             },
           ]}
         >
-          <Input placeholder="Enter the Last Name" />
+          <Input placeholder="Enter the city" />
+        </Form.Item>
+        <Form.Item
+          name="state"
+          label="State"
+          initialValue={address.state}
+          rules={[
+            {
+              required: true,
+              message: "Please input state!",
+            },
+          ]}
+        >
+          <Input placeholder="Enter the state" />
+        </Form.Item>
+        <Form.Item
+          name="zipCode"
+          label="ZIP Code"
+          initialValue={address.zipCode}
+          rules={[
+            {
+              required: true,
+              message: "Please input the ZIP Code!",
+            },
+          ]}
+        >
+          <Input placeholder="Enter the state" />
         </Form.Item>
 
         <Form.Item
@@ -118,22 +130,17 @@ const AddressModal = (props) => {
             },
           ]}
         >
-          <Input
-            name="phonePrefix"
-            placeholder="Enter the phone number"
-            addonBefore={prefixSelector(address.phonePrefix)}
-            style={{ width: "100%" }}
-          />
+          <Input placeholder="Enter the phone number" />
         </Form.Item>
 
         <Form.Item
-          name="details"
-          label="Address Details"
-          initialValue={address.details}
+          name="addressLine"
+          label="Address Line"
+          initialValue={address.addressLine}
           rules={[
             {
               required: true,
-              message: "Please input the address!",
+              message: "Please input the Address Details!",
             },
           ]}
         >

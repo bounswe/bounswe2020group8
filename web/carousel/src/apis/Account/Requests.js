@@ -14,7 +14,7 @@ const getElements = (field, setState) => {
     .get("customer/me", config)
     .then((res) => {
       console.log(res.data.data[field]);
-      const list = JSON.parse(res.data.data[field] || "[]");
+      const list = res.data.data[field];
       setState(list);
     })
     .catch((err) => console.log(err));
@@ -25,17 +25,13 @@ const patchField = async (field, list) => {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };
 
-  const res = await services.patch(
-    "customer/me",
-    { [field]: JSON.stringify(list) },
-    config
-  );
+  const res = await services.patch("customer/me", { [field]: list }, config);
   console.log(res);
 };
 
 const handleAddItem = (field, setState, currentList, newItem) => {
   console.log(`Add new ${field}`, currentList, newItem);
-  const newList = [...currentList, { ...newItem, id: currentList.length }];
+  const newList = [...currentList, { ...newItem }];
   patchField(field, newList)
     .then(() => setState(newList))
     .catch((err) => {
@@ -45,17 +41,9 @@ const handleAddItem = (field, setState, currentList, newItem) => {
 };
 
 const handleRemoveItem = (field, setState, currentList, id) => {
-  console.log("asdfasdf", currentList, id);
+  console.log(`Delete ${field}`, currentList, id);
 
-  const newList = currentList
-    .filter((item) => item.id !== id)
-    .map((item) => {
-      if (item.id < id) {
-        return item;
-      } else {
-        return { ...item, id: item.id - 1 };
-      }
-    });
+  const newList = currentList.filter((item) => item._id !== id);
 
   patchField(field, newList)
     .then(() => setState(newList))
@@ -67,7 +55,7 @@ const handleRemoveItem = (field, setState, currentList, id) => {
 
 const handleUpdateItem = (field, setState, currentList, updatedItem) => {
   const newList = currentList.map((item) => {
-    if (item.id === updatedItem.id) {
+    if (item._id === updatedItem._id) {
       return updatedItem;
     } else {
       return item;
