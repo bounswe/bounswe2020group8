@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Divider } from "antd";
+import { Layout, Divider, InputNumber } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import Image from "react-image-resizer";
@@ -89,8 +89,23 @@ const Cart = () => {
                 <div style={{ fontSize: 16 }}>{product.name}</div>
                 <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
               </div>
-              <div style={{ marginLeft: "auto", padding: 50 }}>
-                <div>{product.price}$</div>
+              <div
+                style={{
+                  marginLeft: "auto",
+                  padding: 20,
+                  display: "flex",
+                  flexDirection: "row",
+                  textAlign: "center",
+                }}
+              >
+                <InputNumber min={1} defaultValue={1} />
+                <div
+                  style={{
+                    width: 150,
+                  }}
+                >
+                  {product.price}$
+                </div>
               </div>
               <div>
                 <DeleteOutlined
