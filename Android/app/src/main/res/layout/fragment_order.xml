@@ -10,13 +10,13 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:hint="Address">
 
         <AutoCompleteTextView
             android:id="@+id/textFieldAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="24dp"
             android:inputType="text"
         />
 
@@ -27,19 +27,28 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:hint="Credit Card">
-
+        <Button style="@style/Widget.MaterialComponents.Button"
+                android:id="@+id/purchase_cart_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:text="Order"
+        />
         <AutoCompleteTextView
             android:id="@+id/textFieldCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:minLines="3"
         />
     </com.google.android.material.textfield.TextInputLayout>
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:id="@+id/products_overview"
               android:textSize="24sp"
-              android:layout_marginTop="250dp"
+              android:layout_marginTop="80dp"
              />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products"

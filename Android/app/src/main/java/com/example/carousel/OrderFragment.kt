@@ -45,24 +45,29 @@ class OrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val items = listOf("Option 1", "Option 2", "Option 3", "Option 4")
-        val addresses = LoginActivity.user.addresses
         val addressList = ArrayList<String>()
-        if (addresses != null) {
-            for(item in addresses){
-                addressList.add(item.address)
+        val creditCardList = ArrayList<String>()
+
+        if(LoginActivity.isInit()) {
+            val addresses = LoginActivity.user.addresses
+            val creditCards = LoginActivity.user.creditCards
+
+            if (addresses != null) {
+                for (item in addresses) {
+                    addressList.add(item.address)
+                }
+            }
+            if (creditCards != null) {
+                for(item in creditCards){
+                    val displayNumber = item.creditCardNumber.replace("^\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d".toRegex(),"**** **** **** ")
+                    creditCardList.add(displayNumber)
+                }
             }
         }
         val addressAdapter = ArrayAdapter(requireContext(), R.layout.shopping_list_names, addressList.toTypedArray())
         (view.findViewById<TextInputLayout>(R.id.address_menu).editText as? AutoCompleteTextView)?.setAdapter(addressAdapter)
 
-        val creditCards = LoginActivity.user.creditCards
-        val creditCardList = ArrayList<String>()
-        if (creditCards != null) {
-            for(item in creditCards){
-                creditCardList.add(item.creditCardNumber)
-            }
-        }
+
         val cardsAdapter = ArrayAdapter(requireContext(), R.layout.shopping_list_names, creditCardList.toTypedArray())
         (view.findViewById<TextInputLayout>(R.id.cards_menu).editText as? AutoCompleteTextView)?.setAdapter(cardsAdapter)
 
