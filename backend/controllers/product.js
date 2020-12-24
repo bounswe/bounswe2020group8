@@ -8,11 +8,15 @@ exports.searchProducts = BaseUtil.createController((req) => {});
 
 //   .route("/")
 exports.getAllProductsController = BaseUtil.createController((req) => {
-  return BB.all([]).then(() => factory.getAll(Product)(req));
+  return BB.all([]).then(() => ProductService.getAllProductsService({ query: req.query }));
 });
 
 exports.createProductController = BaseUtil.createController((req) => {
-  return BB.all([]).then(() => factory.createOne(Product)(req));
+  return BB.all([]).then(() =>
+    ProductService.createProductService({
+      product: req.body,
+    })
+  );
 });
 
 //   .route("/:id")
