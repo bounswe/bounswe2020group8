@@ -22,8 +22,9 @@ var vendorSchema = new Schema(
   {
     companyName: { type: String },
     companyDomainName: { type: String },
-    aboutCompany: { type: String },
-    IBAN: { type: String },
+    aboutCompany: { type: String, default: null },
+    IBAN: { type: String, default: null },
+    phoneNumber: { type: String, default: null },
     address: address,
     locations: [location],
   },
