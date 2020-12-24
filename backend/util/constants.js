@@ -7,6 +7,11 @@ const constants = {
       VENDOR: "Vendor",
       ADMIN: "Admin",
     },
+    STATUS: {
+      PENDING: "PENDING",
+      ACCEPTED: "ACCEPTED",
+      DECLINED: "DECLINED",
+    },
   },
   LANGUAGE: {
     EN: "en",

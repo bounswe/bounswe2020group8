@@ -5,6 +5,7 @@ const Messages = require("../util/messages");
 const BB = require("bluebird");
 const MainProduct = require("../models/mainProduct");
 const factory = require("../services/crudFactory");
+const { isNullOrEmpty } = require("../util/coreUtil");
 
 exports.getAllMainProducts = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.getAll(MainProduct)(req));
@@ -12,6 +13,10 @@ exports.getAllMainProducts = BaseUtil.createController((req) => {
 
 exports.createMainProduct = BaseUtil.createController((req) => {
   const isConfirmed = req.body.isConfirmed;
+
+  if (!isNullOrEmpty(req.body.tags)) {
+    req.body.tags = req.body.tags.map((v) => v.toLowerCase());
+  }
 
   return BB.all([
     AppValidator.validateIfValEqual(
