@@ -33,10 +33,10 @@ exports.createProductService = async function ({ product }) {
     return new AppError(Messages.RETURN_MESSAGES.ERR_MAIN_PRODUCT_DOES_NOT_EXIST);
   }
   // fill the tags field
-  let tags = [...mainProduct.tags];
+  let tags = [...mainProduct.tags, ...product.tags];
   product.parameters.forEach((el) => tags.push(el.value));
   tags.push(mainProduct.brand, mainProduct.category);
-  product.tags = tags.map((v) => v.toLowerCase());
+  product.tags = [...new Set(tags.map((v) => v.toLowerCase()))];
 
   //create the product
   const newProduct = await Product.create(product);
