@@ -65,6 +65,9 @@ class SearchFragment : Fragment() {
             drawer_layout.openDrawer(Gravity.RIGHT);
         }
         expandable_price.visibility = View.GONE
+        expandable_rating.visibility = View.GONE
+        expandable_color.visibility = View.GONE
+
 
         price_filter.setOnClickListener {
             if(expandable_price.visibility == View.GONE) {
@@ -75,6 +78,29 @@ class SearchFragment : Fragment() {
 
             }
         }
+
+        rating_filter.setOnClickListener {
+            if(expandable_rating.visibility == View.GONE) {
+                expandable_rating.visibility = View.VISIBLE
+            }
+            else {
+                expandable_rating.visibility = View.GONE
+
+            }
+        }
+
+        color_filter.setOnClickListener {
+            if(expandable_color.visibility == View.GONE) {
+                expandable_color.visibility = View.VISIBLE
+            }
+            else {
+                expandable_color.visibility = View.GONE
+
+            }
+        }
+
+
+
         // ok button will be removed soon
         /*price_ok.setOnClickListener {
             val minp = min_price.getText()
