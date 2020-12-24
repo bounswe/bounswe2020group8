@@ -67,13 +67,17 @@
         </LinearLayout>
         </ScrollView>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="end"
         android:background="#ffffffff" >
 
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <Button
             android:id="@+id/price_filter"
             android:layout_width="match_parent"
@@ -84,7 +88,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="336dp"
+            android:layout_height="wrap_content"
             android:id="@+id/expandable_price">
 
             <EditText
@@ -120,17 +124,18 @@
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
+            <Button
                 android:id="@+id/button_0_50"
                 style="@style/Widget.Carousel.FilterButton"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="48dp"
+                android:button="@drawable/my_filter_button"
                 android:text="$ 0 - 50"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
+            <Button
                 android:id="@+id/button_50_100"
                 style="@style/Widget.Carousel.FilterButton"
                 android:layout_width="match_parent"
@@ -139,7 +144,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_0_50" />
 
-            <CheckBox
+            <Button
                 android:id="@+id/button_100_250"
                 style="@style/Widget.Carousel.FilterButton"
                 android:layout_width="match_parent"
@@ -148,8 +153,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_50_100" />
 
-            <CheckBox
-                android:id="@+id/button_200_500"
+            <Button
+                android:id="@+id/button_250_500"
                 style="@style/Widget.Carousel.FilterButton"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -157,23 +162,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_100_250" />
 
-            <CheckBox
+            <Button
                 android:id="@+id/button_500_plus"
                 style="@style/Widget.Carousel.FilterButton"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="$ 500 and above"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_200_500" />
-
-            <Button
-                android:id="@+id/price_ok"
+                app:layout_constraintTop_toBottomOf="@+id/button_250_500" />
+            <!--<Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#70d44c"
                 android:text="OK"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,6 +188,14 @@
             android:text="Rating"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/expandable_rating">
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/button3"
@@ -234,7 +245,15 @@
             android:text="Material"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />
-    </LinearLayout>
+
+        </ListView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

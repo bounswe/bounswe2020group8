@@ -72,17 +72,35 @@ class SearchFragment : Fragment() {
             }
             else {
                 expandable_price.visibility = View.GONE
-                val minp = min_price.getText()
-                val maxp = max_price.getText()
+
             }
         }
         // ok button will be removed soon
-        price_ok.setOnClickListener {
-            expandable_price.visibility = View.GONE
+        /*price_ok.setOnClickListener {
+            val minp = min_price.getText()
+            val maxp = max_price.getText()
+        }*/
+        button_0_50.setOnClickListener {
+            //button_0_50.setBackgroundColor(Color.parseColor("#FF1FEAD7"))
+            min_price.setText("0")
+            max_price.setText("50")
         }
-
-
-
+        button_50_100.setOnClickListener {
+            min_price.setText("50")
+            max_price.setText("100")
+        }
+        button_100_250.setOnClickListener {
+            min_price.setText("100")
+            max_price.setText("250")
+        }
+        button_250_500.setOnClickListener {
+            min_price.setText("250")
+            max_price.setText("500")
+        }
+        button_500_plus.setOnClickListener {
+            min_price.setText("500")
+            max_price.setText("")
+        }
 
 
         //val products = ArrayList<Product>()
