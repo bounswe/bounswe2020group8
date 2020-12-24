@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 const AppError = require("../util/appError");
 const Messages = require("../util/messages");
-
+const QueryHelper = require("../util/queryHelpers");
 const Product = mongoose.model("Product");
+
 exports.populateProductDB = function (obj, path = "product") {
   return Product.populate(obj, {
     path,
@@ -165,4 +166,173 @@ exports.getProductByResetPasswordTokenDB = function (resetPasswordToken) {
   return Product.findOne({
     resetPasswordToken,
   }).lean();
+};
+
+exports.searchProducts = function (query, tags) {
+  let filter = QueryHelper.filter(query);
+  let sort = QueryHelper.sort(query);
+  let skip = QueryHelper.skip(query);
+  let limit = QueryHelper.limit(query);
+
+  console.log(tags);
+  console.log(filter);
+  console.log(sort);
+  console.log(skip);
+  console.log(limit);
+
+  return Product.aggregate([
+    { $match: { tags: { $in: tags } } },
+    {
+      $set: {
+        maxPrice: { $max: "$vendorSpecifics.price" },
+        minPrice: { $min: "$vendorSpecifics.price" },
+        vendors: "$vendorSpecifics.vendorID",
+        matches: {
+          $reduce: {
+            input: "$tags",
+            initialValue: 0,
+            in: {
+              $cond: [{ $in: ["$$this", tags] }, { $add: ["$$value", 1] }, "$$value"],
+            },
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$parentProduct",
+        matches: { $max: "$matches" },
+        maxPrice: { $max: "$maxPrice" },
+        minPrice: { $min: "$minPrice" },
+        vendors: { $push: "$vendors" },
+        photos: { $first: "$photos" },
+      },
+    },
+    {
+      $set: {
+        mainProduct: "$_id",
+        vendors: {
+          $reduce: {
+            input: "$vendors",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+      },
+    },
+    { $addFields: { vendors: { $setUnion: ["$vendors", []] } } },
+    {
+      $lookup: {
+        from: "MainProducts",
+        localField: "mainProduct",
+        foreignField: "_id",
+        as: "mainProduct",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        matches: 1,
+        maxPrice: 1,
+        minPrice: 1,
+        vendors: 1,
+        photos: 1,
+        brand: { $arrayElemAt: ["$mainProduct.brand", 0] },
+        category: { $arrayElemAt: ["$mainProduct.category", 0] },
+        "mainProduct._id": 1,
+        "mainProduct.title": 1,
+        "mainProduct.rating": 1,
+        "mainProduct.numberOfRating": 1,
+      },
+    },
+    { $match: filter },
+    { $sort: sort },
+    { $skip: skip },
+    { $limit: limit },
+  ]);
+};
+
+exports.getSearchFilters = function (query, tags) {
+  return Product.aggregate([
+    { $match: { tags: { $in: tags } } },
+    {
+      $set: {
+        maxPrice: { $max: "$vendorSpecifics.price" },
+        minPrice: { $min: "$vendorSpecifics.price" },
+        vendors: "$vendorSpecifics.vendorID",
+      },
+    },
+    { $unwind: "$parameters" },
+    {
+      $group: {
+        _id: "$parameters.name",
+        values: { $addToSet: "$parameters.value" },
+        maxPrice: { $max: "$maxPrice" },
+        minPrice: { $min: "$minPrice" },
+        vendors: { $push: "$vendors" },
+        brands: { $addToSet: "$brand" },
+        categories: { $addToSet: "$category" },
+      },
+    },
+    {
+      $set: {
+        vendors: {
+          $reduce: {
+            input: "$vendors",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        vendors: { $setUnion: ["$vendors", []] },
+      },
+    },
+    { $set: { parameters: { name: "$_id", values: "$values" } } },
+    {
+      $group: {
+        _id: null,
+        parameters: { $push: "$parameters" },
+        maxPrice: { $max: "$maxPrice" },
+        minPrice: { $min: "$minPrice" },
+        vendors: { $push: "$vendors" },
+        brands: { $push: "$brands" },
+        categories: { $push: "$categories" },
+      },
+    },
+    {
+      $set: {
+        vendors: {
+          $reduce: {
+            input: "$vendors",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+        brands: {
+          $reduce: {
+            input: "$brands",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+        categories: {
+          $reduce: {
+            input: "$categories",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        vendors: { $setUnion: ["$vendors", []] },
+        brands: { $setUnion: ["$brands", []] },
+        categories: { $setUnion: ["$categories", []] },
+      },
+    },
+  ]);
 };

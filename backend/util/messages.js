@@ -168,6 +168,12 @@ const returnMessages = {
       en: "There is no such main product for this product",
     },
   },
+  ERR_SOMETHING_WENT_WRONG: {
+    code: 27,
+    messages: {
+      en: "Something went wrong!",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
