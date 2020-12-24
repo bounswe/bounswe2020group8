@@ -53,7 +53,7 @@ const PaymentInfoList = (props) => {
                 "creditCards",
                 setCreditCardList,
                 creditCardList,
-                creditCard.id
+                creditCard._id
               )
             }
           />

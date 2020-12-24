@@ -14,15 +14,23 @@ const PaymentInfo = (props) => {
     <div className={classes.PaymentInfoBox}>
       <div className={classes.Card}>
         <Cards
-          cvc={props.creditCard.cvc}
-          expiry={props.creditCard.expiry}
-          name={props.creditCard.name}
+          cvc={props.creditCard.creditCardCvc}
+          expiry={props.creditCard.creditCardData}
+          name={props.creditCard.creditCardName}
           number={
             "************" +
-            props.creditCard.number.slice(props.creditCard.number.length - 4)
+            props.creditCard.creditCardNumber.slice(
+              props.creditCard.creditCardNumber.length - 4
+            )
           }
           preview={true}
-          issuer={props.creditCard.issuer}
+          issuer={
+            props.creditCard.creditCardNumber[0] === "4"
+              ? "visa"
+              : props.creditCard.creditCardNumber[0] === "5"
+              ? "mastercard"
+              : ""
+          }
         />
       </div>
       <div

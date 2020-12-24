@@ -26,7 +26,7 @@ const AddressModal = (props) => {
       props.setModal({ visible: false, edit: false, address: {} });
 
       if (props.edit) {
-        props.handleUpdateAddress({ id: props.address.id, ...values });
+        props.handleUpdateAddress({ _id: props.address._id, ...values });
       } else {
         props.handleAddAddress(values);
       }

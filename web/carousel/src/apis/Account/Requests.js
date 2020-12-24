@@ -20,20 +20,21 @@ const getElements = (field, setState) => {
     .catch((err) => console.log(err));
 };
 
-const patchField = async (field, list) => {
+const patchField = async (field, list, setState) => {
   const config = {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };
 
   const res = await services.patch("customer/me", { [field]: list }, config);
+  setState(res.data.data[field]);
   console.log(res);
 };
 
 const handleAddItem = (field, setState, currentList, newItem) => {
   console.log(`Add new ${field}`, currentList, newItem);
   const newList = [...currentList, { ...newItem }];
-  patchField(field, newList)
-    .then(() => setState(newList))
+  patchField(field, newList, setState)
+    .then()
     .catch((err) => {
       alert("Failed to add");
       console.log(err, "field to add: ", newList);
@@ -44,9 +45,10 @@ const handleRemoveItem = (field, setState, currentList, id) => {
   console.log(`Delete ${field}`, currentList, id);
 
   const newList = currentList.filter((item) => item._id !== id);
+  console.log(`New ${field}`, newList);
 
-  patchField(field, newList)
-    .then(() => setState(newList))
+  patchField(field, newList, setState)
+    .then()
     .catch((err) => {
       alert("Failed to remove");
       console.log(err);
@@ -62,8 +64,10 @@ const handleUpdateItem = (field, setState, currentList, updatedItem) => {
     }
   });
 
-  patchField(field, newList)
-    .then(() => setState(newList))
+  console.log("Updated List", updatedItem, newList);
+
+  patchField(field, newList, setState)
+    .then()
     .catch((err) => {
       alert("Failed to update");
       console.log(err);

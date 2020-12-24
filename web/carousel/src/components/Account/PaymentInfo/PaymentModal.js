@@ -19,16 +19,12 @@ export default class PaymentModal extends Component {
       `Add new credit card with values: ${JSON.stringify(this.state)}`
     );
 
-    let issuer = "";
-
-    if (this.state.number[0] === "4") {
-      issuer = "visa";
-    } else if (this.state.number[0] === "5") {
-      issuer = "mastercard";
-    }
-
-    let creditCard = { ...this.state, issuer: issuer };
-    delete creditCard.focus;
+    const creditCard = {
+      creditCardNumber: this.state.number,
+      creditCardCvc: this.state.cvc,
+      creditCardData: this.state.expiry,
+      creditCardName: this.state.name,
+    };
 
     this.props.setModal({ visible: false });
     this.props.handleAddCreditCard(creditCard);
