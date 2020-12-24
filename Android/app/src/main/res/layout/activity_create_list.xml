@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:layout_gravity="center_vertical"
+              android:gravity="center_vertical"
               tools:context=".CreateListActivity">
-<EditText
-    android:id="@+id/list_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
-    android:autofillHints=""
-    android:ems="10"
-    android:layout_gravity="center_horizontal"
-    android:inputType="text"
-    android:hint="List name"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_gravity="center_vertical"
+                  android:gravity="center" android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/list_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="List Name"
+            app:counterEnabled="true"
+            app:counterMaxLength="15">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 <RelativeLayout
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"

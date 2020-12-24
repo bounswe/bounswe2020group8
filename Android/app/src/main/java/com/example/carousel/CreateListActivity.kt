@@ -11,10 +11,14 @@ class CreateListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_list)
     }
     fun cancel(view: View){
+        this.intent.putExtra("isCreated", false)
+        setResult(11,intent)
         finish()
     }
     fun create(view: View){
-        ShoppingListFragment.ShoppingList.addList(list_name.text.toString())
+        ShoppingListFragment.ShoppingList.addList(list_name.editText?.text.toString())
+        this.intent.putExtra("isCreated", true)
+        setResult(11,intent)
         finish()
     }
 }

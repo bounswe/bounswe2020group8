@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
@@ -79,8 +80,8 @@ class ShoppingListFragment : Fragment() {
                 Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3)
             val p5 =
                 Product(title = "To Kill a Mockingbird 14.99", price = 14.99, id = 10, photoUrl = R.drawable.image10)
-            addList("Must buy")
-            addList("Wait for discount")
+            addList("Favourites")
+            addList("Watchlist")
             addToList(0, p1)
             addToList(0, p5)
             addToList(1, p2)
@@ -177,29 +178,54 @@ class ShoppingListFragment : Fragment() {
     }
 
     private fun deleteList(view: View) {
-        val spinner = list_choice
-        removeList(selectedList)
-        selectedList = 0
-        if (lists.isNotEmpty()) {
-            spinner.setSelection(selectedList)
-            adapter.replaceProducts(lists[selectedList])
+        var isConfirmed = false
+        if(selectedList<2){
+            Toast.makeText(requireContext(),"Can't Delete A Default List!", Toast.LENGTH_SHORT).show()
         }
-        else{
-            adapter.replaceProducts(ArrayList<Product>())
+        else {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(resources.getString(R.string.delete_list_title))
+                .setMessage(resources.getString(R.string.delete_list_body))
+                .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                    // Respond to neutral button press
+                }
+                .setPositiveButton(resources.getString(R.string.delete)) { dialog, which ->
+                    // Respond to positive button press
+                    val spinner = list_choice
+                    removeList(selectedList)
+                    selectedList = 0
+                    if (lists.isNotEmpty()) {
+                        spinner.setSelection(selectedList)
+                        adapter.replaceProducts(lists[selectedList])
+                    } else {
+                        adapter.replaceProducts(ArrayList<Product>())
+                    }
+                    spinnerAdapter.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
+                    Toast.makeText(requireContext(), "List Deleted Successfully", Toast.LENGTH_SHORT).show()
+                }
+                .show()
+
         }
-        spinnerAdapter.notifyDataSetChanged()
-        adapter.notifyDataSetChanged()
     }
 
     private fun createList(view: View) {
         val intent = Intent(this.context, CreateListActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent,11)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val isCreated = data?.getBooleanExtra("isCreated", false)
+        if(isCreated!!){
+            Toast.makeText(requireContext(),"List Created Successfully", Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun addListToCart(view: View){
         for(product in lists[selectedList]){
             CartFragment.addToCart(product)
         }
+        Toast.makeText(requireContext(),"List Added to Cart Successfully", Toast.LENGTH_SHORT).show()
     }
 
 }
