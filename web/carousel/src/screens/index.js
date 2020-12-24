@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
+import Account from "./Account";
 import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
 import Header from "../components/Header/Header";
@@ -14,6 +15,7 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [userType, setUserType] = useState("");
   const [name, setName] = useState("");
@@ -32,6 +34,9 @@ const App = () => {
   const passwordChangeHandler = (newPassword) => {
     setPassword(newPassword);
   };
+  const oldPasswordChangeHandler = (oldPassword) => {
+    setOldPassword(oldPassword);
+  };
   const confirmPasswordChangeHandler = (newConfirmPassword) => {
     setPasswordConfirm(newConfirmPassword);
   };
@@ -49,6 +54,7 @@ const App = () => {
     <div>
       <UserInfo.Provider
         value={{
+          oldPassword: oldPassword,
           email: email,
           password: password,
           passwordConfirm: passwordConfirm,
@@ -61,6 +67,7 @@ const App = () => {
           login: loginHandler,
           changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
+          setOldPassword: oldPasswordChangeHandler,
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
@@ -77,7 +84,9 @@ const App = () => {
             <Route path="/login" exact component={Login} />
             <Route path="/reset" exact component={Reset} />
             <Route path="/forgot" exact component={Forgot} />
-            <Route path="/product" exact component={Product} />
+            <Route path="/product/:id" exact component={Product} />
+            <Route path="/reset" exact component={Reset} />
+            <Route path="/account" component={Account} />
             <Route render={() => <NotFound />} />
           </Switch>
         </Router>
