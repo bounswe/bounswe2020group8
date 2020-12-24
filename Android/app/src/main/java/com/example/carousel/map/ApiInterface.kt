@@ -50,6 +50,9 @@ interface ApiInterface {
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
 
+    @PATCH("/customer/me")
+    fun customerUpdate(@Body data: DataCustomerMe): Call<ResponseCustomerMe>
+
     @GET("/vendor/me")
     fun vendorMe(): Call<ResponseVendorMe>
 
@@ -59,9 +62,7 @@ interface ApiInterface {
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
 
-    @PATCH("/customer/me")
-    fun customerUpdate(
-        @Body data: DataCustomerMe): Call<ResponseCustomerMe>
+
 
     @POST("/vendor/changePassword")
     fun vendorChangePassword(

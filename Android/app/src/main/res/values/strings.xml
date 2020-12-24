@@ -6,6 +6,8 @@
     <string name="signup_button">SIGN UP</string>
     <string name="signup_header">Sign Up Page</string>
 
+    <string name="profile_name">NAME:</string>
+
     <string name="type_customer">CUSTOMER</string>
     <string name="type_vendor">VENDOR</string>
     <string name="type_guest">GUEST</string>
@@ -13,7 +15,7 @@
     <string name="signup_button_vendor">SIGN UP AS VENDOR</string>
     <string name="signup_button_customer">SIGN UP AS CUSTOMER</string>
     <string name="signup_name">Name</string>
-    <string name="signup_surname">Surname</string>
+    <string name="signup_surname">Last Name</string>
     <string name="signup_email">Email</string>
     <string name="signup_password">Password</string>
     <string name="signup_company_name">Name of Your Company</string>
@@ -79,8 +81,8 @@
 
     <string name="cancel">Cancel</string>
     <string name="descriptionTitle">Description</string>
-    <string name="addToCart">Add to Cart</string>
-    <string name="addToList">Add to List</string>
+    <string name="addToCart">To Cart</string>
+    <string name="addToList">To List</string>
     <string name="add">Add</string>
 
     <string name="forgot_password_cancel">Cancel</string>
@@ -95,6 +97,13 @@
     <string name="delete">Delete</string>
     <string name="create">Create</string>
     <string name="list">Select a list</string>
-
+    <string name="profile_last_name">SURNAME:</string>
+    <string name="profile_email">EMAIL:</string>
+    <string name="profile_number">NUMBER:</string>
+    <string name="profile_number_hint">Number</string>
+    <string name="profile_birthday">BIRTHDAY:</string>
+    <string name="profile_birthday_hint">Birthday</string>
+    <string name="delete_list_title">DELETE LIST</string>
+    <string name="delete_list_body">Do you really want to delete this list?</string>
 
 </resources>

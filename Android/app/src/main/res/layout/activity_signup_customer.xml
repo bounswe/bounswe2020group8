@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/signup_name"
+            android:id="@+id/profile_name_value"
             android:hint="@string/signup_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
