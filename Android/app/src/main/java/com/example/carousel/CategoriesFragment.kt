@@ -1,21 +1,14 @@
 package com.example.carousel
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseGetCategories
-import com.example.carousel.pojo.ResponseLogin
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_categories.*
 
 class CategoriesFragment : Fragment() {
@@ -30,6 +23,7 @@ class CategoriesFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_categories, container, false)
     }
+
 
     fun getCategories() {
         /**val email = login_email.text.toString()
@@ -90,11 +84,14 @@ class CategoriesFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             setAdapter(adapter)
         }
-        /*adapter.onItemClick = { product ->
-            val intent = Intent(this.context, ProductPageActivity::class.java)
-            intent.putExtra("product",product)
-            startActivity(intent)
-        }*/
+        adapter.onItemClick = { category ->
+            // search for category
+            searchCall(mapOf("category" to category.title))
+        }
+    }
+
+    private fun searchCall(query: Map<String, Any>) {
+
     }
 
 }
