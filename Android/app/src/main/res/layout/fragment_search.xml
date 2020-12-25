@@ -302,13 +302,13 @@
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />
 
-        <Button
+        <!--<Button
             android:id="@+id/button6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Category"
             android:textColor="#292929"
-            app:backgroundTint="#FFFFFF" />
+            app:backgroundTint="#FFFFFF" />-->
 
         <Button
             android:id="@+id/button7"

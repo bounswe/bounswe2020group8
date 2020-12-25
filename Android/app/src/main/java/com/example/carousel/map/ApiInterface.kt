@@ -70,4 +70,11 @@ interface ApiInterface {
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
 
+    @GET("/category")
+    fun getCategories(
+        @Query("sort") sort: String = "",
+        @Query("limit") limit: Int = 1000,
+        @Query("page") page: Int = 1,
+        @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
+
 }
