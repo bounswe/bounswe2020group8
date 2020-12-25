@@ -108,6 +108,7 @@ class LoginComponent extends Component {
     } else {
       return;
     }
+    localStorage.setItem("login", "false");
     services
       .post(url, null, { params: payload })
       .then((response) => {
@@ -115,7 +116,12 @@ class LoginComponent extends Component {
         localStorage.setItem("token", response.data.tokenCode);
         this.context.login(this.context.email, response.data.tokenCode);
         this.context.error = false;
-
+        localStorage.setItem("login", "true");
+        if (this.context.userType === "Customer") {
+          localStorage.setItem("userType", "Customer");
+        } else if (this.context.userType === "Vendor") {
+          localStorage.setItem("userType", "Vendor");
+        }
         this.props.signIn();
         this.props.history.push(path);
       })
@@ -123,6 +129,7 @@ class LoginComponent extends Component {
         console.log(err);
         this.context.error = true;
         console.log("resp data: " + response);
+        localStorage.setItem("userType", "guest");
         this.setState({ isError: true });
       });
   };

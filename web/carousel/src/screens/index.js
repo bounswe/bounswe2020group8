@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
@@ -11,6 +11,18 @@ import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
 import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
+
+function PrivateRoute ({component: Component, authed, ...rest}) {
+  console.log("authed: ", localStorage.getItem("login"));
+  return (
+    <Route
+      {...rest}
+      render={(props) => localStorage.getItem("login") === "true"
+        ? <Component {...props} />
+        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+    />
+  )
+}
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -59,21 +71,43 @@ const App = () => {
   const vendorRoutes = [
     { path: "/vendor", exact: true, component: VendorHome },
     { path: "/vendor/account", exact: false, component: VendorAccount },
+    { path: "/", exact: true, component: VendorHome },
   ];
 
   const customerRoutes = [
     { path: "/", exact: true, component: Home },
     { path: "/account", exact: false, component: Account },
   ];
+
+  const guestRoutes = [
+    { path: "/", exact: true, component: Home },
+    { path: "/account", exact: false, component: Login },
+    { path: "/vendor", exact: false, component: Login },
+    { path: "/vendor/account", exact: false, component: Login },
+  ];
+
   const notFound = { component: NotFound };
 
   let routes = [...generalRoutes];
+
+  useEffect(() => {
+    setUserType(localStorage.getItem("userType"));
+  }, []);
+  console.log(userType);
+  console.log(localStorage.getItem("token"));
+  console.log(localStorage.getItem("userType"));
+  console.log(localStorage.getItem("login"));
   if (userType === "Vendor") {
     routes = [...routes, ...vendorRoutes];
-  } else {
+  } else if (userType === "Customer"){
     routes = [...routes, ...customerRoutes];
+  } else {
+    routes = [...routes, ...guestRoutes];
   }
+
   routes = [...routes, notFound];
+
+
 
   return (
     <div>
@@ -112,6 +146,7 @@ const App = () => {
                 component={route.component}
               />
             ))}
+            <PrivateRoute authed={localStorage.getItem("login")} path='/account' component={Account}/>
           </Switch>
         </Router>
       </UserInfo.Provider>

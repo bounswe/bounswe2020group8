@@ -45,6 +45,9 @@ function SideButtons(props) {
       .then((response) => {
         props.signOut();
         user.error = false;
+        localStorage.setItem("userType", "guest");
+        localStorage.setItem("token", "");
+        localStorage.setItem("login", "false");
         console.log("Logged out Success");
         localStorage.removeItem("token");
         user.setUserType("");
@@ -139,9 +142,11 @@ function SideButtons(props) {
     }
   };
 
+  let userType = localStorage.getItem("userType");
+  let loggedIn = localStorage.getItem("login");
   return (
     <div className={classes.SideButtons}>
-      {props.isSignedIn ? (
+      {localStorage.getItem("login") === "true" ? (
         <DropdownContainer
           title={"ACCOUNT"}
           icon={<UserOutlined />}
