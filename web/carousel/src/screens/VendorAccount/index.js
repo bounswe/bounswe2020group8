@@ -54,8 +54,6 @@ class VendorAccount extends Component {
             <Menu.Item key="products">
               <Link to="/vendor/account/products">My products</Link>
             </Menu.Item>
-          </SubMenu>
-          <SubMenu key="/addProduct" icon={<GiftOutlined />} title="Add Product">
             <Menu.Item key="addProduct">
               <Link to="/vendor/account/addProduct">Add product</Link>
             </Menu.Item>
