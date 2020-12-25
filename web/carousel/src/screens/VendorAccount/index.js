@@ -15,6 +15,7 @@ import Rate from "./Rate";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
 import Products from "./Products";
+import AddProduct from "./AddProduct";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -33,6 +34,7 @@ class VendorAccount extends Component {
       "inactive-order": "/order",
       comments: "/comments",
       rate: "/comments",
+      addProduct: "/addProduct",
     };
 
     return (
@@ -51,6 +53,11 @@ class VendorAccount extends Component {
           <SubMenu key="/products" icon={<GiftOutlined />} title="My Products">
             <Menu.Item key="products">
               <Link to="/vendor/account/products">My products</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="/addProduct" icon={<GiftOutlined />} title="Add Product">
+            <Menu.Item key="addProduct">
+              <Link to="/vendor/account/addProduct">Add product</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
@@ -86,6 +93,7 @@ class VendorAccount extends Component {
           <Route path="/vendor/account" exact component={Profile} />
           <Route path="/vendor/account/profile" exact component={Profile} />
           <Route path="/vendor/account/products" exact component={Products} />
+          <Route path="/vendor/account/addProduct" exact component={AddProduct} />
           <Route
             path="/vendor/account/active-order"
             exact

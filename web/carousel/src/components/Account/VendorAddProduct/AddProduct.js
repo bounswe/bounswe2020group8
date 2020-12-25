@@ -5,8 +5,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import Table from "antd/lib/table";
 
 import classes from "./AddProduct.module.css";
-import 'antd/dist/antd.css';
-import "../../../antd.css";
+// import 'antd/dist/antd.css';
+// import "../../../antd.css";
 import ProductForm from "./ProductForm/ProductForm";
 import MainProductTable from "./MainProductTable/MainProductTable";
 import ExistingProductsTable from "./ExistingProductsTable/ExistingProductsTable";
