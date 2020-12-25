@@ -7,7 +7,6 @@ const Constants = require("./../util/constants");
 
 //   .route("/")
 exports.getAllProductRequestsController = BaseUtil.createController((req) => {
-  req.query.isConfirmed = True;
   return BB.all([]).then(() => factory.getAll(ProductRequest)(req));
 });
 

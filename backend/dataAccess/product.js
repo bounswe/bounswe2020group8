@@ -174,12 +174,6 @@ exports.searchProducts = function (query, tags) {
   let skip = QueryHelper.skip(query);
   let limit = QueryHelper.limit(query);
 
-  console.log(tags);
-  console.log(filter);
-  console.log(sort);
-  console.log(skip);
-  console.log(limit);
-
   return Product.aggregate([
     { $match: { tags: { $in: tags } } },
     {
@@ -230,12 +224,20 @@ exports.searchProducts = function (query, tags) {
       },
     },
     {
+      $lookup: {
+        from: "Clients",
+        localField: "vendors",
+        foreignField: "_id",
+        as: "vendors",
+      },
+    },
+    {
       $project: {
-        _id: 1,
+        mpid: "$_id",
+        _id: 0,
         matches: 1,
         maxPrice: 1,
         minPrice: 1,
-        vendors: 1,
         photos: 1,
         brand: { $arrayElemAt: ["$mainProduct.brand", 0] },
         category: { $arrayElemAt: ["$mainProduct.category", 0] },
@@ -243,6 +245,8 @@ exports.searchProducts = function (query, tags) {
         "mainProduct.title": 1,
         "mainProduct.rating": 1,
         "mainProduct.numberOfRating": 1,
+        "vendors._id": 1,
+        "vendors.companyName": 1,
       },
     },
     { $match: filter },
@@ -332,6 +336,25 @@ exports.getSearchFilters = function (query, tags) {
         vendors: { $setUnion: ["$vendors", []] },
         brands: { $setUnion: ["$brands", []] },
         categories: { $setUnion: ["$categories", []] },
+      },
+    },
+    {
+      $lookup: {
+        from: "Clients",
+        localField: "vendors",
+        foreignField: "_id",
+        as: "vendors",
+      },
+    },
+    {
+      $project: {
+        parameters: 1,
+        maxPrice: 1,
+        minPrice: 1,
+        brands: 1,
+        categories: 1,
+        "vendors._id": 1,
+        "vendors.companyName": 1,
       },
     },
   ]);
