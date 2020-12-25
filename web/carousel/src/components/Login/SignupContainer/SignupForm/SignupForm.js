@@ -40,6 +40,8 @@ const SignupForm = (props) => {
     setVisible(false);
   };
 
+  console.log(user.vendorLocations);
+
   return (
     <Form
       name="normal_login"

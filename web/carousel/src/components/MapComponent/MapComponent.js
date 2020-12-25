@@ -11,17 +11,23 @@ const MapComponent = withScriptjs(
       defaultZoom={8}
       defaultCenter={{ lat: 41.08478565714733, lng: 29.051027297973633 }}
       onClick={(ev) => {
-        props.addLocation({ lat: ev.latLng.lat(), lng: ev.latLng.lng() });
-        console.log("latitide = ", ev.latLng.lat());
+        props.addLocation({
+          latitude: ev.latLng.lat(),
+          longitude: ev.latLng.lng(),
+        });
+        console.log("latitude = ", ev.latLng.lat());
         console.log("longitude = ", ev.latLng.lng());
       }}
     >
       {props.markerLocations.map((marker) => (
         <Marker
-          onClick={() => props.removeLocation(marker.lat, marker.lng)}
+          key={marker.latitude + "," + marker.longitude}
+          onClick={() =>
+            props.removeLocation(marker.latitude, marker.longitude)
+          }
           position={{
-            lat: marker.lat,
-            lng: marker.lng,
+            lat: marker.latitude,
+            lng: marker.longitude,
           }}
         />
       ))}

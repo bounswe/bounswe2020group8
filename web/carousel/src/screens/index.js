@@ -23,6 +23,7 @@ const App = () => {
   const [companyDomain, setCompanyDomain] = useState("");
   const [vendorLocations, setVendorLocations] = useState([]);
   const [error, setError] = useState(false);
+  const [IBAN, setIBAN] = useState("");
 
   const loginHandler = (newEmail, newToken) => {
     setEmail(newEmail);
@@ -46,6 +47,9 @@ const App = () => {
   const companyNameChangeHandler = (newCompanyName) => {
     setCompanyName(newCompanyName);
   };
+  const vendorLocationHandler = (newLocations) => {
+    setVendorLocations(newLocations);
+  };
   const addVendorLocationHandler = (newVendorLocation) => {
     setVendorLocations([...vendorLocations, newVendorLocation]);
   };
@@ -56,8 +60,8 @@ const App = () => {
     setVendorLocations(
       vendorLocations.filter(
         (location) =>
-          location.lat !== removedLocationLat ||
-          location.lng !== removedLocationLng
+          location.latitude !== removedLocationLat ||
+          location.longitude !== removedLocationLng
       )
     );
   };
@@ -81,6 +85,7 @@ const App = () => {
           companyDomain: companyDomain,
           vendorLocations: vendorLocations,
           error: error,
+          IBAN: IBAN,
           login: loginHandler,
           changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
@@ -88,12 +93,15 @@ const App = () => {
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
+          setVendorLocations: vendorLocationHandler,
           addVendorLocation: addVendorLocationHandler,
           removeVendorLocation: removeVendorLocationHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,
           setError: setErrorHandler,
+          setEmail: setEmail,
+          setIBAN: setIBAN,
         }}
       >
         <Router>

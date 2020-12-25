@@ -10,7 +10,7 @@ import MapComponent from "../../components/MapComponent/MapComponent";
 const { Option } = Select;
 
 export default class Profile extends Component {
-  state = { visible: false, locations: [] };
+  state = { visible: false };
   static contextType = UserInfo;
 
   prefixSelector = () => {
@@ -21,6 +21,64 @@ export default class Profile extends Component {
         </Select>
       </Form.Item>
     );
+  };
+
+  async componentDidMount() {
+    const token = localStorage.getItem("token");
+
+    if (this.context.userType === "Vendor") {
+      const response = await services.get("vendor/me", {
+        headers: { Authorization: "Bearer " + token },
+      });
+
+      if (response.data.data != null) {
+        const data = response.data.data;
+        this.context.setCompanyName(data.companyName);
+        this.context.setCompanyDomain(data.companyDomainName);
+        this.context.setVendorLocations(data.locations);
+        this.context.setEmail(data.email);
+        this.context.setIBAN(data.IBAN);
+        console.log(this.context);
+        console.log(data);
+      } else {
+        alert("Couldn't get the profile information!");
+      }
+    }
+  }
+  onVendorProfileChange = async (values) => {
+    const token = localStorage.getItem("token");
+
+    console.log(values);
+
+    if (values.companyName) {
+      this.context.setCompanyName(values.companyName);
+    }
+    if (values.domain) {
+      this.context.setCompanyDomain(values.domain);
+    }
+    if (values.iban) {
+      this.context.setIBAN(values.iban);
+    }
+    if (values.phone) {
+      this.setState({ phone: values.phone });
+    }
+
+    const payload = {
+      companyName: this.context.companyName,
+      companyDomainName: this.context.companyDomain,
+      IBAN: this.context.IBAN,
+      locations: this.context.vendorLocations,
+      // phoneNumber: this.state.phone,
+    };
+    console.log(payload);
+    const response = await services.patch("/vendor/me", payload, {
+      headers: { Authorization: "Bearer " + token },
+    });
+    if (response) {
+      this.props.history.push("/account/profile");
+    } else {
+      console.log("try again");
+    }
   };
 
   eraseError = () => {
@@ -40,7 +98,7 @@ export default class Profile extends Component {
     });
   };
 
-  onChangePassword = () => {
+  onPasswordChange = () => {
     let url = "";
     if (this.context.userType === "Customer") {
       url = "/customer/changePassword";
@@ -145,18 +203,10 @@ export default class Profile extends Component {
           wrapperCol={{ span: 14 }}
           layout="horizontal"
           size="middle"
+          onFinish={this.onVendorProfileChange}
         >
-          <Form.Item
-            name="name"
-            label="Company Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your name!",
-              },
-            ]}
-          >
-            <Input />
+          <Form.Item name="companyName" label="Company Name">
+            <Input placeholder={this.context.companyName} />
           </Form.Item>
 
           <Form.Item name="location" label="Company Locations">
@@ -177,15 +227,17 @@ export default class Profile extends Component {
           </Form.Item>
 
           <Form.Item name="iban" label="IBAN">
-            <Input />
+            <Input placeholder={this.context.IBAN} />
           </Form.Item>
 
           <Form.Item name="domain" label="Company Website">
-            <Input />
+            <Input placeholder={this.context.companyDomain} />
           </Form.Item>
 
+          {/* TODO */}
           <Form.Item name="phone" label="Contact Number">
             <Input
+              placeholder={this.context.phone}
               addonBefore={this.prefixSelector()}
               style={{ width: "100%" }}
             />
@@ -199,11 +251,7 @@ export default class Profile extends Component {
                 justifyContent: "flex-end",
               }}
             >
-              <ButtonPrimary
-                title="Save Changes"
-                style={{ width: 150 }}
-                onClick={() => console.log("clicked")}
-              />
+              <ButtonPrimary title="Save Changes" style={{ width: 150 }} />
             </div>
           </Form.Item>
         </Form>
@@ -250,7 +298,7 @@ export default class Profile extends Component {
               <ButtonPrimary
                 title="Change Password"
                 style={{ width: 150 }}
-                onClick={this.onChangePassword}
+                onClick={this.onPasswordChange}
               />
             </Form.Item>
           </div>

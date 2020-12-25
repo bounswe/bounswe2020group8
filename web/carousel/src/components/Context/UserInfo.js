@@ -26,6 +26,8 @@ const userInfo = React.createContext({
   setError: () => {},
   vendorLocations: [],
   setVendorLocations: () => {},
+  IBAN: "",
+  setIBAN: () => {},
 });
 
 export default userInfo;

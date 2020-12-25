@@ -130,9 +130,6 @@ class Account extends Component {
             <Menu.Item key="profile">
               <Link to="/account/profile">Profile Info</Link>
             </Menu.Item>
-            <Menu.Item key="address">
-              <Link to="/account/address">Address Info</Link>
-            </Menu.Item>
           </SubMenu>
 
           <SubMenu key="/products" icon={<GiftOutlined />} title="My products">
