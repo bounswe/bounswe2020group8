@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.customer.signUp.RegisterInfoActivity
+import com.example.carousel.customer.signUp.SignupCustomerActivity
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.*
@@ -27,7 +29,7 @@ import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    private val baseUrl = "http://54.165.207.44:8080/"
+
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val client = OkHttpClient()
@@ -71,39 +73,47 @@ class LoginActivity : AppCompatActivity() {
             false -> type = "VENDOR"
         }
 
-        val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
-        apiCallerLogin.Button = login_button
-        apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
-        apiCallerLogin.Success = { it ->
-            if (it != null) {
-                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
 
-                    val prefs =
-                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
-                    val editor = prefs.edit()
-                    editor.putString("token", it.tokenCode)
-                    editor.putBoolean("isAuthenticated", true)
-                    editor.putString("type", type)
-                    editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode, type)
+        val validationContainer: FormValidator = FormValidator(this@LoginActivity)
+        validationContainer.AddCondition(login_email.text.isEmpty(), "Email is required")
+        validationContainer.AddCondition(login_password.text.isEmpty(), "Password is required")
+        validationContainer.RunIfValid {
 
-                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
-                    apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-                    apiCallerGetUser.Success = {
-                        if (it != null) {
-                            this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
-                                finish();
-                            })
+            val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+            apiCallerLogin.Button = login_button
+            apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
+            apiCallerLogin.Success = { it ->
+                if (it != null) {
+                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+                        val prefs =
+                            getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                        val editor = prefs.edit()
+                        editor.putString("token", it.tokenCode)
+                        editor.putBoolean("isAuthenticated", true)
+                        editor.putString("type", type)
+                        editor.apply()
+                        ApplicationContext.instance.authenticate(it.tokenCode, type)
+
+                        val apiCallerGetUser: ApiCaller<ResponseCustomerMe> =
+                            ApiCaller(this@LoginActivity)
+                        apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                        apiCallerGetUser.Success = {
+                            if (it != null) {
+                                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+                                    finish();
+                                })
+                            }
                         }
-                    }
-                    apiCallerGetUser.Failure = {}
-                    apiCallerGetUser.run()
+                        apiCallerGetUser.Failure = {}
+                        apiCallerGetUser.run()
 //                    finish();
-                })
+                    })
+                }
             }
+            apiCallerLogin.Failure = {}
+            apiCallerLogin.run()
         }
-        apiCallerLogin.Failure = {}
-        apiCallerLogin.run()
     }
 
     private fun signInCall(email: String?, googleId: String?) {
@@ -147,7 +157,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signup(view: View) {
-        val intent = Intent(this, SignupActivity::class.java)
+        val intent = Intent(this, RegisterInfoActivity::class.java)
         startActivity(intent)
     }
 
