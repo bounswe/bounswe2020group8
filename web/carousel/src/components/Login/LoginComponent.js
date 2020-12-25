@@ -99,11 +99,12 @@ class LoginComponent extends Component {
       password: this.context.password,
     };
     let url = "";
-
+    let path = "/";
     if (this.context.userType === "Customer") {
       url = "/customer/login";
     } else if (this.context.userType === "Vendor") {
       url = "/vendor/login";
+      path = "/vendor/account";
     } else {
       return;
     }
@@ -116,7 +117,7 @@ class LoginComponent extends Component {
         this.context.error = false;
 
         this.props.signIn();
-        this.props.history.push("/");
+        this.props.history.push(path);
       })
       .catch((err, response) => {
         console.log(err);

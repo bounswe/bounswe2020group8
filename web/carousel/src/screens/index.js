@@ -9,6 +9,8 @@ import Forgot from "./Forgot";
 import UserInfo from "../components/Context/UserInfo";
 import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
+import VendorAccount from "./VendorAccount";
+import VendorHome from "./VendorHome";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -49,6 +51,30 @@ const App = () => {
     setError(newError);
   };
 
+  const generalRoutes = [
+    { path: "/login", exact: true, component: Login },
+    { path: "/reset", exact: true, component: Reset },
+    { path: "/forgot", exact: true, component: Forgot },
+  ];
+  const vendorRoutes = [
+    { path: "/vendor", exact: true, component: VendorHome },
+    { path: "/vendor/account", exact: false, component: VendorAccount },
+  ];
+
+  const customerRoutes = [
+    { path: "/", exact: true, component: Home },
+    { path: "/account", exact: false, component: Account },
+  ];
+  const notFound = { component: NotFound };
+
+  let routes = [...generalRoutes];
+  if (userType === "Vendor") {
+    routes = [...routes, ...vendorRoutes];
+  } else {
+    routes = [...routes, ...customerRoutes];
+  }
+  routes = [...routes, notFound];
+
   return (
     <div>
       <UserInfo.Provider
@@ -79,18 +105,13 @@ const App = () => {
         <Router>
           <Header />
           <Switch>
-            <Route path="/login" exact component={Login} />
-            <Route path="/reset" exact component={Reset} />
-            <Route path="/forgot" exact component={Forgot} />
-            {userType === "Vendor" ? (
-              <Route path="/v" exact component={Home} />
-            ) : (
-              <div>
-                <Route path="/" exact component={Home} />
-                <Route path="/account" component={Account} />
-              </div>
-            )}
-            <Route render={() => <NotFound />} />
+            {routes.map((route) => (
+              <Route
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+              />
+            ))}
           </Switch>
         </Router>
       </UserInfo.Provider>

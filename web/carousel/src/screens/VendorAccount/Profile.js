@@ -28,13 +28,12 @@ export default class Profile extends Component {
 
   onChangePassword = () => {
     let url = "";
-    if (this.context.userType === "Customer") {
-      url = "/customer/changePassword";
-    }
-    // else if (this.context.userType === "Vendor") {
-    //   url = "/vendor/changePassword";
-    // }
-    else {
+    // if (this.context.userType === "Customer") {
+    //   url = "/customer/changePassword";
+    // } else
+    if (this.context.userType === "Vendor") {
+      url = "/vendor/changePassword";
+    } else {
       return;
     }
     const token = localStorage.getItem("token");
@@ -51,7 +50,7 @@ export default class Profile extends Component {
       .then((response) => {
         this.context.error = false;
         this.setState({ visible: false });
-        this.props.history.push("/");
+        this.props.history.push("/vendor");
       })
       .catch((err, response) => {
         console.log(err);

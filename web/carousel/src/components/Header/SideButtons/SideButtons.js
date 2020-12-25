@@ -12,6 +12,7 @@ import {
   CommentOutlined,
   NotificationOutlined,
   LogoutOutlined,
+  GiftOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
@@ -45,6 +46,8 @@ function SideButtons(props) {
         props.signOut();
         user.error = false;
         console.log("Logged out Success");
+        localStorage.removeItem("token");
+        user.setUserType("");
         props.history.push("/");
       })
       .catch((err, response) => {
@@ -65,35 +68,65 @@ function SideButtons(props) {
 
   const profileMenu = (
     <Menu>
-      <Menu.Item>
-        <Link to="/account/profile">
-          <UserOutlined />
-          My Profile
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/account/active-order">
-          <ShoppingOutlined />
-          My Order
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/account/comments">
-          <CommentOutlined />
-          My Feedbacks
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link to="/account/recommendation">
-          <NotificationOutlined />
-          New Recommendations
-        </Link>
-      </Menu.Item>
+      {user.userType === "Customer" ? (
+        <>
+          <Menu.Item>
+            <Link to="/account/profile">
+              <UserOutlined />
+              My Profile
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/account/active-order">
+              <ShoppingOutlined />
+              My Order
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/account/comments">
+              <CommentOutlined />
+              My Feedbacks
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/account/recommendation">
+              <NotificationOutlined />
+              New Recommendations
+            </Link>
+          </Menu.Item>
+        </>
+      ) : (
+        <>
+          <Menu.Item>
+            <Link to="/vendor/account/profile">
+              <UserOutlined />
+              My Profile
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/vendor/account/products">
+              <GiftOutlined />
+              My Products
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/vendor/account/active-order">
+              <ShoppingOutlined />
+              My Order
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/vendor/account/comments">
+              <CommentOutlined />
+              My Feedbacks
+            </Link>
+          </Menu.Item>
+        </>
+      )}
+
       <Menu.Item key="Logout" onClick={signOut}>
-        <Link to="/">
-          <LogoutOutlined />
-          Log out
-        </Link>
+        <LogoutOutlined />
+        Log out
       </Menu.Item>
     </Menu>
   );
@@ -121,16 +154,20 @@ function SideButtons(props) {
           onClick={() => props.history.push("/login")}
         ></ButtonSecondary>
       )}
-      <ButtonPrimary
-        icon={<HeartOutlined />}
-        title={"LIST"}
-        onClick={() => handleUrlClick("list")}
-      />
-      <ButtonPrimary
-        icon={<ShoppingCartOutlined />}
-        title={"CART"}
-        onClick={() => handleUrlClick("cart")}
-      />
+      {user.userType !== "Vendor" ? (
+        <div>
+          <ButtonPrimary
+            icon={<HeartOutlined />}
+            title={"LIST"}
+            onClick={() => handleUrlClick("list")}
+          />
+          <ButtonPrimary
+            icon={<ShoppingCartOutlined />}
+            title={"CART"}
+            onClick={() => handleUrlClick("cart")}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
