@@ -5,11 +5,9 @@ import "react-credit-cards/es/styles-compiled.css";
 import {
   handleAddItem,
   handleRemoveItem,
-  handleUpdateItem,
   getElements,
 } from "../../apis/Account/Requests";
 
-import { DeleteOutlined } from "@ant-design/icons";
 import PaymentInfo from "../../components/Account/PaymentInfo/PaymentInfo";
 import PaymentInfoHeadbar from "../../components/Account/PaymentInfo/PaymentInfoHeadbar";
 import PaymentModal from "../../components/Account/PaymentInfo/PaymentModal";
