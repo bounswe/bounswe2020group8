@@ -16,6 +16,7 @@ import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
 import Products from "./Products";
 import AddProduct from "./AddProduct";
+import ProductRequests from "./ProductsRequests";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -52,7 +53,10 @@ class VendorAccount extends Component {
           </SubMenu>
           <SubMenu key="/products" icon={<GiftOutlined />} title="My Products">
             <Menu.Item key="products">
-              <Link to="/vendor/account/products">My products</Link>
+              <Link to="/vendor/account/products">My Products</Link>
+            </Menu.Item>
+            <Menu.Item key="productRequests">
+              <Link to="/vendor/account/productRequests">My Products Requests</Link>
             </Menu.Item>
             <Menu.Item key="addProduct">
               <Link to="/vendor/account/addProduct">Add product</Link>
@@ -91,6 +95,7 @@ class VendorAccount extends Component {
           <Route path="/vendor/account" exact component={Profile} />
           <Route path="/vendor/account/profile" exact component={Profile} />
           <Route path="/vendor/account/products" exact component={Products} />
+          <Route path="/vendor/account/productRequests" exact component={ProductRequests} />
           <Route path="/vendor/account/addProduct" exact component={AddProduct} />
           <Route
             path="/vendor/account/active-order"

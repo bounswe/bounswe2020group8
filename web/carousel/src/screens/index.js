@@ -93,10 +93,6 @@ const App = () => {
   useEffect(() => {
     setUserType(localStorage.getItem("userType"));
   }, []);
-  console.log(userType);
-  console.log(localStorage.getItem("token"));
-  console.log(localStorage.getItem("userType"));
-  console.log(localStorage.getItem("login"));
   if (userType === "Vendor") {
     routes = [...routes, ...vendorRoutes];
   } else if (userType === "Customer"){

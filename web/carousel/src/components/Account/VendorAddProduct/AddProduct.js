@@ -298,6 +298,7 @@ class Product extends Component {
           showNoProduct: false,
           showExistingProductForm: false,
         });
+        alert("Add to existing product request sent!");
       })
       .catch(error => {
         console.log(error);
