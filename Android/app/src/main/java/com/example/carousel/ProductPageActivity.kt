@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_product_page.*
 
 class ProductPageActivity : AppCompatActivity() {
     private var product: Product? = null
+    private var count = 0
     private lateinit var adapter: CommentAdapter
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,11 +123,19 @@ class ProductPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else {
-            this.product?.let { CartFragment.addToCart(it) }
+            this.product?.let { CartFragment.addToCart(it, count) }
             Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
         }
     }
-
-
+    fun incCount(view: View){
+        count++
+        counter.setText(count.toString())
+    }
+    fun decCount(view: View){
+        if(count>0) {
+            count--
+            counter.setText(count.toString())
+        }
+    }
 
 }

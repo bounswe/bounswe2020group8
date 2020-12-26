@@ -113,6 +113,35 @@
                     android:text="@string/addToList"/>
 
             </LinearLayout>
+            <LinearLayout android:id="@+id/counter_view"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@+id/product_frame"
+                          android:orientation="horizontal"
+                          android:gravity="center">
+                <Button
+                    android:id="@+id/dec_count"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="32dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    app:icon="@drawable/ic_remove_circle_24px"
+                    android:onClick="decCount"
+                />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:text="0" android:id="@+id/counter" android:layout_marginLeft="8dp"/>
+
+
+                <Button
+                    android:id="@+id/inc_count"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="32dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    app:icon="@drawable/ic_add_circle_24px"
+                    android:onClick="incCount"
+                />
+            </LinearLayout>
         </LinearLayout>
         <View android:id="@+id/underProduct"
               style="@style/Divider" android:layout_marginTop="32dp"

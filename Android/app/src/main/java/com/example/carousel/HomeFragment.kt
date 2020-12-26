@@ -63,7 +63,8 @@ class HomeFragment : Fragment() {
                                 if (it!= null) {
                                     Log.d("SECONDRESPONSE", it.toString())
                                     productsDeals.add(responseToProduct(product, it.data))
-                                    createProductList(productsDeals, deals)
+                                    if(deals != null)
+                                        createProductList(productsDeals, deals)
                                 }
                             }
                             apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
