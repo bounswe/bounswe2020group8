@@ -35,20 +35,24 @@ router
   .delete(CustomerController.deleteOneCustomerController, RequestHelper.returnResponse);
 
 router.post(
-  "/update",
+  "/shoppingCart/update",
   ShoppingCartController.updateShoppingCartController,
   RequestHelper.returnResponse
 );
 router.post(
-  "/delete",
+  "/shoppingCart/delete",
   ShoppingCartController.deleteFromShoppingCartController,
   RequestHelper.returnResponse
 );
 router.post(
-  "/reset",
+  "/shoppingCart/reset",
   ShoppingCartController.resetShoppingCartController,
   RequestHelper.returnResponse
 );
-router.post("/get", ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse);
+router.post(
+  "/shoppingCart/get",
+  ShoppingCartController.getShoppingCartController,
+  RequestHelper.returnResponse
+);
 
 module.exports = router;
