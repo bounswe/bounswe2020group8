@@ -5,6 +5,7 @@ const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Vendor = require("../models/vendor");
 const ProductRequest = require("../models/productRequest");
+const Constants = require("./../util/constants");
 
 const factory = require("../services/crudFactory");
 
@@ -19,6 +20,7 @@ exports.signupController = BaseUtil.createController((req) => {
     companyDomainName,
     locations,
   } = req.query;
+  let { locations } = req.body;
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
   return BB.all([
     AppValidator.validatePassword(
@@ -162,7 +164,6 @@ exports.addMeToExistingProductController = BaseUtil.createController((req) => {
 });
 
 exports.createMyNewProductController = BaseUtil.createController((req) => {
-  console.log("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   return BB.all([]).then(() =>
     VendorService.createMyNewProductService({
       vid: req.client._id,
@@ -182,7 +183,6 @@ exports.getMyProductRequestController = BaseUtil.createController((req) => {
 
 exports.updateMyProductRequestController = BaseUtil.createController((req) => {
   const status = req.body.status;
-
   return BB.all([
     AppValidator.validateIfValEqual(
       status,

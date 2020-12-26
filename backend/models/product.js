@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const vendorSpecific = {
-  vendorID: { type: Schema.Types.ObjectId },
+  vendorID: { type: Schema.Types.ObjectId, ref: "Vendor" },
   price: { type: Number },
   amountLeft: { type: Number },
   shipmentPrice: { type: Number },
@@ -25,6 +25,8 @@ var productSchema = new Schema(
     parentProduct: { type: Schema.Types.ObjectId, ref: "MainProduct" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
+    brand: { type: String },
+    category: { type: String },
   },
   {
     collection: "Products",

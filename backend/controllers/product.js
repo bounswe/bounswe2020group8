@@ -4,15 +4,44 @@ const BB = require("bluebird");
 const Product = require("../models/product");
 const factory = require("../services/crudFactory");
 
-exports.searchProducts = BaseUtil.createController((req) => {});
+exports.searchProductsController = BaseUtil.createController((req) => {
+  let tags = req.body.query
+    .trim()
+    .toLowerCase()
+    .split(/[ \t\n]+/);
+  console.log(tags);
+  return BB.all([]).then(() =>
+    ProductService.searchProductsService({
+      query: req.query,
+      tags,
+    })
+  );
+});
+
+exports.getSearchFiltersController = BaseUtil.createController((req) => {
+  let tags = req.body.query
+    .trim()
+    .toLowerCase()
+    .split(/[ \t\n]+/);
+  return BB.all([]).then(() =>
+    ProductService.getSearchFiltersService({
+      query: req.query,
+      tags,
+    })
+  );
+});
 
 //   .route("/")
 exports.getAllProductsController = BaseUtil.createController((req) => {
-  return BB.all([]).then(() => factory.getAll(Product)(req));
+  return BB.all([]).then(() => ProductService.getAllProductsService({ query: req.query }));
 });
 
 exports.createProductController = BaseUtil.createController((req) => {
-  return BB.all([]).then(() => factory.createOne(Product)(req));
+  return BB.all([]).then(() =>
+    ProductService.createProductService({
+      product: req.body,
+    })
+  );
 });
 
 //   .route("/:id")

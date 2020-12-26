@@ -2,6 +2,8 @@ const BaseUtil = require("../util/baseUtil");
 const BB = require("bluebird");
 const ProductRequest = require("../models/productRequest");
 const factory = require("../services/crudFactory");
+const AppValidator = require("../util/appValidator");
+const Constants = require("./../util/constants");
 
 //   .route("/")
 exports.getAllProductRequestsController = BaseUtil.createController((req) => {
@@ -14,7 +16,13 @@ exports.getOneProductRequestController = BaseUtil.createController((req) => {
 });
 
 exports.updateOneProductRequestController = BaseUtil.createController((req) => {
-  return BB.all([]).then(() => factory.updateOne(ProductRequest)(req));
+  return BB.all([
+    AppValidator.validateEnum(
+      req.body.status,
+      Object.values(Constants.ENUMS.STATUS),
+      Messages.RETURN_MESSAGES.REQUEST_STATUS_IS_INVALID
+    ).reflect(),
+  ]).then(() => factory.updateOne(ProductRequest)(req));
 });
 
 exports.deleteOneProductRequestController = BaseUtil.createController((req) => {
