@@ -5,6 +5,8 @@ import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary
 import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
+import Order from "../../components/Order/Order";
+import { Checkbox } from "antd";
 
 const { Content, Sider } = Layout;
 const productListDemo = [
@@ -43,9 +45,17 @@ const shipmentPrice = 25.5;
 const Cart = () => {
   const history = useHistory();
   const [productList, setproductList] = useState(productListDemo);
+  const [currentPage, setCurrentPage] = useState("cart");
+  const [orderAddress, setOrderAddress] = useState(null);
+  const [orderCreditCard, setOrderCreditCard] = useState(null);
+  const [consentGiven, setConsentGiven] = useState(false);
 
   const onShopClicked = () => {
     history.push("/");
+  };
+
+  const onCheckBoxChange = (e) => {
+    setConsentGiven(e.target.checked);
   };
 
   const handleDeleteClicked = ({ name }) => {
@@ -54,7 +64,13 @@ const Cart = () => {
   };
 
   const handleConfirmClicked = () => {
-    console.log("Confirm");
+    if (currentPage === "cart") {
+      setCurrentPage("order");
+    } else {
+      console.log(orderAddress);
+      console.log(orderCreditCard);
+      console.log(consentGiven);
+    }
   };
 
   function ProductContent(productList = []) {
@@ -165,9 +181,17 @@ const Cart = () => {
               </div>
             </div>
             <Divider style={{ width: 220 }} />
+            {currentPage === "order" && (
+              <div style={{ fontWeight: "bold" }}>
+                <Checkbox onChange={onCheckBoxChange}>
+                  I've read the <a>sales agreement</a> and I accept it.
+                </Checkbox>
+                <Divider style={{ width: 220 }} />
+              </div>
+            )}
             <div style={{ display: "flex", justifyContent: "center" }}>
               <ButtonPrimary
-                title="Confirm"
+                title={currentPage === "cart" ? "Continue" : "Confirm"}
                 style={{ width: 150 }}
                 onClick={() => handleConfirmClicked()}
               />
@@ -187,11 +211,20 @@ const Cart = () => {
             minHeight: 280,
           }}
         >
-          {ProductContent(productList)}
-          <ButtonSecondary
-            title="Go back to Shopping"
-            onClick={() => onShopClicked()}
-          />
+          {currentPage === "cart" ? (
+            <>
+              {ProductContent(productList)}
+              <ButtonSecondary
+                title="Go back to Shopping"
+                onClick={() => onShopClicked()}
+              />
+            </>
+          ) : (
+            <Order
+              setOrderAddress={setOrderAddress}
+              setOrderCreditCard={setOrderCreditCard}
+            />
+          )}
         </Content>
         {PriceSider()}
       </Layout>
