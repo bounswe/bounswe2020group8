@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:accessibilityPaneTitle="@string/register"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".customer.RegisterInfoActivity">
+
+    <ImageView
+        android:layout_width="159dp"
+        android:layout_height="173dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/logo"
+        android:src="@drawable/logo"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register_title"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="left"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/header"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register_sub_title"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/header"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:id="@+id/sub_title"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customer_signup_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@+id/sub_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_signup__name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:maxLength="20" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customer_signup_layout_surname"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@id/customer_signup_layout_name">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_signup__surname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            android:hint="@string/surname" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customer_signup_layout_email"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@id/customer_signup_layout_surname">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customer_signup__email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:maxLength="30"
+            android:hint="@string/signup_email"
+            android:autofillHints="email" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/checkboxContainer"
+        android:layout_above="@+id/nextPage"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+
+            android:id="@+id/termConfirm"
+            android:layout_width="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="#57a0d4"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/term"
+            android:textStyle="bold"
+            android:textColor="#57a0d4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/term" />
+    </LinearLayout>
+
+    <Button
+            android:text="@string/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/nextPage"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"/>
+
+</RelativeLayout>

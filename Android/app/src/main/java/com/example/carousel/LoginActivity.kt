@@ -6,13 +6,10 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
-import android.widget.RadioButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carousel.application.ApplicationContext
-import com.example.carousel.customer.signUp.RegisterInfoActivity
-import com.example.carousel.customer.signUp.SignupCustomerActivity
+import com.example.carousel.customer.RegisterInfoActivity
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.*
@@ -22,10 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.*
-import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -68,11 +63,6 @@ class LoginActivity : AppCompatActivity() {
         val email = login_email.text.toString()
         val password = login_password.text.toString()
         val type: String
-        when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
-            true -> type = "CLIENT";
-            false -> type = "VENDOR"
-        }
-
 
         val validationContainer: FormValidator = FormValidator(this@LoginActivity)
         validationContainer.AddCondition(login_email.text.isEmpty(), "Email is required")
@@ -91,9 +81,9 @@ class LoginActivity : AppCompatActivity() {
                         val editor = prefs.edit()
                         editor.putString("token", it.tokenCode)
                         editor.putBoolean("isAuthenticated", true)
-                        editor.putString("type", type)
+                        editor.putString("type", "CLIENT")
                         editor.apply()
-                        ApplicationContext.instance.authenticate(it.tokenCode, type)
+                        ApplicationContext.instance.authenticate(it.tokenCode, "CLIENT")
 
                         val apiCallerGetUser: ApiCaller<ResponseCustomerMe> =
                             ApiCaller(this@LoginActivity)

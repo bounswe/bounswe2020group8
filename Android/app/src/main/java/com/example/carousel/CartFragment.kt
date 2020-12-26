@@ -1,6 +1,8 @@
 package com.example.carousel
 
 import android.content.Intent
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +12,12 @@ import android.widget.AdapterView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_cart.*
+import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.ResponseHeader
+import com.example.carousel.pojo.ResponseLogin
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +80,7 @@ class CartFragment : Fragment() {
         }
         adapter.registerAdapterDataObserver(observer)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -105,5 +114,4 @@ class CartFragment : Fragment() {
                 cart.removeAt(productIndex)
         }
     }
-
 }
