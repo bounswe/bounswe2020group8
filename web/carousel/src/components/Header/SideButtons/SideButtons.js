@@ -48,7 +48,6 @@ function SideButtons(props) {
         localStorage.setItem("userType", "guest");
         localStorage.setItem("token", "");
         localStorage.setItem("login", "false");
-        console.log("Logged out Success");
         localStorage.removeItem("token");
         user.setUserType("");
         props.history.push("/");
@@ -59,9 +58,7 @@ function SideButtons(props) {
       });
   };
 
-  const onFailure = () => {
-    console.log("components > Header > Sidebuttons");
-  };
+  const onFailure = () => {};
 
   const { signOut } = useGoogleLogout({
     clientId,

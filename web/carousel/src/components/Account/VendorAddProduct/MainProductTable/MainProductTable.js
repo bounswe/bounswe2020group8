@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import {Space} from "antd";
+import { Space } from "antd";
 import classes from "../AddProduct.module.css";
 import Table from "antd/lib/table";
+import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
+import services from "../../../../apis/services";
+import MainProductForm from "../MainProductForm/MainProductForm";
 
 class MainProductTable extends Component {
   render() {
@@ -30,24 +33,25 @@ class MainProductTable extends Component {
         title: "Action",
         key: "action",
         render: (id, record) => (
-
           <Space size="large">
-
             <a
               className={classes.TableActionsSuspend}
-              onClick={() => { this.props.clicked(record);}}
+              onClick={() => {
+                this.props.clicked(record);
+              }}
             >
               List Child Products
             </a>
             <br />
-
           </Space>
         ),
       },
     ];
 
     return (
-      <Table dataSource={this.props.data} columns={columns}/>
+      <div>
+        <Table dataSource={this.props.data} columns={columns} />
+      </div>
     );
   }
 }
