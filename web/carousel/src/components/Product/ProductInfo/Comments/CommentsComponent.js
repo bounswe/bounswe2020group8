@@ -43,11 +43,18 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
   </>
 );
 export default class CommentsComponent extends React.Component {
-  state = {
-    comments: [],
-    submitting: false,
-    value: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      comments: [],
+      submitting: false,
+      value: "",
+    };
+  }
+  componentWillMount() {
+    console.log(this.props.product);
+    console.log(this.props.mainProduct);
+  }
   handleSubmit = () => {
     if (!this.state.value) {
       return;

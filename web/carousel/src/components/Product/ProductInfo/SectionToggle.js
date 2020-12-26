@@ -13,7 +13,7 @@ const stylePassive = {
   backgroundColor: "#eeeeee",
 };
 
-const SectionToggle = ({ section }) => {
+const SectionToggle = (props, { section }) => {
   const [featuresStyle, setFeaturesStyle] = useState(true);
   const [sellersStyle, setSellersStyle] = useState(false);
   const [commentsStyle, setCommentsStyle] = useState(false);
@@ -32,19 +32,35 @@ const SectionToggle = ({ section }) => {
 
     if (id === "features") {
       setFeaturesStyle(true);
-      setRenderedComponent(<FeaturesComponent />);
+      setRenderedComponent(
+        <FeaturesComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
       setSellersStyle(false);
       setCommentsStyle(false);
     } else if (id === "sellers") {
       setFeaturesStyle(false);
       setSellersStyle(true);
-      setRenderedComponent(<OtherSellersComponent />);
+      setRenderedComponent(
+        <OtherSellersComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
       setCommentsStyle(false);
     } else if (id === "comments") {
       setFeaturesStyle(false);
       setSellersStyle(false);
       setCommentsStyle(true);
-      setRenderedComponent(<CommentsComponent />);
+
+      setRenderedComponent(
+        <CommentsComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
     }
   };
 

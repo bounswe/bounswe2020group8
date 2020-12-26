@@ -86,7 +86,11 @@ const Product = (props) => {
       </div>
       <div style={{ height: "40px" }} />
       <div className={classes.ProductInfo} ref={sectionRef}>
-        <SectionToggle section={infoSection} />
+        <SectionToggle
+          section={infoSection}
+          product={product}
+          mainProduct={mainProduct}
+        />
       </div>
     </div>
   ) : null;

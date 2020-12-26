@@ -29,6 +29,15 @@ const columns = [
 ];
 
 export default class FeaturesComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  componentWillMount() {
+    console.log(this.props.product);
+    console.log(this.props.mainProduct);
+  }
+
   render() {
     return (
       <div>

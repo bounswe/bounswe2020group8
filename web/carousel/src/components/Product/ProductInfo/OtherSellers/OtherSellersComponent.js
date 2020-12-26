@@ -17,11 +17,16 @@ const data = [
 ];
 
 export default class OtherSellersComponent extends React.Component {
-  state = {
-    comments: [],
-    submitting: false,
-    value: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: "",
+    };
+  }
+  componentWillMount() {
+    console.log(this.props.product);
+    console.log(this.props.mainProduct);
+  }
 
   render() {
     return (
@@ -37,7 +42,7 @@ export default class OtherSellersComponent extends React.Component {
               <List.Item.Meta
                 avatar={<ShoppingCartOutlined />}
                 title={<a href="https://ant.design">{item.title}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                description="{this.state.message}"
               />
               <br></br>
               <br></br>
