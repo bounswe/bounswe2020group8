@@ -54,5 +54,10 @@ router.post(
   ShoppingCartController.getShoppingCartController,
   RequestHelper.returnResponse
 );
+router.post(
+  "/order",
+  ShoppingCartController.getShoppingCartController,
+  RequestHelper.returnResponse
+);
 
 module.exports = router;
