@@ -6,15 +6,15 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
 
-exports.updateShoppingCartService = async function ({ id, productId, vendorId, amount }) {
+exports.updateShoppingCartService = async function ({ _id, productId, vendorId, amount }) {
   updatedCustomer = await CustomerDataAccess.addToCustomerShoppingCartDB(
-    id,
+    _id,
     productId,
     vendorId,
     amount
   );
   updatedCustomer = await CustomerDataAccess.updateCustomerShoppingCartDB(
-    id,
+    _id,
     productId,
     vendorId,
     amount
@@ -22,21 +22,21 @@ exports.updateShoppingCartService = async function ({ id, productId, vendorId, a
   return updatedCustomer;
 };
 
-exports.deleteFromShoppingCartService = async function ({ id, productId, vendorId }) {
+exports.deleteFromShoppingCartService = async function ({ _id, productId, vendorId }) {
   const updatedCustomer = await CustomerDataAccess.deleteFromCustomerShoppingCartDB(
-    id,
+    _id,
     productId,
     vendorId
   );
   return updatedCustomer;
 };
 
-exports.resetShoppingCartService = async function ({ id }) {
-  const updatedCustomer = await CustomerDataAccess.resetCustomerShoppingCartDB(id);
+exports.resetShoppingCartService = async function ({ _id }) {
+  const updatedCustomer = await CustomerDataAccess.resetCustomerShoppingCartDB(_id);
   return updatedCustomer;
 };
 
-exports.getShoppingCartService = async function ({ id }) {
-  const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(id);
+exports.getShoppingCartService = async function ({ _id }) {
+  const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   return shoppingCart;
 };

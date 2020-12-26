@@ -8,23 +8,25 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.updateShoppingCartController = BaseUtil.createController((req) => {
-  let { id, productId, vendorId, amount } = req.query;
+  let { _id } = req.query;
+  let { productId, vendorId, amount } = req.body;
   return BB.all([
-    ShoppingCartService.updateShoppingCartService({ id, productId, vendorId, amount }),
+    ShoppingCartService.updateShoppingCartService({ _id, productId, vendorId, amount }),
   ]);
 });
 
 exports.deleteFromShoppingCartController = BaseUtil.createController((req) => {
-  let { id, productId, vendorId } = req.query;
-  return BB.all([ShoppingCartService.deleteFromShoppingCartService({ id, productId, vendorId })]);
+  let { _id } = req.query;
+  let { productId, vendorId } = req.body;
+  return BB.all([ShoppingCartService.deleteFromShoppingCartService({ _id, productId, vendorId })]);
 });
 
 exports.resetShoppingCartController = BaseUtil.createController((req) => {
-  let { id } = req.query;
-  return BB.all([ShoppingCartService.resetShoppingCartService({ id })]);
+  let { _id } = req.query;
+  return BB.all([ShoppingCartService.resetShoppingCartService({ _id })]);
 });
 
 exports.getShoppingCartController = BaseUtil.createController((req) => {
-  let { id } = req.query;
-  return BB.all([ShoppingCartService.getShoppingCartService({ id })]);
+  let { _id } = req.query;
+  return BB.all([ShoppingCartService.getShoppingCartService({ _id })]);
 });

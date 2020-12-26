@@ -34,21 +34,21 @@ router
   .patch(CustomerController.updateOneCustomerController, RequestHelper.returnResponse)
   .delete(CustomerController.deleteOneCustomerController, RequestHelper.returnResponse);
 
-  router.post(
-    "/update",
-    ShoppingCartController.updateShoppingCartController,
-    RequestHelper.returnResponse
-  );
-  router.post(
-    "/delete",
-    ShoppingCartController.deleteFromShoppingCartController,
-    RequestHelper.returnResponse
-  );
-  router.get(
-    "/reset",
-    ShoppingCartController.resetShoppingCartController,
-    RequestHelper.returnResponse
-  );
-  router.get("/get", ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse);
+router.post(
+  "/update",
+  ShoppingCartController.updateShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/delete",
+  ShoppingCartController.deleteFromShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/reset",
+  ShoppingCartController.resetShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post("/get", ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse);
 
 module.exports = router;
