@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import classes from "../AddProduct.module.css";
-import { Button, Form, Input, Upload, Modal } from "antd";
+import { Button, Form, Input } from "antd";
 import PicturesWall from "../../../PicturesWall";
 
 const layout = {
@@ -31,10 +31,6 @@ class ProductForm extends Component {
   }
 
   render() {
-    console.log(this.state.parentProduct);
-    console.log(this.props.product);
-    console.log(this.props.parameterInputs);
-
     let parameterInputs = "";
     for (let i = 0; i < this.props.parameterInputs.length; i++) {}
     parameterInputs = this.props.parameterInputs.map((param, igKey) => {
@@ -123,6 +119,9 @@ class ProductForm extends Component {
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit">
             Submit
+          </Button>
+          <Button htmlType="button" onClick={this.props.onClick}>
+            Cancel
           </Button>
         </Form.Item>
       </Form>

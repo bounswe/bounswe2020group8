@@ -1,6 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
@@ -12,16 +17,22 @@ import NotFound from "./NotFound";
 import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
 
-function PrivateRoute ({component: Component, authed, ...rest}) {
+function PrivateRoute({ component: Component, authed, ...rest }) {
   console.log("authed: ", localStorage.getItem("login"));
   return (
     <Route
       {...rest}
-      render={(props) => localStorage.getItem("login") === "true"
-        ? <Component {...props} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+      render={(props) =>
+        localStorage.getItem("login") === "true" ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        )
+      }
     />
-  )
+  );
 }
 
 const App = () => {
@@ -93,21 +104,16 @@ const App = () => {
   useEffect(() => {
     setUserType(localStorage.getItem("userType"));
   }, []);
-  console.log(userType);
-  console.log(localStorage.getItem("token"));
-  console.log(localStorage.getItem("userType"));
-  console.log(localStorage.getItem("login"));
+
   if (userType === "Vendor") {
     routes = [...routes, ...vendorRoutes];
-  } else if (userType === "Customer"){
+  } else if (userType === "Customer") {
     routes = [...routes, ...customerRoutes];
   } else {
     routes = [...routes, ...guestRoutes];
   }
 
   routes = [...routes, notFound];
-
-
 
   return (
     <div>
@@ -146,7 +152,11 @@ const App = () => {
                 component={route.component}
               />
             ))}
-            <PrivateRoute authed={localStorage.getItem("login")} path='/account' component={Account}/>
+            <PrivateRoute
+              authed={localStorage.getItem("login")}
+              path="/account"
+              component={Account}
+            />
           </Switch>
         </Router>
       </UserInfo.Provider>
