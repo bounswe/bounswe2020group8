@@ -32,7 +32,7 @@ class CartAdapter (    private var productList: ArrayList<Product>) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.image.setImageResource(productList[position].photoUrl)
+        //holder.image.setImageResource(productList[position].photoUrl)
         holder.title.text = productList[position].title
         holder.price.text = "\$${productList[position].price}"
         holder.remove.setOnClickListener{

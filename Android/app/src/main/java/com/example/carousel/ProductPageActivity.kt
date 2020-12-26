@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
@@ -23,7 +24,11 @@ class ProductPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_page)
         this.product = intent?.getSerializableExtra("product") as Product
-        image.setImageResource(product!!.photoUrl)
+        //image.setImageResource(product!!.photoUrl)
+        val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
+        Glide.with(image)
+            .load(imgUri)
+            .into(image)
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
