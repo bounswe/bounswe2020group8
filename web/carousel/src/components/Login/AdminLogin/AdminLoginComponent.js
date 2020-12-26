@@ -74,7 +74,8 @@ class AdminLoginComponent extends Component {
         localStorage.setItem("token", response.data.tokenCode);
         this.context.login(this.state.email, response.data.tokenCode);
         this.context.error = false;
-
+        localStorage.setItem("login", "true");
+        localStorage.setItem("userType", "Admin");
         this.props.signIn();
         this.props.history.push("/admin");
       })
