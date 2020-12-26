@@ -34,10 +34,10 @@ export default class AdminAccount extends Component {
 
           <SubMenu key="sub2" icon={<ShoppingOutlined />} title="Products">
             <Menu.Item key="2" icon={<PauseOutlined />}>
-              <Link to="/admin/pending-products">Pending Products</Link>
+              <Link to="/admin/pending-products">Product Requests</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<FileSearchOutlined/>}>
-              <Link to="/admin/search-product">Search Product</Link>
+              <Link to="/admin/search-product">Available Products</Link>
             </Menu.Item>
           </SubMenu>
 
