@@ -13,8 +13,7 @@ const getElements = (field, setState) => {
   services
     .get("customer/me", config)
     .then((res) => {
-      console.log(res.data.data[field]);
-      const list = res.data.data[field];
+      const list = res.data.data[field] || [];
       setState(list);
     })
     .catch((err) => console.log(err));
@@ -27,25 +26,21 @@ const patchField = async (field, list, setState) => {
 
   const res = await services.patch("customer/me", { [field]: list }, config);
   setState(res.data.data[field]);
-  console.log(res);
 };
 
 const handleAddItem = (field, setState, currentList, newItem) => {
   console.log(`Add new ${field}`, currentList, newItem);
   const newList = [...currentList, { ...newItem }];
+  console.log(newList);
   patchField(field, newList, setState)
     .then()
     .catch((err) => {
       alert("Failed to add");
-      console.log(err, "field to add: ", newList);
     });
 };
 
 const handleRemoveItem = (field, setState, currentList, id) => {
-  console.log(`Delete ${field}`, currentList, id);
-
   const newList = currentList.filter((item) => item._id !== id);
-  console.log(`New ${field}`, newList);
 
   patchField(field, newList, setState)
     .then()
@@ -63,8 +58,6 @@ const handleUpdateItem = (field, setState, currentList, updatedItem) => {
       return item;
     }
   });
-
-  console.log("Updated List", updatedItem, newList);
 
   patchField(field, newList, setState)
     .then()
