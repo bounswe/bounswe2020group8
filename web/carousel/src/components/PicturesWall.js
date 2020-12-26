@@ -16,49 +16,7 @@ export default class PicturesWall extends Component {
     previewVisible: false,
     previewImage: "",
     previewTitle: "",
-    fileList: [
-      {
-        uid: "-1",
-        name: "image.png",
-        status: "done",
-        url:
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-2",
-        name: "image.png",
-        status: "done",
-        url:
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-3",
-        name: "image.png",
-        status: "done",
-        url:
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-4",
-        name: "image.png",
-        status: "done",
-        url:
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-xxx",
-        percent: 50,
-        name: "image.png",
-        status: "uploading",
-        url:
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-      },
-      {
-        uid: "-5",
-        name: "image.png",
-        status: "error",
-      },
-    ],
+    fileList: [],
   };
 
   handleCancel = () => this.setState({ previewVisible: false });
@@ -102,6 +60,7 @@ export default class PicturesWall extends Component {
           title={previewTitle}
           footer={null}
           onCancel={this.handleCancel}
+          style={{ marginTop: 100 }}
         >
           <img alt="example" style={{ width: "100%" }} src={previewImage} />
         </Modal>
