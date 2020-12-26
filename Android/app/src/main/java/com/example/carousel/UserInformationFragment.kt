@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -40,6 +41,7 @@ class UserInformationFragment : Fragment(){
                 ?.replace(R.id.fragment_account_page, fragment)
                 ?.commit()
         }
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         view.edit_save.setOnClickListener{
             var button = activity?.findViewById<Button>(R.id.edit_save)
             var temp = if(button?.text?.equals("EDIT") == true) {"SAVE"} else {"EDIT"}
