@@ -18,7 +18,6 @@ exports.signupController = BaseUtil.createController((req) => {
     lastName,
     companyName,
     companyDomainName,
-    locations,
   } = req.query;
   let { locations } = req.body;
   email = typeof email == "string" ? email.toLowerCase() : ""; // if it is not valid, validateEmail will reject it
