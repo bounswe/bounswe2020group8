@@ -109,5 +109,9 @@
     <string name="profile_cards">Credit Cards</string>
     <string name="profile_address_1">Adress 1:</string>
     <string name="profile_cards_1">Card 1:</string>
-
+    <string name="address_name">Name of The Address</string>
+    <string name="adress_city">City</string>
+    <string name="address_state">State</string>
+    <string name="address_zipcode">Zipcode</string>
+    <string name="address_block">Address</string>
 </resources>

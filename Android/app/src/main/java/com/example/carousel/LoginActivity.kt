@@ -19,10 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.*
-import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -32,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        bindProgressButton(login_button)
+        bindProgressButton(save_button)
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -70,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
-        apiCallerLogin.Button = login_button
+        apiCallerLogin.Button = save_button
         apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
         apiCallerLogin.Success = { it ->
             if (it != null) {
@@ -96,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signInCall(email: String?, googleId: String?) {
 
         val apiCallerSignIn: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
-        apiCallerSignIn.Button = login_button
+        apiCallerSignIn.Button = save_button
         apiCallerSignIn.Caller = ApiClient.getClient.signIn(email!!, googleId!!)
         apiCallerSignIn.Success = { it ->
             if (it != null) {

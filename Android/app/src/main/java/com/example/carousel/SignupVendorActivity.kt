@@ -60,9 +60,9 @@ class SignupVendorActivity : AppCompatActivity() {
 
         val type = "VENDOR"
         val companyName = findViewById<EditText>(R.id.signup_company_name).text.toString()
-        val email = findViewById<EditText>(R.id.signup_email).text.toString()
-        val password = findViewById<EditText>(R.id.signup_password).text.toString()
-        val password2 = findViewById<EditText>(R.id.signup_password2).text.toString()
+        val email = findViewById<EditText>(R.id.address_state).text.toString()
+        val password = findViewById<EditText>(R.id.address_zipcode).text.toString()
+        val password2 = findViewById<EditText>(R.id.address_block).text.toString()
         val termCheck = findViewById<CheckBox>(R.id.accept_terms_and_conditions)
 
         if(!isValidEmail(email)){

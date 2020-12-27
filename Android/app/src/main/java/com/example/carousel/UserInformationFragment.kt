@@ -42,7 +42,7 @@ class UserInformationFragment : Fragment(){
             var button = activity?.findViewById<Button>(R.id.profile_delete_1)
             var temp = if(button?.text?.equals("EDIT") == true) {"SAVE"} else {"EDIT"}
             button?.setText(temp)
-            var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)
+            var editText = activity!!.findViewById<EditText>(R.id.address_name)
             editText.isEnabled = if (editText.isEnabled) {false} else {true}
             editText.isClickable = if (editText.isEnabled) {false} else {true}
             editText = activity!!.findViewById<EditText>(R.id.profile_surname_value)
@@ -57,7 +57,7 @@ class UserInformationFragment : Fragment(){
 
             var newInfo = ""
             if(button?.text?.equals("EDIT") == true){
-                var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)
+                var editText = activity!!.findViewById<EditText>(R.id.address_name)
                 if(editText.text.isNotBlank()){
                     newInfo = editText.text.toString()+","
                 }else{
@@ -110,7 +110,7 @@ class UserInformationFragment : Fragment(){
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)
+                        var editText = activity!!.findViewById<EditText>(R.id.address_name)
                         editText.setHint(it.data.name)
                         editText = activity!!.findViewById<EditText>(R.id.profile_surname_value)
                         editText.setHint(it.data.lastName)
@@ -153,7 +153,7 @@ class UserInformationFragment : Fragment(){
             var shoppingLists: List<List<Product>>?
             var orders: List<ExampleObject>?
             var cart: List<ExampleObject>?
-            var addresses: List<ExampleObject>?
+            var addresses: List<Address>?
             var telephoneNumber: String?
             var birthday: String?
             var creditCards: List<ExampleObject>?

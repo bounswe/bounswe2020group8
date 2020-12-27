@@ -52,7 +52,7 @@
     >
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -60,14 +60,14 @@
             android:onClick="login" android:text="@string/login_button"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signup_button"
+            android:id="@+id/back_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
-            android:layout_toStartOf="@id/login_button"
-            android:layout_toLeftOf="@id/login_button"
+            android:layout_toStartOf="@id/save_button"
+            android:layout_toLeftOf="@id/save_button"
             android:onClick="signup" android:text="@string/signup_button"/>
 
     </RelativeLayout>

@@ -10,22 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import com.example.carousel.R.drawable
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseHeader
-import com.example.carousel.pojo.ResponseLogin
 import com.example.carousel.pojo.ResponseVendorMe
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_acount_page.*
-import kotlinx.android.synthetic.main.fragment_acount_page.login_button
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import java.io.*
 
@@ -63,7 +59,7 @@ class MemberAccountPageFragment : Fragment() {
 
         pageRender(type, false)
 
-        view.login_button.setOnClickListener {
+        view.save_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent, 11)
         }
@@ -186,7 +182,7 @@ class MemberAccountPageFragment : Fragment() {
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
                         mAdapter.addItem("Change Password", drawable.ic_key)
-                        mAdapter.addItem("Settings", drawable.ic_settings)
+                        mAdapter.addItem("Addresses and Credit Cards", drawable.ic_settings)
                         mAdapter.addItem("Logout", drawable.ic_exit)
                         mAdapter.addSectionHeaderItem("Carousel")
                         mAdapter.addItem("About", drawable.ic_info)

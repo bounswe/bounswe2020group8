@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
@@ -13,40 +15,20 @@ import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseVendorMe
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
-class Settings : Fragment() {
+class AddCardFragment : Fragment() {
 
     var type = "GUEST"
-    var addresses: List<Address>? = null
-    var creditCards: List<ExampleObject>? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         type = ApplicationContext.instance.whoAmI().toString()
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        return inflater.inflate(R.layout.fragment_add_card, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageRender(type)
-
-        view.profile_address_add.setOnClickListener{
-            val fragment = AddAddressFragment()
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_settings, fragment)
-                ?.commit()
-        }
-        view.profile_card_add.setOnClickListener{
-            val fragment = AddCardFragment()
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_settings, fragment)
-                ?.commit()
-        }
-//        view.back_button.setOnClickListener{
-//            val fragment = MemberAccountPageFragment()
-//            activity?.supportFragmentManager?.beginTransaction()
-//                ?.replace(R.id.fragment_settings, fragment)
-//                ?.commit()
-//        }
-
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     private fun pageRender(type: String) {
@@ -56,8 +38,7 @@ class Settings : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        addresses = it.data.addresses
-                        creditCards = it.data.creditCards
+
                     })
                 }
             }
@@ -80,4 +61,8 @@ class Settings : Fragment() {
 
         }
     }
+    private fun addCard(){
+
+    }
+
 }
