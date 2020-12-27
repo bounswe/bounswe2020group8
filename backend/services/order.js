@@ -8,21 +8,16 @@ const Config = require("../config");
 const ProductDataAccess = require("../dataAccess/product");
 
 exports.createOrderService = async function ({ _id }) {
-  // console.log("Start!!!!!!!!!!!");
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   var items = [];
   var i;
   for (i = 0; i < shoppingCart["shoppingCart"].length; i++) {
     temp = {};
     current = shoppingCart["shoppingCart"][i];
-    // console.log(current['productId']);
-    // console.log(current['vendorId']);
     const current_product = await ProductDataAccess.getProductByVendorIdDB2(
       current["productId"],
       current["vendorId"]
     );
-    // console.log(current_product);
-    // console.log("IIIII");
     if (!(current_product == null)) {
       temp["productId"] = current["productId"];
       temp["vendorId"] = current["vendorId"];
@@ -38,9 +33,5 @@ exports.createOrderService = async function ({ _id }) {
       items.push(temp);
     }
   }
-  // console.log(items);
-  // console.log(shoppingCart['shoppingCart'][0]);
-  // console.log(items);
-  // console.log("HEREEEEEEEEEEEEEEEEEE");
   return items;
 };

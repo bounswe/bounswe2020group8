@@ -8,7 +8,6 @@ const Customer = require("../models/customer");
 const OrderService = require("../services/order");
 
 exports.createOrderController = BaseUtil.createController((req) => {
-  let { _id } = req.query;
-  // let { productId, vendorId, amount } = req.body;
+  let { _id } = req.body;
   return BB.all(OrderService.createOrderService({ _id }));
 });
