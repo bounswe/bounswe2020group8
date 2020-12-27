@@ -14,7 +14,7 @@ const getElements = (field, setState) => {
     .get("customer/me", config)
     .then((res) => {
       console.log(res.data.data[field]);
-      const list = res.data.data[field];
+      const list = res.data.data[field] || [];
       setState(list);
     })
     .catch((err) => console.log(err));
