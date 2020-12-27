@@ -155,10 +155,10 @@ class UserInformationFragment : Fragment(){
             var shoppingLists: List<List<Product>>?
             var orders: List<ExampleObject>?
             var cart: List<ExampleObject>?
-            var addresses: List<ExampleObject>?
+            var addresses: ArrayList<AddressJSON>?
             var telephoneNumber: String?
             var birthday: String?
-            var creditCards: List<ExampleObject>?
+            var creditCards: ArrayList<CreditCardJSON>?
 
             var infoTemp = info
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)

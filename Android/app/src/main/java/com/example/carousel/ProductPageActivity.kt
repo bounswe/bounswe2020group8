@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
@@ -17,13 +18,18 @@ import kotlinx.android.synthetic.main.activity_product_page.*
 
 class ProductPageActivity : AppCompatActivity() {
     private var product: Product? = null
+    private var count = 0
     private lateinit var adapter: CommentAdapter
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_page)
         this.product = intent?.getSerializableExtra("product") as Product
-        image.setImageResource(product!!.photoUrl)
+        //image.setImageResource(product!!.photoUrl)
+        val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
+        Glide.with(image)
+            .load(imgUri)
+            .into(image)
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
@@ -117,11 +123,19 @@ class ProductPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else {
-            this.product?.let { CartFragment.addToCart(it) }
+            this.product?.let { CartFragment.addToCart(it, count) }
             Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
         }
     }
-
-
+    fun incCount(view: View){
+        count++
+        counter.setText(count.toString())
+    }
+    fun decCount(view: View){
+        if(count>0) {
+            count--
+            counter.setText(count.toString())
+        }
+    }
 
 }
