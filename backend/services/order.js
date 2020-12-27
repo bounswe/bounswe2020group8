@@ -17,6 +17,7 @@ exports.createOrderService = async function ({ _id }) {
     console.log(current['productId']);
     const current_product = await ProductDataAccess.getProductByVendorIdDB2(current['productId'], current['vendorId']);
     console.log(current_product);
+    // items.push(current_product['vendorSpecifics'])
     console.log('here');
   }
   // console.log(shoppingCart['shoppingCart'][0]);

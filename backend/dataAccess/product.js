@@ -150,11 +150,28 @@ exports.getProductByVendorIdDB = function (pid, vid) {
   ]);
 };
 
+exports.getProductByVendorIdDB3 = function (pid, vid) {
+  // let pidObj = mongoose.Types.ObjectId(pid);
+
+  return Product.aggregate([
+    { $match: { _id: pid } },
+    {
+      $unwind: "$vendorSpecifics",
+    },
+    {
+      $match: { "vendorSpecifics.vendorID": vid },
+    },
+    {
+      $project: { default: 0 },
+    },
+  ]);
+};
+
 exports.getProductByVendorIdDB2 = function (pid, vid) {
   // Second version is for order operations and returns slighlty different data
   // let pidObj = mongoose.Types.ObjectId(pid);
 
-  return Product.findOne({ _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } });
+  return Product.findOne({ _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } }, }, { "vendorSpecifics.$": vid} );
 };
 
 exports.getProductByEmailDB = function (email) {
