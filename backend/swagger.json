@@ -1295,6 +1295,129 @@
           }
         ]
       }
+    },
+    "/comment/{pid}/all": {
+      "get": {
+        "tags": ["comment"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error has occured."
+          }
+        }
+      }
+    },
+    "/comment/{pid}": {
+      "get": {
+        "tags": ["comment"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error has occured."
+          }
+        }
+      },
+      "post": {
+        "tags": ["comment"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/PostComment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error has occured."
+          }
+        }
+      },
+      "patch": {
+        "tags": ["comment"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/components/schemas/PatchComment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error has occured."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["comment"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "_id",
+            "schema": {
+              "$ref": "#/components/schemas/Comment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/responses/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "An error has occured."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1463,6 +1586,26 @@
             "type": "number",
             "minimum": 0,
             "maximum": 5
+          }
+        }
+      },
+      "PostComment": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "PatchComment": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "mongoID"
+          },
+          "text": {
+            "type": "string"
           }
         }
       },
