@@ -14,6 +14,7 @@ class Search extends Component {
     selectedFilters: [],
     productList: [],
     error: null,
+    priceInterval: [],
   };
 
   componentDidMount() {
@@ -29,8 +30,25 @@ class Search extends Component {
     const payload = {
       query: query,
     };
+    const objectMap = (obj, fn) =>
+      Object.fromEntries(
+        Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)])
+      );
+
+    let params = objectMap(this.state.selectedFilters, (values) =>
+      values.join()
+    );
+
+    Object.keys(params).forEach(
+      (key) => (params[key] == null || params[key] === "") && delete params[key]
+    );
+
+    // params["maxPrice[gte]"] = this.state.priceInterval[0];
+    // params["minPrice[lte]"] = this.state.priceInterval[1];
+    //TODO
+
     services
-      .post("/product/search", payload)
+      .post("/product/search", payload, { params: params })
       .then((response) => {
         const results = response.data.results;
         const data = response.data.data;
@@ -51,6 +69,7 @@ class Search extends Component {
         if (response.data.data) {
           const data = response.data.data;
           this.setState({ filters: data });
+          this.setState({ priceInterval: [data.minPrice, data.maxPrice] });
         } else {
           this.setState({ error: "No product" });
         }
@@ -69,8 +88,54 @@ class Search extends Component {
       this.getSearchedProducts(query);
       this.getSearchFilters(query);
     }
+
+    if (this.state.selectedFilters !== prevState.selectedFilters) {
+      this.getSearchedProducts(this.state.query);
+    }
+
+    if (this.state.priceInterval !== prevState.priceInterval) {
+      this.getSearchedProducts(this.state.query);
+    }
   }
-  renderMultiCheckbox = ({ name, values }) => {
+
+  onPriceIntervalChange(e) {
+    this.setState({ priceInterval: e });
+  }
+
+  onCheckboxChange(e) {
+    const [filterType, value] = e.target.value.split(":");
+    if (e.target.checked) {
+      if (this.state.selectedFilters[filterType]) {
+        this.setState({
+          selectedFilters: {
+            ...this.state.selectedFilters,
+            [filterType]: [...this.state.selectedFilters[filterType], value],
+          },
+        });
+      } else {
+        this.setState({
+          selectedFilters: {
+            ...this.state.selectedFilters,
+            [filterType]: [value],
+          },
+        });
+      }
+    } else {
+      this.setState({
+        selectedFilters: {
+          ...this.state.selectedFilters,
+          [filterType]: this.state.selectedFilters[filterType].filter(
+            (v) => v !== value
+          ),
+        },
+      });
+    }
+  }
+
+  renderMultiCheckbox = ({ name, values, ids }) => {
+    if (!ids) {
+      ids = [...values];
+    }
     return (
       <div
         style={{
@@ -83,8 +148,14 @@ class Search extends Component {
         <div style={{ fontWeight: "bold", marginBottom: 5 }}>
           {name.toUpperCase()}
         </div>
-        {values.map((value) => (
-          <Checkbox style={{ margin: 1 }}>{value}</Checkbox>
+        {values.map((value, index) => (
+          <Checkbox
+            value={name + ":" + ids[index]}
+            onChange={(e) => this.onCheckboxChange(e)}
+            style={{ margin: 1 }}
+          >
+            {value}
+          </Checkbox>
         ))}
         <Divider />
       </div>
@@ -112,25 +183,32 @@ class Search extends Component {
           : null}
 
         {Array.isArray(brands) && brands.length
-          ? this.renderMultiCheckbox({ name: "brands", values: brands })
+          ? this.renderMultiCheckbox({ name: "brand", values: brands })
           : null}
 
         {Array.isArray(vendors) && vendors.length
           ? this.renderMultiCheckbox({
-              name: "vendors",
-              values: vendors.map((e) => e._id),
+              name: "vendor",
+              values: vendors.map((e) => e.companyName),
+              ids: vendors.map((e) => e._id),
             })
           : null}
         {maxPrice && typeof minPrice === "number" ? (
           <div>
             <div>Price</div>
-            <Slider max={maxPrice} min={minPrice} />
+            <Slider
+              max={maxPrice}
+              min={minPrice}
+              range={true}
+              defaultValue={[minPrice, maxPrice]}
+              onAfterChange={(e) => this.onPriceIntervalChange(e)}
+            />
             <Divider></Divider>
           </div>
         ) : null}
         {Array.isArray(categories) && categories.length
           ? this.renderMultiCheckbox({
-              name: "categories",
+              name: "category",
               values: categories,
             })
           : null}
