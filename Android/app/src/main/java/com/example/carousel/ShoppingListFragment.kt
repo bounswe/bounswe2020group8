@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_order.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.*;
 import kotlinx.android.synthetic.main.fragment_shopping_list.view.*
 import okhttp3.internal.notify
@@ -118,7 +119,7 @@ class ShoppingListFragment : Fragment() {
         super.onPause()
     if(isChanged) {
         val apiCallerPatchUser: ApiCaller<ResponseCustomerMe> = ApiCaller(requireActivity())
-        LoginActivity.user.shoppingLists = lists
+        //LoginActivity.user.shoppingLists = lists
         apiCallerPatchUser.Caller = ApiClient.getClient.customerUpdate(LoginActivity.user)
         apiCallerPatchUser.Success = {
             if (it != null) {
@@ -223,7 +224,7 @@ class ShoppingListFragment : Fragment() {
     }
     private fun addListToCart(view: View){
         for(product in lists[selectedList]){
-            CartFragment.addToCart(product)
+            CartFragment.addToCart(product, 1)
         }
         Toast.makeText(requireContext(),"List Added to Cart Successfully", Toast.LENGTH_SHORT).show()
     }

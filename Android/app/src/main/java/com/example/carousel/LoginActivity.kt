@@ -152,6 +152,9 @@ class LoginActivity : AppCompatActivity() {
     }
     companion object User {
         lateinit var user: DataCustomerMe
+        fun isInit() : Boolean{
+            return this::user.isInitialized
+        }
     }
 }
 
