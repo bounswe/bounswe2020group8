@@ -5,12 +5,23 @@ const { isNull } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
+const ProductDataAccess = require("../dataAccess/product");
 
 exports.createOrderService = async function ({ _id }) {
-  console.log("Start!!!!!!!!!!!");
+  // console.log("Start!!!!!!!!!!!");
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
-  console.log(shoppingCart['shoppingCart'][0]);
-  console.log("HEREEEEEEEEEEEEEEEEEE");
+  var items = [];
+  var i;
+  for (i = 0; i < shoppingCart['shoppingCart'].length; i++){
+    current = shoppingCart['shoppingCart'][i];
+    console.log(current['productId']);
+    const current_product = await ProductDataAccess.getProductByVendorIdDB2(current['productId'], current['vendorId']);
+    console.log(current_product);
+    console.log('here');
+  }
+  // console.log(shoppingCart['shoppingCart'][0]);
+  // console.log(items);
+  // console.log("HEREEEEEEEEEEEEEEEEEE");
   return shoppingCart;
 };
 
