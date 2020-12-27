@@ -119,6 +119,21 @@ exports.updateVendorInProductByVendorIdDB = function (pid, vid, vendorData) {
   });
 };
 
+exports.updateProductAmountLeftDB = function (productId, vendorId, amount) {
+  // console.log("updatedProduct");
+  // console.log(productId);
+  // console.log(vendorId);
+  return Product.findOneAndUpdate(
+    { _id: productId, vendorSpecifics: { $elemMatch: { vendorID: vendorId } } },
+    {
+      $inc: {
+        "vendorSpecifics.$.amountLeft": amount,
+      },
+    },
+    { new: true }
+  );
+};
+
 exports.getProductsByVendorIdDB = function (vid) {
   return Product.aggregate([
     {
@@ -152,13 +167,11 @@ exports.getProductByVendorIdDB = function (pid, vid) {
 
 exports.getProductByVendorIdDB2 = function (pid, vid) {
   // Second version is for order operations and returns slighlty different data
-  // let pidObj = mongoose.Types.ObjectId(pid);
 
   return Product.findOne(
     { _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } },
     { "vendorSpecifics.$": vid }
   );
-  // return Product.findOne({ _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } }, } );
 };
 
 exports.getProductByEmailDB = function (email) {

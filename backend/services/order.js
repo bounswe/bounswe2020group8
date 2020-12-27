@@ -8,6 +8,8 @@ const Config = require("../config");
 const ProductDataAccess = require("../dataAccess/product");
 
 exports.createOrderService = async function ({ _id }) {
+  console.log('createOrder');
+  console.log(_id);
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   var items = [];
   var i;
