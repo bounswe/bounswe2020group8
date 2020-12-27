@@ -30,7 +30,8 @@ class VendorLoginActivity : AppCompatActivity() {
     }
 
     fun signup(view: View) {
-
+        val intent = Intent(this, VendorRegisterInfoActivity::class.java)
+        startActivity(intent)
     }
 
     fun login(view: View) {

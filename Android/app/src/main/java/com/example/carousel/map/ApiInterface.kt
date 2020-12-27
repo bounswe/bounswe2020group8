@@ -53,9 +53,11 @@ interface ApiInterface {
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
 
     @POST("/vendor/signup")
-    fun vendorSignup(
+    fun vendorSignUp(
         @Query("name") name: String,
         @Query("lastName") lastName: String,
+        @Query("companyName") companyName: String,
+        @Query("companyDomainName") companyDomainName: String,
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>

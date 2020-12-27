@@ -16,7 +16,7 @@
     <string name="signup_surname">Surname</string>
     <string name="signup_email">Email</string>
     <string name="signup_password">Password</string>
-    <string name="signup_company_name">Name of Your Company</string>
+    <string name="signup_company_name">Company Name</string>
     <string name="signup_error0">Email Address Is Not Valid</string>
     <string name="signup_error1">Password Is Not Strong Enough</string>
 
@@ -106,7 +106,7 @@
     <string name="register_info_activity_surname_required">Surname is mandotory.</string>
     <string name="passwordHint">Password</string>
     <string name="passwordConfirmHint">Password Confirm</string>
-    <string name="register_info_activity_checkbox">Please make sure that you have read and agree to the Terms and Conditions. </string>
+    <string name="register_confirm_terms_warning">Please make sure that you have read and agree to the Terms and Conditions. </string>
     <string name="register_info_activity_email_required">Email is mandotory.</string>
     <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis libero id ligula pellentesque lacinia. Vivamus at enim nec lectus rutrum malesuada. Nam rutrum odio in rhoncus fermentum. Cras sed nisl facilisis, scelerisque turpis vel, varius neque. Curabitur bibendum, lectus a semper suscipit, diam ligula fermentum ante, sit amet malesuada tortor ligula eget turpis. Aliquam in massa lacinia odio aliquam porta sed ac nunc. Ut lacus orci, vulputate vel congue quis, egestas vitae sem. Cras placerat, velit a pulvinar interdum, arcu libero tristique libero, id volutpat nisl dolor non mi. Curabitur id odio metus. Curabitur nisl turpis, imperdiet elementum quam in, commodo dapibus dolor. Etiam sit amet elementum augue. Phasellus bibendum blandit turpis ac tincidunt. Pellentesque rutrum malesuada urna, eget blandit tortor faucibus nec. Mauris semper auctor metus, a ullamcorper urna maximus quis. Nulla non finibus nunc. Pellentesque magna libero, pharetra rutrum consectetur nec, interdum rhoncus justo. Vivamus eu ornare tortor. Nunc dictum, urna nec sagittis gravida, elit lorem facilisis nulla, ac lobortis arcu felis eget diam. Sed rhoncus eget quam at efficitur. Quisque id arcu vel nisl lobortis luctus sed eu ligula. In eu porta arcu. Mauris sit amet tellus at risus eleifend faucibus vitae ac augue. Etiam elementum, lectus sagittis molestie iaculis, quam velit mattis sapien, porttitor suscipit sapien libero a mauris.</string>
     <string name="close">CLOSE</string>
@@ -121,6 +121,14 @@
     <string name="login_vendor_subtitle">Please Enter Email and Password</string>
     <string name="forgot_password_sub_title">Please Enter Email</string>
     <string name="Vendor_forgot_password_title">Forgot Password</string>
+    <string name="register_info_title_vendor">Vendor Info</string>
+    <string name="register_info_sub_title_vendor">Please Enter Name, Surname and Company Name</string>
+    <string name="register_email_title_vendor">Vendor Contact</string>
+    <string name="company_email">Company Email</string>
+    <string name="company_domain">Company Domain</string>
+    <string name="vendor_register_password">Vendor Set Password</string>
+    <string name="register_info_activity_company_name_required">Company Name is mandatory.</string>
+    <string name="register_info_activity_domain_required">Company Domain is mandatory.</string>
 
 
 </resources>

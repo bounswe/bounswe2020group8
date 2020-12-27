@@ -1,15 +1,13 @@
-package com.example.carousel.customer
+package com.example.carousel.vendor
 
 import android.app.Activity
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.example.carousel.FormValidator
 import com.example.carousel.R
 import com.example.carousel.map.ApiCaller
@@ -17,15 +15,14 @@ import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseHeader
 import com.github.razir.progressbutton.bindProgressButton
 import com.tapadoo.alerter.Alerter
-import kotlinx.android.synthetic.main.activity_register_password.*
+import kotlinx.android.synthetic.main.activity_vendor_register_password.*
 import kotlinx.android.synthetic.main.content_dialog.view.*
 
-
-class RegisterPasswordActivity : AppCompatActivity() {
+class VendorRegisterPasswordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_password)
-        bindProgressButton(customer_signup_send)
+        setContentView(R.layout.activity_vendor_register_password)
+        bindProgressButton(vendor_signup_send)
         term.setOnClickListener {
             val agreementContentView = LayoutInflater.from(this)
                 .inflate(R.layout.content_dialog, null)
@@ -58,10 +55,6 @@ class RegisterPasswordActivity : AppCompatActivity() {
         } else return password.contains(number)
     }
 
-    fun isValidEmail(target: CharSequence?): Boolean {
-        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
-    }
-
     fun send(view: View) {
         val validationContainer: FormValidator = FormValidator(this)
         validationContainer.AddCondition(
@@ -78,6 +71,7 @@ class RegisterPasswordActivity : AppCompatActivity() {
             passwordConfirm.text!!.trim() != password!!.text!!.trim(),
             getString(R.string.register_password_confirm_error)
         )
+
         validationContainer.AddCondition(
             !(termConfirm.isChecked),
             getString(R.string.register_confirm_terms_warning)
@@ -85,10 +79,12 @@ class RegisterPasswordActivity : AppCompatActivity() {
 
         validationContainer.RunIfValid {
             val apiCallerSignup: ApiCaller<ResponseHeader> = ApiCaller(this)
-            apiCallerSignup.Button = customer_signup_send
-            apiCallerSignup.Caller = ApiClient.getClient.customerSignup(
+            apiCallerSignup.Button = vendor_signup_send
+            apiCallerSignup.Caller = ApiClient.getClient.vendorSignUp(
                 intent.getStringExtra("name")!!,
                 intent.getStringExtra("surname")!!,
+                intent.getStringExtra("companyName")!!,
+                intent.getStringExtra("domain")!!,
                 intent.getStringExtra("email")!!,
                 password.text.toString(),
                 passwordConfirm.text.toString()
@@ -102,7 +98,6 @@ class RegisterPasswordActivity : AppCompatActivity() {
                             .setBackgroundColorRes(R.color.successGreen)
                             .show()
                         val returnIntent = Intent()
-                        returnIntent.putExtra("result", 1)
                         setResult(Activity.RESULT_OK, returnIntent)
                         finish()
                     })
@@ -112,5 +107,7 @@ class RegisterPasswordActivity : AppCompatActivity() {
             apiCallerSignup.run()
         }
     }
-    fun cancel(view: View) {}
+    fun cancel(view: View) {
+        finish()
+    }
 }
