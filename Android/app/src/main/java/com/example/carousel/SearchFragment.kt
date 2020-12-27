@@ -1,27 +1,33 @@
 package com.example.carousel
 
-import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ResponseGetCategories
+import com.example.carousel.map.SearchQuery
 import com.example.carousel.pojo.ResponseProductSearch
-import com.example.carousel.pojo.Vendor
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.snippet_item1.view.*
 
 
 class SearchFragment : Fragment() {
-    private val baseUrl = "http://18.198.51.178:8080"
+    //private val baseUrl = "http://54.165.207.44:8080"
+    private var lastQuery = "fashion"   // a default query
+    private lateinit var spinnerAdapter: ArrayAdapter<String>
+    private var
+            initializedView = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,38 +37,40 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sortButton.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
-            //set title for alert dialog
-            builder.setTitle("Sort by")
+        var sort = ""
 
-            val sortOptions = arrayOf("Price (low price first)","Price (high price first)", "Rating", "Most commented", "Newest", "Vendor rating")
-            builder.setItems(sortOptions) { dialog, which ->
-                when (which) {
-                    0 -> { /* horse */
-                    }
-                    1 -> { /* cow   */
-                    }
-                    2 -> { /* camel */
-                    }
-                    3 -> { /* camel */
-                    }
-                    4 -> { /* camel */
-                    }
+        val spinner = sort_spinner
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sort_options,
+            android.R.layout.simple_spinner_item
+        )
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                spinner.adapter = adapter
+                spinnerAdapter = spinner.adapter as ArrayAdapter<String>
+            }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (initializedView ==  false)
+                {
+                    initializedView = true;
+                }
+                else {
+                    sort = context?.resources!!.getStringArray(R.array.sort_options).get(pos)
+                    searchCall(lastQuery, sort)
                 }
             }
 
-            // Create the AlertDialog
-            val alertDialog: AlertDialog = builder.create()
-            // Set other dialog properties
-            alertDialog.setCancelable(false)
-            alertDialog.show()
         }
 
         filterButton.setOnClickListener {
-            //val intent = Intent(activity, FilterActivity::class.java)
-            //startActivity(intent)
             drawer_layout.openDrawer(Gravity.RIGHT);
+            //searchFiltersCall() TODO
         }
         expandable_price.visibility = View.GONE
         expandable_rating.visibility = View.GONE
@@ -133,16 +141,13 @@ class SearchFragment : Fragment() {
         //val adapter = ProductsAdapter(products)
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                /*if (list.contains(query)) {
-                    //adapter.filter.filter(query)
-                } else {
-                    //Toast.makeText(this@MainActivity, "No Match found", Toast.LENGTH_LONG).show()
-                }*/
-                searchCall(query) /*search_view.text.toString()*/
+                if(query != "") {
+                    lastQuery = query
+                }
+                searchCall(query, sort)
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                //adapter.filter.filter(newText)
                 return false
             }
         })
@@ -156,25 +161,26 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    private fun searchCall(query: String) {
-        //val intent = Intent(this.context, SearchResultActivity::class.java)
-        //startActivity(intent)
-
+    private fun searchCall(query: String, sort: String) {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
-        print("QUERY")
-        print(query)
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(query)
+
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(SearchQuery(query), sort)
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
+                    Toast.makeText(
+                        activity, it.data[0].mainProduct[0].title as String?,
+                        Toast.LENGTH_LONG
+                    ).show()
                     val products = ArrayList<Product>()
                     for(item in it.data) {
-                        products.add(Product(item.mpid, item.vendors, item.mainProduct.title, price=item.minPrice.toDouble(), rating = item.mainProduct.rating,
-                            numberOfRatings = item.mainProduct.numberOfRating, photos = item.photos, brand = item.brand, category = item.category))
+                        products.add(responseToProductSearch(item, item.mainProduct[0]))
                     }
                     createProductList(products, results)
+                    print("PRODUCTS")
+                    print(products)
                 })
             }
         }
@@ -203,25 +209,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
-        //val adapter = ProductsAdapter(products)
+        val adapter = ProductsAdapter(products)
         recyclerId.apply {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
         }
-        //adapter.onItemClick = { product ->
-            //val intent = Intent(this.context, ProductPageActivity::class.java)
-            //intent.putExtra("id", product._id)
-            //startActivity(intent)
-        //}
-    }
-    public fun expand_price(v: View) {
-        //if(expandable_price.visibility == View.GONE) {
-            //expandable_price.visibility = View.VISIBLE
-        //}
-        //else {
-            //expandable_price.visibility = View.GONE
-        //}
-
+        adapter.onItemClick = { product ->
+            val intent = Intent(this.context, ProductPageActivity::class.java)
+            intent.putExtra("product",product)
+            startActivity(intent)
+        }
     }
 
 }

@@ -34,8 +34,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/sortButton"
+                <Spinner
+                    android:id="@+id/sort_spinner"
+                    style="@style/Widget.Carousel.FilterButton"
                     android:layout_width="205dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="5dp"
@@ -54,7 +55,7 @@
                     android:textColor="#292929"
                     android:text="@string/filter"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/sortButton"
+                    app:layout_constraintStart_toEndOf="@+id/sort_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -62,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/sort_spinner" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
         </ScrollView>

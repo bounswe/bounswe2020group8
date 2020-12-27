@@ -182,9 +182,9 @@ data class DataProductSearch(
     @Expose @SerializedName("matches") val matches: Int,
     @Expose @SerializedName("maxPrice") val maxPrice: Int,
     @Expose @SerializedName("minPrice") val minPrice: Int,
-    @Expose @SerializedName("vendors") val vendors: List<Vendor>,
-    @Expose @SerializedName("photos") val photos: List<String>,
-    @Expose @SerializedName("mainProduct") val mainProduct: MainProduct,
+    @Expose @SerializedName("vendors") val vendors: List<VendorID>,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    @Expose @SerializedName("mainProduct") val mainProduct: ArrayList<MainProduct>,
     @Expose @SerializedName("mpid") val mpid: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
@@ -197,11 +197,6 @@ data class MainProduct(
     @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
 )
 
-data class Vendor(
-    @Expose @SerializedName("_id") val _id: String,
-    @Expose @SerializedName("companyName") val companyName: String,
-)
-
 data class ResponseProductSearchFilters(
     @Expose @SerializedName("data") val data: DataProductSearchFilters,
     @Expose @SerializedName("returnCode") val returnCode: Int,
@@ -210,15 +205,10 @@ data class ResponseProductSearchFilters(
 
 data class DataProductSearchFilters(
     @Expose @SerializedName("_id") val _id: String,
-    @Expose @SerializedName("parameters") val parameters: List<ProductSearchFiltersParameters>,
+    @Expose @SerializedName("parameters") val parameters: List<Parameters>,
     @Expose @SerializedName("maxPrice") val maxPrice: Int,
     @Expose @SerializedName("minPrice") val minPrice: Int,
-    @Expose @SerializedName("vendors") val vendors: List<Vendor>,
+    @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("brands") val brands: List<String>,
     @Expose @SerializedName("categories") val categories: List<String>,
-)
-
-data class ProductSearchFiltersParameters(
-    @Expose @SerializedName("name") val name: String,
-    @Expose @SerializedName("values") val values: List<String>,
 )
