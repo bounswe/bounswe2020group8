@@ -89,8 +89,11 @@
             >
 
                 <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/ic_add_shopping_cart"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+
                     android:id="@+id/cart_button"
-                    android:layout_width="140dp"
+                    android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginRight="12dp"
@@ -98,8 +101,10 @@
                     android:onClick="addToCart"
                     android:text="@string/addToCart"/>
                 <com.google.android.material.button.MaterialButton
+                    app:icon="@drawable/ic_add"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:id="@+id/list_button"
-                    android:layout_width="140dp"
+                    android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginLeft="12dp"
@@ -107,6 +112,35 @@
                     android:onClick="addToList"
                     android:text="@string/addToList"/>
 
+            </LinearLayout>
+            <LinearLayout android:id="@+id/counter_view"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                          app:layout_constraintEnd_toEndOf="parent"
+                          app:layout_constraintStart_toStartOf="parent"
+                          app:layout_constraintTop_toBottomOf="@+id/product_frame"
+                          android:orientation="horizontal"
+                          android:gravity="center">
+                <Button
+                    android:id="@+id/dec_count"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="32dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    app:icon="@drawable/ic_remove_circle_24px"
+                    android:onClick="decCount"
+                />
+                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:text="0" android:id="@+id/counter" android:layout_marginLeft="8dp"/>
+
+
+                <Button
+                    android:id="@+id/inc_count"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    android:layout_width="32dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    app:icon="@drawable/ic_add_circle_24px"
+                    android:onClick="incCount"
+                />
             </LinearLayout>
         </LinearLayout>
         <View android:id="@+id/underProduct"

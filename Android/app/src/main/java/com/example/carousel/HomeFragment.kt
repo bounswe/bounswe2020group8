@@ -9,6 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ResponseAllProducts
+import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.ResponseMainProduct
+import com.example.carousel.pojo.ResponseProduct
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -38,7 +44,39 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val productsDeals = ArrayList<Product>()
+
+        activity?.runOnUiThread {
+            val productsDeals = ArrayList<Product>()
+            //val apiCallerGetProduct: ApiCaller<ResponseProduct> = ApiCaller(activity)
+            //apiCallerGetProduct.Caller = ApiClient.getClient.getProduct("5fe757b3d28edecdb6f1e5ce")
+            val apiCallerGetProduct: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
+            apiCallerGetProduct.Caller = ApiClient.getClient.getAllProducts()
+            apiCallerGetProduct.Success = { firstResponse ->
+                if (firstResponse != null) {
+                    activity?.runOnUiThread {
+                        Log.d("FIRSTRESPONSE", firstResponse.toString())
+                        for(product in firstResponse.data) {
+                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                            apiCallerGetMainProduct.Caller =
+                                ApiClient.getClient.getMainProduct(product.parentProduct)
+                            apiCallerGetMainProduct.Success = { it ->
+                                if (it!= null) {
+                                    Log.d("SECONDRESPONSE", it.toString())
+                                    productsDeals.add(responseToProduct(product, it.data))
+                                    if(deals != null)
+                                        createProductList(productsDeals, deals)
+                                }
+                            }
+                            apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+                            apiCallerGetMainProduct.run()
+                        }
+                    }
+                }
+            }
+            apiCallerGetProduct.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
+            apiCallerGetProduct.run()
+        }
+        /*
         //val productsDeals = ArrayList<Product>()
         productsDeals.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1,
         description = "Ninth-generation 6-Core Intel Core i7 Processor\n" +
@@ -54,7 +92,7 @@ class HomeFragment : Fragment() {
         productsDeals.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2))
         productsDeals.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3))
         productsDeals.add(Product(title = "Bose Noise Cancelling Wireless Bluetooth Headphones 700", price = 339.99, id = 4, photoUrl = R.drawable.image4))
-        createProductList(productsDeals, deals)
+
 
         val productsNew = ArrayList<Product>()
         productsNew.add(Product(title = "Sony X800H 43 Inch TV", price = 448.99, id = 5, photoUrl = R.drawable.image5))
@@ -68,7 +106,9 @@ class HomeFragment : Fragment() {
         productsTop.add(Product(title = "To Kill a Mockingbird 14.99", price = 14.99, id = 10, photoUrl = R.drawable.image10))
         productsTop.add(Product(title = "Arlo VMC2030-100NAS Essential Spotlight Camera", price = 99.99, id = 11, photoUrl = R.drawable.image11))
         productsTop.add(Product(title = "Compact Wireless Smart Speaker", price = 180.99, id = 12, photoUrl = R.drawable.image12))
+
         createProductList(productsTop, topSellers)
+         */
 
     }
     override fun onCreateView(
@@ -84,6 +124,7 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL, false)
             setAdapter(adapter)
         }
+        Log.d("ITEMCOUNT",adapter.itemCount.toString())
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product",product)
