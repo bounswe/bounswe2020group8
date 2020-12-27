@@ -18,7 +18,6 @@ data class Product(
     val price: Double = 0.0,
     val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
-    val comments: ArrayList<Comment> = ArrayList<Comment>(),
     val photoUrl: Int = 0,
     val tags: ArrayList<String> = ArrayList<String>() ,
     val brand: String = "",
@@ -28,7 +27,8 @@ data class Product(
     val cargoCompany: String = "",
     val category: String = "",
     val photos: ArrayList<String> = ArrayList<String>(),
-    val vendorSpecifics: ArrayList<VendorSpecifics> = ArrayList<VendorSpecifics>()
+    val vendorSpecifics: ArrayList<VendorSpecifics> = ArrayList<VendorSpecifics>(),
+    val mainProductId: String = ""
     ) : Serializable
 
 
@@ -44,5 +44,6 @@ data class Product(
             rating = main.rating,
             photos = product.photos,
             tags = product.tags,
+            mainProductId = main._id
         )
     }

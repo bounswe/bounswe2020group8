@@ -89,4 +89,13 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
+    @GET("/comment/{pid}/all")
+    fun getComments(
+        @Path("pid") pid: String = ""): Call<ResponseGetComments>
+
+    @POST("/comment/{pid}")
+    fun addComment(
+        @Path("pid") pid: String = "",
+        @Body body: PostComment): Call<PostComment>
+
 }

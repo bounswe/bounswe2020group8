@@ -12,18 +12,27 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.PostComment
+import com.example.carousel.pojo.ResponseAllProducts
+import com.example.carousel.pojo.ResponseGetComments
+import com.example.carousel.pojo.ResponseMainProduct
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class ProductPageActivity : AppCompatActivity() {
     private var product: Product? = null
     private var count = 0
+    //private var commentList: ArrayList<Comment> = ArrayList<Comment>()
     private lateinit var adapter: CommentAdapter
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_page)
+        var commentList: ArrayList<Comment> = ArrayList<Comment>()
         this.product = intent?.getSerializableExtra("product") as Product
         //image.setImageResource(product!!.photoUrl)
         val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
@@ -36,14 +45,27 @@ class ProductPageActivity : AppCompatActivity() {
         vendor.text = "by ${product!!.vendorId}"
         //product!!.comments.add(Comment("Very good", 5.0, "Ahmet Zübüzüb","123"))
         //product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1.0, "Tuba Engin","122"))
+       this.runOnUiThread {
+
+            val apiCallerGetComments: ApiCaller<ResponseGetComments> = ApiCaller(this)
+            apiCallerGetComments.Caller = ApiClient.getClient.getComments(product!!.mainProductId,)
+            apiCallerGetComments.Success = { it ->
+                if (it != null) {
+                    commentList = it.data
+                    createCommentList(commentList)
+                    updateReviews()
+
+                }
+            }
+            apiCallerGetComments.run()
+            apiCallerGetComments.Failure = { }
+        }
         rating.setOnTouchListener { v, event ->
             when (event?.action) {
                 MotionEvent.ACTION_DOWN -> rating.rating = rating.rating
             }
             v?.onTouchEvent(event) ?: true
         }
-        createCommentList(product!!.comments)
-        updateReviews()
 
     }
     private fun createCommentList(commentList: ArrayList<Comment>){
@@ -69,9 +91,35 @@ class ProductPageActivity : AppCompatActivity() {
         val rating = rating.rating.toDouble()
         val user = "${LoginActivity.user.name} ${LoginActivity.user.lastName}"
         val id = LoginActivity.user.id
-        product!!.comments.add(Comment(comment, rating, user, id))
-        adapter.notifyDataSetChanged()
-        updateReviews()
+        //product!!.comments.add(Comment(comment, rating, user, id))
+        this.runOnUiThread {
+
+            val apiCallerPostComment: ApiCaller<PostComment> = ApiCaller(this)
+            apiCallerPostComment.Caller = ApiClient.getClient.addComment(product!!.mainProductId, PostComment(comment))
+            apiCallerPostComment.Success = { it ->
+                if (it != null) {
+                    this.runOnUiThread {
+
+                        val apiCallerGetComments: ApiCaller<ResponseGetComments> = ApiCaller(this)
+                        apiCallerGetComments.Caller = ApiClient.getClient.getComments(product!!.mainProductId)
+                        apiCallerGetComments.Success = { it ->
+                            if (it != null) {
+                                adapter.commentList = it.data
+                                adapter.notifyDataSetChanged()
+                                updateReviews()
+                            }
+                        }
+                        apiCallerGetComments.run()
+                        apiCallerGetComments.Failure = {}
+
+                    }
+                    //commentList.add(Comment(product!!._id, id, comment))
+                }
+            }
+            apiCallerPostComment.run()
+            apiCallerPostComment.Failure = { }
+
+        }
     }
     fun cancel(view: View){
         textInputEditText.setText("")
@@ -80,7 +128,7 @@ class ProductPageActivity : AppCompatActivity() {
         textInputEditText.setText("")
         val newRating = adapter.getRating()
         overallRating.rating = newRating.toFloat()
-        reviewsTitle.text = "Reviews (${product!!.comments.size})"
+        reviewsTitle.text = "Reviews (${adapter.commentList.size})"
     }
     fun addToList(view: View){
         val items = ShoppingListFragment.ShoppingList.listNames.toMutableList()

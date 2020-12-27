@@ -7,7 +7,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CommentAdapter (    private val commentList: ArrayList<Comment> ) : RecyclerView.Adapter<CommentAdapter.ViewHolder>(){
+class CommentAdapter (var commentList: ArrayList<Comment> ) : RecyclerView.Adapter<CommentAdapter.ViewHolder>(){
 
     override fun getItemCount(): Int {
         return commentList.size
@@ -26,15 +26,15 @@ class CommentAdapter (    private val commentList: ArrayList<Comment> ) : Recycl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.username.text = commentList[position].ownerID
-        holder.rating.rating = commentList[position].rating.toFloat()
-        holder.body.text = commentList[position].body
+        holder.username.text = commentList[position].customerId
+        //holder.rating.rating = commentList[position].rating.toFloat()
+        holder.body.text = commentList[position].text
 
     }
     fun getRating(): Double{
         var sum = 0.0
         for(item in commentList){
-            sum+= item.rating
+            //sum+= item.rating
         }
         return sum/commentList.size
     }

@@ -170,3 +170,10 @@ data class Category(
     @Expose @SerializedName("name") val name: String
 )
 
+data class ResponseGetComments(
+    @Expose @SerializedName("data") val data: ArrayList<Comment>
+)
+
+data class PostComment(
+    @Expose @SerializedName("text") val text: String
+)
