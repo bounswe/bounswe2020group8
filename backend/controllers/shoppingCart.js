@@ -28,5 +28,5 @@ exports.resetShoppingCartController = BaseUtil.createController((req) => {
 
 exports.getShoppingCartController = BaseUtil.createController((req) => {
   let { _id } = req.query;
-  return BB.all([ShoppingCartService.getShoppingCartService({ _id })]);
+  return BB.all(ShoppingCartService.getShoppingCartService({ _id }));
 });
