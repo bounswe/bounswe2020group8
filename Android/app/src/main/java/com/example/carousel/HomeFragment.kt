@@ -124,8 +124,8 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL, false)
             setAdapter(adapter)
         }
-        Log.d("ITEMCOUNT",adapter.itemCount.toString())
         adapter.onItemClick = { product ->
+            Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product",product)
             startActivity(intent)

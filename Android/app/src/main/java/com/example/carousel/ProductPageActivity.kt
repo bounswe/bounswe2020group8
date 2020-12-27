@@ -34,8 +34,8 @@ class ProductPageActivity : AppCompatActivity() {
         price.text = "\$${product!!.price}"
         description.text = product!!.description
         vendor.text = "by ${product!!.vendorId}"
-        product!!.comments.add(Comment("Very good", 5f, "Ahmet Zübüzüb","123"))
-        product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1f, "Tuba Engin","122"))
+        //product!!.comments.add(Comment("Very good", 5.0, "Ahmet Zübüzüb","123"))
+        //product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1.0, "Tuba Engin","122"))
         rating.setOnTouchListener { v, event ->
             when (event?.action) {
                 MotionEvent.ACTION_DOWN -> rating.rating = rating.rating
@@ -66,9 +66,8 @@ class ProductPageActivity : AppCompatActivity() {
     }
     fun addReview(view: View){
         val comment = textInputEditText.text.toString()
-        val rating = rating.rating
+        val rating = rating.rating.toDouble()
         val user = "${LoginActivity.user.name} ${LoginActivity.user.lastName}"
-        //val id = LoginActivity.user._id
         val id = LoginActivity.user.id
         product!!.comments.add(Comment(comment, rating, user, id))
         adapter.notifyDataSetChanged()
@@ -80,7 +79,7 @@ class ProductPageActivity : AppCompatActivity() {
     private fun updateReviews(){
         textInputEditText.setText("")
         val newRating = adapter.getRating()
-        overallRating.rating = newRating
+        overallRating.rating = newRating.toFloat()
         reviewsTitle.text = "Reviews (${product!!.comments.size})"
     }
     fun addToList(view: View){

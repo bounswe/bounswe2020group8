@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_cart.view.*
 import android.view.animation.DecelerateInterpolator
 import com.example.carousel.application.ApplicationContext
+import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CartFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CartFragment : Fragment() {
+class CartFragment : Fragment(){
 
     private lateinit var adapter: CartAdapter
     private var totalCost = 0.0
@@ -84,6 +86,7 @@ class CartFragment : Fragment() {
             purchase()
         }
         adapter.onItemClick = { product ->
+            Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
             startActivity(intent)

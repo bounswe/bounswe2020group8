@@ -21,7 +21,7 @@ class ProductsAdapter (    private var productList: ArrayList<Product> ) : Recyc
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val image: ImageView = itemView.findViewById(R.id.icon)
         val title: TextView = itemView.findViewById(R.id.title)
-        //val price: TextView = itemView.findViewById(R.id.price)
+        val price: TextView = itemView.findViewById(R.id.price)
 
             init {
                 itemView.setOnClickListener {
@@ -44,7 +44,7 @@ class ProductsAdapter (    private var productList: ArrayList<Product> ) : Recyc
             .into(holder.image)
 
         holder.title.text = productList[position].title
-        //holder.price.text = "\$${productList[position]}"
+        holder.price.text = "\$${productList[position].price}"
     }
     fun replaceProducts(newProducts: ArrayList<Product>){
         this.productList = newProducts

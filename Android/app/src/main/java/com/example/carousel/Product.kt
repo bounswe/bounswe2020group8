@@ -32,7 +32,7 @@ data class Product(
     ) : Serializable
 
 
-    fun responseToProduct(product: ProductData, main: MainProductData): Product{
+    fun responseToProduct (product: ProductData, main: MainProductData): Product {
         return Product(
             _id = main._id,
             title = main.title,
