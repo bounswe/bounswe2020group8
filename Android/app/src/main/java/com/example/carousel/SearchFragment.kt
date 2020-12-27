@@ -1,21 +1,24 @@
 package com.example.carousel
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
+
 
 class SearchFragment : Fragment() {
     private val baseUrl = "http://18.198.51.178:8080"
@@ -62,6 +65,9 @@ class SearchFragment : Fragment() {
             drawer_layout.openDrawer(Gravity.RIGHT);
         }
         expandable_price.visibility = View.GONE
+        expandable_rating.visibility = View.GONE
+        expandable_color.visibility = View.GONE
+
 
         price_filter.setOnClickListener {
             if(expandable_price.visibility == View.GONE) {
@@ -69,10 +75,58 @@ class SearchFragment : Fragment() {
             }
             else {
                 expandable_price.visibility = View.GONE
+
+            }
+        }
+
+        rating_filter.setOnClickListener {
+            if(expandable_rating.visibility == View.GONE) {
+                expandable_rating.visibility = View.VISIBLE
+            }
+            else {
+                expandable_rating.visibility = View.GONE
+
+            }
+        }
+
+        color_filter.setOnClickListener {
+            if(expandable_color.visibility == View.GONE) {
+                expandable_color.visibility = View.VISIBLE
+            }
+            else {
+                expandable_color.visibility = View.GONE
+
             }
         }
 
 
+
+        // ok button will be removed soon
+        /*price_ok.setOnClickListener {
+            val minp = min_price.getText()
+            val maxp = max_price.getText()
+        }*/
+        button_0_50.setOnClickListener {
+            //button_0_50.setBackgroundColor(Color.parseColor("#FF1FEAD7"))
+            min_price.setText("0")
+            max_price.setText("50")
+        }
+        button_50_100.setOnClickListener {
+            min_price.setText("50")
+            max_price.setText("100")
+        }
+        button_100_250.setOnClickListener {
+            min_price.setText("100")
+            max_price.setText("250")
+        }
+        button_250_500.setOnClickListener {
+            min_price.setText("250")
+            max_price.setText("500")
+        }
+        button_500_plus.setOnClickListener {
+            min_price.setText("500")
+            max_price.setText("")
+        }
 
 
         //val products = ArrayList<Product>()

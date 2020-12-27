@@ -78,6 +78,7 @@ data class ResponseChangePassword(
     @Expose @SerializedName("returnMessage") val returnMessage: String
 )
 
+
 data class ResponseMainProduct(
     @Expose @SerializedName("data") val data: MainProductData,
     @Expose @SerializedName("returnCode") val returnCode: Int,
@@ -157,5 +158,15 @@ data class VendorID(
 )
 
 
+data class ResponseGetCategories(
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: List<Category>
+)
 
+data class Category(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("name") val name: String
+)
 
