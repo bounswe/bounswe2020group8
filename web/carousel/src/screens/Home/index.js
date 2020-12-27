@@ -81,7 +81,7 @@ export default function Home() {
         <div style={{ paddingTop: "30px" }}>
           <div
             style={{
-              width: "70%",
+              width: "50%",
               margin: "50px auto",
               alignContent: "center",
             }}

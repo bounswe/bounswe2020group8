@@ -1,7 +1,6 @@
 import { Form } from "antd";
 
 import React, { useState, useContext, useEffect, useRef } from "react";
-import TextField from "material-ui/TextField";
 import InputUI from "../UI/InputUI/InputUI";
 import classes from "./PasswordForm.module.css";
 import UserInfo from "../Context/UserInfo";
@@ -47,6 +46,17 @@ const PasswordForm = (props) => {
 
   return (
     <>
+      {props.showOldPassword ? (
+        <Form.Item name="oldPassword">
+          <InputUI
+            name="oldPassword"
+            clicked={props.eraseError}
+            inputType="password"
+            placeholder="Old-password"
+            iconSel="locked"
+          />
+        </Form.Item>
+      ) : null}
       <Form.Item name="signupPassword">
         <InputUI
           name="signupPassword"
@@ -58,103 +68,69 @@ const PasswordForm = (props) => {
       </Form.Item>
       <Form.Item style={{ marginTop: "-2px" }}>
         <span className={classes.Span}>
-          {passLength ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
-          )}
-          <p
-            style={passLength ? { color: "forestgreen" } : { color: "red" }}
-            className={classes.PasswordCheck}
-          >
-            Password should be between 6-20 characters.
-          </p>
+          {!passLength ? (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password should be between 6-20 characters.
+              </p>
+            </>
+          ) : null}
         </span>
         <span className={classes.Span}>
-          {passDigit ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
+          {passDigit ? null : (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password should contain a digit.
+              </p>
+            </>
           )}
-          <p
-            style={passDigit ? { color: "forestgreen" } : { color: "red" }}
-            className={classes.PasswordCheck}
-          >
-            Password should contain a digit.
-          </p>
         </span>
         <span className={classes.Span}>
-          {passLetter ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
+          {passLetter ? null : (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password should contain a small letter.
+              </p>
+            </>
           )}
-          <p
-            style={passLetter ? { color: "forestgreen" } : { color: "red" }}
-            className={classes.PasswordCheck}
-          >
-            Password should contain a small letter.
-          </p>
         </span>
         <span className={classes.Span}>
-          {passLetterCapital ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
+          {passLetterCapital ? null : (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password should contain a capital letter.
+              </p>
+            </>
           )}
-          <p
-            style={
-              passLetterCapital ? { color: "forestgreen" } : { color: "red" }
-            }
-            className={classes.PasswordCheck}
-          >
-            Password should contain a capital letter.
-          </p>
         </span>
         <span className={classes.Span}>
-          {passNoWhitespace ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
+          {passNoWhitespace ? null : (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password should not contain whitespace.
+              </p>
+            </>
           )}
-          <p
-            style={
-              passNoWhitespace ? { color: "forestgreen" } : { color: "red" }
-            }
-            className={classes.PasswordCheck}
-          >
-            Password should not contain whitespace.
-          </p>
         </span>
       </Form.Item>
       <Form.Item>
@@ -166,23 +142,17 @@ const PasswordForm = (props) => {
           iconSel="locked"
         />
         <span className={classes.Span} style={{ marginTop: "8px" }}>
-          {passwordMatch ? (
-            <CheckCircleOutlined
-              className={classes.Icon}
-              style={{ color: "forestgreen" }}
-            />
-          ) : (
-            <CloseCircleOutlined
-              className={classes.Icon}
-              style={{ color: "red" }}
-            />
+          {passwordMatch ? null : (
+            <>
+              <CloseCircleOutlined
+                className={classes.Icon}
+                style={{ color: "red" }}
+              />
+              <p style={{ color: "red" }} className={classes.PasswordCheck}>
+                Password and Confirm Password should match.
+              </p>
+            </>
           )}
-          <p
-            style={passwordMatch ? { color: "forestgreen" } : { color: "red" }}
-            className={classes.PasswordCheck}
-          >
-            Password and Confirm Password should match.
-          </p>
         </span>
       </Form.Item>
     </>
