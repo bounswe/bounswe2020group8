@@ -19,6 +19,7 @@ exports.createOrderService = async function ({ _id }) {
     // console.log(current['vendorId']);
     const current_product = await ProductDataAccess.getProductByVendorIdDB2(current['productId'], current['vendorId']);
     // console.log(current_product);
+    // console.log("IIIII");
     if(!(current_product == null)){
       temp['productId'] = current['productId'];
       temp['vendorId'] = current['vendorId'];
@@ -36,7 +37,7 @@ exports.createOrderService = async function ({ _id }) {
     }
 
   }
-  console.log(items);
+  // console.log(items);
   // console.log(shoppingCart['shoppingCart'][0]);
   // console.log(items);
   // console.log("HEREEEEEEEEEEEEEEEEEE");
