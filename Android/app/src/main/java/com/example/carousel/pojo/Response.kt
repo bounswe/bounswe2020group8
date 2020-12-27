@@ -100,7 +100,7 @@ data class Category(
     @Expose @SerializedName("name") val name: String
 )
 
-data class ResponseSearchProduct(
+data class ResponseProductSearch(
     @Expose @SerializedName("results") val results: Int,
     @Expose @SerializedName("data") val data: List<DataSearchProduct>,
     @Expose @SerializedName("returnCode") val returnCode: Int,
@@ -131,7 +131,7 @@ data class Vendor(
     @Expose @SerializedName("companyName") val companyName: String,
 )
 
-data class ResponseSearchFilters(
+data class ResponseProductSearchFilters(
     @Expose @SerializedName("data") val data: DataSearchFilters,
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String,
