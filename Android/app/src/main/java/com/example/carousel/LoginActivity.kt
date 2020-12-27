@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.example.carousel.customer.RegisterInfoActivity
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.*
+import com.example.carousel.vendor.VendorLoginActivity
 import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -49,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             forgotPassword.movementMethod = LinkMovementMethod.getInstance()
         }
+        vendor.setOnClickListener {
+            val intent = Intent(this, VendorLoginActivity::class.java)
+            startActivityForResult(intent, 123)
+            vendor.movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 
     override fun onStart() {
@@ -71,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
 
             val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
             apiCallerLogin.Button = login_button
-            apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
+            apiCallerLogin.Caller = ApiClient.getClient.customerLogin(email, password)
             apiCallerLogin.Success = { it ->
                 if (it != null) {
                     this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
@@ -97,7 +104,6 @@ class LoginActivity : AppCompatActivity() {
                         }
                         apiCallerGetUser.Failure = {}
                         apiCallerGetUser.run()
-//                    finish();
                     })
                 }
             }
@@ -122,9 +128,10 @@ class LoginActivity : AppCompatActivity() {
                     editor.putBoolean("isAuthenticated", true)
                     editor.putString("type", "CLIENT")
                     editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode,"CLIENT")
+                    ApplicationContext.instance.authenticate(it.tokenCode, "CLIENT")
 
-                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@LoginActivity)
+                    val apiCallerGetUser: ApiCaller<ResponseCustomerMe> =
+                        ApiCaller(this@LoginActivity)
                     apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
                     apiCallerGetUser.Success = {
                         if (it != null) {
@@ -174,6 +181,10 @@ class LoginActivity : AppCompatActivity() {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Log.e("TAG", "signInResult:failed code=" + e.statusCode)
+            }
+        } else if (requestCode == 123) {
+            if (resultCode == Activity.RESULT_OK) {
+                finish()
             }
         }
     }

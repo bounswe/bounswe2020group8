@@ -33,19 +33,6 @@ class RegisterInfoActivity : AppCompatActivity() {
             //show dialog
             val agreementDialog = dialogBuilder.show()
 
-
-            /*var apiCaller: ApiCaller<GetActiveAgreementResponse> = ApiCaller(activity)
-
-            apiCaller.Caller = ApiClient.getClient.getActiveAgreement()
-            apiCaller.Success = {
-                agreementContentView.header1.text = it?.title
-                agreementContentView.content.text = it?.content
-                agreementContentView.loading.visibility = View.INVISIBLE
-                agreementContentView.header1.visibility = View.VISIBLE
-                agreementContentView.content.visibility = View.VISIBLE
-            }
-            apiCaller.run()*/
-
             agreementContentView.close.setOnClickListener {
                 agreementDialog.dismiss()
             }

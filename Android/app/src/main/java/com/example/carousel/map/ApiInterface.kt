@@ -13,10 +13,23 @@ interface ApiInterface {
 
     //customer login request
     @POST("/customer/login")
-    fun login(
+    fun customerLogin(
         @Query("email") email: String,
         @Query("password") password: String
     ): Call<ResponseLogin>
+
+    //vendor login request
+    @POST("/vendor/login")
+    fun vendorLogin(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Call<ResponseLogin>
+
+    //vendor forgot password request
+    @POST("/vendor/forgotPassword")
+    fun vendorForgotPassword(
+        @Query("email") email: String,
+    ): Call<ResponseHeader>
 
     //customer login request
     @POST("/customer/sigIn")

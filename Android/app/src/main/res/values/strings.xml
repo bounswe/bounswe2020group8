@@ -119,6 +119,8 @@
     <string name="vendor_login"><u>Do you have a shop?</u></string>
     <string name="login_vendor_header">Login - Vendor</string>
     <string name="login_vendor_subtitle">Please Enter Email and Password</string>
+    <string name="forgot_password_sub_title">Please Enter Email</string>
+    <string name="Vendor_forgot_password_title">Forgot Password</string>
 
 
 </resources>
