@@ -1277,6 +1277,25 @@
         }
       }
     },
+    "/rating/{pid}": {
+      "patch": {
+        "tags": ["rating"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "rate",
+            "schema": {
+              "$ref": "#/components/schemas/Rate"
+            }
+          }
+        ]
+      }
+    },
     "/comment/{pid}/all": {
       "get": {
         "tags": ["comment"],
@@ -1560,6 +1579,16 @@
       }
     },
     "schemas": {
+      "Rate": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5
+          }
+        }
+      },
       "PostComment": {
         "type": "object",
         "properties": {

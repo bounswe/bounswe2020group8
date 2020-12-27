@@ -195,3 +195,13 @@ exports.isValidSHA1Hash = function (str, errorMessage) {
     }
   });
 };
+
+exports.isValidRange = function (start, end, value, errorMessage) {
+  return new BB((resolve, reject) => {
+    if (value >= start && value <= end) {
+      resolve();
+    } else {
+      reject(new AppError(errorMessage || Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG));
+    }
+  });
+};
