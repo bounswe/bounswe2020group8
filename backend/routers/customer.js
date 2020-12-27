@@ -4,6 +4,7 @@ const ShoppingCartController = require("../controllers/shoppingCart");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const router = express.Router();
+const OrderController = require("../controllers/order");
 
 router.post("/signup", CustomerController.signupController, RequestHelper.returnResponse);
 router.post(
@@ -54,5 +55,6 @@ router.post(
   ShoppingCartController.getShoppingCartController,
   RequestHelper.returnResponse
 );
+router.post("/order", OrderController.createOrderController, RequestHelper.returnResponse);
 
 module.exports = router;
