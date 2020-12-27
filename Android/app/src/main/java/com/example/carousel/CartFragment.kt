@@ -65,7 +65,7 @@ class CartFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             setAdapter(this@CartFragment.adapter)
         }
-        updateCartInfo(adapter.totalCost(), adapter.itemCount)
+        updateCartInfo(totalCost(), adapter.itemCount)
 
         product_dropdown.setOnClickListener {
             if(isCollapsed) {
@@ -91,7 +91,7 @@ class CartFragment : Fragment() {
         val observer = object : RecyclerView.AdapterDataObserver(){
             override fun onChanged() {
                 super.onChanged()
-                updateCartInfo(adapter.totalCost(), adapter.itemCount)
+                updateCartInfo(totalCost(), adapter.itemCount)
             }
         }
         adapter.registerAdapterDataObserver(observer)
@@ -153,6 +153,13 @@ class CartFragment : Fragment() {
         fun removeFromCart(productIndex: Int) {
             if (cart.isNotEmpty())
                 cart.removeAt(productIndex)
+        }
+        fun totalCost(): Double{
+            var sum : Double = 0.0
+            for(product in cart){
+                sum+= (product.first.price*product.second)
+            }
+            return sum
         }
     }
     fun View.animateVisibility(setVisible: Boolean) {

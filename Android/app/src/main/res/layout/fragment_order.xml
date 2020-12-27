@@ -62,14 +62,39 @@
             android:layout_marginTop="48dp"
             android:text="Order"
     />
+    <View android:id="@+id/divider"
+          style="@style/Divider"
+          android:layout_marginTop="30dp"
+          android:layout_marginBottom="5dp"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="24sp"
+                  android:text="Total Cost: "/>
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+
+        <TextView   android:id="@+id/total_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"/>
+    </LinearLayout>
+
+    <View android:id="@+id/divider2"
+          style="@style/Divider" android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"/>
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:id="@+id/products_overview"
               android:textSize="24sp"
-              android:layout_marginTop="80dp"
+              android:layout_marginTop="40dp"
              />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
+
+
 
 </LinearLayout>

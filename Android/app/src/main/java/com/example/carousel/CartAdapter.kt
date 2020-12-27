@@ -51,12 +51,5 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>) : 
             //ShoppingListFragment.lists[0].add(productList[position])
         }
     }
-    fun totalCost(): Double{
-        var sum : Double = 0.0
-        for(product in productList){
-            sum+= (product.first.price*product.second)
-        }
-        return sum
-    }
 }
 
