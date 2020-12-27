@@ -11,4 +11,8 @@
     <color name="text_drawing_header">@android:color/white</color>
     <color name="errorRed">#A63232</color>
     <color name="successGreen">#3EA322</color>
+
+    <color name="editext_hint_color">#9B9BA3</color>
+    <color name="text_inpıt_layout_border_color">#AEAEB8</color>
+    <color name="gray_text_color">#4A4A4A</color>
 </resources>
