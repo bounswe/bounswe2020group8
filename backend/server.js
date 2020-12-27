@@ -20,6 +20,7 @@ const categoryRouter = require("./routers/category");
 const mainProductRouter = require("./routers/mainProduct");
 const productRouter = require("./routers/product");
 const productRequestRouter = require("./routers/productRequest");
+const commentRouter = require("./routers/comment");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -70,6 +71,7 @@ app.use("/category", categoryRouter);
 app.use("/mainProduct", mainProductRouter);
 app.use("/product", productRouter);
 app.use("/productRequest", productRequestRouter);
+app.use("/comment", commentRouter);
 
 blocked((ms) => {
   if (ms > 3000) {
