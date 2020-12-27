@@ -7,6 +7,22 @@ const { isNullOrEmpty } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Messages = require("../util/messages");
 
+exports.searchProductsService = async function ({ query, tags }) {
+  let products = await ProductDataAccess.searchProducts(query, tags);
+  if (isNullOrEmpty(products)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
+  }
+  return { results: products.length, data: products };
+};
+
+exports.getSearchFiltersService = async function ({ query, tags }) {
+  let products = await ProductDataAccess.getSearchFilters(query, tags);
+  if (isNullOrEmpty(products)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
+  }
+  return { data: products[0] };
+};
+
 exports.addVendorToProductService = async function ({ pid, vendorData }) {
   const updatedProduct = await ProductDataAccess.addVendorToProductDB(pid, vendorData);
   return { data: updatedProduct };
@@ -38,6 +54,8 @@ exports.createProductService = async function ({ product }) {
   tags.push(mainProduct.brand, mainProduct.category);
   product.tags = [...new Set(tags.map((v) => v.toLowerCase()))];
 
+  product.brand = mainProduct.brand;
+  product.category = mainProduct.category;
   //create the product
   const newProduct = await Product.create(product);
   return { data: newProduct };
