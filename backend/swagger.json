@@ -1276,6 +1276,25 @@
           }
         }
       }
+    },
+    "/rating/{pid}": {
+      "patch": {
+        "tags": ["rating"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "rate",
+            "schema": {
+              "$ref": "#/components/schemas/Rate"
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1437,6 +1456,16 @@
       }
     },
     "schemas": {
+      "Rate": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5
+          }
+        }
+      },
       "Customer": {
         "type": "object",
         "properties": {
