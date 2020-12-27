@@ -5,6 +5,9 @@ import qs from "qs";
 import SearchProduct from "../../components/ProductList/SearchProduct";
 import services from "../../apis/services";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { Select } from "antd";
+
+const { Option } = Select;
 
 const { Content, Sider } = Layout;
 
@@ -15,6 +18,7 @@ class Search extends Component {
     productList: [],
     error: null,
     priceInterval: [],
+    sort: "brand",
   };
 
   componentDidMount() {
@@ -43,9 +47,11 @@ class Search extends Component {
       (key) => (params[key] == null || params[key] === "") && delete params[key]
     );
 
-    // params["maxPrice[gte]"] = this.state.priceInterval[0];
-    // params["minPrice[lte]"] = this.state.priceInterval[1];
-    //TODO
+    params["maxPrice[gte]"] = this.state.priceInterval[0];
+    params["minPrice[lte]"] = this.state.priceInterval[1];
+    //TODO Check whether they are working fine
+
+    params["sort"] = this.state.sort;
 
     services
       .post("/product/search", payload, { params: params })
@@ -57,6 +63,16 @@ class Search extends Component {
       .catch((err, response) => {
         console.log(err);
       });
+  }
+
+  onSortChange(e) {
+    if (e === "default") {
+      this.setState({ sort: "brand" });
+    } else if (e === "ascendingPrice") {
+      this.setState({ sort: "minPrice" });
+    } else if (e === "decreasingPrice") {
+      this.setState({ sort: "-minPrice" });
+    }
   }
 
   getSearchFilters(query) {
@@ -94,6 +110,9 @@ class Search extends Component {
     }
 
     if (this.state.priceInterval !== prevState.priceInterval) {
+      this.getSearchedProducts(this.state.query);
+    }
+    if (this.state.sort !== prevState.sort) {
       this.getSearchedProducts(this.state.query);
     }
   }
@@ -218,24 +237,61 @@ class Search extends Component {
 
   renderContent() {
     return this.state.productList.length ? (
-      <Content
-        style={{
-          padding: "0 24px",
-          minHeight: "280px",
-          width: "1000px",
-          display: "grid",
-          gridGap: "25px",
-          gridTemplateColumns: "repeat(auto-fit, 350px)",
-        }}
-      >
-        {this.state.productList.map((product) => {
-          return (
-            <span>
-              <SearchProduct product={product} />;
-            </span>
-          );
-        })}
-      </Content>
+      <div>
+        <div
+          style={{
+            margin: "0px 0px 35px 35px",
+            height: "50px",
+            backgroundColor: "white",
+            width: "1100px",
+            display: "flex",
+            paddingLeft: "15px",
+            paddingRight: "15px",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontSize: "15px",
+            borderRadius: "5px",
+          }}
+        >
+          <div>
+            We've found {this.state.productList.length} result
+            {this.state.productList.length > 0 ? "s" : ""} related to "
+            {this.state.query}"
+          </div>
+          <div>
+            Sort According To:{" "}
+            <Select
+              defaultValue="default"
+              style={{ width: 150 }}
+              onChange={(e) => {
+                this.onSortChange(e);
+              }}
+            >
+              <Option value="default">Featured</Option>
+              <Option value="ascendingPrice">Price: Low to High</Option>
+              <Option value="decreasingPrice">Price: High to Low</Option>
+            </Select>
+          </div>
+        </div>
+        <Content
+          style={{
+            padding: "0 24px",
+            minHeight: "280px",
+            width: "1200px",
+            display: "grid",
+            gridGap: "25px",
+            gridTemplateColumns: "repeat(auto-fit, 350px)",
+          }}
+        >
+          {this.state.productList.map((product) => {
+            return (
+              <span>
+                <SearchProduct product={product} />;
+              </span>
+            );
+          })}
+        </Content>
+      </div>
     ) : (
       <Content
         style={{
