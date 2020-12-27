@@ -10,9 +10,7 @@ const OrderService = require("../services/order");
 exports.createOrderController = BaseUtil.createController((req) => {
   let { _id } = req.query;
   // let { productId, vendorId, amount } = req.body;
-  return BB.all(
-    OrderService.createOrderService({ _id }),
-  );
+  return BB.all(OrderService.createOrderService({ _id }));
 });
 
 exports.updateShoppingCartController = BaseUtil.createController((req) => {

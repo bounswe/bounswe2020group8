@@ -38,5 +38,5 @@ exports.resetShoppingCartService = async function ({ _id }) {
 
 exports.getShoppingCartService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
-  return shoppingCart['shoppingCart'];
+  return shoppingCart["shoppingCart"];
 };

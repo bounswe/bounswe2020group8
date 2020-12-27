@@ -55,10 +55,6 @@ router.post(
   ShoppingCartController.getShoppingCartController,
   RequestHelper.returnResponse
 );
-router.post(
-  "/order",
-  OrderController.createOrderController,
-  RequestHelper.returnResponse
-);
+router.post("/order", OrderController.createOrderController, RequestHelper.returnResponse);
 
 module.exports = router;

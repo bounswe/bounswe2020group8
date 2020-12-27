@@ -12,30 +12,31 @@ exports.createOrderService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   var items = [];
   var i;
-  for (i = 0; i < shoppingCart['shoppingCart'].length; i++){
+  for (i = 0; i < shoppingCart["shoppingCart"].length; i++) {
     temp = {};
-    current = shoppingCart['shoppingCart'][i];
+    current = shoppingCart["shoppingCart"][i];
     // console.log(current['productId']);
     // console.log(current['vendorId']);
-    const current_product = await ProductDataAccess.getProductByVendorIdDB2(current['productId'], current['vendorId']);
+    const current_product = await ProductDataAccess.getProductByVendorIdDB2(
+      current["productId"],
+      current["vendorId"]
+    );
     // console.log(current_product);
     // console.log("IIIII");
-    if(!(current_product == null)){
-      temp['productId'] = current['productId'];
-      temp['vendorId'] = current['vendorId'];
-      temp['amount'] = current['amount'];
-      temp['price'] = current_product['vendorSpecifics'][0]['price'];
-      temp['shipmentPrice'] = current_product['vendorSpecifics'][0]['shipmentPrice'];
-      temp['cargoCompany'] = current_product['vendorSpecifics'][0]['cargoCompany'];
-      if(current_product['vendorSpecifics'][0]['amountLeft'] > current['amount']){
-        temp['enoughLeft'] = true;
-      }
-      else {
-        temp['enoughLeft'] = false;
+    if (!(current_product == null)) {
+      temp["productId"] = current["productId"];
+      temp["vendorId"] = current["vendorId"];
+      temp["amount"] = current["amount"];
+      temp["price"] = current_product["vendorSpecifics"][0]["price"];
+      temp["shipmentPrice"] = current_product["vendorSpecifics"][0]["shipmentPrice"];
+      temp["cargoCompany"] = current_product["vendorSpecifics"][0]["cargoCompany"];
+      if (current_product["vendorSpecifics"][0]["amountLeft"] > current["amount"]) {
+        temp["enoughLeft"] = true;
+      } else {
+        temp["enoughLeft"] = false;
       }
       items.push(temp);
     }
-
   }
   // console.log(items);
   // console.log(shoppingCart['shoppingCart'][0]);
