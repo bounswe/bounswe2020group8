@@ -1,4 +1,4 @@
-import { Form, Input, Select, Modal } from "antd";
+import { Modal } from "antd";
 import { Component } from "react";
 import Cards from "react-credit-cards";
 
@@ -15,10 +15,6 @@ export default class PaymentModal extends Component {
   };
 
   handleFormSubmit = () => {
-    console.log(
-      `Add new credit card with values: ${JSON.stringify(this.state)}`
-    );
-
     const creditCard = {
       creditCardNumber: this.state.number.replace(/\W/gi, ""),
       creditCardCvc: this.state.cvc,
