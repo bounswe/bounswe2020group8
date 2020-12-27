@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:minLines="3"
         />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -29,22 +30,38 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:hint="Credit Card">
-        <Button style="@style/Widget.MaterialComponents.Button"
-                android:id="@+id/purchase_cart_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="48dp"
-                android:text="Order"
-        />
         <AutoCompleteTextView
             android:id="@+id/textFieldCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:minLines="3"
+            android:inputType="number"
+            android:minLines="1"
+            android:maxLength="19"
         />
+
     </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:hint="Cvv">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="3"
+            android:inputType="number"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/purchase_cart_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:text="Order"
+    />
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:id="@+id/products_overview"
               android:textSize="24sp"

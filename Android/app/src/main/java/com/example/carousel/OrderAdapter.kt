@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class OrderAdapter (    private var productList: ArrayList<Product> ) : RecyclerView.Adapter<OrderAdapter.ViewHolder>(){
+class OrderAdapter (    private var productList: ArrayList<Pair<Product, Int>> ) : RecyclerView.Adapter<OrderAdapter.ViewHolder>(){
 
     override fun getItemCount(): Int {
         return productList.size
@@ -26,8 +26,8 @@ class OrderAdapter (    private var productList: ArrayList<Product> ) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = productList[position].title
-        holder.price.text = "\$${productList[position].price}"
+        holder.title.text = "${productList[position].first.title}x${productList[position].second}"
+        holder.price.text = "\$${productList[position].first.price*productList[position].second}"
     }
 }
 
