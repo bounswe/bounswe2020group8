@@ -1,118 +1,145 @@
 import React, { Component } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Spin, Checkbox, Slider, Divider } from "antd";
 import { withRouter } from "react-router";
-
+import qs from "qs";
 import SearchProduct from "../../components/ProductList/SearchProduct";
+import services from "../../apis/services";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Content, Sider } = Layout;
 
 class Search extends Component {
   state = {
+    filters: {},
     selectedFilters: [],
-    productList: [
-      {
-        imageUrl:
-          "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
-        name: "Macbook Pro 16 inch",
-        price: 2199.99,
-        rate: "5",
-        rateCount: 100,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-        name: "PlayStation 4 Pro 1TB",
-        price: 399.99,
-        rate: "4",
-        rateCount: 20,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/418Ty89Cf3L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
-        name: "Samsung Galaxy Tab S6 Lite 10.4",
-        price: 249.99,
-        rate: "3",
-        rateCount: 32,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/31DQ1NOBi4L._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
-        name: "Bose Noise Cancelling Wireless Bluetooth Headphones 700",
-        price: 339.99,
-        rate: "3.5",
-        rateCount: 112,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/51TVrxhgLaL._SX160_QL100_AC_SCLZZZZZZZ_.jpg",
-        name: "Sony X800H 43 Inch TV",
-        price: 448.99,
-        rate: "4.5",
-        rateCount: 102,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/81fstJkUlaL._AC_SL1500_.jpg",
-        name: "ASUS F512DA-EB51 VivoBook 15",
-        price: 14.99,
-        rate: "2.5",
-        rateCount: 4,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/71y%2BUGuJl5L._SL1500_.jpg",
-        name: "DualSense Wireless Controller ",
-        price: 69.99,
-        rate: "1.5",
-        rateCount: 123,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/91S1PIX%2ByWL._AC_SL1500_.jpg",
-        name: 'SAMSUNG 870 QVO SATA III 2.5" SSD',
-        price: 199.99,
-        rate: "4.5",
-        rateCount: 120,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/51N5qVjuKAL._SX309_BO1,204,203,200_.jpg",
-        name: "To Kill a Mockingbird",
-        price: 14.99,
-        rate: "3.5",
-        rateCount: 120,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/61BhxjpQn6L._AC_SL1500_.jpg",
-        name: "Arlo VMC2030-100NAS Essential Spotlight Camera",
-        price: 99.99,
-        rate: "5",
-        rateCount: 101,
-      },
-      {
-        imageUrl:
-          "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
-        name: "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
-        price: 18.99,
-        rate: "4",
-        rateCount: 111,
-      },
-    ],
+    productList: [],
+    error: null,
+  };
+
+  componentDidMount() {
+    const { query } = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    this.setState({ query });
+    this.getSearchedProducts(query);
+    this.getSearchFilters(query);
+  }
+
+  getSearchedProducts(query) {
+    const payload = {
+      query: query,
+    };
+    services
+      .post("/product/search", payload)
+      .then((response) => {
+        const results = response.data.results;
+        const data = response.data.data;
+        this.setState({ productList: data });
+      })
+      .catch((err, response) => {
+        console.log(err);
+      });
+  }
+
+  getSearchFilters(query) {
+    const payload = {
+      query: query,
+    };
+    services
+      .post("/product/searchFilters", payload)
+      .then((response) => {
+        if (response.data.data) {
+          const data = response.data.data;
+          this.setState({ filters: data });
+        } else {
+          this.setState({ error: "No product" });
+        }
+      })
+      .catch((err, response) => {
+        console.log(err);
+      });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { query } = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    if (this.state.query !== query) {
+      this.setState({ query });
+      this.getSearchedProducts(query);
+      this.getSearchFilters(query);
+    }
+  }
+  renderMultiCheckbox = ({ name, values }) => {
+    return (
+      <div
+        style={{
+          marginTop: 10,
+          marginBottom: 10,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ fontWeight: "bold", marginBottom: 5 }}>
+          {name.toUpperCase()}
+        </div>
+        {values.map((value) => (
+          <Checkbox style={{ margin: 1 }}>{value}</Checkbox>
+        ))}
+        <Divider />
+      </div>
+    );
   };
 
   renderSideBar() {
+    const {
+      parameters,
+      minPrice,
+      maxPrice,
+      vendors,
+      categories,
+      brands,
+    } = this.state.filters;
+
     return (
-      <Sider className="site-layout-background" width={250}>
-        <Menu mode="inline" style={{ height: "100%" }}>
-          <Menu.Item>Menu 1</Menu.Item>
-        </Menu>
+      <Sider
+        style={{ backgroundColor: "white", padding: 15 }}
+        className="site-layout-background"
+        width={250}
+      >
+        {parameters
+          ? parameters.map((item) => this.renderMultiCheckbox(item))
+          : null}
+
+        {Array.isArray(brands) && brands.length
+          ? this.renderMultiCheckbox({ name: "brands", values: brands })
+          : null}
+
+        {Array.isArray(vendors) && vendors.length
+          ? this.renderMultiCheckbox({
+              name: "vendors",
+              values: vendors.map((e) => e._id),
+            })
+          : null}
+        {maxPrice && typeof minPrice === "number" ? (
+          <div>
+            <div>Price</div>
+            <Slider max={maxPrice} min={minPrice} />
+            <Divider></Divider>
+          </div>
+        ) : null}
+        {Array.isArray(categories) && categories.length
+          ? this.renderMultiCheckbox({
+              name: "categories",
+              values: categories,
+            })
+          : null}
       </Sider>
     );
   }
 
   renderContent() {
-    return (
+    return this.state.productList.length ? (
       <Content
         style={{
           padding: "0 24px",
@@ -130,6 +157,19 @@ class Search extends Component {
             </span>
           );
         })}
+      </Content>
+    ) : (
+      <Content
+        style={{
+          padding: "0 24px",
+          minHeight: "280px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {this.state.error ? <div>No product</div> : <Spin size="large" />}
       </Content>
     );
   }

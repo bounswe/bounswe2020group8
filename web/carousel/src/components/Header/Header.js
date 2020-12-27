@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import SideButtons from "./SideButtons/SideButtons";
 import classes from "./Header.module.css";
 import logo from "../../assets/images/carousel_logo.jpg";
+import qs from "qs";
 
 class Header extends Component {
   state = {
@@ -33,16 +34,19 @@ class Header extends Component {
   // detect enter on search bar
   keyPressHandler = (e) => {
     if (e.key === "Enter") {
-      this.props.history.push("/search");
+      this.props.history.push("/search?query=" + this.state.searchValue);
     }
   };
 
   // clicked on search incon
   iconPressHandler = (e) => {
-    this.props.history.push("/search");
+    this.props.history.push("/search?query=" + this.state.searchValue);
   };
 
   render() {
+    const { query } = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    });
     return (
       <>
         <header className={classes.Header}>
@@ -55,7 +59,7 @@ class Header extends Component {
             />
 
             <SearchBar
-              searchString={this.state.searchValue}
+              searchString={this.state.searchValue || query}
               changeString={this.searchStringChangeHandler}
               written={this.state.searchOn}
               defaultString={this.state.placeholderSearchString}

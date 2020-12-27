@@ -8,14 +8,14 @@ import { Rate } from "antd";
 
 import { useState } from "react";
 
-const SearchProduct = (props) => {
+const SearchProduct = ({ product }) => {
   const [liked, setLiked] = useState(false);
 
   const toggleLiked = () => {
     setLiked(!liked);
   };
-
-  const product = props.product;
+  const { mainProduct, photos, minPrice } = product;
+  const { title, rating, numberOfRating } = mainProduct[0];
   return (
     <div className={classes.SearchProduct}>
       <FixedDiv width={350} height={15} margin={"10px 0px"}>
@@ -37,7 +37,7 @@ const SearchProduct = (props) => {
       </FixedDiv>
 
       <FixedDiv width={350} height={250} margin={"20px 0px"}>
-        <Image height={250} width={350} src={product.imageUrl} />
+        <Image height={250} width={350} src={photos[0]} />
       </FixedDiv>
       <div
         style={{
@@ -51,20 +51,20 @@ const SearchProduct = (props) => {
           <Rate
             disabled
             allowHalf
-            defaultValue={product.rate}
+            defaultValue={rating}
             style={{ fontSize: 15 }}
           />
         </span>
         <span style={{ marginLeft: 10, color: "#afafaf" }}>
-          ({product.rateCount})
+          ({numberOfRating})
         </span>
       </div>
       <FixedDiv width={350} height={45} margin={"10px 0px 0px 0px"}>
-        <p>{product.name}</p>
+        <p>{title}</p>
       </FixedDiv>
       <FixedDiv width={350} height={15} margin={"0px 0px 30px 0px"}>
         <p className={classes.Price}>
-          <b>${product.price}</b>
+          <b>${minPrice}</b>
         </p>
       </FixedDiv>
 
