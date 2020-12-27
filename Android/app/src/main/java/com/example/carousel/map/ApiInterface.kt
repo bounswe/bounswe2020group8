@@ -62,12 +62,31 @@ interface ApiInterface {
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
 
+    @GET("/mainProduct/{id}")
+    fun getMainProduct(
+        @Path("id") id: String
+    ): Call<ResponseMainProduct>
 
+    @GET("/product/{id}")
+    fun getProduct(
+        @Path("id") id: String
+    ): Call<ResponseProduct>
+
+    @GET("/product")
+    fun getAllProducts(
+    ): Call<ResponseAllProducts>
 
     @POST("/vendor/changePassword")
     fun vendorChangePassword(
         @Query("oldPassword") oldPassword: String,
         @Query("newPassword") newPassword: String,
         @Query("newPasswordRepeat") newPasswordRepeat : String ): Call<ResponseChangePassword>
+
+    @GET("/category")
+    fun getCategories(
+        @Query("sort") sort: String = "",
+        @Query("limit") limit: Int = 1000,
+        @Query("page") page: Int = 1,
+        @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
 }

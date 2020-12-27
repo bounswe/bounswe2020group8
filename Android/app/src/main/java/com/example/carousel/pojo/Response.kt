@@ -1,11 +1,12 @@
 package com.example.carousel.pojo
 
-import com.example.carousel.AddressJSON
-import com.example.carousel.CreditCardJSON
-import com.example.carousel.Product
+import com.example.carousel.*
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+import java.util.*
+import kotlin.collections.ArrayList
 
 data class ResponseLogin(
     @Expose @SerializedName("tokenCode") val tokenCode: String,
@@ -76,3 +77,96 @@ data class ResponseChangePassword(
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String
 )
+
+
+data class ResponseMainProduct(
+    @Expose @SerializedName("data") val data: MainProductData,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String
+)
+data class ResponseProduct(
+    @Expose @SerializedName("data") val data: ProductData,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String
+)
+
+data class ResponseAllProducts(
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: ArrayList<ProductData>,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String
+)
+
+data class ProductData(
+    @Expose @SerializedName("default") val default: VendorDefaults,
+    @Expose @SerializedName("tags") val tags: ArrayList<String>,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
+    @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorSpecifics>,
+    @Expose @SerializedName("parentProduct") val parentProduct: String,
+    @Expose @SerializedName("brand") val brand: String,
+    @Expose @SerializedName("category") val category: String,
+    @Expose @SerializedName("createdAt") val createdAt: Date,
+    @Expose @SerializedName("updatedAt") val updatedAt: Date,
+)
+data class MainProductData(
+    @Expose @SerializedName("tags") val tags: List<String>,
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("title") val title: String,
+    @Expose @SerializedName("parameters") val parameters: List<Parameters>,
+    @Expose @SerializedName("description") val description: String,
+    @Expose @SerializedName("rating") val rating: Double,
+    @Expose @SerializedName("brand") val brand: String,
+    @Expose @SerializedName("soldAmount") val soldAmount: Int,
+    @Expose @SerializedName("category") val category: String,
+    @Expose @SerializedName("isConfirmed") val isConfirmed : Boolean,
+    @Expose @SerializedName("createdAt") val createdAt: Date,
+    @Expose @SerializedName("updatedAt") val updatedAt: Date,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>
+)
+
+data class Parameters(
+    @Expose @SerializedName("values") val value: ArrayList<String>,
+    @Expose @SerializedName("name") val name: String
+)
+data class Parameter(
+    @Expose @SerializedName("value") val value: String,
+    @Expose @SerializedName("name") val name: String
+)
+
+
+data class VendorDefaults(
+    @Expose @SerializedName("vendorID") val vendorID: String,
+    @Expose @SerializedName("price") val price:  Double,
+    @Expose @SerializedName("amountLeft") val amountLeft: Int,
+    @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
+    @Expose @SerializedName("cargoCompany")val cargoCompany: String
+)
+
+data class VendorSpecifics(
+    @Expose @SerializedName("vendorID") val vendorID: VendorID,
+    @Expose @SerializedName("price") val price:  Double,
+    @Expose @SerializedName("amountLeft") val amountLeft: Int,
+    @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
+    @Expose @SerializedName("cargoCompany")val cargoCompany: String
+)
+
+data class VendorID(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName ("companyName") val companyName: String
+)
+
+
+data class ResponseGetCategories(
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: List<Category>
+)
+
+data class Category(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("name") val name: String
+)
+

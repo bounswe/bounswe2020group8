@@ -26,8 +26,9 @@ class OrderAdapter (    private var productList: ArrayList<Pair<Product, Int>> )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.text = "${productList[position].first.title}x${productList[position].second}"
-        holder.price.text = "\$${productList[position].first.price*productList[position].second}"
+
+        holder.title.text = productList[position].first.title
+        holder.price.text = "\$${productList[position].first.price}"
     }
 }
 

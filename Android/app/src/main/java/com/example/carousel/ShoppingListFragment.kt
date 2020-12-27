@@ -224,7 +224,7 @@ class ShoppingListFragment : Fragment() {
     }
     private fun addListToCart(view: View){
         for(product in lists[selectedList]){
-            CartFragment.addToCart(product)
+            CartFragment.addToCart(product, 1)
         }
         Toast.makeText(requireContext(),"List Added to Cart Successfully", Toast.LENGTH_SHORT).show()
     }

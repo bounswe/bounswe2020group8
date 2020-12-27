@@ -39,25 +39,25 @@ class CartFragment : Fragment() {
                 Product(
                     title = "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
                     price = 18.99,
-                    id = 9,
+                    _id = "abc",
                     photoUrl = R.drawable.image9
-                )
+                ), 3
             )
             addToCart(
                 Product(
                     title = "To Kill a Mockingbird 14.99",
                     price = 14.99,
-                    id = 10,
+                    _id = "122",
                     photoUrl = R.drawable.image10
-                )
+                ) , 2
             )
             addToCart(
                 Product(
                     title = "Arlo VMC2030-100NAS Essential Spotlight Camera",
                     price = 99.99,
-                    id = 11,
+                    _id = "as3",
                     photoUrl = R.drawable.image11
-                )
+                ),2
             )
         }
         adapter = CartAdapter(cart)
@@ -86,7 +86,7 @@ class CartFragment : Fragment() {
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
-            startActivityForResult(intent,11)
+            startActivity(intent)
         }
         val observer = object : RecyclerView.AdapterDataObserver(){
             override fun onChanged() {
@@ -128,8 +128,7 @@ class CartFragment : Fragment() {
     }
 
     companion object ShoppingCart {
-        var cart = ArrayList<Product>()
-
+        var cart = ArrayList<Pair<Product, Int>>()
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ShoppingListFragment().apply {
@@ -140,8 +139,15 @@ class CartFragment : Fragment() {
             }
 
 
-        fun addToCart(product: Product) {
-            cart.add(product)
+        fun addToCart(product: Product, num: Int) {
+            for(item in cart){
+                if(item.first._id == product._id) {
+                    val newPair = item.copy(second = item.second + num)
+                    cart[cart.indexOf(item)] = newPair
+                    return
+                }
+            }
+            cart.add(Pair(product, num))
         }
 
         fun removeFromCart(productIndex: Int) {
