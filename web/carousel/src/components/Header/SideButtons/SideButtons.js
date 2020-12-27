@@ -11,6 +11,7 @@ import {
   ShoppingCartOutlined,
   CommentOutlined,
   NotificationOutlined,
+  GiftOutlined,
   LogoutOutlined,
   GiftOutlined,
 } from "@ant-design/icons";
