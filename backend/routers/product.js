@@ -4,8 +4,8 @@ const RequestHelper = require("./../util/requestHelper");
 
 const router = express.Router();
 
-router.get("/search", ProductController.searchProductsController, RequestHelper.returnResponse);
-router.get(
+router.post("/search", ProductController.searchProductsController, RequestHelper.returnResponse);
+router.post(
   "/searchFilters",
   ProductController.getSearchFiltersController,
   RequestHelper.returnResponse
