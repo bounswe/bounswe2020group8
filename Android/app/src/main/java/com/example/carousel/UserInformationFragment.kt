@@ -1,6 +1,5 @@
 package com.example.carousel
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +15,6 @@ import com.example.carousel.pojo.DataCustomerMe
 import com.example.carousel.pojo.ExampleObject
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseVendorMe
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.activity_product_page.view.*
-import kotlinx.android.synthetic.main.fragment_acount_page.*
 import kotlinx.android.synthetic.main.fragment_user_information.view.*
 
 
@@ -42,8 +38,8 @@ class UserInformationFragment : Fragment(){
                 ?.commit()
         }
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        view.edit_save.setOnClickListener{
-            var button = activity?.findViewById<Button>(R.id.edit_save)
+        view.profile_delete_1.setOnClickListener{
+            var button = activity?.findViewById<Button>(R.id.profile_delete_1)
             var temp = if(button?.text?.equals("EDIT") == true) {"SAVE"} else {"EDIT"}
             button?.setText(temp)
             var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)

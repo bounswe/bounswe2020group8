@@ -105,5 +105,9 @@
     <string name="profile_birthday_hint">Birthday</string>
     <string name="delete_list_title">DELETE LIST</string>
     <string name="delete_list_body">Do you really want to delete this list?</string>
+    <string name="profile_addresses">Addresses</string>
+    <string name="profile_cards">Credit Cards</string>
+    <string name="profile_address_1">Adress 1:</string>
+    <string name="profile_cards_1">Card 1:</string>
 
 </resources>
