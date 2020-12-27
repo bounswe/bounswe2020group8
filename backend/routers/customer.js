@@ -1,5 +1,6 @@
 const express = require("express");
 const CustomerController = require("../controllers/customer");
+const ShoppingCartController = require("../controllers/shoppingCart");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const router = express.Router();
@@ -32,5 +33,26 @@ router
   .get(CustomerController.getOneCustomerController, RequestHelper.returnResponse)
   .patch(CustomerController.updateOneCustomerController, RequestHelper.returnResponse)
   .delete(CustomerController.deleteOneCustomerController, RequestHelper.returnResponse);
+
+router.post(
+  "/shoppingCart/update",
+  ShoppingCartController.updateShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/shoppingCart/delete",
+  ShoppingCartController.deleteFromShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/shoppingCart/reset",
+  ShoppingCartController.resetShoppingCartController,
+  RequestHelper.returnResponse
+);
+router.post(
+  "/shoppingCart/get",
+  ShoppingCartController.getShoppingCartController,
+  RequestHelper.returnResponse
+);
 
 module.exports = router;

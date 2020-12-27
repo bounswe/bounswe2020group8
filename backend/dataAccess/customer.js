@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const Customer = mongoose.model("Customer");
 
 exports.populateCustomerDB = function (obj, path = "customer") {
@@ -33,6 +32,61 @@ exports.updateCustomerPasswordDB = function (_id, password) {
     },
     { _id: 1, new: true }
   );
+};
+
+exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
+  return Customer.findOneAndUpdate(
+    {
+      _id: _id,
+      shoppingCart: { $not: { $elemMatch: { productId: productId, vendorId: vendorId } } },
+    },
+    {
+      $addToSet: {
+        shoppingCart: { productId: productId, vendorId: vendorId, amount: 0 },
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
+  return Customer.findOneAndUpdate(
+    { _id: _id, shoppingCart: { $elemMatch: { productId: productId, vendorId: vendorId } } },
+    {
+      $set: {
+        "shoppingCart.$.amount": amount,
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.deleteFromCustomerShoppingCartDB = function (_id, productId, vendorId) {
+  return Customer.findOneAndUpdate(
+    { _id: _id },
+    {
+      $pull: {
+        shoppingCart: { productId: productId, vendorId: vendorId },
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.resetCustomerShoppingCartDB = function (_id) {
+  return Customer.findOneAndUpdate(
+    { _id: _id },
+    {
+      $set: {
+        shoppingCart: [],
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.getCustomerShoppingCartDB = function (_id) {
+  return Customer.findById({ _id: _id }).select("shoppingCart");
 };
 
 exports.updateCustomerVerifyEmailTokenDB = function (_id, verifyEmailToken) {
