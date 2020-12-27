@@ -137,6 +137,7 @@ class LoginComponent extends Component {
   handleSignupClick = () => {
     let payload = {};
     let url = "";
+    let body = {};
     if (this.context.userType === "Vendor") {
       payload = {
         name: this.context.name,
@@ -148,6 +149,10 @@ class LoginComponent extends Component {
         passwordConfirm: this.context.passwordConfirm,
       };
       url = "/vendor/signup";
+      body = {
+        locations: this.context.vendorLocations,
+      };
+      console.log(body);
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,
@@ -162,7 +167,7 @@ class LoginComponent extends Component {
     }
 
     services
-      .post(url, null, { params: payload })
+      .post(url, body, { params: payload })
       .then((response) => {
         console.log(response);
         this.context.error = false;

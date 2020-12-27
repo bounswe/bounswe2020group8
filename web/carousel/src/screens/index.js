@@ -46,7 +46,9 @@ const App = () => {
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyDomain, setCompanyDomain] = useState("");
+  const [vendorLocations, setVendorLocations] = useState([]);
   const [error, setError] = useState(false);
+  const [IBAN, setIBAN] = useState("");
 
   const loginHandler = (newEmail, newToken) => {
     setEmail(newEmail);
@@ -70,6 +72,25 @@ const App = () => {
   const companyNameChangeHandler = (newCompanyName) => {
     setCompanyName(newCompanyName);
   };
+  const vendorLocationHandler = (newLocations) => {
+    setVendorLocations(newLocations);
+  };
+  const addVendorLocationHandler = (newVendorLocation) => {
+    setVendorLocations([...vendorLocations, newVendorLocation]);
+  };
+  const removeVendorLocationHandler = (
+    removedLocationLat,
+    removedLocationLng
+  ) => {
+    setVendorLocations(
+      vendorLocations.filter(
+        (location) =>
+          location.latitude !== removedLocationLat ||
+          location.longitude !== removedLocationLng
+      )
+    );
+  };
+
   const setErrorHandler = (newError) => {
     setError(newError);
   };
@@ -128,7 +149,9 @@ const App = () => {
           surname: surname,
           companyName: companyName,
           companyDomain: companyDomain,
+          vendorLocations: vendorLocations,
           error: error,
+          IBAN: IBAN,
           login: loginHandler,
           changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
@@ -136,10 +159,15 @@ const App = () => {
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
+          setVendorLocations: vendorLocationHandler,
+          addVendorLocation: addVendorLocationHandler,
+          removeVendorLocation: removeVendorLocationHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,
           setError: setErrorHandler,
+          setEmail: setEmail,
+          setIBAN: setIBAN,
         }}
       >
         <Router>
