@@ -102,21 +102,21 @@ data class Category(
 
 data class ResponseProductSearch(
     @Expose @SerializedName("results") val results: Int,
-    @Expose @SerializedName("data") val data: List<DataSearchProduct>,
+    @Expose @SerializedName("data") val data: List<DataProductSearch>,
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String,
 )
 
-data class DataSearchProduct(
+data class DataProductSearch(
     @Expose @SerializedName("matches") val matches: Int,
     @Expose @SerializedName("maxPrice") val maxPrice: Int,
     @Expose @SerializedName("minPrice") val minPrice: Int,
     @Expose @SerializedName("vendors") val vendors: List<Vendor>,
     @Expose @SerializedName("photos") val photos: List<String>,
     @Expose @SerializedName("mainProduct") val mainProduct: MainProduct,
-    @Expose @SerializedName("mpid") val mpid: Int,
-    @Expose @SerializedName("brand") val brand: Int,
-    @Expose @SerializedName("category") val category: Int,
+    @Expose @SerializedName("mpid") val mpid: String,
+    @Expose @SerializedName("brand") val brand: String,
+    @Expose @SerializedName("category") val category: String,
 )
 
 data class MainProduct(
@@ -132,14 +132,14 @@ data class Vendor(
 )
 
 data class ResponseProductSearchFilters(
-    @Expose @SerializedName("data") val data: DataSearchFilters,
+    @Expose @SerializedName("data") val data: DataProductSearchFilters,
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String,
 )
 
-data class DataSearchFilters(
+data class DataProductSearchFilters(
     @Expose @SerializedName("_id") val _id: String,
-    @Expose @SerializedName("parameters") val parameters: List<SearchFiltersParameters>,
+    @Expose @SerializedName("parameters") val parameters: List<ProductSearchFiltersParameters>,
     @Expose @SerializedName("maxPrice") val maxPrice: Int,
     @Expose @SerializedName("minPrice") val minPrice: Int,
     @Expose @SerializedName("vendors") val vendors: List<Vendor>,
@@ -147,7 +147,7 @@ data class DataSearchFilters(
     @Expose @SerializedName("categories") val categories: List<String>,
 )
 
-data class SearchFiltersParameters(
+data class ProductSearchFiltersParameters(
     @Expose @SerializedName("name") val name: String,
     @Expose @SerializedName("values") val values: List<String>,
 )
