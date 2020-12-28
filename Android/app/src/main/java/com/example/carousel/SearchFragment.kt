@@ -1,16 +1,14 @@
 package com.example.carousel
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
+import android.widget.LinearLayout
+import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +16,9 @@ import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.map.SearchQuery
 import com.example.carousel.pojo.ResponseProductSearch
+import com.example.carousel.pojo.ResponseProductSearchFilters
 import kotlinx.android.synthetic.main.fragment_search.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 
 class SearchFragment : Fragment() {
@@ -26,8 +26,14 @@ class SearchFragment : Fragment() {
     private var lastQuery = "fashion"   // a default query
     private lateinit var spinnerAdapter: ArrayAdapter<String>
     private var initializedView = false
+    private var initializedViewFilter = false
+
     private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
         "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
+
+    private val ratingFilterMap = mapOf<String, Int>("1 star and above" to 1, "2 stars and above" to 2, "3 stars and above" to 3,
+        "4 stars and above" to 4, "5 stars" to 5)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +77,12 @@ class SearchFragment : Fragment() {
 
         filterButton.setOnClickListener {
             drawer_layout.openDrawer(Gravity.RIGHT);
-            //searchFiltersCall() TODO
         }
         expandable_price.visibility = View.GONE
         expandable_rating.visibility = View.GONE
-        expandable_color.visibility = View.GONE
+        color_container.visibility = View.GONE
+        size_container.visibility = View.GONE
+        brand_container.visibility = View.GONE
 
 
         price_filter.setOnClickListener {
@@ -99,22 +106,34 @@ class SearchFragment : Fragment() {
         }
 
         color_filter.setOnClickListener {
-            if(expandable_color.visibility == View.GONE) {
-                expandable_color.visibility = View.VISIBLE
+            if(color_container.visibility == View.GONE) {
+                color_container.visibility = View.VISIBLE
             }
             else {
-                expandable_color.visibility = View.GONE
+                color_container.visibility = View.GONE
+
+            }
+        }
+        size_filter.setOnClickListener {
+            if(size_container.visibility == View.GONE) {
+                size_container.visibility = View.VISIBLE
+            }
+            else {
+                size_container.visibility = View.GONE
+
+            }
+        }
+        brand_filter.setOnClickListener {
+            if(brand_container.visibility == View.GONE) {
+                brand_container.visibility = View.VISIBLE
+            }
+            else {
+                brand_container.visibility = View.GONE
 
             }
         }
 
 
-
-        // ok button will be removed soon
-        /*price_ok.setOnClickListener {
-            val minp = min_price.getText()
-            val maxp = max_price.getText()
-        }*/
         button_0_50.setOnClickListener {
             //button_0_50.setBackgroundColor(Color.parseColor("#FF1FEAD7"))
             min_price.setText("0")
@@ -135,6 +154,48 @@ class SearchFragment : Fragment() {
         button_500_plus.setOnClickListener {
             min_price.setText("500")
             max_price.setText("")
+        }
+
+        /*rating_clear.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            rating_radio_group.clearCheck()
+        })*/
+
+        var queryMinPrice = ""
+        var queryMaxPrice = ""
+        var queryRating = ""
+        var queryBrand = ""
+
+
+        apply_button.setOnClickListener {
+            if(min_price.text.toString() != "") {
+                queryMinPrice = "minPrice[gte]=" + min_price.text.toString()
+            }
+            if(max_price.text.toString() != "") {
+                queryMaxPrice = "minPrice[lte]=" + min_price.text.toString()
+            }
+            if(rating_radio_group.getCheckedRadioButtonId() != -1) {
+                val selectedId = rating_radio_group.getCheckedRadioButtonId()
+                val selectedRadioButton = resources.getResourceEntryName(selectedId)
+                val r = ratingFilterMap[selectedRadioButton]
+                queryRating = "rating[gte]=" + r
+
+            }
+            for(i in 0..(brand_container.childCount-1)) {
+                val view = brand_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    queryBrand = "brand=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                }
+            }
+
+
+
+            searchCall(lastQuery, sort, brand=queryBrand, minPrice = queryMinPrice, maxPrice = queryMaxPrice, rating = queryRating)
+
+            /*expandable_price.visibility = View.GONE
+            expandable_rating.visibility = View.GONE
+            color_container.visibility = View.GONE
+            size_container.visibility = View.GONE
+            brand_container.visibility = View.GONE*/
         }
 
 
@@ -162,12 +223,18 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    private fun searchCall(query: String, sort: String) {
+    private fun searchCall(query: String, sort: String, limit: Int = 1000, page: Int = 1, fields: String = "", brand: String = "", category: String = "", vendors: String = ""
+                           , maxPrice: String = "", minPrice: String = "", rating: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(SearchQuery(query), sort)
+        var resultUrl = "http://54.165.207.44:8080/product/search?" + sort + "&" + brand + "&" + category + "&" + vendors + "&" + maxPrice + "&" + minPrice + "&" + rating
+
+        val url =
+            resultUrl.toHttpUrlOrNull()
+
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(query))
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
@@ -182,26 +249,70 @@ class SearchFragment : Fragment() {
             }
         }
         apiCallerProductSearch.Failure = {}
-        try {
-            apiCallerProductSearch.run()
+        apiCallerProductSearch.run()
+
+
+        searchFiltersCall(query)
+    }
+
+    private fun searchFiltersCall(query: String) {
+        val apiCallerProductSearchFilters: ApiCaller<ResponseProductSearchFilters> = ApiCaller(activity)
+        //apiCallerLogin.Button = login_button
+
+        apiCallerProductSearchFilters.Caller = ApiClient.getClient.productSearchFilters(SearchQuery(query))
+        apiCallerProductSearchFilters.Success = { it ->
+            if (it != null) {
+                activity?.runOnUiThread(Runnable { //Handle UI here
+
+                    color_container.removeAllViews()
+                    brand_container.removeAllViews()
+                    size_container.removeAllViews()
+
+                    for(brand in it.data.brands) {
+                        val newItem = CheckBox(requireContext())
+                        newItem.text = brand
+                        newItem.layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        brand_container.addView(newItem)
+                    }
+
+                    for(param in it.data.parameters) {
+                        var myContainer: LinearLayout
+                        if (param.name == "color") {
+                            myContainer = color_container
+                        }
+                        else {
+                            myContainer = size_container
+                        }
+                        for(v in param.value) {
+                            val newItem = CheckBox(requireContext())
+                            newItem.text = v
+                            newItem.layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                            myContainer.addView((newItem))
+                        }
+                    }
+
+
+
+
+
+                    /*val filters = ArrayList<String, ArrayList<String>>()
+                    for(item in it.data.parameters) {
+                        item.name
+                        item.value
+                        //filters.add(responseToProductSearch(item, item.mainProduct[0]))
+                    }
+                    //createProductList(products, results)*/
+                })
+            }
         }
-        catch (exc: IllegalStateException) {
-
-        }
-
-        /*val resultingProducts = ArrayList<Product>()
-        resultingProducts.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1))
-        resultingProducts.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2))
-        resultingProducts.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3))
-
-        resultingProducts.add(Product(title = "Bose Noise Cancelling Wireless Bluetooth Headphones 700", price = 339.99, id = 4, photoUrl = R.drawable.image4))
-        resultingProducts.add(Product(title = "Sony X800H 43 Inch TV", price = 448.99, id = 5, photoUrl = R.drawable.image5))
-        resultingProducts.add(Product(title = "ASUS F512DA-EB51 VivoBook 15", price = 14.99, id = 6, photoUrl = R.drawable.image6))
-        resultingProducts.add(Product(title = "DualSense Wireless Controller \$69.99", price = 69.99, id = 7, photoUrl = R.drawable.image7))
-
-        resultingProducts.add(Product(title = "SAMSUNG 870 QVO SATA III 2.5\\' SSD", price = 199.99, id = 8, photoUrl = R.drawable.image8))
-
-        createProductList(resultingProducts, results)*/
+        apiCallerProductSearchFilters.Failure = {}
+        apiCallerProductSearchFilters.run()
 
     }
 

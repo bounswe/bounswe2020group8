@@ -196,6 +196,7 @@
                 android:orientation="vertical" >
 
                 <RadioGroup
+                    android:id="@+id/rating_radio_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
@@ -243,96 +244,44 @@
                 app:backgroundTint="#FFFFFF" />
 
             <LinearLayout
+                android:id="@+id/color_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/expandable_color"
-                android:orientation="vertical">
-
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Black" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="White" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Red" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Orange" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Yellow" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Green" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Blue" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Purple" />
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pink" />
-
-            </LinearLayout>
+                android:orientation="vertical" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/brand_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Brand"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />
+        <LinearLayout
+            android:id="@+id/brand_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/size_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Size"
             android:textColor="#292929"
             app:backgroundTint="#FFFFFF" />
-
-        <!--<Button
-            android:id="@+id/button6"
+        <LinearLayout
+            android:id="@+id/size_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
-            android:textColor="#292929"
-            app:backgroundTint="#FFFFFF" />-->
+            android:orientation="vertical" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/apply_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gender"
-            android:textColor="#292929"
-            app:backgroundTint="#FFFFFF" />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="Material"
-            android:textColor="#292929"
-            app:backgroundTint="#FFFFFF" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Apply"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
+            android:text="Apply" />
     </LinearLayout>
     </ScrollView>
 

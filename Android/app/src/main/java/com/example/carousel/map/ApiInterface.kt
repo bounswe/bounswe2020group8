@@ -3,6 +3,7 @@ package com.example.carousel.map
 import com.example.carousel.pojo.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import okhttp3.HttpUrl
 import okhttp3.ResponseBody
 
 import retrofit2.Call
@@ -104,17 +105,18 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
-    @POST("/product/search")
+    @POST
     fun productSearch(
+        @Url url: HttpUrl?,
         @Body searchQuery: SearchQuery,
         @Query("sort") sort: String = "",
         @Query("limit") limit: Int = 1000,
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
 
-    @GET("/product/searchFilters")
+    @POST("/product/searchFilters")
     fun productSearchFilters(
-        @Query("query") query: String, ): Call<ResponseProductSearchFilters>
+        @Body searchQuery: SearchQuery, ): Call<ResponseProductSearchFilters>
 
 
 

@@ -183,11 +183,16 @@ data class DataProductSearch(
     @Expose @SerializedName("maxPrice") val maxPrice: Int,
     @Expose @SerializedName("minPrice") val minPrice: Int,
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
-    @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("mainProduct") val mainProduct: ArrayList<MainProduct>,
+    @Expose @SerializedName("product") val product: ProductDataSearch,
     @Expose @SerializedName("mpid") val mpid: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
+)
+
+data class ProductDataSearch(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
 )
 
 data class MainProduct(
