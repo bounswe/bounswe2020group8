@@ -98,4 +98,7 @@ interface ApiInterface {
         @Path("pid") pid: String = "",
         @Body body: PostComment): Call<PostComment>
 
+    @POST("/customer/shoppingCart/get")
+    fun getCart(
+        @Query("_id") _id: String): Call<ArrayList<ResponseCart>>
 }

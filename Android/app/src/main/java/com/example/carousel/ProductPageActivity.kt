@@ -42,7 +42,7 @@ class ProductPageActivity : AppCompatActivity() {
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
-        vendor.text = "by ${product!!.vendorId}"
+        vendor.text = "by ${product!!.vendorSpecifics[0].vendorID.companyName}"
         //product!!.comments.add(Comment("Very good", 5.0, "Ahmet Zübüzüb","123"))
         //product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1.0, "Tuba Engin","122"))
        this.runOnUiThread {

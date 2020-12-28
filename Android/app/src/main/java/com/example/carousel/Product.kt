@@ -34,7 +34,7 @@ data class Product(
 
     fun responseToProduct (product: ProductData, main: MainProductData): Product {
         return Product(
-            _id = main._id,
+            _id = product._id,
             title = main.title,
             description = main.description,
             price = product.default.price,

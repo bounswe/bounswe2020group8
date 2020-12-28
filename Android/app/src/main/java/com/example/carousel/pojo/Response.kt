@@ -103,7 +103,7 @@ data class ProductData(
     @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
-    @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorSpecifics>,
+    @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorDefaults>,
     @Expose @SerializedName("parentProduct") val parentProduct: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
@@ -176,4 +176,10 @@ data class ResponseGetComments(
 
 data class PostComment(
     @Expose @SerializedName("text") val text: String
+)
+
+data class ResponseCart(
+    @Expose @SerializedName("productId") val productId: String,
+    @Expose @SerializedName("vendorId") val vendorId: String,
+    @Expose @SerializedName("amount") val amount: Int
 )

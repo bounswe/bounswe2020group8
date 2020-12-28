@@ -15,6 +15,13 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_cart.view.*
 import android.view.animation.DecelerateInterpolator
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ResponseCart
+import com.example.carousel.pojo.ResponseGetComments
+import com.example.carousel.pojo.ResponseMainProduct
+import com.example.carousel.pojo.ResponseProduct
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +42,56 @@ class CartFragment : Fragment(){
     private var isCollapsed = false
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.runOnUiThread {
+            val apiCallerGetCart: ApiCaller<ArrayList<ResponseCart>> = ApiCaller(activity)
+            apiCallerGetCart.Caller = ApiClient.getClient.getCart(LoginActivity.user.id)
+            apiCallerGetCart.Success = {
+                firstResponse ->
+                if (firstResponse != null) {
+                    activity?.runOnUiThread {
+                        Log.d("FIRSTRESPONSE", firstResponse.toString())
+                        for(product in firstResponse) {
+                            val apiCallerGetProduct: ApiCaller<ResponseProduct> = ApiCaller(activity)
+                            apiCallerGetProduct.Caller =
+                                ApiClient.getClient.getProduct(product.productId)
+                            apiCallerGetProduct.Success = { secondResponse ->
+                                if (secondResponse != null) {
+                                    Log.d("SECONDRESPONSE", secondResponse.toString())
+                                    val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                                    apiCallerGetMainProduct.Caller = ApiClient.getClient.getMainProduct(secondResponse.data.parentProduct)
+                                    apiCallerGetMainProduct.Success = { thirdResponse ->
+                                        if (thirdResponse != null) {
+                                            addToCart(responseToProduct(secondResponse.data, thirdResponse.data), product.amount)
+                                            adapter = CartAdapter(cart)
+                                            products_in_cart.apply {
+                                                layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+                                                setAdapter(this@CartFragment.adapter)
+                                            }
+                                            updateCartInfo(totalCost(), adapter.itemCount)
 
+                                            val observer = object : RecyclerView.AdapterDataObserver(){
+                                                override fun onChanged() {
+                                                    super.onChanged()
+                                                    updateCartInfo(totalCost(), adapter.itemCount)
+                                                }
+                                            }
+                                            adapter.registerAdapterDataObserver(observer)
+                                        }
+                                    }
+                                    apiCallerGetMainProduct.Failure = { Log.d("THIRDRESPONSE", "FAILED") }
+                                    apiCallerGetMainProduct.run()
+                                }
+                            }
+                            apiCallerGetProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+                            apiCallerGetProduct.run()
+                        }
+                    }
+                }
+            }
+            apiCallerGetCart.run()
+            apiCallerGetCart.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
+        }
+/*
         if(cart.isEmpty()) {
             addToCart(
                 Product(
@@ -62,12 +118,9 @@ class CartFragment : Fragment(){
                 ),2
             )
         }
-        adapter = CartAdapter(cart)
-        products_in_cart.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-            setAdapter(this@CartFragment.adapter)
-        }
-        updateCartInfo(totalCost(), adapter.itemCount)
+        */
+
+
 
         product_dropdown.setOnClickListener {
             if(isCollapsed) {
@@ -85,19 +138,14 @@ class CartFragment : Fragment(){
         purchase_cart_button.setOnClickListener{
             purchase()
         }
+        /*
         adapter.onItemClick = { product ->
-            Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
             startActivity(intent)
         }
-        val observer = object : RecyclerView.AdapterDataObserver(){
-            override fun onChanged() {
-                super.onChanged()
-                updateCartInfo(totalCost(), adapter.itemCount)
-            }
-        }
-        adapter.registerAdapterDataObserver(observer)
+        */
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
