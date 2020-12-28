@@ -79,12 +79,10 @@ export default class CommentsComponent extends React.Component {
         this.setState({ myId: "" });
       });
     if (this.state.comments.length == 0) {
-      console.log("Burada");
       var comments = [];
       var getCommentsUrl =
         "/comment/" + this.props.product.parentProduct + "/all";
       await services.get(getCommentsUrl).then((response) => {
-        console.log(response);
         var i = 0;
         for (i; i < response.data.data.length; i++) {
           var commentElement = {
@@ -93,7 +91,6 @@ export default class CommentsComponent extends React.Component {
             text: response.data.data[i].text,
           };
           comments.push(commentElement);
-          console.log(response.data.data[i].customerId);
         }
       });
       let k = 0;
@@ -144,7 +141,6 @@ export default class CommentsComponent extends React.Component {
     services
       .post(postUrl, postData, config)
       .then((response) => {
-        console.log(response);
         this.setState({
           submitting: false,
           value: "",
@@ -159,9 +155,7 @@ export default class CommentsComponent extends React.Component {
           ],
         });
       })
-      .catch((err, response) => {
-        console.log(err);
-      });
+      .catch((err, response) => {});
   };
 
   handleChange = (e) => {
@@ -172,7 +166,6 @@ export default class CommentsComponent extends React.Component {
 
   async handleDelete(item) {
     var deleteUrl = "/comment/" + this.props.product.parentProduct;
-    console.log(item);
     await services
       .delete(deleteUrl, {
         headers: {
@@ -184,12 +177,9 @@ export default class CommentsComponent extends React.Component {
       })
       .then((response) => {
         var comments = this.state.comments;
-        console.log(response);
         var index = comments.indexOf(item);
         comments.splice(index, 1);
-        console.log(comments);
         this.setState({ comments: comments });
-        console.log(this.state.comments);
       })
       .catch((err, response) => {});
   }
@@ -203,9 +193,7 @@ export default class CommentsComponent extends React.Component {
           itemLayout="vertical"
           size="large"
           pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
+            onChange: (page) => {},
             pageSize: 4,
           }}
           dataSource={comments}
