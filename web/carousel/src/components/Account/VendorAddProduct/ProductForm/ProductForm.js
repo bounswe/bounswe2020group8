@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import classes from "../AddProduct.module.css";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Radio, Tag } from "antd";
 import PicturesWall from "../../../PicturesWall";
+import { TweenOneGroup } from "rc-tween-one";
+import { PlusOutlined } from "@ant-design/icons";
 
 const layout = {
   labelCol: { span: 8 },
@@ -23,6 +25,11 @@ class ProductForm extends Component {
     super(props);
     this.state = {
       parentProductId: "",
+      paramValue: 0,
+      tagInputVisible: false,
+      inputValue: "",
+      tags: [],
+      categoryIdDic: {},
     };
   }
 
@@ -30,20 +37,99 @@ class ProductForm extends Component {
     this.setState({ parentProductId: this.props.parentProduct });
   }
 
+  onChange = (e) => {
+    this.setState({paramValue: e.target.value});
+  };
+
+  showTagInput = () => {
+    this.setState({ tagInputVisible: true }, () => this.input.focus());
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleInputConfirm = () => {
+    const { inputValue } = this.state;
+
+    let { tags } = this.state;
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      tags = [...tags, inputValue];
+    }
+    this.setState({
+      tags,
+      tagInputVisible: false,
+      inputValue: "",
+    });
+    this.props.passTags(tags);
+  };
+
+  handleClose = (removedTag) => {
+    let id = this.state.categoryIdDic[removedTag];
+
+    const tags = this.state.tags.filter((tag) => tag !== removedTag);
+    delete this.state.categoryIdDic[removedTag];
+    this.setState({ tags });
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  setFields = (fields) => {
+    fields = this.state.tags;
+    return fields;
+  }
+
+  forMap = (tag) => {
+    const tagElem = (
+      <Tag
+        closable
+        onClose={(e) => {
+          e.preventDefault();
+          this.handleClose(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: "inline-block" }}>
+        {tagElem}
+      </span>
+    );
+  };
+
   render() {
     let parameterInputs = "";
+    let parameterValues = [];
+
+    for (let i = 0; i < this.props.parameterValues.length; i++) {
+      let params = [];
+      for (let k = 0; k < this.props.parameterValues[i].length; k++) {
+        params.push(<Radio value={this.props.parameterValues[i][k]}>{this.props.parameterValues[i][k]}</Radio>);
+      }
+      parameterValues.push(
+        <Radio.Group onChange={(event) => this.onChange(event)} value={this.state.parameterValues}>
+          {params}
+        </Radio.Group>
+      );
+    }
+
     for (let i = 0; i < this.props.parameterInputs.length; i++) {}
     parameterInputs = this.props.parameterInputs.map((param, igKey) => {
-      console.log(param);
       return (
         <Form.Item
           name={["user", "parameter_" + param]}
+          rules={[{ required: true }]}
           label={param.charAt(0).toUpperCase() + param.slice(1)}
         >
-          <Input />
+          {parameterValues[igKey]}
         </Form.Item>
       );
     });
+
+    const tagChild = this.state.tags.map(this.forMap);
 
     return (
       <Form
@@ -105,9 +191,41 @@ class ProductForm extends Component {
         <Form.Item
           name={["user", "tags"]}
           label="Tags"
-          rules={[{ required: true }]}
+          setFieldsValue={this.state.tags}
         >
-          <Input placeholder="tag1, tag2, ..." />
+          <div style={{ marginBottom: 16 }}>
+            <TweenOneGroup
+              enter={{
+                scale: 0.8,
+                opacity: 0,
+                type: "from",
+                duration: 100,
+                onComplete: (e) => {
+                  e.target.style = "";
+                },
+              }}
+              leave={{ opacity: 0, width: 0, scale: 0, duration: 200 }}
+              appear={false}
+            >
+              {tagChild}
+            </TweenOneGroup>
+          </div>
+          <Tag onClick={this.showTagInput} className="site-tag-plus">
+            <PlusOutlined /> New Tag
+          </Tag>
+          {this.state.tagInputVisible && (
+            <Input
+              ref={this.saveInputRef}
+              type="text"
+              size="small"
+              style={{ width: 78 }}
+              value={this.state.inputValue}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputConfirm}
+              onPressEnter={this.handleInputConfirm}
+            />
+          )}
+
         </Form.Item>
         <Form.Item name={["user", "parameters"]} label="Parameters">
           <div style={{ height: "20px" }} />
