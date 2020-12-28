@@ -170,9 +170,9 @@ class ProductPageActivity : AppCompatActivity() {
         else {
             this.runOnUiThread {
 
-                val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(this)
+                val apiCallerAddToCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(this)
                 apiCallerAddToCart.Button = cart_button
-                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(ResponseCart(product!!._id,product!!.vendorId,count), LoginActivity.user.id)
+                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(ResponseCart(product!!._id,product!!.vendorId, count), LoginActivity.user.id)
                 apiCallerAddToCart.Success = { it ->
                     if (it != null) {
                         this.product?.let { CartFragment.addToCart(it, count) }

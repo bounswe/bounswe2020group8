@@ -44,7 +44,7 @@ data class DataCustomerMe(
     @Expose @SerializedName("email")var email: String,
     @Expose @SerializedName("isSuspended")var isSuspended: Boolean,
     @Expose @SerializedName("isActive")var isActive: Boolean,
-    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
+    //@Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
     @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
     @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
     @Expose @SerializedName("addresses")var addresses: ArrayList<AddressJSON>?,
@@ -196,3 +196,9 @@ data class ResponseCart(
     @Expose @SerializedName("vendorId") val vendorId: String,
     @Expose @SerializedName("amount") val amount: Int
 )
+
+data class DeleteCart(
+    @Expose @SerializedName("productId") val productId: String,
+    @Expose @SerializedName("vendorId") val vendorId: String,
+)
+

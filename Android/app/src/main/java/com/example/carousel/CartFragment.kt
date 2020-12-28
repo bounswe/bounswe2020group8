@@ -61,8 +61,14 @@ class CartFragment : Fragment(){
                                     apiCallerGetMainProduct.Caller = ApiClient.getClient.getMainProduct(secondResponse.data.parentProduct)
                                     apiCallerGetMainProduct.Success = { thirdResponse ->
                                         if (thirdResponse != null) {
-                                            addToCart(responseToProduct(secondResponse.data, thirdResponse.data), product.amount)
-                                            adapter = CartAdapter(cart)
+                                            val newProduct = responseToProduct(secondResponse.data, thirdResponse.data)
+                                            if(!isInCart(newProduct._id)) {
+                                                addToCart(
+                                                  newProduct ,
+                                                    product.amount
+                                                )
+                                            }
+                                            adapter = CartAdapter(cart, requireActivity())
                                             products_in_cart.apply {
                                                 layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
                                                 setAdapter(this@CartFragment.adapter)
@@ -189,7 +195,14 @@ class CartFragment : Fragment(){
                 }
             }
 
-
+        fun isInCart(productId: String) : Boolean {
+            for (item in cart) {
+                if (item.first._id == productId) {
+                    return true
+                }
+            }
+            return false
+        }
         fun addToCart(product: Product, num: Int) {
             for(item in cart){
                 if(item.first._id == product._id) {

@@ -1,5 +1,7 @@
 package com.example.carousel
 
+import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +9,16 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.DataCustomerMe
+import com.example.carousel.pojo.DeleteCart
+import com.example.carousel.pojo.ResponseCart
+import kotlinx.android.synthetic.main.activity_product_page.*
 
-class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
+class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, private val activity: Activity) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
     var onItemClick: ((Product) -> Unit)? = null
+
     override fun getItemCount(): Int {
         return productList.size
     }
@@ -44,8 +53,21 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>) : 
         holder.title.text = productList[position].first.title
         holder.price.text = "\$${String.format("%.2f",(productList[position].first.price*productList[position].second))}"
         holder.remove.setOnClickListener{
-            CartFragment.removeFromCart(position)
-            this.notifyDataSetChanged()
+            activity.runOnUiThread {
+
+                val apiCallerAddToCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
+                apiCallerAddToCart.Button = holder.remove
+                apiCallerAddToCart.Caller = ApiClient.getClient.deleteCart(DeleteCart(productList[position].first._id,productList[position].first.vendorId), LoginActivity.user.id)
+                apiCallerAddToCart.Success = { it ->
+                    if (it != null) {
+                        CartFragment.removeFromCart(position)
+                        this.notifyDataSetChanged()
+                    }
+                }
+                apiCallerAddToCart.run()
+                apiCallerAddToCart.Failure = { }
+            }
+
         }
         holder.addFavorite.setOnClickListener{
             //ShoppingListFragment.lists[0].add(productList[position])
