@@ -7,39 +7,44 @@ import services from "../../../../apis/services";
 
 const TOKEN = localStorage.getItem("token");
 
-const listData = [];
-
-for (let i = 0; i < 100; i++) {
-  listData.push({
-    title: `ant design part ${i}`,
-    description:
-      "Ant Design, a design language for background applications, is refined by Ant UED Team.",
-    content:
-      "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-  });
-}
-
 const { TextArea } = Input;
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-const Editor = ({ onChange, onSubmit, submitting, value }) => (
+
+const Editor = ({ onChange, onSubmit, submitting, value, myId }) => (
   <>
     <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
+      {myId != "" ? (
+        <TextArea rows={4} onChange={onChange} value={value} />
+      ) : (
+        <TextArea
+          rows={4}
+          onChange={onChange}
+          value={value}
+          disabled={true}
+          placeholder={"Login to Add Comment"}
+        />
+      )}
     </Form.Item>
     <Form.Item>
-      <Button
-        htmlType="submit"
-        loading={submitting}
-        onClick={onSubmit}
-        type="primary"
-      >
-        Add Comment
-      </Button>
+      {myId != "" ? (
+        <Button
+          htmlType="submit"
+          loading={submitting}
+          onClick={onSubmit}
+          type="primary"
+        >
+          Add Comment
+        </Button>
+      ) : (
+        <Button
+          htmlType="submit"
+          loading={submitting}
+          onClick={onSubmit}
+          type="primary"
+          disabled={true}
+        >
+          Add Comment
+        </Button>
+      )}
     </Form.Item>
   </>
 );
@@ -101,10 +106,15 @@ export default class CommentsComponent extends React.Component {
             _id: comments[k].customerId,
           },
         };
-        await services.get("/customer", config).then((response) => {
-          comments[k].fullName =
-            response.data.data[0].name + " " + response.data.data[0].lastName;
-        });
+        await services
+          .get("/customer", config)
+          .then((response) => {
+            comments[k].fullName =
+              response.data.data[0].name + " " + response.data.data[0].lastName;
+          })
+          .catch((err, response) => {
+            comments[k].fullName = "Login to see User Names";
+          });
       }
 
       this.setState({ comments: comments });
@@ -226,6 +236,7 @@ export default class CommentsComponent extends React.Component {
           onSubmit={this.handleSubmit}
           submitting={submitting}
           value={value}
+          myId={myId}
         />
       </div>
     );
