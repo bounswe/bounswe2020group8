@@ -17,8 +17,12 @@ const SearchProduct = (props) => {
     setLiked(!liked);
   };
 
-  const { mainProduct, photos, minPrice } = product;
+  const { mainProduct, minPrice } = product;
   const { title, rating, numberOfRating } = mainProduct[0];
+  const photos = product.product.photos;
+  const handleClick = () => {
+    props.history.push(`/product/${mainProduct[0]._id}`);
+  };
   return (
     <div className={classes.SearchProduct}>
       <FixedDiv width={350} height={15} margin={"10px 0px"}>
@@ -39,11 +43,7 @@ const SearchProduct = (props) => {
         </div>
       </FixedDiv>
 
-      <div
-        onClick={() =>
-          withRouter(props.history.push(`/product/${product._id}`))
-        }
-      >
+      <div onClick={handleClick}>
         <FixedDiv width={350} height={250} margin={"20px 0px"}>
           <Image height={250} width={350} src={photos[0]} />
         </FixedDiv>
