@@ -9,7 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import com.example.carousel.R.drawable
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
@@ -20,6 +23,7 @@ import com.example.carousel.pojo.ResponseVendorMe
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_acount_page.*
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
@@ -123,7 +127,7 @@ class MemberAccountPageFragment : Fragment() {
         if (ApplicationContext.instance.isUserAuthenticated()) {
             login = 1
             type = ApplicationContext.instance.whoAmI().toString()
-            pageRender(type,true)
+            pageRender(type, true)
             view?.guest?.visibility = View.INVISIBLE
             view?.login_user?.visibility = View.VISIBLE
         }
@@ -175,7 +179,7 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        name = it.data.name+" "+it.data.lastName
+                        name = it.data.name + " " + it.data.lastName
                         mAdapter = CustomAdapter(context as Context)
                         mAdapter.addSectionHeaderItem(name.toString())
                         mAdapter.addSectionHeaderItem("Account")
@@ -189,7 +193,7 @@ class MemberAccountPageFragment : Fragment() {
                         mAdapter.addItem("Legals", drawable.ic_file)
                         mAdapter.addItem("Contact", drawable.ic_contact)
                         listView.adapter = (mAdapter)
-                        if(redirect) {
+                        if (redirect) {
                             redirectToHome()
                         }
 
@@ -205,7 +209,7 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        name = it.data.name+" "+it.data.lastName
+                        name = it.data.name + " " + it.data.lastName
 
                         mAdapter = CustomAdapter(context as Context) //this section will change for vendor profile
                         mAdapter.addSectionHeaderItem(name.toString())
@@ -221,7 +225,7 @@ class MemberAccountPageFragment : Fragment() {
                         mAdapter.addItem("Contact", drawable.ic_contact)
                         listView.adapter = (mAdapter)
 
-                        if(redirect) {
+                        if (redirect) {
                             redirectToHome()
                         }
                     })
@@ -268,5 +272,14 @@ class MemberAccountPageFragment : Fragment() {
             }
             apiCallerLogoutVendor.run()
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 }

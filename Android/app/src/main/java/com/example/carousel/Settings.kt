@@ -1,12 +1,16 @@
 package com.example.carousel
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.*
+import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
@@ -23,7 +27,7 @@ class Settings : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         type = ApplicationContext.instance.whoAmI().toString()
-        pageRender(type, inflater)
+        pageRender(type)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -42,16 +46,10 @@ class Settings : Fragment() {
                 ?.replace(R.id.fragment_settings, fragment)
                 ?.commit()
         }
-//        view.back_button.setOnClickListener{
-//            val fragment = MemberAccountPageFragment()
-//            activity?.supportFragmentManager?.beginTransaction()
-//                ?.replace(R.id.fragment_settings, fragment)
-//                ?.commit()
-//        }
 
     }
 
-    private fun pageRender(type: String, inflater: LayoutInflater) {
+    private fun pageRender(type: String) {
         if(type.equals("CLIENT")){
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.customerMe()
@@ -61,23 +59,19 @@ class Settings : Fragment() {
                         addresses = it.data.addresses
                         creditCards = it.data.creditCards
 
-                        var addresses: List<Address>?
-                        addresses = it.data.addresses
+                        val adapter = AddressAdapter(addresses as ArrayList<Address>)
+                        val addressRecyclerView = activity!!.findViewById<RecyclerView>(R.id.profile_addresses_scroll)
+                        addressRecyclerView.apply {
+                            layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL, false)
+                            setAdapter(adapter)
+                        }
 
-//                        var layoutInflater: LayoutInflater = activity!!.applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//                        var insertPoint:LinearLayout = activity!!.findViewById<LinearLayout>(R.id.profile_address_linear_layout) as LinearLayout
-//                        var tempAddresses = mutableListOf<View>()
-//                        if (addresses != null) {
-//                            for (i in addresses){
-//                                var view: View = layoutInflater.inflate(R.layout.,null)
-//                                var textView: TextView = view.findViewById(R.id.textView) as TextView
-//                                textView.setText(i.addressName.toString())
-//                                tempAddresses.add(view)
-//                            }
-//                            for (i in tempAddresses){
-//                                insertPoint.addView(i)
-//                            }
-//                        }
+                        val adapter2 = CardAdapter(creditCards as ArrayList<Card>)
+                        val addressRecyclerView2 = activity!!.findViewById<RecyclerView>(R.id.profile_cards_scroll)
+                        addressRecyclerView2.apply {
+                            layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL, false)
+                            setAdapter(adapter2)
+                        }
 
                     })
                 }
@@ -100,4 +94,5 @@ class Settings : Fragment() {
 
         }
     }
+
 }
