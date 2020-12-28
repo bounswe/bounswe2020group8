@@ -4,71 +4,12 @@ import {Space} from "antd";
 import classes from "../ProductRequests/ProductRequests.module.css";
 import Table from "antd/lib/table";
 import {SearchOutlined} from "@ant-design/icons";
+import handleSubmit from "../../UI/ConfirmPopup/ConfirmPopup";
 
 const TOKEN = localStorage.getItem("token");
 const config = {
   headers: { Authorization: `Bearer ${TOKEN}` },
 };
-
-const columns = [
-  {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Brand",
-    dataIndex: "brand",
-    key: "brand",
-  },
-  {
-    title: "Category",
-    dataIndex: "category",
-    key: "category",
-  },
-  {
-    title: "Parameters",
-    dataIndex: "parameters",
-    key: "parameters",
-  },
-  {
-    title: "Price",
-    dataIndex: "price",
-    key: "price",
-  },
-  {
-    title: "Amount Left",
-    dataIndex: "amountLeft",
-    key: "amountLeft",
-  },
-  {
-    title: "Cargo Company",
-    dataIndex: "cargoCompany",
-    key: "cargoCompany",
-  },
-  {
-    title: "Shipment Price",
-    dataIndex: "shipmentPrice",
-    key: "shipmentPrice",
-  },
-  {
-    title: "Actions",
-    key: "action",
-    render: (id, record) => (
-
-      <Space size="large">
-        <a
-          className={classes.TableActionsSuspend}
-          onClick={() => { this.declineProductRequestHandler(record);}}
-        >
-          Delete
-        </a>
-        <br />
-
-      </Space>
-    ),
-  },
-];
 
 export default class Products extends Component {
   constructor(props) {
@@ -91,7 +32,6 @@ export default class Products extends Component {
     this.setState({loading: true});
     services.get("/product", config)
       .then(response => {
-        console.log(response);
         this.showProducts(response.data.data);
       })
       .catch(error => {
@@ -103,7 +43,6 @@ export default class Products extends Component {
     let list = [];
 
     for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
       let params = [];
       for (let k = 0; k < data[i].parameters.length; k++) {
         let str = data[i].parameters[k].name + ": " + data[i].parameters[k].value;
@@ -113,7 +52,6 @@ export default class Products extends Component {
       services.get("/mainProduct/" + data[i].parentProduct, config)
         .then(response => {
           const parentProduct = response.data.data;
-          console.log(parentProduct);
           this.setState((state) => {
             list = list.concat([
               {
@@ -153,7 +91,84 @@ export default class Products extends Component {
     }
   }
 
+  deleteProductHandler = (product) => {
+    console.log(product);
+    services.delete("/product/" + product.id, config)
+      .then(response => {
+        console.log(response);
+        this.getAllProducts();
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
   render() {
+
+    const columns = [
+      {
+        title: "Title",
+        dataIndex: "title",
+        key: "title",
+      },
+      {
+        title: "Brand",
+        dataIndex: "brand",
+        key: "brand",
+      },
+      {
+        title: "Category",
+        dataIndex: "category",
+        key: "category",
+      },
+      {
+        title: "Parameters",
+        dataIndex: "parameters",
+        key: "parameters",
+      },
+      {
+        title: "Price",
+        dataIndex: "price",
+        key: "price",
+      },
+      {
+        title: "Amount Left",
+        dataIndex: "amountLeft",
+        key: "amountLeft",
+      },
+      {
+        title: "Cargo Company",
+        dataIndex: "cargoCompany",
+        key: "cargoCompany",
+      },
+      {
+        title: "Shipment Price",
+        dataIndex: "shipmentPrice",
+        key: "shipmentPrice",
+      },
+      {
+        title: "Actions",
+        key: "action",
+        render: (id, record) => (
+          <Space size="large">
+            <a
+              className={classes.TableActionsSuspend}
+              onClick={() => {
+                handleSubmit(
+                  "Are you sure to delete this product?",
+                  () => this.deleteProductHandler(record)
+                );
+              }}
+              //onClick={() => { this.deleteProductHandler(record);}}
+            >
+              Delete
+            </a>
+            <br />
+          </Space>
+        ),
+      },
+    ];
+
     let data = this.state.products;
     return (
       <div>
