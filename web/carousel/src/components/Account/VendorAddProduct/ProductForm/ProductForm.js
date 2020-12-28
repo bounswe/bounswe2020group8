@@ -25,15 +25,12 @@ class ProductForm extends Component {
     super(props);
     this.state = {
       parentProductId: "",
-<<<<<<< HEAD
       photos: "",
-=======
       paramValue: 0,
       tagInputVisible: false,
       inputValue: "",
       tags: [],
       categoryIdDic: {},
->>>>>>> web-feature/split-vendor-pages
     };
   }
 
@@ -41,7 +38,6 @@ class ProductForm extends Component {
     this.setState({ parentProductId: this.props.parentProduct });
   }
 
-<<<<<<< HEAD
   handleSubmit(values) {
     this.props.clicked({ user: { ...values.user, photos: this.state.photos } });
   }
@@ -50,9 +46,8 @@ class ProductForm extends Component {
     this.setState({ photos: photos });
   }
 
-=======
   onChange = (e) => {
-    this.setState({paramValue: e.target.value});
+    this.setState({ paramValue: e.target.value });
   };
 
   showTagInput = () => {
@@ -93,7 +88,7 @@ class ProductForm extends Component {
   setFields = (fields) => {
     fields = this.state.tags;
     return fields;
-  }
+  };
 
   forMap = (tag) => {
     const tagElem = (
@@ -114,7 +109,6 @@ class ProductForm extends Component {
     );
   };
 
->>>>>>> web-feature/split-vendor-pages
   render() {
     let parameterInputs = "";
     let parameterValues = [];
@@ -122,10 +116,17 @@ class ProductForm extends Component {
     for (let i = 0; i < this.props.parameterValues.length; i++) {
       let params = [];
       for (let k = 0; k < this.props.parameterValues[i].length; k++) {
-        params.push(<Radio value={this.props.parameterValues[i][k]}>{this.props.parameterValues[i][k]}</Radio>);
+        params.push(
+          <Radio value={this.props.parameterValues[i][k]}>
+            {this.props.parameterValues[i][k]}
+          </Radio>
+        );
       }
       parameterValues.push(
-        <Radio.Group onChange={(event) => this.onChange(event)} value={this.state.parameterValues}>
+        <Radio.Group
+          onChange={(event) => this.onChange(event)}
+          value={this.state.parameterValues}
+        >
           {params}
         </Radio.Group>
       );
@@ -240,7 +241,6 @@ class ProductForm extends Component {
               onPressEnter={this.handleInputConfirm}
             />
           )}
-
         </Form.Item>
         <Form.Item name={["user", "parameters"]} label="Parameters">
           <div style={{ height: "20px" }} />

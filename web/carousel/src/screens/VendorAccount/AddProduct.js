@@ -96,7 +96,10 @@ class AddProducts extends Component {
         params = parentProduct.parameters.split(",");
         for (let i = 0; i < params.length; i++) {
           parameterNames = [...parameterNames, params[i]];
-          parameterValues = [...parameterValues, parentProduct.parameterValues[i]];
+          parameterValues = [
+            ...parameterValues,
+            parentProduct.parameterValues[i],
+          ];
         }
 
         this.setState({
@@ -115,7 +118,6 @@ class AddProducts extends Component {
         let temp = data;
         const tempObj = data;
         this.showChildProducts(temp);
-
       })
       .catch((error) => {
         console.log(error);
@@ -315,11 +317,6 @@ class AddProducts extends Component {
     let parameterNames = [];
     let parameterValues = [];
     let parameterLength = 0;
-<<<<<<< HEAD
-    console.log(values);
-    const tags = productInfo.tags.split(", ");
-=======
->>>>>>> web-feature/split-vendor-pages
     Object.keys(productInfo).map((key, igKey) => {
       if (key.substring(0, 10) === "parameter_") {
         parameterNames = [...parameterNames, key.substring(10)];
@@ -406,8 +403,8 @@ class AddProducts extends Component {
   };
 
   setTags = (tags) => {
-    this.setState({newProductTags: tags});
-  }
+    this.setState({ newProductTags: tags });
+  };
 
   render() {
     const data = this.state.mainProducts ? [this.state.mainProducts][0] : null;

@@ -12,6 +12,7 @@ import {
   CommentOutlined,
   NotificationOutlined,
   LogoutOutlined,
+  GiftOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
