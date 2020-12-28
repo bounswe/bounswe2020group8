@@ -90,6 +90,7 @@ export default class PicturesWall extends Component {
           fileList={fileList}
           onPreview={this.handlePreview}
           onChange={this.handleChange}
+          onRemove={(e) => console.log("asdfsadfsd", e)}
         >
           {fileList.length >= 8 ? null : uploadButton}
         </Upload>
