@@ -55,7 +55,7 @@ data class Product(
             maxPrice = product.maxPrice,
             rating = main.rating.toDouble(),
             numberOfRatings = main.numberOfRating,
-            photos = product.photos,
+            photos = product.product.photos,
             brand = product.brand,
             category = product.category,
         )
