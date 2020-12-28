@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.LinearLayout
+import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import com.example.carousel.map.SearchQuery
 import com.example.carousel.pojo.ResponseProductSearch
 import com.example.carousel.pojo.ResponseProductSearchFilters
 import kotlinx.android.synthetic.main.fragment_search.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 
 class SearchFragment : Fragment() {
@@ -27,6 +30,9 @@ class SearchFragment : Fragment() {
 
     private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
         "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
+
+    private val ratingFilterMap = mapOf<String, Int>("1 star and above" to 1, "2 stars and above" to 2, "3 stars and above" to 3,
+        "4 stars and above" to 4, "5 stars" to 5)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +156,41 @@ class SearchFragment : Fragment() {
             max_price.setText("")
         }
 
+        /*rating_clear.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            rating_radio_group.clearCheck()
+        })*/
+
+        var queryMinPrice = ""
+        var queryMaxPrice = ""
+        var queryRating = ""
+        var queryBrand = ""
+
+
         apply_button.setOnClickListener {
+            if(min_price.text.toString() != "") {
+                queryMinPrice = "minPrice[gte]=" + min_price.text.toString()
+            }
+            if(max_price.text.toString() != "") {
+                queryMaxPrice = "minPrice[lte]=" + min_price.text.toString()
+            }
+            if(rating_radio_group.getCheckedRadioButtonId() != -1) {
+                val selectedId = rating_radio_group.getCheckedRadioButtonId()
+                val selectedRadioButton = resources.getResourceEntryName(selectedId)
+                val r = ratingFilterMap[selectedRadioButton]
+                queryRating = "rating[gte]=" + r
+
+            }
+            for(i in 0..(brand_container.childCount-1)) {
+                val view = brand_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    queryBrand = "brand=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                }
+            }
+
+
+
+            searchCall(lastQuery, sort, brand=queryBrand, minPrice = queryMinPrice, maxPrice = queryMaxPrice, rating = queryRating)
+
             /*expandable_price.visibility = View.GONE
             expandable_rating.visibility = View.GONE
             color_container.visibility = View.GONE
@@ -183,12 +223,18 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    private fun searchCall(query: String, sort: String) {
+    private fun searchCall(query: String, sort: String, limit: Int = 1000, page: Int = 1, fields: String = "", brand: String = "", category: String = "", vendors: String = ""
+                           , maxPrice: String = "", minPrice: String = "", rating: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(SearchQuery(query), sort)
+        var resultUrl = "http://54.165.207.44:8080/product/search?" + sort + "&" + brand + "&" + category + "&" + vendors + "&" + maxPrice + "&" + minPrice + "&" + rating
+
+        val url =
+            resultUrl.toHttpUrlOrNull()
+
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(query))
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
