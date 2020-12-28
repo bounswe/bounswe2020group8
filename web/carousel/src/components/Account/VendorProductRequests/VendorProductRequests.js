@@ -21,10 +21,12 @@ class VendorProductRequests extends Component {
       showRequests: true,
       showRequestForm: false,
       request: null,
+      loadingRequests: false,
     };
   }
 
   componentDidMount() {
+    this.setState({ loadingRequests: true });
     this.getProductRequests();
   }
 
@@ -35,7 +37,6 @@ class VendorProductRequests extends Component {
     services
       .get("/vendor/me/productRequest/", config)
       .then((response) => {
-        //console.log(response.data.data);
         this.showProductRequests(response.data.data, config);
       })
       .catch((error) => {
@@ -63,8 +64,6 @@ class VendorProductRequests extends Component {
 
   showProductRequests = (data, config) => {
     this.setState({ productRequests: [] });
-
-    // console.log(data);
 
     let title = "";
     let brand = "";
@@ -106,14 +105,12 @@ class VendorProductRequests extends Component {
                   id: data[i]._id,
                 },
               ]);
-              //console.log(list);
-
               return {
                 productRequests: list,
                 baseProductRequests: list,
+                loadingRequests: false,
               };
             });
-            //console.log(this.state.productRequests);
           })
           .catch((error) => {
             console.log(error);
@@ -128,8 +125,6 @@ class VendorProductRequests extends Component {
         services
           .get("/product/" + data[i].oldValue, config)
           .then((response) => {
-            console.log(response);
-
             const normalProduct = response.data.data;
 
             for (let k = 0; k < normalProduct.parameters.length; k++) {
@@ -142,7 +137,6 @@ class VendorProductRequests extends Component {
             services
               .get("/mainProduct/" + normalProduct.parentProduct, config)
               .then((response) => {
-                //console.log(response.data.data);
                 title = response.data.data.title;
                 brand = response.data.data.brand;
                 category = response.data.data.category;
@@ -165,21 +159,17 @@ class VendorProductRequests extends Component {
                       id: data[i]._id,
                     },
                   ]);
-                  //console.log(list);
-
                   return {
                     productRequests: list,
                     baseProductRequests: list,
                   };
                 });
-                //console.log(this.state.productRequests);
               })
               .catch((error) => {
                 console.log(error);
               });
           })
           .catch((error) => {
-            console.log("i: ", i);
             console.log(error);
           });
       }
@@ -187,14 +177,12 @@ class VendorProductRequests extends Component {
   };
 
   deleteProductRequestHandler = (product) => {
-    console.log(product);
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     services
       .delete("/vendor/me/productRequest/" + product.id, config)
       .then((response) => {
-        console.log(response);
         this.getProductRequests().then((r) => console.log(r));
       })
       .catch((error) => {
@@ -203,7 +191,6 @@ class VendorProductRequests extends Component {
   };
 
   editProductRequestHandler = (product) => {
-    console.log(product);
     this.setState({
       showRequests: false,
       showRequestForm: true,
@@ -300,7 +287,11 @@ class VendorProductRequests extends Component {
           <SearchOutlined className={classes.SearchIcon} />
         </span>
         {this.state.showRequests ? (
-          <Table dataSource={data} columns={columns} />
+          <Table
+            dataSource={data}
+            loading={this.state.loadingRequests}
+            columns={columns}
+          />
         ) : null}
         {this.state.showRequestForm ? (
           <VendorEditProductRequestForm

@@ -45,10 +45,13 @@ class AddProducts extends Component {
       parentProductParameters: "",
       existingProductTags: "",
       newProductTags: "",
+      loadingMainProducts: false,
+      loadingChildProducts: false,
     };
   }
 
   componentDidMount() {
+    this.setState({ loadingMainProducts: true });
     this.getMainProducts();
     this.getVendorId();
   }
@@ -86,6 +89,7 @@ class AddProducts extends Component {
   };
 
   getExistingProducts = (parentProduct) => {
+    this.setState({ loadingChildProducts: true });
     services
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
@@ -114,6 +118,7 @@ class AddProducts extends Component {
           },
           parentProductParameters: parameterNames,
           parentProductParameterValues: parameterValues,
+          loadingChildProducts: false,
         });
         let temp = data;
         const tempObj = data;
@@ -155,6 +160,7 @@ class AddProducts extends Component {
       }
       return {
         mainProducts: list,
+        loadingMainProducts: false,
       };
     });
   };
@@ -370,9 +376,19 @@ class AddProducts extends Component {
     const productInfo = values.user;
     const tags = productInfo.tags.split(", ");
     const parameter = productInfo.parameters;
+    let params = [];
+    for (let i = 0; i < parameter.length; i++) {
+      const paramValues = parameter[i].values.split(", ");
+      // params.push([parameter[i].name, paramValues]);
+      const temp = {
+        name: parameter[i].name,
+        values: paramValues,
+      };
+      params = [...params, temp];
+    }
     let payload = {
       title: productInfo.title,
-      parameters: parameter,
+      parameters: params,
       description: productInfo.description,
       brand: productInfo.brand,
       rating: 0,
@@ -396,6 +412,7 @@ class AddProducts extends Component {
           showExistingProductForm: false,
         });
         alert("Main Product request is sent!");
+        this.getMainProducts();
       })
       .catch((error) => {
         console.log("ERROR: " + error);
@@ -435,7 +452,11 @@ class AddProducts extends Component {
         </span>
         {this.state.showTable ? (
           <div>
-            <MainProductTable clicked={this.getExistingProducts} data={data} />
+            <MainProductTable
+              clicked={this.getExistingProducts}
+              loading={this.state.loadingMainProducts}
+              data={data}
+            />
             <ButtonSecondary
               title="Create new main product"
               style={{ width: "350px", border: "2px solid #FF9100" }}
@@ -450,6 +471,7 @@ class AddProducts extends Component {
             <p>Product Category: {this.state.parentProductCategory}</p>
             <ExistingProductsTable
               data={this.state.childProducts}
+              loading={this.state.loadingChildProducts}
               clicked={this.placeProductHandler}
             />
             <ButtonSecondary
