@@ -59,11 +59,11 @@ class SignupCustomerActivity : AppCompatActivity() {
     fun signup(view: View) {
 
         val type = "CLIENT"
-        val name = findViewById<EditText>(R.id.address_name).text.toString()
-        val surname = findViewById<EditText>(R.id.address_city).text.toString()
-        val email = findViewById<EditText>(R.id.address_state).text.toString()
-        val password = findViewById<EditText>(R.id.address_zipcode).text.toString()
-        val password2 = findViewById<EditText>(R.id.address_block).text.toString()
+        val name = findViewById<EditText>(R.id.signup_name).text.toString()
+        val surname = findViewById<EditText>(R.id.signup_surname).text.toString()
+        val email = findViewById<EditText>(R.id.signup_email).text.toString()
+        val password = findViewById<EditText>(R.id.signup_password).text.toString()
+        val password2 = findViewById<EditText>(R.id.signup_password2).text.toString()
         val termCheck = findViewById<CheckBox>(R.id.accept_terms_and_conditions)
 
         if(!isValidEmail(email)){

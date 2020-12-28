@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/address_state"
+            android:id="@+id/signup_email"
             android:hint="@string/signup_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,13 +65,13 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/address_zipcode"
+            android:id="@+id/signup_password"
             android:hint="@string/signup_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/address_state"
+            app:layout_constraintTop_toBottomOf="@+id/signup_email"
             android:autofillHints=""/>
 
     <EditText
@@ -79,13 +79,13 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/address_block"
+        android:id="@+id/signup_password2"
         android:hint="@string/signup_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="25dp"
-        app:layout_constraintTop_toBottomOf="@+id/address_zipcode"
+        app:layout_constraintTop_toBottomOf="@+id/signup_password"
         android:autofillHints=""/>
 
     <LinearLayout
@@ -96,7 +96,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/address_block"
+            app:layout_constraintTop_toBottomOf="@+id/signup_password2"
             android:orientation="horizontal"
             tools:ignore="MissingConstraints">
         <CheckBox
@@ -127,15 +127,14 @@
         app:layout_constraintTop_toBottomOf="@+id/checkbox_Layout">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/back_button"
+            android:id="@+id/signup_button"
             android:layout_width="117dp"
             android:layout_height="51dp"
             android:layout_centerInParent="true"
-            android:onClick="signup"
-            android:text="@string/signup_button"/>
+            android:onClick="signup" android:text="@string/signup_button"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_button"
+            android:id="@+id/login_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="117dp"
             android:layout_height="51dp"

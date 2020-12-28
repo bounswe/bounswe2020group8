@@ -114,4 +114,8 @@
     <string name="address_state">State</string>
     <string name="address_zipcode">Zipcode</string>
     <string name="address_block">Address</string>
+    <string name="card_name">Name on Your Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_date">Card Date</string>
+    <string name="card_cvc">CVC</string>
 </resources>

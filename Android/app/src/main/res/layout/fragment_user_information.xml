@@ -52,7 +52,7 @@
             android:layout_height="wrap_content" android:text="@string/profile_name"
         />
         <EditText
-            android:id="@+id/address_name"
+            android:id="@+id/profile_name_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"

@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ExampleObject
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseVendorMe
-import kotlinx.android.synthetic.main.fragment_settings.view.*
+import kotlinx.android.synthetic.main.fragment_add_address.view.back_button
 
 class AddCardFragment : Fragment() {
 
@@ -28,7 +26,13 @@ class AddCardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pageRender(type)
-        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        view.back_button.setOnClickListener{
+            val fragment = Settings()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_add_card, fragment)
+                ?.commit()
+        }
     }
 
     private fun pageRender(type: String) {

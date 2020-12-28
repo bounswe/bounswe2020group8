@@ -1,9 +1,11 @@
 package com.example.carousel
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
@@ -21,12 +23,12 @@ class Settings : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         type = ApplicationContext.instance.whoAmI().toString()
+        pageRender(type, inflater)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pageRender(type)
 
         view.profile_address_add.setOnClickListener{
             val fragment = AddAddressFragment()
@@ -49,7 +51,7 @@ class Settings : Fragment() {
 
     }
 
-    private fun pageRender(type: String) {
+    private fun pageRender(type: String, inflater: LayoutInflater) {
         if(type.equals("CLIENT")){
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.customerMe()
@@ -58,6 +60,25 @@ class Settings : Fragment() {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         addresses = it.data.addresses
                         creditCards = it.data.creditCards
+
+                        var addresses: List<Address>?
+                        addresses = it.data.addresses
+
+//                        var layoutInflater: LayoutInflater = activity!!.applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//                        var insertPoint:LinearLayout = activity!!.findViewById<LinearLayout>(R.id.profile_address_linear_layout) as LinearLayout
+//                        var tempAddresses = mutableListOf<View>()
+//                        if (addresses != null) {
+//                            for (i in addresses){
+//                                var view: View = layoutInflater.inflate(R.layout.,null)
+//                                var textView: TextView = view.findViewById(R.id.textView) as TextView
+//                                textView.setText(i.addressName.toString())
+//                                tempAddresses.add(view)
+//                            }
+//                            for (i in tempAddresses){
+//                                insertPoint.addView(i)
+//                            }
+//                        }
+
                     })
                 }
             }
@@ -70,7 +91,6 @@ class Settings : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-
                     })
                 }
             }

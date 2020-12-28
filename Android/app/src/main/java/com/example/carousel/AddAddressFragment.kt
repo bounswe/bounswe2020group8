@@ -29,7 +29,6 @@ class AddAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pageRender(type)
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         view.back_button.setOnClickListener{
@@ -39,7 +38,8 @@ class AddAddressFragment : Fragment() {
                 ?.commit()
         }
         view.save_button.setOnClickListener{
-            val addressName = view.address_name.text.toString()
+
+            val addressName = view.address_name1.text.toString()
             val addressCity = view.address_city.text.toString()
             val addressState = view.address_state.text.toString()
             val addressZipcode = view.address_zipcode.text.toString()
@@ -83,11 +83,7 @@ class AddAddressFragment : Fragment() {
                             addressZipcode,
                             it.data.telephoneNumber
                         )
-                        println(newAddress.toString())
                         addresses = it.data.addresses
-                        println(addresses.toString())
-//                        addresses?.toMutableList()?.add(newAddress)
-//                        addresses?.toList()
                         var tempAddresses = addresses?.toMutableList()
                         if (tempAddresses != null) {
                             tempAddresses.add(newAddress)
@@ -121,7 +117,6 @@ class AddAddressFragment : Fragment() {
                         apiCallerPatch.Success = { it ->
                             if (it != null) {
                                 activity?.runOnUiThread(Runnable { //Handle UI here
-                                    pageRender(type)
                                     val fragment = Settings()
                                     activity?.supportFragmentManager?.beginTransaction()
                                         ?.replace(R.id.fragment_account_page, fragment)
@@ -140,37 +135,5 @@ class AddAddressFragment : Fragment() {
 
         }
     }
-
-    private fun pageRender(type: String) {
-        if(type.equals("CLIENT")){
-            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-            apiCaller.Caller = ApiClient.getClient.customerMe()
-            apiCaller.Success = { it ->
-                if (it != null) {
-                    activity?.runOnUiThread(Runnable { //Handle UI here
-                        println(it.data.addresses?.get(0)?.addressName)
-                    })
-                }
-            }
-            apiCaller.Failure = {}
-            apiCaller.run()
-
-        }else if(type.equals("VENDOR")){
-            val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-            apiCaller.Caller = ApiClient.getClient.vendorMe()
-            apiCaller.Success = { it ->
-                if (it != null) {
-                    activity?.runOnUiThread(Runnable { //Handle UI here
-
-                    })
-                }
-            }
-            apiCaller.Failure = {}
-            apiCaller.run()
-        }else{
-
-        }
-    }
-
 }
 

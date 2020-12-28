@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF" android:clickable="true"
->
+    tools:context=".SignupCustomerActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -26,17 +26,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo"/>
-
-    <TextView
-        android:id="@+id/error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textColor="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toTopOf="@+id/address_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"/>
     <EditText
         android:id="@+id/address_name"
         android:layout_width="wrap_content"
@@ -119,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="SAVE ADDRESS"/>
+            android:onClick="login" android:text="SAVE ADDRESS"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/back_button"
@@ -130,7 +119,7 @@
             android:layout_marginRight="12dp"
             android:layout_toStartOf="@id/save_button"
             android:layout_toLeftOf="@id/save_button"
-            android:text="BACK"/>
+            android:onClick="signup" android:text="BACK"/>
 
     </RelativeLayout>
 
