@@ -1,3 +1,4 @@
+mongoose = require("mongoose");
 exports.filter = function (query) {
   const queryObj = { ...query };
   const excludedFields = ["page", "sort", "limit", "fields"];
@@ -6,8 +7,44 @@ exports.filter = function (query) {
   // 1B) Advanced filtering
   let queryStr = JSON.stringify(queryObj);
   queryStr = queryStr.replace(/\b(gte|gt|lte|lt|regex)\b/g, (match) => `$${match}`);
+  console.log(queryStr);
 
-  return JSON.parse(queryStr);
+  obj = JSON.parse(queryStr);
+  for (var key in obj) {
+    if (key == "maxPrice" || key == "minPrice") {
+      if (obj[key] instanceof Object) {
+        for (var key2 in obj[key]) {
+          obj[key][key2] = parseInt(obj[key][key2]);
+        }
+      } else if (typeof obj[key] == "string") {
+        obj[key] = parseInt(obj[key]);
+      }
+    }
+    if (key == "rating") {
+      if (obj[key] instanceof Object) {
+        obj["mainProduct.rating"] = {};
+        for (var key2 in obj[key]) {
+          obj["mainProduct.rating"][key2] = parseInt(obj[key][key2]);
+        }
+      } else if (typeof obj[key] == "string") {
+        obj["mainProduct.rating"] = parseInt(obj[key]);
+      }
+      delete obj[key];
+    } else if (key == "brand" || key == "category") {
+      if (typeof obj[key] == "string") {
+        let list = obj[key].split(",");
+        obj[key] = { $in: list };
+      }
+    } else if (key == "vendors") {
+      if (typeof obj[key] == "string") {
+        let vendorList = obj[key].split(",");
+        vendorList = vendorList.map((el) => mongoose.Types.ObjectId(el));
+        delete obj[key];
+        obj["vendors._id"] = { $in: vendorList };
+      }
+    }
+  }
+  return obj;
 };
 
 exports.sort = function (query) {

@@ -1,3 +1,11 @@
+/*
+  This factory implementation is taken from https://github.com/jonasschmedtmann/complete-node-bootcamp and some modifications are done to make it fit to our project
+  There is no license provided however in the readme there is the following question.
+
+  Q8: I want to put the project in my portfolio. Is that allowed?
+  A: Absolutely! Just make sure you actually built it yourself by following the course, and that you understand what you did. What is not allowed is that you create your own course/videos/articles based on this course's content!
+*/
+
 const AppError = require("../util/appError");
 const APIFeatures = require("../util/apiFeatures");
 const Messages = require("../util/messages");
