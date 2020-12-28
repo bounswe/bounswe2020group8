@@ -19,8 +19,8 @@ const Cart = () => {
   const history = useHistory();
   const [productList, setproductList] = useState([]);
   const [currentPage, setCurrentPage] = useState("cart");
-  const [orderAddress, setOrderAddress] = useState(null);
-  const [orderCreditCard, setOrderCreditCard] = useState(null);
+  const [orderAddress, setOrderAddress] = useState("null");
+  const [orderCreditCard, setOrderCreditCard] = useState("null");
   const [consentGiven, setConsentGiven] = useState(false);
 
   useEffect(() => {
