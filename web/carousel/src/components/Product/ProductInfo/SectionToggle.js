@@ -17,12 +17,6 @@ const SectionToggle = (props, { section }) => {
   const [featuresStyle, setFeaturesStyle] = useState(true);
   const [sellersStyle, setSellersStyle] = useState(false);
   const [commentsStyle, setCommentsStyle] = useState(false);
-  const [renderedComponent, setRenderedComponent] = useState(
-    <FeaturesComponent
-      product={props.product}
-      mainProduct={props.mainProduct}
-    />
-  );
 
   useEffect(() => {
     if (section !== "") {
@@ -35,35 +29,16 @@ const SectionToggle = (props, { section }) => {
 
     if (id === "features") {
       setFeaturesStyle(true);
-      setRenderedComponent(
-        <FeaturesComponent
-          product={props.product}
-          mainProduct={props.mainProduct}
-        />
-      );
       setSellersStyle(false);
       setCommentsStyle(false);
     } else if (id === "sellers") {
       setFeaturesStyle(false);
       setSellersStyle(true);
-      setRenderedComponent(
-        <OtherSellersComponent
-          product={props.product}
-          mainProduct={props.mainProduct}
-        />
-      );
       setCommentsStyle(false);
     } else if (id === "comments") {
       setFeaturesStyle(false);
       setSellersStyle(false);
       setCommentsStyle(true);
-
-      setRenderedComponent(
-        <CommentsComponent
-          product={props.product}
-          mainProduct={props.mainProduct}
-        />
-      );
     }
   };
 
@@ -92,7 +67,26 @@ const SectionToggle = (props, { section }) => {
           Comments
         </button>
       </div>
-      <div>{renderedComponent}</div>
+      <div>
+        {featuresStyle ? (
+          <FeaturesComponent
+            product={props.product}
+            mainProduct={props.mainProduct}
+          />
+        ) : null}
+        {sellersStyle ? (
+          <OtherSellersComponent
+            product={props.product}
+            mainProduct={props.mainProduct}
+          />
+        ) : null}
+        {commentsStyle ? (
+          <CommentsComponent
+            product={props.product}
+            mainProduct={props.mainProduct}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };
