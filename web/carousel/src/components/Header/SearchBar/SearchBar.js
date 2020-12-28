@@ -27,7 +27,7 @@ class SearchBar extends Component {
                        onFocus={this.isInputFocus}
                        onBlur={this.notInputFocus}/>
                 <img src={searchIcon}
-                     style={{width:"20px", height:"20px", paddingRight:"5px"}}
+                     className={classes.SearchIcon}
                      onClick={this.props.iconHandler}
                      alt={"search-icon"}/>
             </div>
