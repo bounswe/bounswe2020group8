@@ -171,6 +171,33 @@ exports.getProductByVendorIdDB = function (pid, vid) {
   ]);
 };
 
+exports.updateProductAmountLeftDB = function (productId, vendorId, amount) {
+  return Product.findOneAndUpdate(
+    { _id: productId, vendorSpecifics: { $elemMatch: { vendorID: vendorId } } },
+    {
+      $inc: {
+        "vendorSpecifics.$.amountLeft": amount,
+      },
+    },
+    { new: true }
+  );
+};
+
+exports.getProductByVendorIdDB2 = function (pid, vid) {
+  // Second version is for order operations and returns slighlty different data
+
+  return Product.findOne(
+    { _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } },
+    { "vendorSpecifics.$": vid }
+  );
+};
+
+exports.getProductByVendorIdDB3 = function (pid, vid) {
+  // Third version is for shoppingCart operations and returns slighlty different data
+
+  return Product.findOne({ _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } });
+};
+
 exports.getProductByEmailDB = function (email) {
   return Product.findOne({
     email,
