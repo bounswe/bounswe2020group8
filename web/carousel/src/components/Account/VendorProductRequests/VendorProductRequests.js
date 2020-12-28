@@ -1,31 +1,32 @@
 import React, { Component } from "react";
-import {Space} from "antd";
+import { Space } from "antd";
 import Table from "antd/lib/table";
 import classes from "../VendorAddProduct/AddProduct.module.css";
 import services from "../../../apis/services";
 import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 import VendorEditProductRequestForm from "./VendorEditProductRequestForm";
 import VendorEditProductForm from "../VendorProducts/VendorEditProductForm";
-import {SearchOutlined} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 const TOKEN = localStorage.getItem("token");
 
 class VendorProductRequests extends Component {
   constructor(props) {
     super(props);
-    this.state =
-      {
-        data: null,
-        productRequests: [],
-        baseProductRequests: [],
-        gotProducts: false,
-        showRequests: true,
-        showRequestForm: false,
-        request: null,
-      };
+    this.state = {
+      data: null,
+      productRequests: [],
+      baseProductRequests: [],
+      gotProducts: false,
+      showRequests: true,
+      showRequestForm: false,
+      request: null,
+      loadingRequests: false,
+    };
   }
 
   componentDidMount() {
+    this.setState({ loadingRequests: true });
     this.getProductRequests();
   }
 
@@ -33,16 +34,15 @@ class VendorProductRequests extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    services.get("/vendor/me/productRequest/", config)
-      .then(response => {
-        //console.log(response.data.data);
+    services
+      .get("/vendor/me/productRequest/", config)
+      .then((response) => {
         this.showProductRequests(response.data.data, config);
-
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   searchProductRequestsHandler = (e) => {
     const value = e.target.value;
@@ -53,38 +53,42 @@ class VendorProductRequests extends Component {
     });
 
     if (value !== "" && e.key === "Enter") {
-      const filterTable = this.state.baseProductRequests.filter(o => o.title.toLowerCase().includes(value.toLowerCase()));
-      this.setState({productRequests: filterTable});
+      const filterTable = this.state.baseProductRequests.filter((o) =>
+        o.title.toLowerCase().includes(value.toLowerCase())
+      );
+      this.setState({ productRequests: filterTable });
     } else if (value === "" && e.key === "Enter") {
-      this.setState({productRequests: this.state.baseProductRequests});
+      this.setState({ productRequests: this.state.baseProductRequests });
     }
-  }
+  };
 
   showProductRequests = (data, config) => {
-    this.setState({productRequests: []});
+    this.setState({ productRequests: [] });
 
-    console.log(data);
-
-    let title = ""; let brand = ""; let category = "";
+    let title = "";
+    let brand = "";
+    let category = "";
     let list = [];
     for (let i = 0; i < data.length; i++) {
       let params = [];
       let productData = data[i].newValue;
 
-      if(data[i].type === "ADD_NEW_PRODUCT") {
+      if (data[i].type === "ADD_NEW_PRODUCT") {
         for (let k = 0; k < productData.parameters.length; k++) {
-          let str = productData.parameters[k].name + ": " + productData.parameters[k].value;
+          let str =
+            productData.parameters[k].name +
+            ": " +
+            productData.parameters[k].value;
           params = params.concat(str);
         }
         const type = "New Product";
-        services.get("/mainProduct/" + productData.parentProduct, config)
-          .then(response => {
-            //console.log(response.data.data);
+        services
+          .get("/mainProduct/" + productData.parentProduct, config)
+          .then((response) => {
             title = response.data.data.title;
             brand = response.data.data.brand;
             category = response.data.data.category;
             this.setState((state) => {
-
               list = list.concat([
                 {
                   key: i,
@@ -101,43 +105,42 @@ class VendorProductRequests extends Component {
                   id: data[i]._id,
                 },
               ]);
-              //console.log(list);
-
               return {
                 productRequests: list,
                 baseProductRequests: list,
+                loadingRequests: false,
               };
             });
-            //console.log(this.state.productRequests);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       } else {
         let type = "";
         if (data[i].type === "ADD_EXISTING_PRODUCT") {
-          type = "Existing Product"
+          type = "Existing Product";
         } else if (data[i].type === "UPDATE_PRODUCT") {
-          type = "Update Product"
+          type = "Update Product";
         }
-        services.get("/product/" + data[i].oldValue, config)
-          .then(response => {
-            console.log(response);
-
+        services
+          .get("/product/" + data[i].oldValue, config)
+          .then((response) => {
             const normalProduct = response.data.data;
 
             for (let k = 0; k < normalProduct.parameters.length; k++) {
-              let str = normalProduct.parameters[k].name + ": " + normalProduct.parameters[k].value;
+              let str =
+                normalProduct.parameters[k].name +
+                ": " +
+                normalProduct.parameters[k].value;
               params = params.concat(str);
             }
-            services.get("/mainProduct/" + normalProduct.parentProduct, config)
-              .then(response => {
-                //console.log(response.data.data);
+            services
+              .get("/mainProduct/" + normalProduct.parentProduct, config)
+              .then((response) => {
                 title = response.data.data.title;
                 brand = response.data.data.brand;
                 category = response.data.data.category;
                 this.setState((state) => {
-
                   list = list.concat([
                     {
                       key: i,
@@ -148,58 +151,52 @@ class VendorProductRequests extends Component {
                       type: type,
                       price: normalProduct.vendorSpecifics[0].price,
                       amountLeft: normalProduct.vendorSpecifics[0].amountLeft,
-                      cargoCompany: normalProduct.vendorSpecifics[0].cargoCompany,
-                      shipmentPrice: normalProduct.vendorSpecifics[0].shipmentPrice,
+                      cargoCompany:
+                        normalProduct.vendorSpecifics[0].cargoCompany,
+                      shipmentPrice:
+                        normalProduct.vendorSpecifics[0].shipmentPrice,
                       status: data[i].status,
                       id: data[i]._id,
                     },
                   ]);
-                  //console.log(list);
-
                   return {
                     productRequests: list,
                     baseProductRequests: list,
                   };
                 });
-                //console.log(this.state.productRequests);
               })
-              .catch(error => {
+              .catch((error) => {
                 console.log(error);
               });
           })
-          .catch(error => {
-            console.log("i: ", i);
+          .catch((error) => {
             console.log(error);
           });
       }
     }
-  }
+  };
 
   deleteProductRequestHandler = (product) => {
-    console.log(product);
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    services.delete("/vendor/me/productRequest/" + product.id, config)
-      .then(response => {
-        console.log(response);
-        this.getProductRequests().then(r => console.log(r));
+    services
+      .delete("/vendor/me/productRequest/" + product.id, config)
+      .then((response) => {
+        this.getProductRequests().then((r) => console.log(r));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-
-      })
-  }
+      });
+  };
 
   editProductRequestHandler = (product) => {
-    console.log(product);
     this.setState({
       showRequests: false,
       showRequestForm: true,
       request: product,
     });
-
-  }
+  };
 
   render() {
     const columns = [
@@ -252,12 +249,12 @@ class VendorProductRequests extends Component {
         title: "Actions",
         key: "action",
         render: (id, record) => (
-
           <Space size="large">
-
             <a
               className={classes.TableActionsSuspend}
-              onClick={() => { this.editProductRequestHandler(record);}}
+              onClick={() => {
+                this.editProductRequestHandler(record);
+              }}
             >
               Edit
             </a>
@@ -266,12 +263,13 @@ class VendorProductRequests extends Component {
               onClick={() => {
                 confirmPopup(
                   "Are you sure you want to delete this product request?",
-                  this.deleteProductRequestHandler(record));}}
+                  this.deleteProductRequestHandler(record)
+                );
+              }}
             >
               Delete
             </a>
             <br />
-
           </Space>
         ),
       },
@@ -288,12 +286,19 @@ class VendorProductRequests extends Component {
           />
           <SearchOutlined className={classes.SearchIcon} />
         </span>
-        {this.state.showRequests ?
-          <Table dataSource={data} columns={columns}/>
-        : null}
-        {this.state.showRequestForm ?
-          <VendorEditProductRequestForm request={this.state.request} clicked={this.editProductRequest}/>
-          : null}
+        {this.state.showRequests ? (
+          <Table
+            dataSource={data}
+            loading={this.state.loadingRequests}
+            columns={columns}
+          />
+        ) : null}
+        {this.state.showRequestForm ? (
+          <VendorEditProductRequestForm
+            request={this.state.request}
+            clicked={this.editProductRequest}
+          />
+        ) : null}
       </div>
     );
   }

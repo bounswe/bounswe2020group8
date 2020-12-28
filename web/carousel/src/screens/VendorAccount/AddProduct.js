@@ -45,10 +45,13 @@ class AddProducts extends Component {
       parentProductParameters: "",
       existingProductTags: "",
       newProductTags: "",
+      loadingMainProducts: false,
+      loadingChildProducts: false,
     };
   }
 
   componentDidMount() {
+    this.setState({ loadingMainProducts: true });
     this.getMainProducts();
     this.getVendorId();
   }
@@ -86,6 +89,7 @@ class AddProducts extends Component {
   };
 
   getExistingProducts = (parentProduct) => {
+    this.setState({ loadingChildProducts: true });
     services
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
@@ -96,7 +100,10 @@ class AddProducts extends Component {
         params = parentProduct.parameters.split(",");
         for (let i = 0; i < params.length; i++) {
           parameterNames = [...parameterNames, params[i]];
-          parameterValues = [...parameterValues, parentProduct.parameterValues[i]];
+          parameterValues = [
+            ...parameterValues,
+            parentProduct.parameterValues[i],
+          ];
         }
 
         this.setState({
@@ -111,11 +118,11 @@ class AddProducts extends Component {
           },
           parentProductParameters: parameterNames,
           parentProductParameterValues: parameterValues,
+          loadingChildProducts: false,
         });
         let temp = data;
         const tempObj = data;
         this.showChildProducts(temp);
-
       })
       .catch((error) => {
         console.log(error);
@@ -153,6 +160,7 @@ class AddProducts extends Component {
       }
       return {
         mainProducts: list,
+        loadingMainProducts: false,
       };
     });
   };
@@ -367,22 +375,16 @@ class AddProducts extends Component {
     const productInfo = values.user;
     const tags = productInfo.tags.split(", ");
     const parameter = productInfo.parameters;
-    console.log(parameter);
     let params = [];
     for (let i = 0; i < parameter.length; i++) {
       const paramValues = parameter[i].values.split(", ");
-      console.log(paramValues);
       // params.push([parameter[i].name, paramValues]);
       const temp = {
         name: parameter[i].name,
         values: paramValues,
-      }
-      params = [
-        ...params,
-        temp,
-      ]
+      };
+      params = [...params, temp];
     }
-    console.log(params);
     let payload = {
       title: productInfo.title,
       parameters: params,
@@ -395,7 +397,6 @@ class AddProducts extends Component {
       isConfirmed: false,
       tags: tags,
     };
-    console.log(payload);
     const url = "/mainProduct";
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -418,8 +419,8 @@ class AddProducts extends Component {
   };
 
   setTags = (tags) => {
-    this.setState({newProductTags: tags});
-  }
+    this.setState({ newProductTags: tags });
+  };
 
   render() {
     const data = this.state.mainProducts ? [this.state.mainProducts][0] : null;
@@ -450,7 +451,11 @@ class AddProducts extends Component {
         </span>
         {this.state.showTable ? (
           <div>
-            <MainProductTable clicked={this.getExistingProducts} data={data} />
+            <MainProductTable
+              clicked={this.getExistingProducts}
+              loading={this.state.loadingMainProducts}
+              data={data}
+            />
             <ButtonSecondary
               title="Create new main product"
               style={{ width: "350px", border: "2px solid #FF9100" }}
@@ -465,6 +470,7 @@ class AddProducts extends Component {
             <p>Product Category: {this.state.parentProductCategory}</p>
             <ExistingProductsTable
               data={this.state.childProducts}
+              loading={this.state.loadingChildProducts}
               clicked={this.placeProductHandler}
             />
             <ButtonSecondary

@@ -1,29 +1,29 @@
 import React, { Component } from "react";
-import {Space} from "antd";
+import { Space } from "antd";
 import Table from "antd/lib/table";
 import services from "../../../apis/services";
 import classes from "../VendorAddProduct/AddProduct.module.css";
 import VendorEditProductForm from "./VendorEditProductForm";
 import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
-import {SearchOutlined} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 
 const TOKEN = localStorage.getItem("token");
 
 class VendorProducts extends Component {
   constructor(props) {
     super(props);
-    this.state =
-      {
-        id: "",
-        data: null,
-        products: [],
-        baseProducts: [],
-        gotProducts: false,
-        showProducts: true,
-        showEditProductForm: false,
-        showDeletePopup: false,
-        product: null,
-      };
+    this.state = {
+      id: "",
+      data: null,
+      products: [],
+      baseProducts: [],
+      gotProducts: false,
+      showProducts: true,
+      showEditProductForm: false,
+      showDeletePopup: false,
+      product: null,
+      loadingProducts: false,
+    };
   }
 
   componentDidMount() {
@@ -31,20 +31,22 @@ class VendorProducts extends Component {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     this.getMyInfo(config);
+    this.setState({ loadingProducts: true });
     this.getAllMyProducts(config);
   }
 
   getMyInfo = (config) => {
-    services.get("/vendor/me", config)
-      .then(response => {
+    services
+      .get("/vendor/me", config)
+      .then((response) => {
         this.setState({
           id: response.data.data._id,
-        })
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   searchProductsHandler = (e) => {
     const value = e.target.value;
@@ -55,40 +57,41 @@ class VendorProducts extends Component {
     });
 
     if (value !== "" && e.key === "Enter") {
-      const filterTable = this.state.baseProducts.filter(o => o.title.toLowerCase().includes(value.toLowerCase()));
-      this.setState({products: filterTable});
+      const filterTable = this.state.baseProducts.filter((o) =>
+        o.title.toLowerCase().includes(value.toLowerCase())
+      );
+      this.setState({ products: filterTable });
     } else if (value === "" && e.key === "Enter") {
-      this.setState({products: this.state.baseProducts});
+      this.setState({ products: this.state.baseProducts });
     }
-  }
+  };
 
   getAllMyProducts = (config) => {
-    services.get("/vendor/me/product", config)
-      .then(response => {
-        console.log(response);
+    services
+      .get("/vendor/me/product", config)
+      .then((response) => {
         this.showAllMyProducts(response.data.data, config);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   showAllMyProducts = (data, config) => {
     let list = [];
 
     for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
       let params = [];
       for (let k = 0; k < data[i].parameters.length; k++) {
-        let str = data[i].parameters[k].name + ": " + data[i].parameters[k].value;
+        let str =
+          data[i].parameters[k].name + ": " + data[i].parameters[k].value;
         params = params.concat(str);
       }
-      console.log(params);
 
-      services.get("/mainProduct/" + data[i].parentProduct, config)
-        .then(response => {
+      services
+        .get("/mainProduct/" + data[i].parentProduct, config)
+        .then((response) => {
           const parentProduct = response.data.data;
-          console.log(parentProduct);
           this.setState((state) => {
             list = list.concat([
               {
@@ -107,15 +110,15 @@ class VendorProducts extends Component {
             return {
               baseProducts: list,
               products: list,
+              loadingProducts: false,
             };
           });
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-        })
-
+        });
     }
-  }
+  };
 
   editProductHandler = (product) => {
     this.setState({
@@ -124,14 +127,13 @@ class VendorProducts extends Component {
       showDeletePopup: false,
       product: product,
     });
-  }
+  };
 
   editProductRequest = (data) => {
     const product = data.user;
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    console.log(product);
     let payload = {
       vendorSpecifics: {
         vendorID: this.state.id,
@@ -140,12 +142,10 @@ class VendorProducts extends Component {
         shipmentPrice: product.shipmentPrice,
         cargoCompany: product.cargoCompany,
       },
-      //photos come here
-    }
-    console.log(this.state.product);
-    services.patch("/vendor/me/product/" + this.state.product.id, payload, config)
-      .then(response => {
-        console.log(response);
+    };
+    services
+      .patch("/vendor/me/product/" + this.state.product.id, payload, config)
+      .then((response) => {
         alert("Edit request is sent!");
         this.setState({
           showProducts: true,
@@ -153,10 +153,10 @@ class VendorProducts extends Component {
           showDeletePopup: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
   deleteProductHandler = (product) => {
     const id = product.id;
@@ -164,16 +164,15 @@ class VendorProducts extends Component {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
 
-    services.delete("/vendor/me/product/" + id, config)
-      .then(response => {
-        console.log(response);
+    services
+      .delete("/vendor/me/product/" + id, config)
+      .then((response) => {
         alert("Product deleted!");
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
-
+  };
 
   render() {
     const columns = [
@@ -221,12 +220,12 @@ class VendorProducts extends Component {
         title: "Action",
         key: "action",
         render: (id, record) => (
-
           <Space size="large">
-
             <a
               className={classes.TableActionsSuspend}
-              onClick={() => { this.editProductHandler(record);}}
+              onClick={() => {
+                this.editProductHandler(record);
+              }}
             >
               Edit
             </a>
@@ -235,12 +234,13 @@ class VendorProducts extends Component {
               onClick={() => {
                 confirmPopup(
                   "Are you sure you want to delete this product?",
-                  this.deleteProductHandler(record));}}
+                  this.deleteProductHandler(record)
+                );
+              }}
             >
               Delete
             </a>
             <br />
-
           </Space>
         ),
       },
@@ -256,16 +256,19 @@ class VendorProducts extends Component {
           />
           <SearchOutlined className={classes.SearchIcon} />
         </span>
-        {this.state.showProducts ?
-          <Table dataSource={data} columns={columns}/>
-          :
-          null
-        }
-        {this.state.showEditProductForm ?
-          <VendorEditProductForm product={this.state.product} clicked={this.editProductRequest}/>
-          :
-          null
-        }
+        {this.state.showProducts ? (
+          <Table
+            dataSource={data}
+            loading={this.state.loadingProducts}
+            columns={columns}
+          />
+        ) : null}
+        {this.state.showEditProductForm ? (
+          <VendorEditProductForm
+            product={this.state.product}
+            clicked={this.editProductRequest}
+          />
+        ) : null}
       </div>
     );
   }
