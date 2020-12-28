@@ -7,7 +7,7 @@ import scrollIntoView from "scroll-into-view-if-needed";
 import ProductPhotoCarousel from "./ProductPhotoCarousel/ProductPhotoCarousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import services from "../../apis/services";
-import { useParams } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 
 const Product = (props) => {
   const { id } = useParams();
@@ -75,6 +75,40 @@ const Product = (props) => {
     setProductInfo({ ...newProduct.default, companyName: vendorName });
   };
 
+  const handleCartClicked = async ({ productId, vendorId }) => {
+    const TOKEN = localStorage.getItem("token");
+
+    console.log(TOKEN);
+
+    if (!TOKEN || TOKEN === "") {
+      props.history.push("/login");
+    }
+    let ID;
+    const response = await services.get("/customer/me", {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+    }
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+      amount: 1,
+    };
+    console.log(productId, vendorId);
+    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        props.history.push("/account/cart");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return productInfo ? (
     <div className={classes.ProductPage}>
       <div style={{ height: "60px" }}>
@@ -102,6 +136,12 @@ const Product = (props) => {
             defaultProduct={product.option}
             productList={allProducts}
             onProductChange={handleOnProductChange}
+            handleAddToCart={() =>
+              handleCartClicked({
+                productId: product._id,
+                vendorId: productInfo.vendorID,
+              })
+            }
             clickSellers={() => scrollToInfo("sellers")}
           />
         </div>
@@ -119,4 +159,4 @@ const Product = (props) => {
   ) : null;
 };
 
-export default Product;
+export default withRouter(Product);

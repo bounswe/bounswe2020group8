@@ -28,6 +28,7 @@ const ProductActions = ({
   defaultProduct,
   onProductChange,
   productList,
+  handleAddToCart,
 }) => {
   const [rating, setRating] = useState(4.6);
   const [liked, setLiked] = useState(false);
@@ -114,7 +115,7 @@ const ProductActions = ({
           icon={<ShoppingCartOutlined style={{ fontSize: "26px" }} />}
           style={buttonStyle}
           title={added ? "Added to Cart!" : "Add to Cart"}
-          onClick={() => setAdded(true)}
+          onClick={handleAddToCart}
         />
         <div>
           Estimated delivery: <strong>3 Jan - 7 Jan</strong>
