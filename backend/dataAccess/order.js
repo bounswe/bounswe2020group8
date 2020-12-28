@@ -17,3 +17,8 @@ exports.populateOrderDB = function (data, path = "order") {
   return order;
 
 };
+
+exports.getOrderByCustomerIdDB = function (customerID) {
+  console.log(customerID);
+  return Order.find( {"customerID": customerID} );
+};

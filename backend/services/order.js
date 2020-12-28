@@ -1,4 +1,5 @@
 const CustomerDataAccess = require("../dataAccess/customer");
+const OrderDataAccess = require("../dataAccess/order");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const { sha1, sha256 } = require("../util/baseUtil");
 const { isNull } = require("../util/coreUtil");
@@ -6,6 +7,11 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
 const ProductDataAccess = require("../dataAccess/product");
+
+exports.getOrderByCustomerIdService = async function ({ customerID }) {
+  const order = await OrderDataAccess.getOrderByCustomerIdDB(customerID);
+  return order;
+};
 
 exports.createOrderService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
