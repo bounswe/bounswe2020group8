@@ -15,20 +15,31 @@ const Product = (props) => {
   const [infoSection, setInfoSection] = useState("features");
   const [product, setProduct] = useState(null);
   const [mainProduct, setMainProduct] = useState(null);
+  const [allProducts, setAllProducts] = useState(null);
   // const [defaultVendor, setDefaultVendor] = useState({});
 
   const sectionRef = useRef(null);
 
   useEffect(async () => {
-    const getProductUrl = `/product/${id}`;
-    const response = await services.get(getProductUrl);
-    setProduct(response.data.data);
+    const getMainProductUrl = `/mainProduct/${id}`;
+    const resp = await services.get(getMainProductUrl);
+    setMainProduct(resp.data.data);
 
-    const getMainProductUrl = `/mainProduct/${response.data.data.parentProduct}`;
-    services.get(getMainProductUrl).then((response) => {
-      setMainProduct(response.data.data);
+    const getAllProductsUrl = `/product?parentProduct=${id}`;
+    services.get(getAllProductsUrl).then((response) => {
+      let productList = response.data.data;
+      const optionsList = response.data.data.map((r) => {
+        return r.parameters.reduce((acc, current) => {
+          return acc + " " + current.value;
+        }, "");
+      });
+      productList = productList.map((p, index) => {
+        return { ...p, option: optionsList[index] };
+      });
+      setAllProducts(productList);
+      setProduct(productList[0]);
+      console.log(productList);
     });
-
     // const getVendorUrl = `/vendor/${response.data.data.default.vendorID}`;
     // services.get(getVendorUrl).then((response) => {
     //   console.log(response);
@@ -48,8 +59,23 @@ const Product = (props) => {
       setInfoSection("");
     }, 500);
   };
+  let vendorName = "";
+  if (product) {
+    const vendorId = product.default.vendorID;
+    vendorName = product.vendorSpecifics.filter(
+      (v) => v.vendorID._id === vendorId
+    )[0].vendorID.companyName;
+  }
 
-  return mainProduct ? (
+  const handleOnProductChange = (value) => {
+    console.log(value);
+    const newProduct = allProducts.filter(
+      (product) => product._id === value
+    )[0];
+    setProduct(newProduct);
+  };
+
+  return product ? (
     <div className={classes.ProductPage}>
       <div style={{ height: "60px" }}>
         {/* we may display the path here if we want to. e.g.: Ana Sayfa > Telefonlar
@@ -72,8 +98,10 @@ const Product = (props) => {
             brand={mainProduct.brand}
           />
           <ProductActions
-            seller="Kardesler Mobile"
-            // vendor={defaultVendor.companyName}
+            seller={vendorName}
+            defaultProduct={product.option}
+            productList={allProducts}
+            onProductChange={handleOnProductChange}
             clickSellers={() => scrollToInfo("sellers")}
           />
         </div>

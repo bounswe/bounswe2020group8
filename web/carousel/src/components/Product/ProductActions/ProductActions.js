@@ -8,6 +8,9 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
+import { Select } from "antd";
+
+const { Option } = Select;
 
 const regularCart = {
   width: "200px",
@@ -19,7 +22,13 @@ const addedToCart = {
   fontSize: "20px",
 };
 
-const ProductActions = ({ clickSellers, seller }) => {
+const ProductActions = ({
+  clickSellers,
+  seller,
+  defaultProduct,
+  onProductChange,
+  productList,
+}) => {
   const [rating, setRating] = useState(4.6);
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
@@ -42,7 +51,7 @@ const ProductActions = ({ clickSellers, seller }) => {
       <div style={{ height: "60px", display: "flex", position: "relative" }}>
         <div style={{ height: "60px" }}>
           <p
-            style={{ marginLeft: "8px", fontSize: "12px", cursor: "pointer" }}
+            style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
             onClick={() => alert("Looking for this vendor's products!")}
           >
@@ -57,14 +66,31 @@ const ProductActions = ({ clickSellers, seller }) => {
               alignContent: "center",
             }}
           >
-            <StarRatings
+            <div>
+              <span>Other Options:</span>
+              <span>
+                <Select
+                  defaultValue={defaultProduct}
+                  style={{ width: 120 }}
+                  onChange={(value) => {
+                    onProductChange(value);
+                  }}
+                >
+                  {productList.map((p) => {
+                    return <Option value={p._id}>{p.option}</Option>;
+                  })}
+                </Select>
+              </span>
+            </div>
+
+            {/* <StarRatings
               starDimension="12px"
               rating={rating}
               starRatedColor="#FF9100"
               numberOfStars={5}
               name="rating"
               starSpacing="2px"
-            />
+            /> */}
           </div>
         </div>
         <div style={{ position: "absolute", right: "0" }}>
@@ -91,7 +117,7 @@ const ProductActions = ({ clickSellers, seller }) => {
           onClick={() => setAdded(true)}
         />
         <div>
-          Estimated delivery: <strong>23 Jan - 29 Jan</strong>
+          Estimated delivery: <strong>3 Jan - 7 Jan</strong>
         </div>
       </div>
       <div
