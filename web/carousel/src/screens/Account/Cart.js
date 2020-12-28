@@ -123,19 +123,26 @@ const Cart = () => {
         const config = {
           headers: { Authorization: `Bearer ${TOKEN}` },
         };
-        const payload = {
-          _id: ID,
-          shippingAddressId: orderAddress._id,
-          billingAddressId: orderAddress._id,
-          creditCardId: orderCreditCard._id,
-        };
-        const URL = "/customer/purchase";
-        services
-          .post(URL, payload, config)
-          .then((response) => {
-            alert("Purchase is successful! Checkout the active order page");
-          })
-          .catch((err) => console.log(err));
+
+        if (orderAddress._id !== undefined && orderCreditCard._id !== undefined) {
+          const payload = {
+            _id: ID,
+            shippingAddressId: orderAddress._id,
+            billingAddressId: orderAddress._id,
+            creditCardId: orderCreditCard._id,
+          };
+
+          const URL = "/customer/purchase";
+          services
+            .post(URL, payload, config)
+            .then((response) => {
+              alert("Purchase is successful! Checkout the active order page");
+            })
+            .catch((err) => console.log(err));
+        } else {
+          alert("Please enter an address and payment method!")
+        }
+
       } else {
         alert("Please read the sales agreement and accept it");
       }
