@@ -47,7 +47,7 @@ class Search extends Component {
       (key) => (params[key] == null || params[key] === "") && delete params[key]
     );
 
-    params["maxPrice[gte]"] = this.state.priceInterval[0];
+    params["minPrice[gte]"] = this.state.priceInterval[0];
     params["minPrice[lte]"] = this.state.priceInterval[1];
     //TODO Check whether they are working fine
 
