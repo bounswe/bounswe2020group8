@@ -1,6 +1,7 @@
 package com.example.carousel.pojo
 
 import com.example.carousel.Address
+import com.example.carousel.Card
 import com.example.carousel.Product
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
@@ -48,7 +49,7 @@ data class DataCustomerMe(
     @Expose @SerializedName("addresses")var addresses: List<Address>?,
     @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
     @Expose @SerializedName("birthday")var birthday: String?,
-    @Expose @SerializedName("creditCards")var creditCards: List<ExampleObject>?
+    @Expose @SerializedName("creditCards")var creditCards: List<Card>?
 )
 //data class DataCustomerMe(
 //    @Expose @SerializedName("_id") val id: String,

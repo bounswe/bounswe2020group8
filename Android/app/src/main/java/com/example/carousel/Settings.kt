@@ -19,7 +19,7 @@ class Settings : Fragment() {
 
     var type = "GUEST"
     var addresses: List<Address>? = null
-    var creditCards: List<ExampleObject>? = null
+    var creditCards: List<Card>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         type = ApplicationContext.instance.whoAmI().toString()

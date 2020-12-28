@@ -57,7 +57,7 @@ class AddAddressFragment : Fragment() {
             var addresses: List<Address>?
             var telephoneNumber: String?
             var birthday: String?
-            var creditCards: List<ExampleObject>?
+            var creditCards: List<Card>?
 
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.customerMe()
