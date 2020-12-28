@@ -72,7 +72,6 @@ exports.getAllProductsService = async function ({ query }) {
 };
 
 exports.updateProductAmountLeftService = async function ({ productId, vendorId, amount }) {
-
   updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
     _id,
     productId,

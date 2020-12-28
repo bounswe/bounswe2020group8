@@ -57,7 +57,11 @@ router.post(
   RequestHelper.returnResponse
 );
 router.post("/order/create", OrderController.createOrderController, RequestHelper.returnResponse);
-router.post("/order/getByCustomerID", OrderController.getOrderByCustomerIdController, RequestHelper.returnResponse);
+router.post(
+  "/order/getByCustomerID",
+  OrderController.getOrderByCustomerIdController,
+  RequestHelper.returnResponse
+);
 router.post("/purchase", PurchaseController.purchaseController, RequestHelper.returnResponse);
 
 module.exports = router;

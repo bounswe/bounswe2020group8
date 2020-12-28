@@ -10,33 +10,20 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.purchaseController = BaseUtil.createController((req) => {
-  let { _id, shippingAddressId, billingAddressId,creditCardId } = req.body;
+  let { _id, shippingAddressId, billingAddressId, creditCardId } = req.body;
 
-  if((typeof _id === "undefined") || (typeof shippingAddressId === "undefined") || (typeof billingAddressId === "undefined") || (typeof creditCardId === "undefined")){
-    throw new Error('Missing Parameters!');
-
+  if (
+    typeof _id === "undefined" ||
+    typeof shippingAddressId === "undefined" ||
+    typeof billingAddressId === "undefined" ||
+    typeof creditCardId === "undefined"
+  ) {
+    throw new Error("Missing Parameters!");
   }
   return BB.all([
     PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId }),
   ]);
-
 });
-
-// exports.purchaseController = BaseUtil.createController((req) => {
-//   let { _id, shippingAddressId, billingAddressId,creditCardId } = req.body;
-//   return BB.all([
-//     CoreUtil.isNullOrEmpty(billingAddressId,Messages.RETURN_MESSAGES.ERR_UNDEFINED
-//   ).reflect(),
-//   ])
-//   .then((results) => BaseUtil.decideErrorExist(results))
-//   .then(() =>
-//     PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId })
-//   );
-// });
-
-// return BB.all([
-//   PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId }),
-// ]);
 
 exports.updateShoppingCartController = BaseUtil.createController((req) => {
   let { _id } = req.query;
