@@ -16,6 +16,8 @@ const Product = (props) => {
   const [product, setProduct] = useState(null);
   const [mainProduct, setMainProduct] = useState(null);
   const [allProducts, setAllProducts] = useState(null);
+  const [producInfo, setProductInfo] = useState(null);
+
   // const [defaultVendor, setDefaultVendor] = useState({});
 
   const sectionRef = useRef(null);
@@ -112,6 +114,7 @@ const Product = (props) => {
           section={infoSection}
           product={product}
           mainProduct={mainProduct}
+          setProductInfo={setProductInfo}
         />
       </div>
     </div>

@@ -14,37 +14,59 @@ const columns = [
   },
 ];
 
-var dataSource = [];
-
 export default class FeaturesComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       product: this.props.product,
+      dataSource: null,
     };
   }
 
-  componentWillMount() {
-    if (this.props.product != null) {
-      this.setState({ product: this.props.product });
-    }
-    if (dataSource.length == 0) {
-      if (this.state.product) {
-        var i;
-        for (i = 0; i < this.state.product.parameters.length; i++) {
-          var dataElement = {};
-          dataElement = {
-            key: i.toString(),
-            name: this.state.product.parameters[i].name,
-            value: this.state.product.parameters[i].value,
-          };
-          dataSource.push(dataElement);
-        }
+  getDataSource() {
+    console.log(this.props.product);
+    var dataSource = [];
+    if (this.props.product) {
+      var i;
+      for (i = 0; i < this.props.product.parameters.length; i++) {
+        var dataElement = {};
+        dataElement = {
+          key: i.toString(),
+          name: this.props.product.parameters[i].name,
+          value: this.props.product.parameters[i].value,
+        };
+        dataSource.push(dataElement);
       }
     }
+    console.log(dataSource);
+    return dataSource;
   }
 
+  // componentDidUpdate(prevState, prevProps) {
+  //   console.log(prevProps.product);
+  //   console.log(this.props.product);
+  //   if (prevProps.product.option !== this.props.product.option) {
+  //     console.log(this.props.product);
+  //     var dataSource = [];
+  //     if (this.props.product) {
+  //       var i;
+  //       for (i = 0; i < this.props.product.parameters.length; i++) {
+  //         var dataElement = {};
+  //         dataElement = {
+  //           key: i.toString(),
+  //           name: this.props.product.parameters[i].name,
+  //           value: this.props.product.parameters[i].value,
+  //         };
+  //         dataSource.push(dataElement);
+  //       }
+  //     }
+  //     console.log(dataSource);
+  //     this.setState({ dataSource: dataSource });
+  //   }
+  // }
+
   render() {
+    const dataSource = this.getDataSource();
     return (
       <div>
         <Table dataSource={dataSource} columns={columns} />
