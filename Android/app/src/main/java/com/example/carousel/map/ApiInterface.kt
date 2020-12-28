@@ -104,4 +104,18 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
+    @POST("/product/search")
+    fun productSearch(
+        @Body searchQuery: SearchQuery,
+        @Query("sort") sort: String = "",
+        @Query("limit") limit: Int = 1000,
+        @Query("page") page: Int = 1,
+        @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
+
+    @GET("/product/searchFilters")
+    fun productSearchFilters(
+        @Query("query") query: String, ): Call<ResponseProductSearchFilters>
+
+
+
 }

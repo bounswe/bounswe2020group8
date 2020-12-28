@@ -140,5 +140,12 @@
     <string name="profile_birthday_hint">Birthday</string>
     <string name="delete_list_title">DELETE LIST</string>
     <string name="delete_list_body">Do you really want to delete this list?</string>
+    <string-array name="sort_options">
+        <item>Lowest Price</item>
+        <item>Highest Price</item>
+        <item>Best Rating</item>
+        <item>Most commented</item>
+        <item>Newest</item>
+    </string-array>
 
 </resources>

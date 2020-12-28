@@ -170,3 +170,45 @@ data class Category(
     @Expose @SerializedName("name") val name: String
 )
 
+
+data class ResponseProductSearch(
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: List<DataProductSearch>,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+)
+
+data class DataProductSearch(
+    @Expose @SerializedName("matches") val matches: Int,
+    @Expose @SerializedName("maxPrice") val maxPrice: Int,
+    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("vendors") val vendors: List<VendorID>,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    @Expose @SerializedName("mainProduct") val mainProduct: ArrayList<MainProduct>,
+    @Expose @SerializedName("mpid") val mpid: String,
+    @Expose @SerializedName("brand") val brand: String,
+    @Expose @SerializedName("category") val category: String,
+)
+
+data class MainProduct(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("title") val title: String,
+    @Expose @SerializedName("rating") val rating: Int,
+    @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
+)
+
+data class ResponseProductSearchFilters(
+    @Expose @SerializedName("data") val data: DataProductSearchFilters,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+)
+
+data class DataProductSearchFilters(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("parameters") val parameters: List<Parameters>,
+    @Expose @SerializedName("maxPrice") val maxPrice: Int,
+    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("vendors") val vendors: List<VendorID>,
+    @Expose @SerializedName("brands") val brands: List<String>,
+    @Expose @SerializedName("categories") val categories: List<String>,
+)
