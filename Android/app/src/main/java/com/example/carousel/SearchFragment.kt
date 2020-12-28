@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,8 +25,9 @@ class SearchFragment : Fragment() {
     //private val baseUrl = "http://54.165.207.44:8080"
     private var lastQuery = "fashion"   // a default query
     private lateinit var spinnerAdapter: ArrayAdapter<String>
-    private var
-            initializedView = false
+    private var initializedView = false
+    private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
+        "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,8 @@ class SearchFragment : Fragment() {
                     initializedView = true;
                 }
                 else {
-                    sort = context?.resources!!.getStringArray(R.array.sort_options).get(pos)
+                    val str = context?.resources!!.getStringArray(R.array.sort_options).get(pos)
+                    sort = sortOptionsMap[str].toString()
                     searchCall(lastQuery, sort)
                 }
             }
@@ -170,10 +171,6 @@ class SearchFragment : Fragment() {
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
-                    Toast.makeText(
-                        activity, it.data[0].mainProduct[0].title as String?,
-                        Toast.LENGTH_LONG
-                    ).show()
                     val products = ArrayList<Product>()
                     for(item in it.data) {
                         products.add(responseToProductSearch(item, item.mainProduct[0]))
