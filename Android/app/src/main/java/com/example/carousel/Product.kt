@@ -1,9 +1,6 @@
 package com.example.carousel
 
-import com.example.carousel.pojo.MainProductData
-import com.example.carousel.pojo.ProductData
-import com.example.carousel.pojo.ResponseMainProduct
-import com.example.carousel.pojo.VendorSpecifics
+import com.example.carousel.pojo.*
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,6 +13,8 @@ data class Product(
     val description: String = "",
     val amountLeft: Int = 0,
     val price: Double = 0.0,
+    val maxPrice: Int = 0,
+    val minPrice: Int = 0,
     val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
     val comments: ArrayList<Comment> = ArrayList<Comment>(),
@@ -44,5 +43,20 @@ data class Product(
             rating = main.rating,
             photos = product.photos,
             tags = product.tags,
+        )
+    }
+
+    fun responseToProductSearch(product: DataProductSearch, main: MainProduct): Product{
+        return Product(
+            _id = main._id,
+            title = main.title,
+            price = product.minPrice.toDouble(),
+            minPrice = product.minPrice,
+            maxPrice = product.maxPrice,
+            rating = main.rating.toDouble(),
+            numberOfRatings = main.numberOfRating,
+            photos = product.photos,
+            brand = product.brand,
+            category = product.category,
         )
     }

@@ -13,10 +13,23 @@ interface ApiInterface {
 
     //customer login request
     @POST("/customer/login")
-    fun login(
+    fun customerLogin(
         @Query("email") email: String,
         @Query("password") password: String
     ): Call<ResponseLogin>
+
+    //vendor login request
+    @POST("/vendor/login")
+    fun vendorLogin(
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Call<ResponseLogin>
+
+    //vendor forgot password request
+    @POST("/vendor/forgotPassword")
+    fun vendorForgotPassword(
+        @Query("email") email: String,
+    ): Call<ResponseHeader>
 
     //customer login request
     @POST("/customer/sigIn")
@@ -40,9 +53,11 @@ interface ApiInterface {
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
 
     @POST("/vendor/signup")
-    fun vendorSignup(
+    fun vendorSignUp(
         @Query("name") name: String,
         @Query("lastName") lastName: String,
+        @Query("companyName") companyName: String,
+        @Query("companyDomainName") companyDomainName: String,
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
@@ -88,5 +103,19 @@ interface ApiInterface {
         @Query("limit") limit: Int = 1000,
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
+
+    @POST("/product/search")
+    fun productSearch(
+        @Body searchQuery: SearchQuery,
+        @Query("sort") sort: String = "",
+        @Query("limit") limit: Int = 1000,
+        @Query("page") page: Int = 1,
+        @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
+
+    @GET("/product/searchFilters")
+    fun productSearchFilters(
+        @Query("query") query: String, ): Call<ResponseProductSearchFilters>
+
+
 
 }

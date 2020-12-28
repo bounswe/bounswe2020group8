@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:accessibilityPaneTitle="@string/registerPassword"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:context=".vendor.VendorLoginActivity">
+
+    <ImageView
+        android:layout_width="159dp"
+        android:layout_height="173dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/logo"
+        android:src="@drawable/logo"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_vendor_header"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorAccent"
+
+        android:textStyle="bold"
+        android:textSize="28sp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="left"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/header"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login_vendor_subtitle"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/header"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:id="@+id/sub_title"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_login_vendor_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@+id/sub_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_vendor_email"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/login_email"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_login_vendor_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_below="@id/layout_login_vendor_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_vendor_password"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/passwordHint"
+            android:inputType="textPassword"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_login_vendor_password"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="32dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="login"
+            android:text="@string/login_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signup_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toStartOf="@id/login_button"
+            android:layout_toLeftOf="@id/login_button"
+            android:onClick="signup"
+            android:text="@string/signup_button" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="@string/forgot_password"
+        android:textColor="@color/colorPrimaryDark" />
+
+</RelativeLayout>

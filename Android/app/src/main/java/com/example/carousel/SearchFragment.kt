@@ -1,27 +1,33 @@
 package com.example.carousel
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.RectShape
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.map.SearchQuery
+import com.example.carousel.pojo.ResponseProductSearch
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class SearchFragment : Fragment() {
-    private val baseUrl = "http://18.198.51.178:8080"
+    //private val baseUrl = "http://54.165.207.44:8080"
+    private var lastQuery = "fashion"   // a default query
+    private lateinit var spinnerAdapter: ArrayAdapter<String>
+    private var initializedView = false
+    private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
+        "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,38 +37,41 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sortButton.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
-            //set title for alert dialog
-            builder.setTitle("Sort by")
+        var sort = ""
 
-            val sortOptions = arrayOf("Price (low price first)","Price (high price first)", "Rating", "Most commented", "Newest", "Vendor rating")
-            builder.setItems(sortOptions) { dialog, which ->
-                when (which) {
-                    0 -> { /* horse */
-                    }
-                    1 -> { /* cow   */
-                    }
-                    2 -> { /* camel */
-                    }
-                    3 -> { /* camel */
-                    }
-                    4 -> { /* camel */
-                    }
+        val spinner = sort_spinner
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.sort_options,
+            android.R.layout.simple_spinner_item
+        )
+            .also { adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                spinner.adapter = adapter
+                spinnerAdapter = spinner.adapter as ArrayAdapter<String>
+            }
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (initializedView ==  false)
+                {
+                    initializedView = true;
+                }
+                else {
+                    val str = context?.resources!!.getStringArray(R.array.sort_options).get(pos)
+                    sort = sortOptionsMap[str].toString()
+                    searchCall(lastQuery, sort)
                 }
             }
 
-            // Create the AlertDialog
-            val alertDialog: AlertDialog = builder.create()
-            // Set other dialog properties
-            alertDialog.setCancelable(false)
-            alertDialog.show()
         }
 
         filterButton.setOnClickListener {
-            //val intent = Intent(activity, FilterActivity::class.java)
-            //startActivity(intent)
             drawer_layout.openDrawer(Gravity.RIGHT);
+            //searchFiltersCall() TODO
         }
         expandable_price.visibility = View.GONE
         expandable_rating.visibility = View.GONE
@@ -131,18 +140,15 @@ class SearchFragment : Fragment() {
 
         //val products = ArrayList<Product>()
         //val adapter = ProductsAdapter(products)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                /*if (list.contains(query)) {
-                    //adapter.filter.filter(query)
-                } else {
-                    //Toast.makeText(this@MainActivity, "No Match found", Toast.LENGTH_LONG).show()
-                }*/
-                searchCall(query)
-                return false
+                if(query != "") {
+                    lastQuery = query
+                }
+                searchCall(query, sort)
+                return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                //adapter.filter.filter(newText)
                 return false
             }
         })
@@ -156,44 +162,60 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    private fun searchCall(query: String) {
-        //val intent = Intent(this.context, SearchResultActivity::class.java)
-        //startActivity(intent)
+    private fun searchCall(query: String, sort: String) {
 
-        val resultingProducts = ArrayList<Product>()
-        //val productsDeals = ArrayList<Product>()
-        /*
-        resultingProducts.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = "1", photoUrl = R.drawable.image1))
-        resultingProducts.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = "2", photoUrl = R.drawable.image2))
-        resultingProducts.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = "3", photoUrl = R.drawable.image3))
+        val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
+        //apiCallerLogin.Button = login_button
+
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(SearchQuery(query), sort)
+        apiCallerProductSearch.Success = { it ->
+            if (it != null) {
+                activity?.runOnUiThread(Runnable { //Handle UI here
+                    val products = ArrayList<Product>()
+                    for(item in it.data) {
+                        products.add(responseToProductSearch(item, item.mainProduct[0]))
+                    }
+                    createProductList(products, results)
+                    print("PRODUCTS")
+                    print(products)
+                })
+            }
+        }
+        apiCallerProductSearch.Failure = {}
+        try {
+            apiCallerProductSearch.run()
+        }
+        catch (exc: IllegalStateException) {
+
+        }
+
+        /*val resultingProducts = ArrayList<Product>()
+        resultingProducts.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1))
+        resultingProducts.add(Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2))
+        resultingProducts.add(Product(title = "Samsung Galaxy Tab S6 Lite 10.4", price = 249.9, id = 3, photoUrl = R.drawable.image3))
+
         resultingProducts.add(Product(title = "Bose Noise Cancelling Wireless Bluetooth Headphones 700", price = 339.99, id = 4, photoUrl = R.drawable.image4))
         resultingProducts.add(Product(title = "Sony X800H 43 Inch TV", price = 448.99, id = 5, photoUrl = R.drawable.image5))
         resultingProducts.add(Product(title = "ASUS F512DA-EB51 VivoBook 15", price = 14.99, id = 6, photoUrl = R.drawable.image6))
         resultingProducts.add(Product(title = "DualSense Wireless Controller \$69.99", price = 69.99, id = 7, photoUrl = R.drawable.image7))
+
         resultingProducts.add(Product(title = "SAMSUNG 870 QVO SATA III 2.5\\' SSD", price = 199.99, id = 8, photoUrl = R.drawable.image8))
-        */
-        createProductList(resultingProducts, results)
+
+        createProductList(resultingProducts, results)*/
+
     }
+
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
-        //val adapter = ProductsAdapter(products)
+        val adapter = ProductsAdapter(products)
         recyclerId.apply {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
         }
-        //adapter.onItemClick = { product ->
-            //val intent = Intent(this.context, ProductPageActivity::class.java)
-            //intent.putExtra("id", product._id)
-            //startActivity(intent)
-        //}
-    }
-    public fun expand_price(v: View) {
-        //if(expandable_price.visibility == View.GONE) {
-            //expandable_price.visibility = View.VISIBLE
-        //}
-        //else {
-            //expandable_price.visibility = View.GONE
-        //}
-
+        adapter.onItemClick = { product ->
+            val intent = Intent(this.context, ProductPageActivity::class.java)
+            intent.putExtra("product",product)
+            startActivity(intent)
+        }
     }
 
 }
