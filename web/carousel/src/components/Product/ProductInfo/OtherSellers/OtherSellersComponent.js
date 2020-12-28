@@ -48,6 +48,7 @@ class OtherSellersComponent extends React.Component {
   handleClick(item) {
     var url = "/product/" + item._id;
     this.props.history.push(url);
+    window.location.reload();
   }
 
   render() {
