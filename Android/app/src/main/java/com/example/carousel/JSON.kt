@@ -32,21 +32,5 @@ data class ClientJSON(
     @SerializedName("type") val type: String,
 )
 
-data class AddressJSON(
-    @SerializedName("addressName") val address: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("addressLine") val addressLine: String,
-    @SerializedName("city") val city: String,
-    @SerializedName("state") val state: String,
-    @SerializedName("zipCode") val zipCode: String,
-    @SerializedName("phone") val phone: String,
 
-    )
 
-data class CreditCardJSON(
-    @SerializedName("creditCardNumber") val creditCardNumber: String,
-    @SerializedName("creditCardCvc") val creditCardCvc: String,
-    @SerializedName("creditCardData") val creditCardData: String,
-    @SerializedName("creditCardName") val creditCardName: String,
-
-    )

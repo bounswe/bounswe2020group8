@@ -11,10 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.DataCustomerMe
-import com.example.carousel.pojo.ExampleObject
-import com.example.carousel.pojo.ResponseCustomerMe
-import com.example.carousel.pojo.ResponseVendorMe
+import com.example.carousel.pojo.*
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.activity_product_page.view.*
 import kotlinx.android.synthetic.main.fragment_acount_page.*
@@ -155,10 +152,10 @@ class UserInformationFragment : Fragment(){
             var shoppingLists: List<List<Product>>?
             var orders: List<ExampleObject>?
             var cart: List<ExampleObject>?
-            var addresses: ArrayList<AddressJSON>?
+            var addresses: ArrayList<Address>?
             var telephoneNumber: String?
             var birthday: String?
-            var creditCards: ArrayList<CreditCardJSON>?
+            var creditCards: ArrayList<CreditCard>?
 
             var infoTemp = info
             val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)

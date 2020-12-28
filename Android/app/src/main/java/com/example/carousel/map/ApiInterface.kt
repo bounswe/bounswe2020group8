@@ -116,6 +116,9 @@ interface ApiInterface {
     fun productSearchFilters(
         @Query("query") query: String, ): Call<ResponseProductSearchFilters>
 
-
+    @POST( "/customer/purchase")
+    fun purchaseRequest(
+        @Body purchaseBody: PurchaseBody
+    ) : Call<ResponsePurchase>
 
 }

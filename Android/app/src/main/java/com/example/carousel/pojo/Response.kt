@@ -47,10 +47,10 @@ data class DataCustomerMe(
     @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
     @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
     @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
-    @Expose @SerializedName("addresses")var addresses: ArrayList<AddressJSON>?,
+    @Expose @SerializedName("addresses")var addresses: ArrayList<Address>?,
     @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
     @Expose @SerializedName("birthday")var birthday: String?,
-    @Expose @SerializedName("creditCards")var creditCards:  ArrayList<CreditCardJSON>?
+    @Expose @SerializedName("creditCards")var creditCards:  ArrayList<CreditCard>?
 )
 
 
@@ -211,4 +211,34 @@ data class DataProductSearchFilters(
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("brands") val brands: List<String>,
     @Expose @SerializedName("categories") val categories: List<String>,
+)
+data class PurchaseBody(
+    @Expose @SerializedName("customerID") val customerId: String,
+    @Expose @SerializedName("shoppingAddressId") val shoppingAddressId: String,
+    @Expose @SerializedName("billingAddressId") val billingAddressId: String,
+    @Expose @SerializedName("creditCardId") val creditCardId: String,
+    )
+
+data class ResponsePurchase(
+    @Expose @SerializedName("customerID") val customerId: String,
+
+    )
+
+data class CreditCard(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose@SerializedName("creditCardNumber") val creditCardNumber: String,
+    @Expose@SerializedName("creditCardCvc") val creditCardCvc: String,
+    @Expose@SerializedName("creditCardData") val creditCardData: String,
+    @Expose @SerializedName("creditCardName") val creditCardName: String,
+    )
+
+data class Address(
+    @Expose@SerializedName("_id") val _id: String,
+    @Expose@SerializedName("addressName") val address: String,
+    @Expose@SerializedName("name") val name: String,
+    @Expose@SerializedName("addressLine") val addressLine: String,
+    @Expose@SerializedName("city") val city: String,
+    @Expose@SerializedName("state") val state: String,
+    @Expose @SerializedName("zipCode") val zipCode: String,
+    @Expose @SerializedName("phone") val phone: String,
 )

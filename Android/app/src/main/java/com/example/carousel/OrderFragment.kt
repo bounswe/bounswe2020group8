@@ -1,14 +1,24 @@
 package com.example.carousel
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.PurchaseBody
+import com.example.carousel.pojo.ResponseLogin
+import com.example.carousel.pojo.ResponsePurchase
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_order.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 
@@ -43,8 +53,42 @@ class OrderFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_order, container, false)
     }
 
+
+
+    private fun purchase(){
+        val apiCallerPurchase: ApiCaller<ResponsePurchase> = ApiCaller(activity)
+        apiCallerPurchase.Button = purchase_button
+        for(product in CartFragment.cart) {
+            val purchaseBody =
+                LoginActivity.user.creditCards?.get(0)?._id?.let {
+                    LoginActivity.user.addresses?.get(0)?._id?.let { it1 ->
+                        PurchaseBody(LoginActivity.user.id,
+                            //textFieldAddress.text.toString(),
+                            it1,
+                            LoginActivity.user.addresses?.get(0)!!._id,
+
+                            // textFieldAddress.text.toString(),
+                            it
+                        )
+                    }
+                }
+            Log.d("BODY:", purchaseBody.toString())
+            apiCallerPurchase.Caller = purchaseBody?.let { ApiClient.getClient.purchaseRequest(it) }
+            apiCallerPurchase.Success = { it ->
+                if (it != null) {
+                    Toast.makeText(requireContext(),"Purchase Successful!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            apiCallerPurchase.Failure = {}
+            apiCallerPurchase.run()
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        purchase_button.setOnClickListener {
+            purchase()
+        }
         val addressList = ArrayList<String>()
         val creditCardList = ArrayList<String>()
 
