@@ -42,8 +42,17 @@ exports.filter = function (query) {
         delete obj[key];
         obj["vendors._id"] = { $in: vendorList };
       }
+    } else {
+      if (typeof obj[key] == "string") {
+        let paramList = obj[key].split(",");
+        paramList.forEach((el) => el.toLowerCase());
+        newkey = `parameters.${key}`;
+        obj[newkey] = { $in: paramList };
+        delete obj[key];
+      }
     }
   }
+  console.log(obj);
   return obj;
 };
 

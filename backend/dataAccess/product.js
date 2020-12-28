@@ -201,17 +201,15 @@ exports.searchProducts = function (query, tags) {
       $set: {
         maxPrice: { $max: "$vendorSpecifics.price" },
         minPrice: { $min: "$vendorSpecifics.price" },
-        // paramKeys: "$parameters.name",
-
-        // parameters: {
-        //   $arrayToObject: {
-        //     $map: {
-        //       input: "$parameters",
-        //       as: "el",
-        //       in: { k: "$$el.name", v: "$$el.value" },
-        //     },
-        //   },
-        // },
+        parameters: {
+          $arrayToObject: {
+            $map: {
+              input: "$parameters",
+              as: "el",
+              in: { k: "$$el.name", v: "$$el.value" },
+            },
+          },
+        },
         vendors: "$vendorSpecifics.vendorID",
         matches: {
           $reduce: {
@@ -232,37 +230,7 @@ exports.searchProducts = function (query, tags) {
         maxPrice: { $max: "$maxPrice" },
         minPrice: { $min: "$minPrice" },
         vendors: { $push: "$vendors" },
-        // parameters: {
-        //   $accumulator: {
-        //     init: function () {
-        //       result = {};
-        //       for (var key in keys) {
-        //         result[key] = [];
-        //       }
-        //       return { result };
-        //     },
-        //     initArgs: "$paramKeys",
-        //     accumulate: function (state, param) {
-        //       for (var key in param) {
-        //         state.result[key].push(param[key]);
-        //       }
-        //       return { result };
-        //     },
-        //     accumulateArgs: ["$parameters"],
-        //     merge: function (state1, state2) {
-        //       for (key in state1.result) {
-        //         state1.result[key].push(...state2.result[key]);
-        //       }
-        //       return {
-        //         result: state1.result,
-        //       };
-        //     },
-        //     finalize: function (state) {
-        //       return state.result;
-        //     },
-        //     lang: "js",
-        //   },
-        // },
+        parameters: { $push: "$parameters" },
       },
     },
     {
@@ -325,6 +293,7 @@ exports.searchProducts = function (query, tags) {
     { $sort: sort },
     { $skip: skip },
     { $limit: limit },
+    { $unset: ["parameters"] },
   ]);
 };
 
