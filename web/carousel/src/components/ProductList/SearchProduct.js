@@ -2,6 +2,7 @@ import classes from "./SearchProduct.module.css";
 import ButtonPrimary from "../UI/ButtonPrimary/ButtonPrimary";
 import Image from "react-image-resizer";
 import FixedDiv from "../UI/FixedDiv/FixedDiv";
+import services from "../../apis/services";
 import { withRouter } from "react-router-dom";
 
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
@@ -16,13 +17,44 @@ const SearchProduct = (props) => {
   const toggleLiked = () => {
     setLiked(!liked);
   };
+  const handleCartClicked = async ({ productId, vendorId }) => {
+    const TOKEN = localStorage.getItem("token");
+    if (!TOKEN || TOKEN === "") {
+      props.history.push("/login");
+    }
+    let ID;
+    const response = await services.get("/customer/me", {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+    }
 
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+      amount: 1,
+    };
+    console.log(productId, vendorId);
+    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        props.history.push("/account/cart");
+      })
+      .catch((err) => console.log(err));
+  };
   const { mainProduct, minPrice } = product;
   const { title, rating, numberOfRating } = mainProduct[0];
   const photos = product.product.photos;
   const handleClick = () => {
     props.history.push(`/product/${mainProduct[0]._id}`);
   };
+  console.log(product);
   return (
     <div className={classes.SearchProduct}>
       <FixedDiv width={350} height={15} margin={"10px 0px"}>
@@ -77,7 +109,15 @@ const SearchProduct = (props) => {
         </FixedDiv>
       </div>
 
-      <button className={classes.Button} onClick={() => alert("Add to Cart")}>
+      <button
+        className={classes.Button}
+        onClick={() =>
+          handleCartClicked({
+            productId: product.product._id,
+            vendorId: product.vendors[0]._id,
+          })
+        }
+      >
         Add to Cart
       </button>
     </div>
