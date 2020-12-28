@@ -112,9 +112,9 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
 
-    @GET("/product/searchFilters")
+    @POST("/product/searchFilters")
     fun productSearchFilters(
-        @Query("query") query: String, ): Call<ResponseProductSearchFilters>
+        @Body searchQuery: SearchQuery, ): Call<ResponseProductSearchFilters>
 
 
 
