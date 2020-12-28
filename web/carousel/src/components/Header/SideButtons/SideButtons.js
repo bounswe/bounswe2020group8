@@ -11,7 +11,6 @@ import {
   ShoppingCartOutlined,
   CommentOutlined,
   NotificationOutlined,
-  GiftOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";

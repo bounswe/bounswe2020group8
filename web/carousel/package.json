@@ -19,6 +19,7 @@
     "material-ui": "^0.20.2",
     "node-sass": "^5.0.0",
     "qs": "^6.9.4",
+    "rc-tween-one": "^2.7.3",
     "react": "^17.0.1",
     "react-alice-carousel": "^2.1.0",
     "react-confirm-alert": "^2.6.2",

@@ -44,6 +44,7 @@ class AddProducts extends Component {
       parentProductId: "",
       parentProductParameters: "",
       existingProductTags: "",
+      newProductTags: "",
     };
   }
 
@@ -89,6 +90,15 @@ class AddProducts extends Component {
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
         const data = response.data.data;
+        let params = [];
+        let parameterNames = [];
+        let parameterValues = [];
+        params = parentProduct.parameters.split(",");
+        for (let i = 0; i < params.length; i++) {
+          parameterNames = [...parameterNames, params[i]];
+          parameterValues = [...parameterValues, parentProduct.parameterValues[i]];
+        }
+
         this.setState({
           parentProductTitle: parentProduct.title,
           parentProductBrand: parentProduct.brand,
@@ -99,10 +109,13 @@ class AddProducts extends Component {
             brand: parentProduct.brand,
             category: parentProduct.category,
           },
+          parentProductParameters: parameterNames,
+          parentProductParameterValues: parameterValues,
         });
         let temp = data;
         const tempObj = data;
         this.showChildProducts(temp);
+
       })
       .catch((error) => {
         console.log(error);
@@ -115,9 +128,11 @@ class AddProducts extends Component {
     this.setState((state) => {
       let list = [];
       let params = [];
+      let paramValues = [];
       for (let i = 0; i < data.length; i++) {
         for (let k = 0; k < data[i].parameters.length; k++) {
           params = params.concat([data[i].parameters[k].name]);
+          paramValues = paramValues.concat([data[i].parameters[k].values]);
         }
         list = list.concat([
           {
@@ -126,6 +141,7 @@ class AddProducts extends Component {
             brand: data[i].brand,
             category: data[i].category,
             parameters: params.join(","),
+            parameterValues: paramValues,
             tags: data[i].tags,
             id: data[i]._id,
           },
@@ -299,8 +315,11 @@ class AddProducts extends Component {
     let parameterNames = [];
     let parameterValues = [];
     let parameterLength = 0;
+<<<<<<< HEAD
     console.log(values);
     const tags = productInfo.tags.split(", ");
+=======
+>>>>>>> web-feature/split-vendor-pages
     Object.keys(productInfo).map((key, igKey) => {
       if (key.substring(0, 10) === "parameter_") {
         parameterNames = [...parameterNames, key.substring(10)];
@@ -316,7 +335,7 @@ class AddProducts extends Component {
       });
     }
     let payload = {
-      tags: tags,
+      tags: this.state.newProductTags,
       parameters: parameters,
       vendorSpecifics: [
         {
@@ -385,6 +404,10 @@ class AddProducts extends Component {
         console.log("ERROR: " + error);
       });
   };
+
+  setTags = (tags) => {
+    this.setState({newProductTags: tags});
+  }
 
   render() {
     const data = this.state.mainProducts ? [this.state.mainProducts][0] : null;
@@ -462,8 +485,10 @@ class AddProducts extends Component {
             parentProduct={this.state.parentProductId}
             product={this.state.product}
             parameterInputs={this.state.parentProductParameters}
+            parameterValues={this.state.parentProductParameterValues}
             clicked={this.createFromMainProduct}
             onClick={this.goBackMain}
+            passTags={this.setTags}
           />
         ) : null}
         {this.state.showMainProductForm ? (
