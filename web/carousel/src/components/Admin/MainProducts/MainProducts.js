@@ -25,12 +25,12 @@ export default class Products extends Component {
   }
 
   componentDidMount() {
-    this.getAllProducts();
+    this.getAllMainProducts();
   }
 
-  getAllProducts = () => {
+  getAllMainProducts = () => {
     this.setState({loading: true});
-    services.get("/product", config)
+    services.get("/mainProduct", config)
       .then(response => {
         this.showProducts(response.data.data);
       })
@@ -41,30 +41,39 @@ export default class Products extends Component {
 
   showProducts = (data) => {
     let list = [];
+    console.log(data);
+
     if(data.length === 0) this.setState({loading:false});
     for (let i = 0; i < data.length; i++) {
       let params = [];
       for (let k = 0; k < data[i].parameters.length; k++) {
-        let str = data[i].parameters[k].name + ": " + data[i].parameters[k].value;
+        let str = data[i].parameters[k].name + ": " + data[i].parameters[k].values;
         params = params.concat(str);
       }
-
-      services.get("/mainProduct/" + data[i].parentProduct, config)
+      const createdAt = data[i].createdAt.substring(0,10);
+      const updatedAt = data[i].updatedAt.substring(0,10);
+      let tags = [];
+      for (let j = 0; j < data[i].tags.length; j++) {
+        tags = [...tags, data[i].tags[j]];
+        tags = [...tags, ", "];
+      }
+      console.log(tags);
+      services.get("/mainProduct/" + data[i]._id, config)
         .then(response => {
-          const parentProduct = response.data.data;
+          const product = response.data.data;
           this.setState((state) => {
             list = list.concat([
               {
                 key: i,
-                title: parentProduct.title,
-                brand: parentProduct.brand,
-                category: parentProduct.category,
+                title: product.title,
+                brand: product.brand,
+                category: product.category,
                 parameters: params.join(", "),
-                price: data[i].vendorSpecifics[0].price,
-                amountLeft: data[i].vendorSpecifics[0].amountLeft,
-                cargoCompany: data[i].vendorSpecifics[0].cargoCompany,
-                shipmentPrice: data[i].vendorSpecifics[0].shipmentPrice,
                 id: data[i]._id,
+                tags: tags,
+                desc: data[i].description,
+                created: createdAt,
+                updated: updatedAt,
               },
             ]);
             return {
@@ -93,10 +102,10 @@ export default class Products extends Component {
 
   deleteProductHandler = (product) => {
     console.log(product);
-    services.delete("/product/" + product.id, config)
+    services.delete("/mainProduct/" + product.id, config)
       .then(response => {
         console.log(response);
-        this.getAllProducts();
+        this.getAllMainProducts();
       })
       .catch(error => {
         console.log(error);
@@ -127,24 +136,24 @@ export default class Products extends Component {
         key: "parameters",
       },
       {
-        title: "Price",
-        dataIndex: "price",
-        key: "price",
+        title: "Tags",
+        dataIndex: "tags",
+        key: "tags",
       },
       {
-        title: "Amount Left",
-        dataIndex: "amountLeft",
-        key: "amountLeft",
+        title: "Description",
+        dataIndex: "desc",
+        key: "desc",
       },
       {
-        title: "Cargo Company",
-        dataIndex: "cargoCompany",
-        key: "cargoCompany",
+        title: "Creation",
+        dataIndex: "created",
+        key: "created",
       },
       {
-        title: "Shipment Price",
-        dataIndex: "shipmentPrice",
-        key: "shipmentPrice",
+        title: "Last Update",
+        dataIndex: "updated",
+        key: "updated",
       },
       {
         title: "Actions",
@@ -155,7 +164,7 @@ export default class Products extends Component {
               className={classes.TableActionsSuspend}
               onClick={() => {
                 handleSubmit(
-                  "Are you sure to delete this product?",
+                  "Are you sure to delete this main product?",
                   () => this.deleteProductHandler(record)
                 );
               }}
@@ -180,7 +189,7 @@ export default class Products extends Component {
           />
           <SearchOutlined className={classes.SearchIcon} />
         </span>
-          <Table dataSource={data} loading={this.state.loading} scroll={{x: true}} columns={columns}/>
+        <Table dataSource={data} loading={this.state.loading} scroll={{x: true}} columns={columns}/>
       </div>
     );
   }

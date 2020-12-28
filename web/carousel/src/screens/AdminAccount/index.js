@@ -7,6 +7,7 @@ import {
   PauseOutlined,
   UsergroupDeleteOutlined,
   FileSearchOutlined,
+  FolderOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -14,6 +15,7 @@ import SearchProducts from "./SearchProducts";
 import Categories from "./Categories";
 import PendingProducts from "./PendingProducts";
 import UserAccounts from "./UserAccounts";
+import MainProducts from "../../components/Admin/MainProducts/MainProducts";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -37,15 +39,18 @@ export default class AdminAccount extends Component {
               <Link to="/admin/pending-products">Product Requests</Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<FileSearchOutlined/>}>
-              <Link to="/admin/search-product">Available Products</Link>
+              <Link to="/admin/products">Available Products</Link>
+            </Menu.Item>
+            <Menu.Item key="4" icon={<FolderOutlined/>}>
+              <Link to="/admin/main-products">Main Products</Link>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<BookOutlined />} key="4">
+          <Menu.Item icon={<BookOutlined />} key="5">
             <Link to="/admin/categories">Categories</Link>
           </Menu.Item>
 
-          <Menu.Item icon={<UsergroupDeleteOutlined />} key="5">
+          <Menu.Item icon={<UsergroupDeleteOutlined />} key="6">
             <Link to="/admin/accounts">User Accounts</Link>
           </Menu.Item>
 
@@ -64,7 +69,8 @@ export default class AdminAccount extends Component {
           <Route path="/admin/profile" exact component={Profile} />
           <Route path="/admin/pending-products" exact component={PendingProducts} />
           <Route path="/admin/categories" exact component={Categories} />
-          <Route path="/admin/search-product" exact component={SearchProducts} />
+          <Route path="/admin/products" exact component={SearchProducts} />
+          <Route path="/admin/main-products" exact component={MainProducts} />
           <Route path="/admin/accounts" exact component={UserAccounts} />
         </Switch>
       </Content>

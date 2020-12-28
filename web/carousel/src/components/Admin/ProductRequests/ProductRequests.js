@@ -176,6 +176,8 @@ class ProductRequests extends Component {
               //console.log(error);
             });
         }
+      } else {
+        this.setState({loading:false});
       }
     }
   };
