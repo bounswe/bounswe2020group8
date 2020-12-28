@@ -23,11 +23,20 @@ class ProductForm extends Component {
     super(props);
     this.state = {
       parentProductId: "",
+      photos: "",
     };
   }
 
   componentDidMount() {
     this.setState({ parentProductId: this.props.parentProduct });
+  }
+
+  handleSubmit(values) {
+    this.props.clicked({ user: { ...values.user, photos: this.state.photos } });
+  }
+
+  setPhotos(photos) {
+    this.setState({ photos: photos });
   }
 
   render() {
@@ -50,7 +59,7 @@ class ProductForm extends Component {
         {...layout}
         className={classes.myReset}
         name="nest-messages"
-        onFinish={this.props.clicked}
+        onFinish={(e) => this.handleSubmit(e)}
         validateMessages={validateMessages}
       >
         <Form.Item
@@ -114,7 +123,10 @@ class ProductForm extends Component {
           {parameterInputs}
         </Form.Item>
         <Form.Item>
-          <PicturesWall />
+          <PicturesWall
+            setPhotos={(e) => this.setPhotos(e)}
+            photos={this.state.photos}
+          />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit">

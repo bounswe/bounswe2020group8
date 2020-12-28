@@ -299,6 +299,7 @@ class AddProducts extends Component {
     let parameterNames = [];
     let parameterValues = [];
     let parameterLength = 0;
+    console.log(values);
     const tags = productInfo.tags.split(", ");
     Object.keys(productInfo).map((key, igKey) => {
       if (key.substring(0, 10) === "parameter_") {
@@ -327,6 +328,7 @@ class AddProducts extends Component {
         },
       ],
       parentProduct: this.state.parentProductId,
+      photos: productInfo.photos,
     };
     const url = "/vendor/me/product/new";
     const config = {

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import S3FileUpload from "react-s3";
+import AWS from "aws-sdk";
+import { v4 as uuidv4 } from "uuid";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -34,9 +37,44 @@ export default class PicturesWall extends Component {
     });
   };
 
-  handleChange = ({ fileList }) => this.setState({ fileList });
+  handleChange = ({ file, fileList }) => {
+    console.log(file);
+    console.log(fileList);
+    this.setState({ fileList });
+  };
+  handleUpload({ onSuccess, onError, file, onProgress }) {
+    AWS.config.update({
+      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    });
+    const myBucket = new AWS.S3({
+      params: { Bucket: process.env.REACT_APP_AWS_BUCKET_NAME },
+      region: process.env.REACT_APP_AWS_BUCKET_REGION,
+    });
+    const key = uuidv4();
 
+    const params = {
+      ACL: "public-read",
+      Key: key,
+      ContentType: file.type,
+      Body: file,
+    };
+
+    myBucket
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        // that's how you can keep track of your upload progress
+        onProgress({ percent: Math.round((evt.loaded / evt.total) * 100) });
+      })
+      .send((e) => {
+        onSuccess("Ok");
+        const url = `https://${process.env.REACT_APP_AWS_BUCKET_NAME}.s3.${process.env.REACT_APP_AWS_BUCKET_REGION}.amazonaws.com/${key}`;
+        this.props.setPhotos([...this.props.photos, url]);
+        console.log(e);
+      });
+  }
   render() {
+    console.log(this.state.fileList);
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
@@ -47,7 +85,7 @@ export default class PicturesWall extends Component {
     return (
       <>
         <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          customRequest={(e) => this.handleUpload(e)}
           listType="picture-card"
           fileList={fileList}
           onPreview={this.handlePreview}

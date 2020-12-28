@@ -115,9 +115,9 @@ class MainProductForm extends Component {
             )}
           </Form.List>
         </Form.Item>
-        <Form.Item name={["user", "images"]}>
+        {/* <Form.Item name={["user", "images"]}>
           <PicturesWall />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit">
             Submit
