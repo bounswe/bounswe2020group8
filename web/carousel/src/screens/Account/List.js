@@ -14,8 +14,8 @@ const productListDemo = [
   {
     imageUrl:
       "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-    productId: "productabc",
-    vendorId: "vendorabc2",
+    productId: "5fe9fe35958f840f7844d706",
+    vendorId: "5fe51075ed0d0a79636dcfaa",
     amount: 1,
   },
 ];
