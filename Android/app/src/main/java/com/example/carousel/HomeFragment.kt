@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
     private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView ){
         val adapter = ProductsAdapter(products)
         productCategory.apply {
-            layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL, false)
             setAdapter(adapter)
         }
         Log.d("ITEMCOUNT",adapter.itemCount.toString())

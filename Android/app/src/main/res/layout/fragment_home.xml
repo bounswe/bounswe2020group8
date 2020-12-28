@@ -13,8 +13,16 @@
         <LinearLayout
             android:id="@+id/product"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/logo"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:alpha="0.7"
+                android:layout_gravity="center"
+                android:background="@drawable/christmas_unsplash" />
 
             <TextView
                 android:id="@+id/textView"
@@ -24,13 +32,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/title1"
                 android:textColor="#202020"
                 android:textStyle="bold"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/deals"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"/>
 
 
             <TextView
@@ -41,13 +49,14 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/title2"
                 android:textColor="#202020"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+            />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/newProducts"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"/>
 
 
             <TextView
@@ -58,13 +67,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif"
-                android:text="@string/title3"
                 android:textColor="#202020"
                 android:textStyle="bold"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topSellers"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
     </ScrollView>
