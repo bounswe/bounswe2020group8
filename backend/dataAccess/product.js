@@ -180,6 +180,17 @@ exports.searchProducts = function (query, tags) {
       $set: {
         maxPrice: { $max: "$vendorSpecifics.price" },
         minPrice: { $min: "$vendorSpecifics.price" },
+        // paramKeys: "$parameters.name",
+
+        // parameters: {
+        //   $arrayToObject: {
+        //     $map: {
+        //       input: "$parameters",
+        //       as: "el",
+        //       in: { k: "$$el.name", v: "$$el.value" },
+        //     },
+        //   },
+        // },
         vendors: "$vendorSpecifics.vendorID",
         matches: {
           $reduce: {
@@ -200,6 +211,37 @@ exports.searchProducts = function (query, tags) {
         minPrice: { $min: "$minPrice" },
         vendors: { $push: "$vendors" },
         photos: { $first: "$photos" },
+        // parameters: {
+        //   $accumulator: {
+        //     init: function () {
+        //       result = {};
+        //       for (var key in keys) {
+        //         result[key] = [];
+        //       }
+        //       return { result };
+        //     },
+        //     initArgs: "$paramKeys",
+        //     accumulate: function (state, param) {
+        //       for (var key in param) {
+        //         state.result[key].push(param[key]);
+        //       }
+        //       return { result };
+        //     },
+        //     accumulateArgs: ["$parameters"],
+        //     merge: function (state1, state2) {
+        //       for (key in state1.result) {
+        //         state1.result[key].push(...state2.result[key]);
+        //       }
+        //       return {
+        //         result: state1.result,
+        //       };
+        //     },
+        //     finalize: function (state) {
+        //       return state.result;
+        //     },
+        //     lang: "js",
+        //   },
+        // },
       },
     },
     {
@@ -239,6 +281,7 @@ exports.searchProducts = function (query, tags) {
         maxPrice: 1,
         minPrice: 1,
         photos: 1,
+        parameters: 1,
         brand: { $arrayElemAt: ["$mainProduct.brand", 0] },
         category: { $arrayElemAt: ["$mainProduct.category", 0] },
         "mainProduct._id": 1,

@@ -1,3 +1,11 @@
+/*
+  This class is taken from https://github.com/jonasschmedtmann/complete-node-bootcamp
+  There is no license provided however in the readme there is the following question.
+
+  Q8: I want to put the project in my portfolio. Is that allowed?
+  A: Absolutely! Just make sure you actually built it yourself by following the course, and that you understand what you did. What is not allowed is that you create your own course/videos/articles based on this course's content!
+*/
+
 class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
