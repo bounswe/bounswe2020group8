@@ -34,6 +34,20 @@ exports.updateCustomerPasswordDB = function (_id, password) {
   );
 };
 
+exports.getAddressByIdDB = function (_id, addressId) {
+  return Customer.findOne(
+    { _id: _id, addresses: { $elemMatch: { _id: addressId } } },
+    { "addresses.$": addressId }
+  );
+};
+
+exports.getCreditCardByIdDB = function (_id, creditCardId) {
+  return Customer.findOne(
+    { _id: _id, creditCards: { $elemMatch: { _id: creditCardId } } },
+    { "creditCards.$": creditCardId }
+  );
+};
+
 exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
   return Customer.findOneAndUpdate(
     {

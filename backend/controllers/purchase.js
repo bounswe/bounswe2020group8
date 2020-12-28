@@ -9,9 +9,9 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.purchaseController = BaseUtil.createController((req) => {
-  let { _id } = req.body;
+  let { _id, addressId, creditCardId } = req.body;
   return BB.all([
-    PurchaseService.purchaseService({ _id }),
+    PurchaseService.purchaseService({ _id, addressId, creditCardId }),
   ]);
 });
 

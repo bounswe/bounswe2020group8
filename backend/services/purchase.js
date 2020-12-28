@@ -8,8 +8,7 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
 
-exports.purchaseService = async function ({ _id }) {
-  console.log(_id);
+exports.purchaseService = async function ({ _id, addressId, creditCardId }) {
   const items = await OrderService.createOrderService({ _id });
   var f_items = [];
   var i;
@@ -22,6 +21,19 @@ exports.purchaseService = async function ({ _id }) {
         current["amount"]*-1
       );
     }
+    var current_address;
+    current_address = (await CustomerDataAccess.getAddressByIdDB(_id, addressId)).toJSON();
+    current_address = current_address['addresses'][0];
+    // current_address._id = undefined;
+    delete current_address["_id"];
+    current['address'] = current_address;
+
+    var creditCard;
+    creditCard = (await CustomerDataAccess.getCreditCardByIdDB(_id, creditCardId)).toJSON();
+    creditCard = creditCard['creditCards'][0];
+    // creditCard._id = undefined;
+    delete creditCard["_id"];
+    current['creditCard'] = creditCard;
     f_items.push(current);
   }
   return f_items;
