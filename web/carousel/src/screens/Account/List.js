@@ -69,6 +69,20 @@ const List = () => {
     //   .catch((err) => console.log(err));
   };
 
+  const handleEmptyClicked = () => {
+    // const TOKEN = localStorage.getItem("token");
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const URL = "/customer/shoppingCart/reset?_id=" + ID;
+    // services
+    //   .post(URL, null, config)
+    //   .then((response) => {
+    //     getCarts();
+    //   })
+    //   .catch((err) => console.log(err));
+  };
+
   function handleCartClicked({ productId, vendorId }) {
     const TOKEN = localStorage.getItem("token");
 

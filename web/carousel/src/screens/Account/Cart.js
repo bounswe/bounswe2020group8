@@ -54,6 +54,22 @@ const Cart = () => {
     history.push("/");
   };
 
+  const onEmptyClicked = () => {
+    const TOKEN = localStorage.getItem("token");
+
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+
+    const URL = "/customer/shoppingCart/reset?_id=" + ID;
+    services
+      .post(URL, null, config)
+      .then((response) => {
+        getCarts();
+      })
+      .catch((err) => console.log(err));
+  };
+
   const onCheckBoxChange = (e) => {
     setConsentGiven(e.target.checked);
   };
@@ -271,10 +287,16 @@ const Cart = () => {
           {currentPage === "cart" ? (
             <>
               {ProductContent(productList)}
-              <ButtonSecondary
-                title="Go back to Shopping"
-                onClick={() => onShopClicked()}
-              />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <ButtonSecondary
+                  title="Go back to Shopping"
+                  onClick={() => onShopClicked()}
+                />
+                <ButtonSecondary
+                  title="Empty Cart"
+                  onClick={() => onEmptyClicked()}
+                />
+              </div>
             </>
           ) : (
             <Order
