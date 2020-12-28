@@ -48,7 +48,18 @@ exports.getCreditCardByIdDB = function (_id, creditCardId) {
   );
 };
 
-exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
+exports.addToCustomerShoppingCartDB = function (
+  _id,
+  productId,
+  vendorId,
+  amount,
+  price,
+  shipmentPrice,
+  cargoCompany,
+  title,
+  vendorName,
+  photos
+) {
   return Customer.findOneAndUpdate(
     {
       _id: _id,
@@ -56,7 +67,17 @@ exports.addToCustomerShoppingCartDB = function (_id, productId, vendorId, amount
     },
     {
       $addToSet: {
-        shoppingCart: { productId: productId, vendorId: vendorId, amount: 0 },
+        shoppingCart: {
+          productId: productId,
+          vendorId: vendorId,
+          amount: 0,
+          price: price,
+          shipmentPrice: shipmentPrice,
+          cargoCompany: cargoCompany,
+          title: title,
+          vendorName: vendorName,
+          photos: photos,
+        },
       },
     },
     { new: true }
