@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import classes from "../Product.module.css";
 import FeaturesComponent from "./Features/FeaturesComponent";
 import CommentsComponent from "./Comments/CommentsComponent";
@@ -13,43 +13,61 @@ const stylePassive = {
   backgroundColor: "#eeeeee",
 };
 
-const SectionToggle = ({section}) => {
-  const[featuresStyle, setFeaturesStyle] = useState(true);
-  const[sellersStyle, setSellersStyle] = useState(false);
-  const[commentsStyle, setCommentsStyle] = useState(false);
-  const[renderedComponent, setRenderedComponent] = useState(<FeaturesComponent/>);
+const SectionToggle = (props, { section }) => {
+  const [featuresStyle, setFeaturesStyle] = useState(true);
+  const [sellersStyle, setSellersStyle] = useState(false);
+  const [commentsStyle, setCommentsStyle] = useState(false);
+  const [renderedComponent, setRenderedComponent] = useState(
+    <FeaturesComponent
+      product={props.product}
+      mainProduct={props.mainProduct}
+    />
+  );
 
   useEffect(() => {
-    if(section !== "") {
+    if (section !== "") {
       selectInfo(section);
     }
-  },[section]);
+  }, [section]);
 
   const selectInfo = (value) => {
     const id = value;
 
     if (id === "features") {
       setFeaturesStyle(true);
-      setRenderedComponent(<FeaturesComponent/>);
+      setRenderedComponent(
+        <FeaturesComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
       setSellersStyle(false);
       setCommentsStyle(false);
     } else if (id === "sellers") {
       setFeaturesStyle(false);
       setSellersStyle(true);
-      setRenderedComponent(<OtherSellersComponent/>);
+      setRenderedComponent(
+        <OtherSellersComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
       setCommentsStyle(false);
-    } else if (id === "comments"){
+    } else if (id === "comments") {
       setFeaturesStyle(false);
       setSellersStyle(false);
       setCommentsStyle(true);
-      setRenderedComponent(<CommentsComponent/>);
+
+      setRenderedComponent(
+        <CommentsComponent
+          product={props.product}
+          mainProduct={props.mainProduct}
+        />
+      );
     }
-  }
-
-
+  };
 
   return (
-
     <div>
       <div className={classes.SectionToggle}>
         <button
@@ -74,12 +92,9 @@ const SectionToggle = ({section}) => {
           Comments
         </button>
       </div>
-      <div>
-        {renderedComponent}
-      </div>
+      <div>{renderedComponent}</div>
     </div>
-
   );
-}
+};
 
 export default SectionToggle;
