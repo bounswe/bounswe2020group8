@@ -24,27 +24,3 @@ exports.purchaseController = BaseUtil.createController((req) => {
     PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId }),
   ]);
 });
-
-exports.updateShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.query;
-  let { productId, vendorId, amount } = req.body;
-  return BB.all([
-    ShoppingCartService.updateShoppingCartService({ _id, productId, vendorId, amount }),
-  ]);
-});
-
-exports.deleteFromShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.query;
-  let { productId, vendorId } = req.body;
-  return BB.all([ShoppingCartService.deleteFromShoppingCartService({ _id, productId, vendorId })]);
-});
-
-exports.resetShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.query;
-  return BB.all([ShoppingCartService.resetShoppingCartService({ _id })]);
-});
-
-exports.getShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.query;
-  return BB.all(ShoppingCartService.getShoppingCartService({ _id }));
-});
