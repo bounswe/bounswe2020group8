@@ -13,7 +13,6 @@ const { Content, Sider } = Layout;
 
 const productPrice = 123.43;
 const shipmentPrice = 25.5;
-const TOKEN = localStorage.getItem("token");
 let ID = "";
 
 const Cart = () => {
@@ -29,11 +28,12 @@ const Cart = () => {
   }, []);
 
   const getCarts = async () => {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
+      headers: { Authorization: "Bearer " + TOKEN },
     };
     const response = await services.get("/customer/me", config);
-
     if (response) {
       const data = response.data.data;
       ID = data._id;
@@ -59,6 +59,8 @@ const Cart = () => {
   };
 
   const handleDeleteClicked = ({ productId, vendorId }) => {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -76,6 +78,8 @@ const Cart = () => {
   };
 
   function onAmountChange(value, { productId, vendorId }) {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -98,6 +102,8 @@ const Cart = () => {
       setCurrentPage("order");
     } else {
       if (consentGiven) {
+        const TOKEN = localStorage.getItem("token");
+
         const config = {
           headers: { Authorization: `Bearer ${TOKEN}` },
         };

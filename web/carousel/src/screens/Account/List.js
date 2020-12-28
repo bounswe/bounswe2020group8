@@ -8,7 +8,6 @@ import { HeartOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
 
-const TOKEN = localStorage.getItem("token");
 let ID = "";
 const { Content } = Layout;
 const productListDemo = [
@@ -33,10 +32,10 @@ const List = () => {
   }, []);
 
   const getList = async () => {
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const response = await services.get("/customer/me", config);
+    const TOKEN = localStorage.getItem("token");
+    const response = await services.get("/customer/me", {
+      headers: { Authorization: "Bearer " + TOKEN },
+    });
     if (response) {
       const data = response.data.data;
       ID = data._id;
@@ -71,6 +70,8 @@ const List = () => {
   };
 
   function handleCartClicked({ productId, vendorId }) {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
