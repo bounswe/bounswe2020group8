@@ -119,18 +119,6 @@ exports.updateVendorInProductByVendorIdDB = function (pid, vid, vendorData) {
   });
 };
 
-exports.updateProductAmountLeftDB = function (productId, vendorId, amount) {
-  return Product.findOneAndUpdate(
-    { _id: productId, vendorSpecifics: { $elemMatch: { vendorID: vendorId } } },
-    {
-      $inc: {
-        "vendorSpecifics.$.amountLeft": amount,
-      },
-    },
-    { new: true }
-  );
-};
-
 exports.getProductsByVendorIdDB = function (vid) {
   return Product.aggregate([
     {
@@ -160,15 +148,6 @@ exports.getProductByVendorIdDB = function (pid, vid) {
       $project: { default: 0 },
     },
   ]);
-};
-
-exports.getProductByVendorIdDB2 = function (pid, vid) {
-  // Second version is for order operations and returns slighlty different data
-
-  return Product.findOne(
-    { _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } },
-    { "vendorSpecifics.$": vid }
-  );
 };
 
 exports.getProductByEmailDB = function (email) {
@@ -227,11 +206,11 @@ exports.searchProducts = function (query, tags) {
     {
       $group: {
         _id: "$parentProduct",
+        products: { $push: { _id: "$_id", photos: "$photos", matches: "$matches" } },
         matches: { $max: "$matches" },
         maxPrice: { $max: "$maxPrice" },
         minPrice: { $min: "$minPrice" },
         vendors: { $push: "$vendors" },
-        photos: { $first: "$photos" },
         // parameters: {
         //   $accumulator: {
         //     init: function () {
@@ -268,6 +247,13 @@ exports.searchProducts = function (query, tags) {
     {
       $set: {
         mainProduct: "$_id",
+        product: {
+          $reduce: {
+            input: "$products",
+            initialValue: { matches: 0 },
+            in: { $cond: [{ $gt: ["$$this.matches", "$$value.matches"] }, "$$this", "$$value"] },
+          },
+        },
         vendors: {
           $reduce: {
             input: "$vendors",
@@ -298,10 +284,11 @@ exports.searchProducts = function (query, tags) {
       $project: {
         mpid: "$_id",
         _id: 0,
+        "product._id": 1,
+        "product.photos": 1,
         matches: 1,
         maxPrice: 1,
         minPrice: 1,
-        photos: 1,
         parameters: 1,
         brand: { $arrayElemAt: ["$mainProduct.brand", 0] },
         category: { $arrayElemAt: ["$mainProduct.category", 0] },
