@@ -29,7 +29,6 @@ const Cart = () => {
   }, []);
 
   const getCarts = async () => {
-    const token = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -76,12 +75,45 @@ const Cart = () => {
       .catch((err) => console.log(err));
   };
 
+  function onAmountChange(value, { productId, vendorId }) {
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+      amount: value,
+    };
+    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        getCarts();
+      })
+      .catch((err) => console.log(err));
+  }
+
   const handleConfirmClicked = () => {
     if (currentPage === "cart") {
       setCurrentPage("order");
     } else {
       if (consentGiven) {
-        console.log("ok");
+        const config = {
+          headers: { Authorization: `Bearer ${TOKEN}` },
+        };
+        const payload = {
+          _id: ID,
+          shippingAddressId: orderAddress._id,
+          billingAddressId: orderAddress._id,
+          creditCardId: orderCreditCard._id,
+        };
+        const URL = "/customer/purchase";
+        services
+          .post(URL, payload, config)
+          .then((response) => {
+            alert("Purchase is successful! Checkout the active order page");
+          })
+          .catch((err) => console.log(err));
       } else {
         alert("Please read the sales agreement and accept it");
       }
@@ -129,7 +161,11 @@ const Cart = () => {
                   textAlign: "center",
                 }}
               >
-                <InputNumber min={1} defaultValue={product.amount} />
+                <InputNumber
+                  min={1}
+                  onChange={(value) => onAmountChange(value, product)}
+                  defaultValue={product.amount}
+                />
                 <div
                   style={{
                     width: 150,

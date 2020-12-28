@@ -17,7 +17,7 @@ const productListDemo = [
       "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
     productId: "productabc",
     vendorId: "vendorabc2",
-    amount: 50,
+    amount: 1,
   },
 ];
 
@@ -37,38 +37,37 @@ const List = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const response = await services.get("/customer/me", config);
-
     if (response) {
       const data = response.data.data;
       ID = data._id;
     }
-    const URL = "/customer/shoppingList/get?_id=" + ID;
-    services
-      .post(URL, null, config)
-      .then((response) => {
-        if (response.data) {
-          const newList = response.data;
-          setproductList(newList);
-        }
-      })
-      .catch((err) => console.log(err));
+    // const URL = "/customer/shoppingList/get?_id=" + ID;
+    // services
+    //   .post(URL, null, config)
+    //   .then((response) => {
+    //     if (response.data) {
+    //       const newList = response.data;
+    //       setproductList(newList);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   const handleDeleteClicked = ({ productId, vendorId }) => {
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const payload = {
-      productId: productId,
-      vendorId: vendorId,
-    };
-    const URL = "/customer/shoppingList/delete?_id=" + ID;
-    services
-      .post(URL, payload, config)
-      .then((response) => {
-        getList();
-      })
-      .catch((err) => console.log(err));
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const payload = {
+    //   productId: productId,
+    //   vendorId: vendorId,
+    // };
+    // const URL = "/customer/shoppingList/delete?_id=" + ID;
+    // services
+    //   .post(URL, payload, config)
+    //   .then((response) => {
+    //     getList();
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   function handleCartClicked({ productId, vendorId }) {
