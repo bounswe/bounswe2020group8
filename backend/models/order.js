@@ -16,6 +16,7 @@ var orderSchema = new Schema(
     orderID: { type: Schema.Types.ObjectId },
     customerID: { type: Schema.Types.ObjectId },
     product: { type: String },
+    orders: [],
     email: { type: String },
     shippingAddress: { type: address },
     billingAddress: { type: address },

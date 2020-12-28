@@ -1,5 +1,7 @@
+const mongoose = require("mongoose");
 const CustomerDataAccess = require("../dataAccess/customer");
 const ProductDataAccess = require("../dataAccess/product");
+const OrderDataAccess = require("../dataAccess/order");
 const OrderService = require("../services/order");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const { sha1, sha256 } = require("../util/baseUtil");
@@ -34,8 +36,13 @@ exports.purchaseService = async function ({ _id, addressId, creditCardId }) {
     // creditCard._id = undefined;
     delete creditCard["_id"];
     current['creditCard'] = creditCard;
+    var orderId = mongoose.Types.ObjectId();
+    current['_id'] = orderId;
     f_items.push(current);
   }
+  var mainOrderId = mongoose.Types.ObjectId();
+  data = { "_id": mainOrderId, "orders": f_items };
+  newOrder = await OrderDataAccess.populateOrderDB(data);
   return f_items;
 };
 
