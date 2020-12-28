@@ -70,3 +70,13 @@ exports.getAllProductsService = async function ({ query }) {
   });
   return { results: products.length, data: products };
 };
+
+exports.updateProductAmountLeftService = async function ({ productId, vendorId, amount }) {
+  updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
+    _id,
+    productId,
+    vendorId,
+    amount
+  );
+  return updatedCustomer;
+};

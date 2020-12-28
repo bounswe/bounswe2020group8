@@ -11,3 +11,12 @@ exports.createOrderController = BaseUtil.createController((req) => {
   let { _id } = req.body;
   return BB.all(OrderService.createOrderService({ _id }));
 });
+
+exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {
+  let { customerID } = req.body;
+  return BB.all([
+    AppValidator.validateIfNullOrEmpty(customerID, Messages.RETURN_MESSAGES.ERR_UNDEFINED),
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => OrderService.getOrderByCustomerIdService({ customerID }));
+});

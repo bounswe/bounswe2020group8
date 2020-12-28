@@ -5,6 +5,7 @@ const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const router = express.Router();
 const OrderController = require("../controllers/order");
+const PurchaseController = require("../controllers/purchase");
 
 router.post("/signup", CustomerController.signupController, RequestHelper.returnResponse);
 router.post(
@@ -55,6 +56,12 @@ router.post(
   ShoppingCartController.getShoppingCartController,
   RequestHelper.returnResponse
 );
-router.post("/order", OrderController.createOrderController, RequestHelper.returnResponse);
+router.post("/order/create", OrderController.createOrderController, RequestHelper.returnResponse);
+router.post(
+  "/order/getByCustomerID",
+  OrderController.getOrderByCustomerIdController,
+  RequestHelper.returnResponse
+);
+router.post("/purchase", PurchaseController.purchaseController, RequestHelper.returnResponse);
 
 module.exports = router;
