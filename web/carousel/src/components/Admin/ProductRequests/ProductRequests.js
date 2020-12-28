@@ -69,7 +69,7 @@ class ProductRequests extends Component {
     let category = "";
     let list = [];
     for (let i = 0; i < data.length; i++) {
-      if (data[i].status !== "PENDING") {
+      if (data[i].status === "PENDING") {
         let params = [];
         let productData = data[i].newValue;
         if (data[i].type === "ADD_NEW_PRODUCT") {
@@ -84,7 +84,6 @@ class ProductRequests extends Component {
           services
             .get("/mainProduct/" + productData.parentProduct, config)
             .then((response) => {
-              //console.log(response.data.data);
               title = response.data.data.title;
               brand = response.data.data.brand;
               category = response.data.data.category;
