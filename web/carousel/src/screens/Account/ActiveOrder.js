@@ -6,19 +6,19 @@ import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
-import OrderDiv from "../../components/UI/OrderDiv/OrderDiv";
-import classes from "../../components/UI/OrderDiv/OrderDiv.module.css";
+// import OrderDiv from "../../components/UI/OrderDiv/OrderDiv";
+// import classes from "../../components/UI/OrderDiv/OrderDiv.module.css";
 
 const { Content } = Layout;
 const orders = {
-  order1:[
+  order1: [
     {
       imageUrl:
         "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
       name: "Macbook Pro 16 inch",
       price: 2199.99,
       vendorName: "AA",
-    }
+    },
   ],
   order2: [
     {
@@ -34,10 +34,9 @@ const orders = {
       name: "Sewatshirt",
       price: 99.99,
       vendorName: "BB",
-    }
+    },
   ],
 };
-
 
 const ActiveOrder = () => {
   const history = useHistory();
@@ -46,55 +45,60 @@ const ActiveOrder = () => {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Active Orders
-        {
-          Object.values(orders).map((order, index) => {
-            console.log(order);
-            const divSize = order.length;
-            return (
-              <div>
-                <div style={{border: "1px solid black", paddingLeft:"10px"}}>
-                  Order {index + 1}
-                  {
-                    order.map((product) => (
-                      <div style={{ display: "flex", flexDirection: "column", border:"none" }}>
-                        {/*<Badge.Ribbon text={<HeartOutlined />} />*/}
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            padding: 20,
-                            height: 100,
-                            color: "navy",
-                          }}
-                        >
-                          <div>
-                            <Image height={70} width={70} src={product.imageUrl} />
-                          </div>
-                          <div style={{ fontWeight: "normal" }}>
-                            <div style={{ fontSize: 16 }}>{product.name}</div>
-                            <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
-                          </div>
-                          <div style={{ fontWeight: "normal" }}>
-                            <div style={{ fontSize: 16 }}>Estimated Delivery Date:</div>
-                            <div style={{ fontSize: 12 }}>03.01-11.01 2021</div>
-                          </div>
-                          <div>
-                            <div>{product.price}$</div>
-                          </div>
-                        </div>
-                        <Divider />
+        {Object.values(orders).map((order, index) => {
+          console.log(order);
+          const divSize = order.length;
+          return (
+            <div>
+              <div style={{ border: "1px solid black", paddingLeft: "10px" }}>
+                Order {index + 1}
+                {order.map((product) => (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      border: "none",
+                    }}
+                  >
+                    {/*<Badge.Ribbon text={<HeartOutlined />} />*/}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: 20,
+                        height: 100,
+                        color: "navy",
+                      }}
+                    >
+                      <div>
+                        <Image height={70} width={70} src={product.imageUrl} />
                       </div>
-                    ))
-                  }
-                </div>
-                <div style={{height:"10px"}}/>
+                      <div style={{ fontWeight: "normal" }}>
+                        <div style={{ fontSize: 16 }}>{product.name}</div>
+                        <div style={{ fontSize: 12 }}>
+                          Vendor: {product.vendorName}
+                        </div>
+                      </div>
+                      <div style={{ fontWeight: "normal" }}>
+                        <div style={{ fontSize: 16 }}>
+                          Estimated Delivery Date:
+                        </div>
+                        <div style={{ fontSize: 12 }}>03.01-11.01 2021</div>
+                      </div>
+                      <div>
+                        <div>{product.price}$</div>
+                      </div>
+                    </div>
+                    <Divider />
+                  </div>
+                ))}
               </div>
-
-            );
-          })
-        }
+              <div style={{ height: "10px" }} />
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -109,7 +113,6 @@ const ActiveOrder = () => {
           }}
         >
           {OrderContent(orders)}
-
         </Content>
       </Layout>
     </Layout>

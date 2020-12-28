@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Divider, Badge } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
@@ -6,22 +6,18 @@ import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
+import services from "../../apis/services";
 
+const TOKEN = localStorage.getItem("token");
+let ID = "";
 const { Content } = Layout;
 const productListDemo = [
   {
     imageUrl:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
-    name: "Macbook Pro 16 inch",
-    price: 2199.99,
-    vendorName: "AA",
-  },
-  {
-    imageUrl:
       "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-    name: "PlayStation 4 Pro 1TB",
-    price: 399.99,
-    vendorName: "AA",
+    productId: "productabc",
+    vendorId: "vendorabc2",
+    amount: 50,
   },
 ];
 
@@ -32,14 +28,66 @@ const List = () => {
     history.push("/");
   };
 
-  const handleDeleteClicked = ({ name }) => {
-    const newList = productList.filter((item) => item.name !== name);
-    setproductList(newList);
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const getList = async () => {
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const response = await services.get("/customer/me", config);
+
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+    }
+    const URL = "/customer/shoppingList/get?_id=" + ID;
+    services
+      .post(URL, null, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data;
+          setproductList(newList);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleCartClicked = () => {
-    history.push("/account/cart");
+  const handleDeleteClicked = ({ productId, vendorId }) => {
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+    };
+    const URL = "/customer/shoppingList/delete?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        getList();
+      })
+      .catch((err) => console.log(err));
   };
+
+  function handleCartClicked({ productId, vendorId }) {
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+      amount: 1,
+    };
+    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        history.push("/account/cart");
+      })
+      .catch((err) => console.log(err));
+  }
 
   function ProductContent(productList = []) {
     return (
@@ -65,8 +113,8 @@ const List = () => {
                 <Image height={70} width={70} src={product.imageUrl} />
               </div>
               <div style={{ fontWeight: "normal" }}>
-                <div style={{ fontSize: 16 }}>{product.name}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
+                <div style={{ fontSize: 16 }}>{product.productId}</div>
+                <div style={{ fontSize: 12 }}>Vendor: {product.vendorId}</div>
               </div>
               <div>
                 <div>{product.price}$</div>
@@ -81,7 +129,7 @@ const List = () => {
                 <ButtonPrimary
                   title="Add to Cart"
                   style={{ width: 120, height: 50, fontSize: 16 }}
-                  onClick={() => handleCartClicked()}
+                  onClick={() => handleCartClicked(product)}
                 />
               </div>
             </div>

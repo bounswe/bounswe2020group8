@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Divider, InputNumber } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
@@ -7,48 +7,49 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
+import services from "../../apis/services";
 
 const { Content, Sider } = Layout;
-const productListDemo = [
-  {
-    imageUrl:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
-    name: "Macbook Pro 16 inch",
-    price: 2199.99,
-    vendorName: "AA",
-  },
-  {
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-    name: "PlayStation 4 Pro 1TB",
-    price: 399.99,
-    vendorName: "AA",
-  },
-  {
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/61BhxjpQn6L._AC_SL1500_.jpg",
-    name: "Arlo VMC2030-100NAS Essential Spotlight Camera",
-    price: 99.99,
-    vendorName: "AA",
-  },
-  {
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/318TG3aNKpL._AC_US218_.jpg",
-    name: "Introducing Fire TV Stick Lite with Alexa Voice Remote Lite",
-    price: 18.99,
-    vendorName: "AA",
-  },
-];
+
 const productPrice = 123.43;
 const shipmentPrice = 25.5;
+const TOKEN = localStorage.getItem("token");
+let ID = "";
 
 const Cart = () => {
   const history = useHistory();
-  const [productList, setproductList] = useState(productListDemo);
+  const [productList, setproductList] = useState([]);
   const [currentPage, setCurrentPage] = useState("cart");
   const [orderAddress, setOrderAddress] = useState(null);
   const [orderCreditCard, setOrderCreditCard] = useState(null);
   const [consentGiven, setConsentGiven] = useState(false);
+
+  useEffect(() => {
+    getCarts();
+  }, []);
+
+  const getCarts = async () => {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const response = await services.get("/customer/me", config);
+
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+    }
+    const URL = "/customer/shoppingCart/get?_id=" + ID;
+    services
+      .post(URL, null, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data;
+          setproductList(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   const onShopClicked = () => {
     history.push("/");
@@ -58,18 +59,32 @@ const Cart = () => {
     setConsentGiven(e.target.checked);
   };
 
-  const handleDeleteClicked = ({ name }) => {
-    const newList = productList.filter((item) => item.name !== name);
-    setproductList(newList);
+  const handleDeleteClicked = ({ productId, vendorId }) => {
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+    };
+    const URL = "/customer/shoppingCart/delete?_id=" + ID;
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        getCarts();
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleConfirmClicked = () => {
     if (currentPage === "cart") {
       setCurrentPage("order");
     } else {
-      console.log(orderAddress);
-      console.log(orderCreditCard);
-      console.log(consentGiven);
+      if (consentGiven) {
+        console.log("ok");
+      } else {
+        alert("Please read the sales agreement and accept it");
+      }
     }
   };
 
@@ -102,8 +117,8 @@ const Cart = () => {
                   padding: 20,
                 }}
               >
-                <div style={{ fontSize: 16 }}>{product.name}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
+                <div style={{ fontSize: 16 }}>{product.productId}</div>
+                <div style={{ fontSize: 12 }}>Vendor: {product.vendorId}</div>
               </div>
               <div
                 style={{
@@ -114,7 +129,7 @@ const Cart = () => {
                   textAlign: "center",
                 }}
               >
-                <InputNumber min={1} defaultValue={1} />
+                <InputNumber min={1} defaultValue={product.amount} />
                 <div
                   style={{
                     width: 150,
