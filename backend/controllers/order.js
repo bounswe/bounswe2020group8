@@ -14,8 +14,9 @@ exports.createOrderController = BaseUtil.createController((req) => {
 
 exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {
   let { customerID } = req.body;
-  if (typeof customerID === "undefined") {
-    throw new Error("Missing Parameters!");
-  }
-  return BB.all(OrderService.getOrderByCustomerIdService({ customerID }));
+  return BB.all([
+    AppValidator.validateIfNullOrEmpty(customerID, Messages.RETURN_MESSAGES.ERR_UNDEFINED),
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => OrderService.getOrderByCustomerIdService({ customerID }));
 });

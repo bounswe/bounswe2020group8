@@ -11,16 +11,20 @@ const Customer = require("../models/customer");
 
 exports.purchaseController = BaseUtil.createController((req) => {
   let { _id, shippingAddressId, billingAddressId, creditCardId } = req.body;
-
-  if (
-    typeof _id === "undefined" ||
-    typeof shippingAddressId === "undefined" ||
-    typeof billingAddressId === "undefined" ||
-    typeof creditCardId === "undefined"
-  ) {
-    throw new Error("Missing Parameters!");
-  }
   return BB.all([
-    PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId }),
-  ]);
+    AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
+    AppValidator.validateIfNullOrEmpty(
+      shippingAddressId,
+      Messages.RETURN_MESSAGES.ERR_UNDEFINED
+    ).reflect(),
+    AppValidator.validateIfNullOrEmpty(
+      billingAddressId,
+      Messages.RETURN_MESSAGES.ERR_UNDEFINED
+    ).reflect(),
+    AppValidator.validateIfNullOrEmpty(creditCardId, Messages.RETURN_MESSAGES.ERR_UNDEFINED),
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId })
+    );
 });
