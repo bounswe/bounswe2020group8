@@ -3,9 +3,8 @@ import services from "../services";
 
 // This piece of code assumes that the functions are used for "addresses" or "credit cards"
 
-const TOKEN = localStorage.getItem("token");
-
 const getElements = (field, setState) => {
+  const TOKEN = localStorage.getItem("token");
   const config = {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };
@@ -20,6 +19,7 @@ const getElements = (field, setState) => {
 };
 
 const patchField = async (field, list, setState) => {
+  const TOKEN = localStorage.getItem("token");
   const config = {
     headers: { Authorization: `Bearer ${TOKEN}` },
   };

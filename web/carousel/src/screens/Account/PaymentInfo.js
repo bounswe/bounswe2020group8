@@ -11,6 +11,7 @@ import {
 import PaymentInfo from "../../components/Account/PaymentInfo/PaymentInfo";
 import PaymentInfoHeadbar from "../../components/Account/PaymentInfo/PaymentInfoHeadbar";
 import PaymentModal from "../../components/Account/PaymentInfo/PaymentModal";
+import { AutoComplete } from "material-ui";
 
 const PaymentInfoList = (props) => {
   const [creditCardList, setCreditCardList] = useState([]);
@@ -40,23 +41,27 @@ const PaymentInfoList = (props) => {
           }
         />
       ) : null}
-      {creditCardList.map((creditCard) => {
-        return (
-          <PaymentInfo
-            key={creditCard.id}
-            creditCard={creditCard}
-            setModal={setModal}
-            handleDelete={(creditCard) =>
-              handleRemoveItem(
-                "creditCards",
-                setCreditCardList,
-                creditCardList,
-                creditCard._id
-              )
-            }
-          />
-        );
-      })}
+      <div>
+        {creditCardList.map((creditCard) => {
+          return (
+            <div style={{ margin: "40px", display: "inline-block" }}>
+              <PaymentInfo
+                key={creditCard.id}
+                creditCard={creditCard}
+                setModal={setModal}
+                handleDelete={(creditCard) =>
+                  handleRemoveItem(
+                    "creditCards",
+                    setCreditCardList,
+                    creditCardList,
+                    creditCard._id
+                  )
+                }
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

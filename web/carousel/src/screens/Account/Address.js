@@ -51,7 +51,7 @@ const AddressList = (props) => {
         ? addressList.map((address) => {
             return (
               <Address
-                key={address.id}
+                key={address._id}
                 address={address}
                 setModal={setModal}
                 handleDelete={(address) =>
