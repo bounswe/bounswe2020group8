@@ -367,9 +367,25 @@ class AddProducts extends Component {
     const productInfo = values.user;
     const tags = productInfo.tags.split(", ");
     const parameter = productInfo.parameters;
+    console.log(parameter);
+    let params = [];
+    for (let i = 0; i < parameter.length; i++) {
+      const paramValues = parameter[i].values.split(", ");
+      console.log(paramValues);
+      // params.push([parameter[i].name, paramValues]);
+      const temp = {
+        name: parameter[i].name,
+        values: paramValues,
+      }
+      params = [
+        ...params,
+        temp,
+      ]
+    }
+    console.log(params);
     let payload = {
       title: productInfo.title,
-      parameters: parameter,
+      parameters: params,
       description: productInfo.description,
       brand: productInfo.brand,
       rating: 0,
@@ -379,6 +395,7 @@ class AddProducts extends Component {
       isConfirmed: false,
       tags: tags,
     };
+    console.log(payload);
     const url = "/mainProduct";
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -393,6 +410,7 @@ class AddProducts extends Component {
           showExistingProductForm: false,
         });
         alert("Main Product request is sent!");
+        this.getMainProducts();
       })
       .catch((error) => {
         console.log("ERROR: " + error);
