@@ -10,6 +10,7 @@ import UserInfo from "../components/Context/UserInfo";
 import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
 import Product from "../components/Product/Product";
+import Search from "./Search";
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -86,6 +87,7 @@ const App = () => {
             <Route path="/forgot" exact component={Forgot} />
             <Route path="/product/:id" exact component={Product} />
             <Route path="/reset" exact component={Reset} />
+            <Route path="/search" exact component={Search} />
             <Route path="/account" component={Account} />
             <Route render={() => <NotFound />} />
           </Switch>

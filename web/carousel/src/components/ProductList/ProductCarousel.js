@@ -1,28 +1,28 @@
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
-import ProductInSearch from './ProductInSearch'
-import classes from './ProductCarousel.module.css'
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import HomepageProduct from "./HomepageProduct";
+import classes from "./ProductCarousel.module.css";
 
-const productCarousel = props => {
+const productCarousel = (props) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 7
+      items: 7,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 5
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 3
+      items: 3,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  }
+      items: 1,
+    },
+  };
 
   return (
     <div className={classes.ProductCarousel}>
@@ -33,18 +33,18 @@ const productCarousel = props => {
         responsive={responsive}
         ssr={true} // means to render carousel on server-side.
         transitionDuration={500}
-        containerClass='carousel-container'
-        removeArrowOnDeviceType={['tablet', 'mobile']}
+        containerClass="carousel-container"
+        removeArrowOnDeviceType={["tablet", "mobile"]}
         deviceType={props.deviceType}
-        dotListClass='custom-dot-list-style'
-        itemClass='carousel-item-padding-40-px'
+        dotListClass="custom-dot-list-style"
+        itemClass="carousel-item-padding-40-px"
       >
-        {props.productList.map(product => {
-          return <ProductInSearch product={product} />
+        {props.productList.map((product) => {
+          return <HomepageProduct product={product} />;
         })}
       </Carousel>
     </div>
-  )
-}
+  );
+};
 
-export default productCarousel
+export default productCarousel;
