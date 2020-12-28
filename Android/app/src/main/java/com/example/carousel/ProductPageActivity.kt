@@ -14,11 +14,9 @@ import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.PostComment
-import com.example.carousel.pojo.ResponseAllProducts
-import com.example.carousel.pojo.ResponseGetComments
-import com.example.carousel.pojo.ResponseMainProduct
+import com.example.carousel.pojo.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_product_page.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -42,7 +40,7 @@ class ProductPageActivity : AppCompatActivity() {
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
-        vendor.text = "by ${product!!.vendorSpecifics[0].vendorID.companyName}"
+        vendor.text = "by ${product!!.companyName}"
         //product!!.comments.add(Comment("Very good", 5.0, "Ahmet Zübüzüb","123"))
         //product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1.0, "Tuba Engin","122"))
        this.runOnUiThread {
@@ -170,8 +168,22 @@ class ProductPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else {
-            this.product?.let { CartFragment.addToCart(it, count) }
-            Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
+            this.runOnUiThread {
+
+                val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(this)
+                apiCallerAddToCart.Button = cart_button
+                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(ResponseCart(product!!._id,product!!.vendorId,count), LoginActivity.user.id)
+                apiCallerAddToCart.Success = { it ->
+                    if (it != null) {
+                        this.product?.let { CartFragment.addToCart(it, count) }
+                        Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+                apiCallerAddToCart.run()
+                apiCallerAddToCart.Failure = { }
+            }
+
         }
     }
     fun incCount(view: View){

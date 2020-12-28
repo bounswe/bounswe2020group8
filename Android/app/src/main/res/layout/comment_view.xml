@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:minLines="1"
         android:textStyle="bold"
+        android:text="Anonymous User"
     />
     <RatingBar
         android:id="@+id/rating"

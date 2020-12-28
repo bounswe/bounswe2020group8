@@ -101,4 +101,9 @@ interface ApiInterface {
     @POST("/customer/shoppingCart/get")
     fun getCart(
         @Query("_id") _id: String): Call<ArrayList<ResponseCart>>
+
+    @POST("/customer/shoppingCart/update")
+    fun updateCart(
+        @Body data: ResponseCart,
+        @Query("_id") _id: String ): Call<ArrayList<DataCustomerMe>>
 }

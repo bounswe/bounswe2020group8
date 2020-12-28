@@ -26,7 +26,7 @@ class CommentAdapter (var commentList: ArrayList<Comment> ) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.username.text = commentList[position].customerId
+        //holder.username.text = commentList[position].customerId
         //holder.rating.rating = commentList[position].rating.toFloat()
         holder.body.text = commentList[position].text
 

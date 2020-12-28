@@ -1,9 +1,6 @@
 package com.example.carousel
 
-import com.example.carousel.pojo.MainProductData
-import com.example.carousel.pojo.ProductData
-import com.example.carousel.pojo.ResponseMainProduct
-import com.example.carousel.pojo.VendorSpecifics
+import com.example.carousel.pojo.*
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
@@ -11,7 +8,8 @@ import kotlin.collections.ArrayList
 data class Product(
     val _id: String = "",
     val id: Int = 0,
-    val vendorId: String = "Belethor",
+    val vendorId: String = "",
+    val companyName: String = "Unknown",
     val title: String,
     val description: String = "",
     val amountLeft: Int = 0,
@@ -47,3 +45,22 @@ data class Product(
             mainProductId = main._id
         )
     }
+
+fun responseToProduct (product: AllProductData, main: MainProductData): Product {
+    return Product(
+        _id = product._id,
+        vendorId = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!._id,
+        companyName = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!.companyName,
+        title = main.title,
+        description = main.description,
+        price = product.default.price,
+        amountLeft = product.default.amountLeft,
+        shipmentPrice = product.default.shipmentPrice,
+        cargoCompany = product.default.cargoCompany,
+        rating = main.rating,
+        photos = product.photos,
+        tags = product.tags,
+        mainProductId = main._id,
+
+    )
+}

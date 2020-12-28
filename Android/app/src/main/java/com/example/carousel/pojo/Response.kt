@@ -92,7 +92,7 @@ data class ResponseProduct(
 
 data class ResponseAllProducts(
     @Expose @SerializedName("results") val results: Int,
-    @Expose @SerializedName("data") val data: ArrayList<ProductData>,
+    @Expose @SerializedName("data") val data: ArrayList<AllProductData>,
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String
 ) : Serializable
@@ -104,6 +104,19 @@ data class ProductData(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
     @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorDefaults>,
+    @Expose @SerializedName("parentProduct") val parentProduct: String,
+    @Expose @SerializedName("brand") val brand: String,
+    @Expose @SerializedName("category") val category: String,
+    @Expose @SerializedName("createdAt") val createdAt: Date,
+    @Expose @SerializedName("updatedAt") val updatedAt: Date,
+) : Serializable
+data class AllProductData(
+    @Expose @SerializedName("default") val default: VendorDefaults,
+    @Expose @SerializedName("tags") val tags: ArrayList<String>,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
+    @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorSpecifics>,
     @Expose @SerializedName("parentProduct") val parentProduct: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
@@ -145,7 +158,7 @@ data class VendorDefaults(
 ) : Serializable
 
 data class VendorSpecifics(
-    @Expose @SerializedName("vendorID") val vendorID: VendorID,
+    @Expose @SerializedName("vendorID") val vendorID: VendorID?,
     @Expose @SerializedName("price") val price:  Double,
     @Expose @SerializedName("amountLeft") val amountLeft: Int,
     @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
