@@ -120,9 +120,6 @@ exports.updateVendorInProductByVendorIdDB = function (pid, vid, vendorData) {
 };
 
 exports.updateProductAmountLeftDB = function (productId, vendorId, amount) {
-  // console.log("updatedProduct");
-  // console.log(productId);
-  // console.log(vendorId);
   return Product.findOneAndUpdate(
     { _id: productId, vendorSpecifics: { $elemMatch: { vendorID: vendorId } } },
     {
