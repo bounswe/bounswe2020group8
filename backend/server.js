@@ -16,7 +16,7 @@ const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
 const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
-
+const ratingRouter = require("./routers/rating");
 const mainProductRouter = require("./routers/mainProduct");
 const productRouter = require("./routers/product");
 const productRequestRouter = require("./routers/productRequest");
@@ -68,6 +68,7 @@ app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
 app.use("/admin", adminRouter);
 app.use("/category", categoryRouter);
+app.use("/rating", ratingRouter);
 app.use("/mainProduct", mainProductRouter);
 app.use("/product", productRouter);
 app.use("/productRequest", productRequestRouter);
