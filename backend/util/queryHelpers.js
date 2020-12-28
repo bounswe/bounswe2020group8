@@ -45,6 +45,7 @@ exports.filter = function (query) {
     } else {
       if (typeof obj[key] == "string") {
         let paramList = obj[key].split(",");
+        paramList.forEach((el) => el.toLowerCase());
         newkey = `parameters.${key}`;
         obj[newkey] = { $in: paramList };
         delete obj[key];
