@@ -1,47 +1,53 @@
 import React from "react";
 import { Table, Tag, Space } from "antd";
-
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    address: "10 Downing Street",
-  },
-  {
-    key: "2",
-    name: "John",
-    address: "10 Downing Street",
-  },
-];
-
 const columns = [
   {
-    title: "Name",
+    title: "Feature Name",
     dataIndex: "name",
     key: "name",
   },
 
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "Value",
+    dataIndex: "value",
+    key: "value",
   },
 ];
+
+var dataSource = [];
 
 export default class FeaturesComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      product: this.props.product,
+    };
   }
+
   componentWillMount() {
-    console.log(this.props.product);
-    console.log(this.props.mainProduct);
+    if (this.props.product != null) {
+      this.setState({ product: this.props.product });
+    }
+    if (dataSource.length == 0) {
+      if (this.state.product) {
+        var i;
+        for (i = 0; i < this.state.product.parameters.length; i++) {
+          var dataElement = {};
+          dataElement = {
+            key: i.toString(),
+            name: this.state.product.parameters[i].name,
+            value: this.state.product.parameters[i].value,
+          };
+          dataSource.push(dataElement);
+        }
+      }
+    }
   }
 
   render() {
     return (
       <div>
-        <Table dataSource={dataSource} columns={columns} />;
+        <Table dataSource={dataSource} columns={columns} />
       </div>
     );
   }

@@ -1,16 +1,17 @@
 import React from "react";
 import { List, Avatar, Space } from "antd";
-import { MessageOutlined, LikeOutlined, StarOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { Form, Button, Input } from "antd";
 import moment from "moment";
+import services from "../../../../apis/services";
+
+const TOKEN = localStorage.getItem("token");
 
 const listData = [];
 
 for (let i = 0; i < 100; i++) {
   listData.push({
-    href: "https://ant.design",
     title: `ant design part ${i}`,
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
     description:
       "Ant Design, a design language for background applications, is refined by Ant UED Team.",
     content:
@@ -49,37 +50,108 @@ export default class CommentsComponent extends React.Component {
       comments: [],
       submitting: false,
       value: "",
+      newComment: false,
+      myId: "",
+      myFullName: "",
     };
   }
-  componentWillMount() {
-    console.log(this.props.product);
-    console.log(this.props.mainProduct);
+  async componentWillMount() {
+    let config = {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
+    await services
+      .get("/customer/me", config)
+      .then((response) => {
+        this.setState({
+          myId: response.data.data._id,
+          myFullName:
+            response.data.data.name + " " + response.data.data.lastName,
+        });
+      })
+      .catch((err, response) => {
+        this.setState({ myId: "" });
+      });
+    if (this.state.comments.length == 0) {
+      console.log("Burada");
+      var comments = [];
+      var getCommentsUrl =
+        "/comment/" + this.props.product.parentProduct + "/all";
+      await services.get(getCommentsUrl).then((response) => {
+        console.log(response);
+        var i = 0;
+        for (i; i < response.data.data.length; i++) {
+          var commentElement = {
+            commentId: response.data.data[i]._id,
+            customerId: response.data.data[i].customerId,
+            text: response.data.data[i].text,
+          };
+          comments.push(commentElement);
+          console.log(response.data.data[i].customerId);
+        }
+      });
+      let k = 0;
+      for (k; k < comments.length; k++) {
+        let config = {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+          params: {
+            _id: comments[k].customerId,
+          },
+        };
+        await services.get("/customer", config).then((response) => {
+          comments[k].fullName =
+            response.data.data[0].name + " " + response.data.data[0].lastName;
+        });
+      }
+
+      this.setState({ comments: comments });
+    }
   }
   handleSubmit = () => {
     if (!this.state.value) {
       return;
     }
-
+    if (this.state.myId == "") {
+      this.setState({ value: "" });
+      return;
+    }
+    var postUrl = "/comment/" + this.props.product.parentProduct;
     this.setState({
       submitting: true,
     });
+    let postData = {
+      text: this.state.value,
+    };
+    let config = {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+    };
 
-    setTimeout(() => {
-      this.setState({
-        submitting: false,
-        value: "",
-        comments: [
-          {
-            author: "Han Solo",
-            avatar:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            content: <p>{this.state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-          ...this.state.comments,
-        ],
+    services
+      .post(postUrl, postData, config)
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          submitting: false,
+          value: "",
+          comments: [
+            {
+              commentId: response.data.data._id,
+              customerId: response.data.data.customerId,
+              text: response.data.data.text,
+              fullName: this.state.myFullName,
+            },
+            ...this.state.comments,
+          ],
+        });
+      })
+      .catch((err, response) => {
+        console.log(err);
       });
-    }, 1000);
   };
 
   handleChange = (e) => {
@@ -88,8 +160,32 @@ export default class CommentsComponent extends React.Component {
     });
   };
 
+  async handleDelete(item) {
+    var deleteUrl = "/comment/" + this.props.product.parentProduct;
+    console.log(item);
+    await services
+      .delete(deleteUrl, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        data: {
+          _id: item.commentId,
+        },
+      })
+      .then((response) => {
+        var comments = this.state.comments;
+        console.log(response);
+        var index = comments.indexOf(item);
+        comments.splice(index, 1);
+        console.log(comments);
+        this.setState({ comments: comments });
+        console.log(this.state.comments);
+      })
+      .catch((err, response) => {});
+  }
+
   render() {
-    const { submitting, value } = this.state;
+    const { myId, comments, submitting, value } = this.state;
 
     return (
       <div>
@@ -102,7 +198,7 @@ export default class CommentsComponent extends React.Component {
             },
             pageSize: 4,
           }}
-          dataSource={listData}
+          dataSource={comments}
           footer={
             <div>
               <b></b>
@@ -112,36 +208,15 @@ export default class CommentsComponent extends React.Component {
             <List.Item
               key={item.title}
               actions={[
-                <IconText
-                  icon={StarOutlined}
-                  text="156"
-                  key="list-vertical-star-o"
-                />,
-                <IconText
-                  icon={LikeOutlined}
-                  text="156"
-                  key="list-vertical-like-o"
-                />,
-                <IconText
-                  icon={MessageOutlined}
-                  text="2"
-                  key="list-vertical-message"
-                />,
+                <Button
+                  type="primary"
+                  icon={<DeleteOutlined></DeleteOutlined>}
+                  onClick={() => this.handleDelete(item)}
+                  disabled={myId != item.customerId}
+                ></Button>,
               ]}
-              extra={
-                <img
-                //    width={272}
-                //   alt="logo"
-                //    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
             >
-              <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
-                title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
-              />
-              {item.content}
+              <List.Item.Meta title={item.text} description={item.fullName} />
             </List.Item>
           )}
         />

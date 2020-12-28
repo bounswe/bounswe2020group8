@@ -18,7 +18,10 @@ const SectionToggle = (props, { section }) => {
   const [sellersStyle, setSellersStyle] = useState(false);
   const [commentsStyle, setCommentsStyle] = useState(false);
   const [renderedComponent, setRenderedComponent] = useState(
-    <FeaturesComponent />
+    <FeaturesComponent
+      product={props.product}
+      mainProduct={props.mainProduct}
+    />
   );
 
   useEffect(() => {

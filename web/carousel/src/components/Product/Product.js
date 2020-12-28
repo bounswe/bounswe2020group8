@@ -22,12 +22,10 @@ const Product = (props) => {
   useEffect(async () => {
     const getProductUrl = `/product/${id}`;
     const response = await services.get(getProductUrl);
-    console.log(response);
     setProduct(response.data.data);
 
     const getMainProductUrl = `/mainProduct/${response.data.data.parentProduct}`;
     services.get(getMainProductUrl).then((response) => {
-      console.log(response);
       setMainProduct(response.data.data);
     });
 
@@ -38,12 +36,8 @@ const Product = (props) => {
     // });
   }, []);
 
-  console.log(product);
-  console.log(mainProduct);
-
   const scrollToInfo = (section) => {
     setInfoSection(section);
-    console.log(infoSection);
     window.scrollTo({
       left: 0,
       top: 480,
