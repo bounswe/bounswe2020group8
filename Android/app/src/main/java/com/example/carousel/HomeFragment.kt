@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
@@ -121,7 +122,7 @@ class HomeFragment : Fragment() {
     private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView ){
         val adapter = ProductsAdapter(products)
         productCategory.apply {
-            layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
         }
         Log.d("ITEMCOUNT",adapter.itemCount.toString())
