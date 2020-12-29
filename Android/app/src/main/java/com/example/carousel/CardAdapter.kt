@@ -47,6 +47,13 @@ class CardAdapter(
         holder.deleteButton.setOnClickListener{
             deleteCard(position)
         }
+
+        holder.editButton.setOnClickListener{
+            val fragment = editCardFragment(position)
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_settings, fragment)
+                ?.commit()
+        }
     }
 
     private fun deleteCard(position: Int) {
