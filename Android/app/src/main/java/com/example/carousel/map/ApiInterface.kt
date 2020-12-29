@@ -66,8 +66,14 @@ interface ApiInterface {
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
 
+    @GET("/customer/me")
+    fun customerMe2(): Call<ResponseCustomerMe2>
+
     @PATCH("/customer/me")
     fun customerUpdate(@Body data: DataCustomerMe): Call<ResponseCustomerMe>
+
+    @PATCH("/customer/me")
+    fun customerUpdate2(@Body data: DataCustomerMe2): Call<ResponseCustomerMe2>
 
     @GET("/vendor/me")
     fun vendorMe(): Call<ResponseVendorMe>

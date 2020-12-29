@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_add_adress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:id="@+id/fragment_change_password"
-    android:clickable="true">
+    android:background="#FFFFFF" android:clickable="true"
+    tools:context=".SignupCustomerActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -20,53 +20,76 @@
         android:layout_marginRight="32dp"
         android:alpha="0.7"
         android:contentDescription="@string/logo"
-        app:layout_constraintBottom_toTopOf="@+id/old_password"
+        app:layout_constraintBottom_toTopOf="@+id/address_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo"/>
-
     <EditText
-        android:id="@+id/old_password"
+        android:id="@+id/address_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/old_password"
-        android:inputType="textPassword"
+        android:hint="@string/address_name"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"/>
     <EditText
-        android:id="@+id/new_password"
+        android:id="@+id/address_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/new_password"
-        android:inputType="textPassword"
+        android:hint="@string/adress_city"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/old_password"/>
+        app:layout_constraintTop_toBottomOf="@+id/address_name"/>
     <EditText
-        android:id="@+id/new_password_confirm"
+        android:id="@+id/address_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/new_password_confirm"
-        android:inputType="textPassword"
+        android:hint="@string/address_state"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_password"/>
+        app:layout_constraintTop_toBottomOf="@+id/address_city"/>
+    <EditText
+        android:id="@+id/address_zipcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/address_zipcode"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_state"/>
 
-
+    <EditText
+        android:id="@+id/address_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/address_block"
+        android:inputType="textMultiLine|textPostalAddress" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_zipcode"
+    />
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
@@ -76,29 +99,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_password_confirm"
+        app:layout_constraintTop_toBottomOf="@id/address_block"
     >
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/change_password_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="@string/change_password"/>
+            android:onClick="login" android:text="SAVE ADDRESS"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
+            android:id="@+id/back_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
-            android:layout_toStartOf="@id/change_password_button"
-            android:layout_toLeftOf="@id/change_password_button"
-            android:text="@string/change_password_cancel"/>
+            android:layout_toStartOf="@id/save_button"
+            android:layout_toLeftOf="@id/save_button"
+            android:onClick="signup" android:text="BACK"/>
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

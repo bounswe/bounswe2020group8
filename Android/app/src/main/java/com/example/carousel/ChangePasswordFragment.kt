@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -26,17 +27,14 @@ import java.io.IOException
 
 class ChangePasswordFragment: Fragment() {
 
-    private val baseUrl = "http://18.198.51.178:8080"
-    private val client = OkHttpClient()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return inflater.inflate(R.layout.fragment_change_password, container, false)
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         view.change_password_button.setOnClickListener {
 
             val oldPasswordEditText = view.findViewById(R.id.old_password) as EditText
@@ -46,38 +44,16 @@ class ChangePasswordFragment: Fragment() {
             val oldPassword = oldPasswordEditText.text.toString()
             val newPassword = newPasswordEditText.text.toString()
             val newPasswordRepeat = newPasswordRepeatEditText.text.toString()
-
-            println(oldPassword)
-            println(newPassword)
-            println(newPasswordRepeat)
-
             val apiCaller: ApiCaller<ResponseChangePassword> = ApiCaller(activity)
             apiCaller.Button = change_password_button
             apiCaller.Caller = ApiClient.getClient.customerChangePassword(oldPassword, newPassword, newPasswordRepeat)
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-
-                        val prefs = activity!!.getSharedPreferences("userInfo", Context.MODE_PRIVATE)
-                        val editor = prefs.edit()
-//                        editor.putString("token", it.tokenCode)
-                        editor.putBoolean("isAuthenticated", true)
-                        editor.apply()
-//                        ApplicationContext.instance.authenticate(it.tokenCode)
-
-                        val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-                        apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-                        apiCallerGetUser.Success = {
-                            if (it != null) {
-                                activity?.runOnUiThread(Runnable { //Handle UI here
-
-                                    //
-                                })
-                            }
-                        }
-                        apiCallerGetUser.Failure = {}
-                        apiCallerGetUser.run()
-                //                        finish();
+                        val fragment = MemberAccountPageFragment()
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.replace(R.id.fragment_account_page, fragment)
+                            ?.commit()
                     })
                 }
             }
