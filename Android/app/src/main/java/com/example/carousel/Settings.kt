@@ -12,6 +12,7 @@ import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.ResponseCustomerMe2
 import com.example.carousel.pojo.ResponseVendorMe
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
@@ -47,8 +48,8 @@ class Settings : Fragment() {
 
     private fun pageRender(type: String) {
         if(type.equals("CLIENT")){
-            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-            apiCaller.Caller = ApiClient.getClient.customerMe()
+            val apiCaller: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+            apiCaller.Caller = ApiClient.getClient.customerMe2()
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here

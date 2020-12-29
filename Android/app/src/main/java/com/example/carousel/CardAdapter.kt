@@ -9,9 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.DataCustomerMe
-import com.example.carousel.pojo.ExampleObject
-import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.*
 
 class CardAdapter(
     private var cardList: ArrayList<Card>,
@@ -71,8 +69,8 @@ class CardAdapter(
         var birthday: String?
         var creditCards: List<Card>?
 
-        val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-        apiCaller.Caller = ApiClient.getClient.customerMe()
+        val apiCaller: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+        apiCaller.Caller = ApiClient.getClient.customerMe2()
         apiCaller.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
@@ -95,7 +93,7 @@ class CardAdapter(
                     }
                     creditCards = tempCreditCards?.toList()
 
-                    var newData = DataCustomerMe(
+                    var newData = DataCustomerMe2(
                         id,
                         name,
                         lastName,
@@ -105,13 +103,13 @@ class CardAdapter(
                         shoppingLists,
                         orders,
                         cart,
-                        addresses,
+                        addresses!!,
                         telephoneNumber,
                         birthday,
                         creditCards
                     )
-                    val apiCallerPatch: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-                    apiCallerPatch.Caller = ApiClient.getClient.customerUpdate(newData)
+                    val apiCallerPatch: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+                    apiCallerPatch.Caller = ApiClient.getClient.customerUpdate2(newData)
                     apiCallerPatch.Success = { it ->
                         if (it != null) {
                             activity?.runOnUiThread(Runnable { //Handle UI here

@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.DataCustomerMe
-import com.example.carousel.pojo.ExampleObject
-import com.example.carousel.pojo.ResponseCustomerMe
-import com.example.carousel.pojo.ResponseVendorMe
+import com.example.carousel.pojo.*
 import kotlinx.android.synthetic.main.fragment_add_address.*
 import kotlinx.android.synthetic.main.fragment_add_address.view.*
 
@@ -62,8 +59,8 @@ class editAddressFragment(val position: Int) : Fragment() {
             var birthday: String?
             var creditCards: List<Card>?
 
-            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-            apiCaller.Caller = ApiClient.getClient.customerMe()
+            val apiCaller: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+            apiCaller.Caller = ApiClient.getClient.customerMe2()
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
@@ -102,7 +99,7 @@ class editAddressFragment(val position: Int) : Fragment() {
                         birthday = it.data.birthday
                         creditCards = it.data.creditCards
 
-                        var newData = DataCustomerMe(
+                        var newData = DataCustomerMe2(
                             id,
                             name,
                             lastName,
@@ -112,13 +109,13 @@ class editAddressFragment(val position: Int) : Fragment() {
                             shoppingLists,
                             orders,
                             cart,
-                            addresses,
+                            addresses!!,
                             telephoneNumber,
                             birthday,
                             creditCards
                         )
-                        val apiCallerPatch: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-                        apiCallerPatch.Caller = ApiClient.getClient.customerUpdate(newData)
+                        val apiCallerPatch: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+                        apiCallerPatch.Caller = ApiClient.getClient.customerUpdate2(newData)
                         apiCallerPatch.Success = { it ->
                             if (it != null) {
                                 activity?.runOnUiThread(Runnable { //Handle UI here
@@ -142,8 +139,8 @@ class editAddressFragment(val position: Int) : Fragment() {
     }
     private fun pageRender(type: String) {
         if(type.equals("CLIENT")){
-            val apiCaller: ApiCaller<ResponseCustomerMe> = ApiCaller(activity)
-            apiCaller.Caller = ApiClient.getClient.customerMe()
+            val apiCaller: ApiCaller<ResponseCustomerMe2> = ApiCaller(activity)
+            apiCaller.Caller = ApiClient.getClient.customerMe2()
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
