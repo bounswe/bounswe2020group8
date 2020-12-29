@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_add_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:id="@+id/fragment_change_password"
-    android:clickable="true">
+    android:background="#FFFFFF" android:clickable="true"
+>
 
     <ImageView
         android:id="@+id/logo"
@@ -20,7 +20,7 @@
         android:layout_marginRight="32dp"
         android:alpha="0.7"
         android:contentDescription="@string/logo"
-        app:layout_constraintBottom_toTopOf="@+id/old_password"
+        app:layout_constraintBottom_toTopOf="@+id/card_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,77 +28,82 @@
         app:srcCompat="@drawable/logo"/>
 
     <EditText
-        android:id="@+id/old_password"
+        android:id="@+id/card_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/old_password"
-        android:inputType="textPassword"
+        android:hint="@string/card_name"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo"/>
     <EditText
-        android:id="@+id/new_password"
+        android:id="@+id/card_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/new_password"
-        android:inputType="textPassword"
+        android:hint="@string/card_number"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/old_password"/>
-    <EditText
-        android:id="@+id/new_password_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/new_password_confirm"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_password"/>
-
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/card_name"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp" android:layout_marginEnd="32dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/new_password_confirm"
-    >
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/date_cvc">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/change_password_button"
+            android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="@string/change_password"/>
+            android:text="SAVE CARD"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
+            android:id="@+id/back_button"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
-            android:layout_toStartOf="@id/change_password_button"
-            android:layout_toLeftOf="@id/change_password_button"
-            android:text="@string/change_password_cancel"/>
+            android:layout_toStartOf="@id/save_button"
+            android:layout_toLeftOf="@id/save_button"
+            android:text="BACK"/>
 
     </RelativeLayout>
-
+    <LinearLayout
+        android:id="@+id/date_cvc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_number">
+        <EditText
+            android:id="@+id/card_date"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/card_date"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/card_cvc"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:autofillHints=""
+            android:ems="10" android:hint="@string/card_cvc"
+            android:inputType="number"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

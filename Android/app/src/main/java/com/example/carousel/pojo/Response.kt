@@ -1,6 +1,9 @@
 package com.example.carousel.pojo
 
 import com.example.carousel.*
+import com.example.carousel.Address
+import com.example.carousel.Card
+import com.example.carousel.Product
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -23,6 +26,12 @@ data class ResponseCustomerMe(
     @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("data") val data: DataCustomerMe
+)
+
+data class ResponseCustomerMe2(
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("data") val data: DataCustomerMe2
 )
 
 data class ResponseVendorMe(
@@ -51,6 +60,22 @@ data class DataCustomerMe(
     @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
     @Expose @SerializedName("birthday")var birthday: String?,
     @Expose @SerializedName("creditCards")var creditCards:  ArrayList<CreditCardJSON>?
+)
+
+data class DataCustomerMe2(
+    @Expose @SerializedName("_id") var id: String,
+    @Expose @SerializedName("name")var name: String,
+    @Expose @SerializedName("lastName")var lastName: String,
+    @Expose @SerializedName("email")var email: String,
+    @Expose @SerializedName("isSuspended")var isSuspended: Boolean,
+    @Expose @SerializedName("isActive")var isActive: Boolean,
+    @Expose @SerializedName("shoppingLists")var shoppingLists: List<List<Product>>?,
+    @Expose @SerializedName("orders")var orders: List<ExampleObject>?,
+    @Expose @SerializedName("shoppingCart")var cart: List<ExampleObject>?,
+    @Expose @SerializedName("addresses")var addresses: List<Address>,
+    @Expose @SerializedName("phoneNumber")var telephoneNumber: String?,
+    @Expose @SerializedName("birthday")var birthday: String?,
+    @Expose @SerializedName("creditCards")var creditCards:  List<Card>?
 )
 
 

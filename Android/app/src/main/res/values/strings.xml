@@ -147,10 +147,48 @@
         <item>Most commented</item>
         <item>Newest</item>
     </string-array>
+    <string name="profile_addresses">Addresses</string>
+    <string name="profile_cards">Credit Cards</string>
+    <string name="profile_address_1">Adress 1:</string>
+    <string name="profile_cards_1">Card 1:</string>
+    <string name="address_name">Name of The Address</string>
+    <string name="adress_city">City</string>
+    <string name="address_state">State</string>
+    <string name="address_zipcode">Zipcode</string>
+    <string name="address_block">Address</string>
+    <string name="card_name">Name on Your Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_date">Card Date</string>
+    <string name="card_cvc">CVC</string>
+    <string name="legals_lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac ante non nisl dictum condimentum. Sed pharetra blandit augue, facilisis sollicitudin ligula aliquet non. Mauris vel mauris et neque tristique consequat. Vestibulum mollis metus sapien, vitae rhoncus diam consequat nec. Nam at mauris ac quam hendrerit tincidunt. Pellentesque cursus porta nisl vitae iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer interdum diam at felis malesuada, a suscipit felis iaculis.
+        Nullam luctus mauris vel diam cursus, ut dignissim lorem feugiat. Mauris interdum metus ac aliquet mollis. Etiam id sollicitudin massa. Sed ante est, rhoncus eget orci vitae, cursus ullamcorper sapien. Aenean tempus, augue viverra varius pharetra, nibh arcu tempor est, et vulputate justo tortor vel urna. Curabitur et arcu ut sapien volutpat egestas vitae vel sem. Quisque sed feugiat eros.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hendrerit consequat turpis. Etiam porttitor quam sed mauris elementum porta. Maecenas ac orci eget nisl rhoncus tempus. In sagittis non turpis nec euismod. Nullam condimentum risus sit amet nisi vulputate consequat eu non elit. Sed id metus non eros suscipit varius. Duis feugiat tristique turpis, nec fringilla elit porta nec. Pellentesque non lorem interdum, blandit justo eget, mollis urna.
+    </string>
+    <string name="about">
+        © 2020 Corousel. All Rights Reserved.\n\n
+        Corousel App is created in context of CMPE352 and CMPE451 at Bogazici University by current members of\n
+        </string>
+    <string name="members">
+        Göksu Başer\n
+        Öncel Keleş\n
+        Onur Enginer\n
+        Nursima Çelik\n
+        Afra Arslan\n
+        Burak Berk Özer\n
+        Yasin Kaya\n
+        Özgürcan Öztaş\n
+        Muhammet Tayyip Yazıcı\n
+        Ahmet Yiğit Gedik\n
+        Nazım Berke Metin</string>
+    <string name="contacts">
+        corouselapp@gmail.com\n
+        github.com/bounswe/bounswe2020group8\n
     <string name="orders">Orders</string>
     <string name="vendor_home_title">Shop</string>
     <string name="product">Product</string>
     <string name="update">Update</string>
     <string name="amount_left">Amount Left</string>
 
+    </string>
 </resources>

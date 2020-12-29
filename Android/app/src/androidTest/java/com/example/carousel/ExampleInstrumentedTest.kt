@@ -43,7 +43,7 @@ class LoginTest {
                 .perform(typeText("testuser@test.com"), closeSoftKeyboard())
             onView(withId(R.id.login_password))
                 .perform(typeText("111111"), closeSoftKeyboard())
-            onView(withId(R.id.login_button)).perform(click())
+            onView(withId(R.id.save_button)).perform(click())
             intended(hasComponent(hasShortClassName(".DashboardActivity")))
 
     }

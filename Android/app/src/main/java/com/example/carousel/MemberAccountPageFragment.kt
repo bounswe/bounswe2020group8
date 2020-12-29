@@ -10,24 +10,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.TextView
+import android.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.fragment.app.FragmentContainerView
 import com.example.carousel.R.drawable
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseHeader
-import com.example.carousel.pojo.ResponseLogin
 import com.example.carousel.pojo.ResponseVendorMe
 import com.example.carousel.vendor.VendorDashboardActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_acount_page.*
-import kotlinx.android.synthetic.main.fragment_acount_page.login_button
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 import java.io.*
 
@@ -71,27 +72,27 @@ class MemberAccountPageFragment : Fragment() {
         }
 
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            if(pos == 2) {
+            if(pos == 1) {
                 val fragment = UserInformationFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 3){
+            }else if(pos == 2){
                 val fragment = ShoppingListFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 4){
+            }else if(pos == 3){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 5) {
+            }else if(pos == 4) {
                 val fragment = Settings()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if (pos == 6) {
+            }else if (pos == 5) {
                 type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
 
@@ -107,16 +108,18 @@ class MemberAccountPageFragment : Fragment() {
                 }
 
             }else if(pos == 8) {
+                (activity as DashboardActivity).refresh()
+            }else if(pos == 7) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 9) {
+            }else if(pos == 8) {
                 val fragment = Legals()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 10) {
+            }else if(pos == 9) {
                 val fragment = Contacts()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
@@ -135,7 +138,7 @@ class MemberAccountPageFragment : Fragment() {
         if (ApplicationContext.instance.isUserAuthenticated()) {
             login = 1
             type = ApplicationContext.instance.whoAmI().toString()
-            pageRender(type,true)
+            pageRender(type, true)
             view?.guest?.visibility = View.INVISIBLE
             view?.login_user?.visibility = View.VISIBLE
         }
@@ -193,21 +196,24 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        name = it.data.name+" "+it.data.lastName
+                        name = it.data.name + " " + it.data.lastName
+
+                        var username = view?.findViewById<TextView>(R.id.username)
+                        username?.setText(name.toString())
                         mAdapter = CustomAdapter(context as Context)
-                        mAdapter.addSectionHeaderItem(name.toString())
+//                        mAdapter.addSectionHeaderItem(name.toString())
                         mAdapter.addSectionHeaderItem("Account")
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
                         mAdapter.addItem("Change Password", drawable.ic_key)
-                        mAdapter.addItem("Settings", drawable.ic_settings)
+                        mAdapter.addItem("Addresses and Credit Cards", drawable.ic_settings)
                         mAdapter.addItem("Logout", drawable.ic_exit)
                         mAdapter.addSectionHeaderItem("Carousel")
                         mAdapter.addItem("About", drawable.ic_info)
                         mAdapter.addItem("Legals", drawable.ic_file)
                         mAdapter.addItem("Contact", drawable.ic_contact)
                         listView.adapter = (mAdapter)
-                        if(redirect) {
+                        if (redirect) {
                             redirectToHome()
                         }
 
@@ -239,7 +245,7 @@ class MemberAccountPageFragment : Fragment() {
                         mAdapter.addItem("Contact", drawable.ic_contact)
                         listView.adapter = (mAdapter)
 
-                        if(redirect) {
+                        if (redirect) {
                             redirectToHome()
                         }
                     })

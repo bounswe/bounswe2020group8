@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -41,8 +42,9 @@ class UserInformationFragment : Fragment(){
                 ?.replace(R.id.fragment_account_page, fragment)
                 ?.commit()
         }
-        view.edit_save.setOnClickListener{
-            var button = activity?.findViewById<Button>(R.id.edit_save)
+        getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        view.profile_delete_1.setOnClickListener{
+            var button = activity?.findViewById<Button>(R.id.profile_delete_1)
             var temp = if(button?.text?.equals("EDIT") == true) {"SAVE"} else {"EDIT"}
             button?.setText(temp)
             var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)
