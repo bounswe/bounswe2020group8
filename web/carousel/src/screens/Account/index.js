@@ -75,7 +75,7 @@ class Account extends Component {
           </SubMenu>
 
           <Menu.Item icon={<HeartOutlined />} key="list">
-            <Link to="/account/list">All Lists</Link>
+            <Link to="/account/list">My List</Link>
           </Menu.Item>
 
           <Menu.Item icon={<ShoppingCartOutlined />} key="cart">

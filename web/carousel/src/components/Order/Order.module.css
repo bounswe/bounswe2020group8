@@ -1,0 +1,61 @@
+.AddressBox {
+  height: 300px;
+  width: 300px;
+  border: solid 1px #e2e2e2;
+  border-radius: 5px;
+  margin: 35px;
+  display: inline-block;
+  font-size: 100px;
+  text-align: center;
+  background-color: white;
+  overflow: hidden;
+}
+
+.AddressBox:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.Box {
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+  border: solid #afafaf;
+  margin-bottom: 40px;
+}
+
+.BoxHeader {
+  width: 100%;
+  background-color: darkred;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+}
+
+.CreditCardBox {
+  text-align: center;
+  background-color: white;
+  margin: 40px;
+  width: 294px;
+  height: 210px;
+  border-radius: 14.5px;
+  border: black solid 2px;
+  display: inline-block;
+}
+
+.AddCreditCard {
+  width: 290px;
+  height: 210px;
+  border-radius: 14.5px;
+  font-size: 100px;
+  margin: 35px;
+  display: inline-block;
+  text-align: center;
+  background-color: white;
+  border: black solid 2px;
+}
+
+.AddCreditCard:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { Form, Input, Select, Modal } from "antd";
+import { Modal } from "antd";
 import { Component } from "react";
 import Cards from "react-credit-cards";
 
@@ -15,11 +15,15 @@ export default class PaymentModal extends Component {
   };
 
   handleFormSubmit = () => {
-    console.log(
-      `Add new credit card with values: ${JSON.stringify(this.state)}`
-    );
-    // Submit the form
+    const creditCard = {
+      creditCardNumber: this.state.number.replace(/\W/gi, ""),
+      creditCardCvc: this.state.cvc,
+      creditCardData: this.state.expiry,
+      creditCardName: this.state.name,
+    };
+
     this.props.setModal({ visible: false });
+    this.props.handleAddCreditCard(creditCard);
   };
 
   handleCancel = () => {
@@ -35,16 +39,19 @@ export default class PaymentModal extends Component {
 
     if (name === "number" && value.length != 19) {
       this.setState({
-        [name]: value.replace(/\W/gi, "").replace(/(.{4})/g, "$1 "),
+        [name]: value
+          .replace(/\W/gi, "")
+          .replace(/(.{4})/g, "$1 ")
+          .trim(),
       });
     } else if (name === "expiry") {
-      if (value.length == 2) {
-        this.setState({ [name]: value + "/" });
-      } else if (value.length == 3) {
-        this.setState({ [name]: value.slice(0, 2) });
-      } else {
-        this.setState({ [name]: value });
-      }
+      this.setState({
+        [name]: value
+          .replace(/\W/gi, "")
+          .replace(/(.{2})/g, "$1 ")
+          .trim()
+          .replace(/\W/, "/"),
+      });
     } else {
       this.setState({ [name]: value });
     }
@@ -85,7 +92,7 @@ export default class PaymentModal extends Component {
             />
             <input
               className={classes.Input}
-              type="tel"
+              type="text"
               name="number"
               placeholder="Card Number"
               onChange={this.handleInputChange}

@@ -7,16 +7,30 @@ import handleSubmit from "../../UI/ConfirmPopup/ConfirmPopup";
 const PaymentInfo = (props) => {
   const handleDelete = () => {
     console.log(`Delete Credit Card: ${JSON.stringify(props.creditCard)}`);
+    props.handleDelete(props.creditCard);
   };
 
   return (
     <div className={classes.PaymentInfoBox}>
       <div className={classes.Card}>
         <Cards
-          cvc={props.creditCard.cvc}
-          expiry={props.creditCard.expiry}
-          name={props.creditCard.name}
-          number={props.creditCard.cardNumber}
+          cvc={props.creditCard.creditCardCvc}
+          expiry={props.creditCard.creditCardData}
+          name={props.creditCard.creditCardName}
+          number={
+            "************" +
+            props.creditCard.creditCardNumber.slice(
+              props.creditCard.creditCardNumber.length - 4
+            )
+          }
+          preview={true}
+          issuer={
+            props.creditCard.creditCardNumber[0] === "4"
+              ? "visa"
+              : props.creditCard.creditCardNumber[0] === "5"
+              ? "mastercard"
+              : ""
+          }
         />
       </div>
       <div

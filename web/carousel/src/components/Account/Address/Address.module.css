@@ -7,6 +7,7 @@
   display: inline-block;
   font-size: medium;
   background-color: white;
+  overflow: hidden;
 }
 
 .Header {
