@@ -4,13 +4,13 @@ const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const router = express.Router();
 
-// BELOW ARE PROTECTED ROUTES
-router.use(authController.protectRoute);
-
 router
   .route("/")
   .get(CategoryController.getAllCategoryController, RequestHelper.returnResponse)
   .post(CategoryController.createOneCategoryController, RequestHelper.returnResponse);
+
+// BELOW ARE PROTECTED ROUTES
+router.use(authController.protectRoute);
 
 router
   .route("/:id")
