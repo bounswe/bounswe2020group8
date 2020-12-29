@@ -55,7 +55,7 @@ class SearchFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //placecat()
+        placecat()
 
         var sort = ""
 
@@ -364,13 +364,12 @@ class SearchFragment : Fragment() {
                     }
 
                     for(catg in it.data.categories) {
-                        val newItem = CheckBox(requireContext())
-                        newItem.text = catg
-                        newItem.layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
-                        category_container.addView(newItem)
+                        for(i in 0..(category_container.childCount-1)) {
+                            val view = category_container.getChildAt(i) as CheckBox
+                            if(view.text == catg) {
+                                view.isChecked = true
+                            }
+                        }
                     }
 
                     for(param in it.data.parameters) {
