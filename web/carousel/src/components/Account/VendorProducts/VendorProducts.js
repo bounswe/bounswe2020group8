@@ -27,6 +27,7 @@ class VendorProducts extends Component {
   }
 
   componentDidMount() {
+    const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -36,6 +37,7 @@ class VendorProducts extends Component {
   }
 
   getMyInfo = (config) => {
+    const TOKEN = localStorage.getItem("token");
     console.log(TOKEN);
     services
       .get("/vendor/me", config)
@@ -133,6 +135,8 @@ class VendorProducts extends Component {
 
   editProductRequest = (data) => {
     const product = data.user;
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -162,6 +166,8 @@ class VendorProducts extends Component {
 
   deleteProductHandler = (product) => {
     const id = product.id;
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };

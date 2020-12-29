@@ -31,6 +31,8 @@ class VendorProductRequests extends Component {
   }
 
   getProductRequests = async () => {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -179,6 +181,8 @@ class VendorProductRequests extends Component {
   };
 
   deleteProductRequestHandler = (product) => {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };

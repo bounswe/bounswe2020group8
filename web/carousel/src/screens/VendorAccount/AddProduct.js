@@ -57,6 +57,8 @@ class AddProducts extends Component {
   }
 
   getVendorId = () => {
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -292,6 +294,8 @@ class AddProducts extends Component {
 
   addVendorToProduct = (product) => {
     const data = product.user;
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -356,6 +360,8 @@ class AddProducts extends Component {
       photos: productInfo.photos,
     };
     const url = "/vendor/me/product/new";
+    const TOKEN = localStorage.getItem("token");
+
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
