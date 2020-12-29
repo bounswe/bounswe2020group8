@@ -169,3 +169,98 @@ exports.updateCustomerDB = function (_id, fields) {
     { _id: 1, new: true, runValidators: true }
   );
 };
+
+exports.updateShoppingListsDB = function (_id, newList) {
+  return Customer.findByIdAndUpdate(
+    _id,
+    {
+      $push: {
+        shoppingLists: newList,
+      },
+    },
+    { _id: 1, new: true, runValidators: true }
+  );
+};
+
+exports.getOneShoppingListByIdDB = function (cid, lid) {
+  let listId = mongoose.Types.ObjectId(lid);
+  return Customer.aggregate([
+    {
+      $match: { _id: cid, "shoppingLists._id": listId },
+    },
+    {
+      $set: {
+        shoppingList: {
+          $reduce: {
+            input: "$shoppingLists",
+            initialValue: {},
+            in: {
+              $cond: [{ $eq: ["$$this._id", listId] }, "$$this", "$$value"],
+            },
+          },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "Products",
+        localField: "shoppingList.wishedProducts.productId",
+        foreignField: "_id",
+        as: "data",
+      },
+    },
+    {
+      $lookup: {
+        from: "MainProducts",
+        localField: "data.parentProduct",
+        foreignField: "_id",
+        as: "finalData",
+      },
+    },
+    {
+      $set: {
+        "data.parentProduct": "$finalData",
+      },
+    },
+    {
+      $project: {
+        data: 1,
+      },
+    },
+  ]);
+};
+
+exports.patchOneShoppingListByIdDB = function (lid, cid, newTitle, newShoppingList) {
+  let listId = mongoose.Types.ObjectId(lid);
+  return Customer.updateOne(
+    { _id: cid, "shoppingLists._id": listId },
+    {
+      $set: {
+        "shoppingLists.$[element].wishedProducts": newShoppingList,
+        "shoppingLists.$[element].title": newTitle,
+      },
+    },
+    { arrayFilters: [{ "element._id": listId }] }
+  );
+};
+
+exports.deleteOneShoppingListByIdDB = function (lid, cid) {
+  let listId = mongoose.Types.ObjectId(lid);
+  return Customer.updateOne(
+    { _id: cid, "shoppingLists._id": listId },
+    {
+      $pull: { shoppingLists: { _id: listId } },
+    },
+    { multi: true }
+  );
+};
+
+exports.deleteAllShoppingListsDB = function (cid) {
+  return Customer.updateOne(
+    { _id: cid },
+    {
+      $set: { shoppingLists: [] },
+    },
+    {}
+  );
+};

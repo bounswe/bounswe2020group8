@@ -21,6 +21,7 @@ const mainProductRouter = require("./routers/mainProduct");
 const productRouter = require("./routers/product");
 const productRequestRouter = require("./routers/productRequest");
 const commentRouter = require("./routers/comment");
+const shoppingListRouter = require("./routers/list");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
@@ -73,6 +74,7 @@ app.use("/mainProduct", mainProductRouter);
 app.use("/product", productRouter);
 app.use("/productRequest", productRequestRouter);
 app.use("/comment", commentRouter);
+app.use("/shoppingList", shoppingListRouter);
 
 blocked((ms) => {
   if (ms > 3000) {
