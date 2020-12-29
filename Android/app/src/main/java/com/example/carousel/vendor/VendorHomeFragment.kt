@@ -89,7 +89,7 @@ class VendorHomeFragment : Fragment() {
         }
         Log.d("ITEMCOUNT",adapter.itemCount.toString())
         adapter.onItemClick = { product ->
-            val intent = Intent(this.context, ProductPageActivity::class.java)
+            val intent = Intent(this.context, VendorProductPageActivity::class.java)
             intent.putExtra("product",product)
             startActivity(intent)
         }

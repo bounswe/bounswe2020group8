@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.View.INVISIBLE
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.example.carousel.R
 import com.example.carousel.application.ApplicationContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_product_page.*
+import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 
 
 class VendorProductPageActivity : AppCompatActivity() {
@@ -26,7 +28,8 @@ class VendorProductPageActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_page)
+
+        setContentView(R.layout.vendor_activity_product_page)
         this.product = intent?.getSerializableExtra("product") as VendorProduct
         //image.setImageResource(product!!.photoUrl)
         val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
@@ -39,14 +42,9 @@ class VendorProductPageActivity : AppCompatActivity() {
         vendor.text = "by ${product!!.vendorId}"
         product!!.comments.add(Comment("Very good", 5f, "Ahmet Zübüzüb","123"))
         product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1f, "Tuba Engin","122"))
-        rating.setOnTouchListener { v, event ->
-            when (event?.action) {
-                MotionEvent.ACTION_DOWN -> rating.rating = rating.rating
-            }
-            v?.onTouchEvent(event) ?: true
-        }
+
         createCommentList(product!!.comments)
-        updateReviews()
+
 
     }
     private fun createCommentList(commentList: ArrayList<Comment>){
@@ -60,12 +58,7 @@ class VendorProductPageActivity : AppCompatActivity() {
     fun cancel(view: View){
         textInputEditText.setText("")
     }
-    private fun updateReviews(){
-        textInputEditText.setText("")
-        val newRating = adapter.getRating()
-        overallRating.rating = newRating
-        reviewsTitle.text = "Reviews (${product!!.comments.size})"
-    }
+
 
     fun incCount(view: View){
         count++

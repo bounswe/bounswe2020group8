@@ -21,6 +21,7 @@
         <activity android:name=".vendor.VendorRegisterInfoActivity" />
         <activity android:name=".vendor.VendorForgotPasswordActivity" />
         <activity android:name=".vendor.VendorLoginActivity" />
+        <activity android:name=".vendor.VendorProductPageActivity" />
         <activity android:name=".CreateListActivity" />
         <activity
             android:name=".ProductPageActivity"
