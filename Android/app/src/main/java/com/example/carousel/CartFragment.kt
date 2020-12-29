@@ -42,10 +42,9 @@ class CartFragment : Fragment(){
         activity?.runOnUiThread {
             val apiCallerGetCart: ApiCaller<ArrayList<ResponseCart>> = ApiCaller(activity)
             apiCallerGetCart.Caller = ApiClient.getClient.getCart(ID(LoginActivity.user.id))
-            apiCallerGetCart.Success = {
-                it ->
+            apiCallerGetCart.Success = { it ->
                 if (it != null) {
-                    for(product in it) {
+                    for (product in it) {
                         val newProduct = Product(
                             _id = product.productId,
                             vendorId = product.vendorId,
@@ -55,16 +54,17 @@ class CartFragment : Fragment(){
                             shipmentPrice = product.shipmentPrice,
                         )
                         Log.d("PRODUCT:", newProduct.toString())
-                    addToCart(newProduct, product.amount)
+                        if(!isInCart(newProduct._id))
+                        addToCart(newProduct, product.amount)
                     }
-                     adapter = CartAdapter(cart, requireActivity())
-                        products_in_cart.apply{
-                            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                            setAdapter(this@CartFragment.adapter)
-                        }
-                        updateCartInfo(totalCost(), adapter.itemCount)
+                    adapter = CartAdapter(cart, requireActivity())
+                    products_in_cart.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                        setAdapter(this@CartFragment.adapter)
+                    }
+                    updateCartInfo(totalCost(), adapter.itemCount)
 
-                    val observer = object : RecyclerView.AdapterDataObserver(){
+                    val observer = object : RecyclerView.AdapterDataObserver() {
                         override fun onChanged() {
                             super.onChanged()
                             updateCartInfo(totalCost(), adapter.itemCount)
@@ -72,10 +72,11 @@ class CartFragment : Fragment(){
 
                     }
                     adapter.registerAdapterDataObserver(observer)
-                    }
                 }
+            }
             apiCallerGetCart.run()
-            apiCallerGetCart.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
+            apiCallerGetCart.Failure = { Log.d("FIRSTRESPONSE", "FAILED") }
+
         }
 /*
         if(cart.isEmpty()) {
