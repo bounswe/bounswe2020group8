@@ -57,7 +57,7 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
 
                 val apiCallerAddToCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
                 apiCallerAddToCart.Button = holder.remove
-                apiCallerAddToCart.Caller = ApiClient.getClient.deleteCart(DeleteCart(productList[position].first._id,productList[position].first.vendorId), LoginActivity.user.id)
+                apiCallerAddToCart.Caller = ApiClient.getClient.deleteCart(DeleteCart(LoginActivity.user.id, productList[position].first._id,productList[position].first.vendorId))
                 apiCallerAddToCart.Success = { it ->
                     if (it != null) {
                         CartFragment.removeFromCart(position)

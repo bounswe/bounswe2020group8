@@ -194,11 +194,28 @@ data class PostComment(
 data class ResponseCart(
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
-    @Expose @SerializedName("amount") val amount: Int
-)
+    @Expose @SerializedName("amount") val amount: Int,
+    @Expose @SerializedName("price") val price: Double,
+    @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String,
+    @Expose @SerializedName("title") val title: String,
+    @Expose @SerializedName("vendorName") val vendorName: String,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    )
 
-data class DeleteCart(
+data class UpdateCart(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("amount") val amount: Int,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
 )
 
+data class DeleteCart(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("productId") val productId: String,
+    @Expose @SerializedName("vendorId") val vendorId: String,
+)
+
+data class ID(
+    @Expose @SerializedName("_id") val _id: String,
+)
