@@ -1,6 +1,9 @@
 package com.example.carousel.pojo
 
 import com.example.carousel.*
+import com.example.carousel.Address
+import com.example.carousel.Card
+import com.example.carousel.Product
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
