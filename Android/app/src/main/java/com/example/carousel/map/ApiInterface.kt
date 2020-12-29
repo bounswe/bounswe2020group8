@@ -147,5 +147,9 @@ interface ApiInterface {
     fun productSearchFilters(
         @Body searchQuery: SearchQuery, ): Call<ResponseProductSearchFilters>
 
+    @POST("/customer/purchase")
+    fun purchaseRequest(
+        @Body purchaseBody: PurchaseBody
+    ): Call<ID>
 
 }

@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.ID
+import com.example.carousel.pojo.PurchaseBody
+import com.example.carousel.pojo.ResponseLogin
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_order.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 
@@ -63,6 +72,10 @@ class OrderFragment : Fragment() {
                     creditCardList.add(displayNumber)
                 }
             }
+
+            purchase_button.setOnClickListener{
+                purchase()
+            }
         }
         val addressAdapter = ArrayAdapter(requireContext(), R.layout.shopping_list_names, addressList.toTypedArray())
         (view.findViewById<TextInputLayout>(R.id.address_menu).editText as? AutoCompleteTextView)?.setAdapter(addressAdapter)
@@ -79,6 +92,22 @@ class OrderFragment : Fragment() {
         products_overview.text="Products Overview(${CartFragment.cart.size})"
         total_cost.text = "\$${String.format("%.2f",CartFragment.totalCost())}"
 
+    }
+
+    fun purchase() {
+        val apiCallerPurchase: ApiCaller<ID> = ApiCaller(activity)
+        apiCallerPurchase.Button = purchase_button
+        for(product in CartFragment.cart) {
+            apiCallerPurchase.Caller = ApiClient.getClient.purchaseRequest(PurchaseBody(LoginActivity.user.id, LoginActivity.user.addresses?.get(0)!!._id,
+                LoginActivity.user.addresses?.get(0)!!._id, LoginActivity.user.creditCards?.get(0)!!._id))
+            apiCallerPurchase.Success = { it ->
+                if (it != null) {
+                    Toast.makeText(requireContext(),"Order Received!", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+            apiCallerPurchase.Failure = {}
+            apiCallerPurchase.run()
+        }
     }
     companion object {
         /**

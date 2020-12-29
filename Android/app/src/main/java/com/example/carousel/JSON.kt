@@ -33,6 +33,7 @@ data class ClientJSON(
 )
 
 data class AddressJSON(
+    @SerializedName("_id") val _id: String,
     @SerializedName("addressName") val address: String,
     @SerializedName("name") val name: String,
     @SerializedName("addressLine") val addressLine: String,
@@ -44,6 +45,7 @@ data class AddressJSON(
     )
 
 data class CreditCardJSON(
+    @SerializedName("_id") val _id: String,
     @SerializedName("creditCardNumber") val creditCardNumber: String,
     @SerializedName("creditCardCvc") val creditCardCvc: String,
     @SerializedName("creditCardData") val creditCardData: String,
