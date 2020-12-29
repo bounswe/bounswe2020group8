@@ -52,6 +52,8 @@ const App = () => {
   const [companyName, setCompanyName] = useState("");
   const [error, setError] = useState(false);
   const [IBAN, setIBAN] = useState("");
+  const [companyDomain, setCompanyDomain] = useState("");
+  const [vendorLocations, setVendorLocations] = useState([]);
 
   const loginHandler = (newEmail, newToken) => {
     setEmail(newEmail);
@@ -104,6 +106,11 @@ const App = () => {
     { path: "/forgot", exact: true, component: Forgot },
     { path: "/search", exact: true, component: Search },
     { path: "/product/:id", exact: true, component: Product },
+    {
+      path: "/administration/login/admin",
+      exact: true,
+      component: AdminLogin,
+    },
   ];
   const vendorRoutes = [
     { path: "/vendor", exact: true, component: VendorHome },
@@ -116,14 +123,7 @@ const App = () => {
     { path: "/account", exact: false, component: Account },
   ];
 
-  const adminRoutes = [
-    {
-      path: "/administration/login/admin",
-      exact: true,
-      component: { AdminLogin },
-    },
-    { path: "/admin", exact: true, component: { AdminAccount } },
-  ];
+  const adminRoutes = [{ path: "/admin", component: AdminAccount }];
 
   const guestRoutes = [
     { path: "/", exact: true, component: Home },
@@ -145,7 +145,7 @@ const App = () => {
   } else if (userType === "Customer") {
     routes = [...routes, ...customerRoutes];
   } else if (userType === "Admin") {
-    routes = [...routes, adminRoutes];
+    routes = [...routes, ...adminRoutes];
   } else {
     routes = [...routes, ...guestRoutes];
   }

@@ -61,6 +61,8 @@ export default class CommentsComponent extends React.Component {
     };
   }
   async componentWillMount() {
+    const TOKEN = localStorage.getItem("token");
+
     let config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
@@ -118,6 +120,8 @@ export default class CommentsComponent extends React.Component {
     }
   }
   handleSubmit = () => {
+    const TOKEN = localStorage.getItem("token");
+
     if (!this.state.value) {
       return;
     }
@@ -165,6 +169,8 @@ export default class CommentsComponent extends React.Component {
   };
 
   async handleDelete(item) {
+    const TOKEN = localStorage.getItem("token");
+
     var deleteUrl = "/comment/" + this.props.product.parentProduct;
     await services
       .delete(deleteUrl, {
