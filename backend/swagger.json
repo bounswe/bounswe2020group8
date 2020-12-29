@@ -1661,6 +1661,27 @@
                 },
                 "amount": {
                   "type": "Number"
+                },
+                "price": {
+                  "type": "Number"
+                },
+                "shipmentPrice": {
+                  "type": "Number"
+                },
+                "cargoCompany": {
+                  "type": "String"
+                },
+                "vendorName": {
+                  "type": "String"
+                },
+                "title": {
+                  "type": "String"
+                },
+                "photos": {
+                  "type": "array",
+                  "items": {
+                    "type": "String"
+                  }
                 }
               }
             }
