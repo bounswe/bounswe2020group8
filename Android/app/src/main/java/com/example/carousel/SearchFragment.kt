@@ -24,9 +24,17 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 class SearchFragment : Fragment() {
     //private val baseUrl = "http://54.165.207.44:8080"
     private var lastQuery = "fashion"   // a default query
+    private var lastSort = ""
     private lateinit var spinnerAdapter: ArrayAdapter<String>
     private var initializedView = false
     private var initializedViewFilter = false
+
+    private var queryMinPrice = ""
+    private var queryMaxPrice = ""
+    private var queryRating = ""
+    private var queryColor = ""
+    private var queryBrand = ""
+    private var querySize = ""
 
     private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
         "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
@@ -69,7 +77,8 @@ class SearchFragment : Fragment() {
                 else {
                     val str = context?.resources!!.getStringArray(R.array.sort_options).get(pos)
                     sort = sortOptionsMap[str].toString()
-                    searchCall(lastQuery, sort)
+                    lastSort = sort
+                    searchCall()
                 }
             }
 
@@ -160,12 +169,7 @@ class SearchFragment : Fragment() {
             rating_radio_group.clearCheck()
         })*/
 
-        var queryMinPrice = ""
-        var queryMaxPrice = ""
-        var queryRating = ""
-        var queryColor = ""
-        var queryBrand = ""
-        var querySize = ""
+
 
 
         apply_button.setOnClickListener {
@@ -182,46 +186,61 @@ class SearchFragment : Fragment() {
                 queryRating = "rating[gte]=" + r
 
             }
+            var color_first = true
             for(i in 0..(color_container.childCount-1)) {
                 val view = color_container.getChildAt(i) as CheckBox
                 if(view.isChecked) {
-                    queryColor = "color=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                    if(color_first) {
+                        queryColor = "color=" + view.text.toString()
+                        color_first = false
+                    }
+                    else {
+                        queryColor += "," + view.text.toString()
+                    }
                 }
             }
 
+            var brand_first = true
             for(i in 0..(brand_container.childCount-1)) {
                 val view = brand_container.getChildAt(i) as CheckBox
                 if(view.isChecked) {
-                    queryBrand = "brand=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                    if(brand_first) {
+                        queryBrand = "brand=" + view.text.toString()
+                        brand_first = false
+                    }
+                    else {
+                        queryBrand += "," + view.text.toString()
+                    }
                 }
             }
+
+            var size_first = true
             for(i in 0..(size_container.childCount-1)) {
                 val view = size_container.getChildAt(i) as CheckBox
                 if(view.isChecked) {
-                    querySize = "size=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                    if(size_first) {
+                        querySize = "size=" + view.text.toString()
+                        size_first = false
+                    }
+                    else {
+                        querySize += "," + view.text.toString()
+                    }
                 }
             }
 
 
 
-            searchCall(lastQuery, sort, brand=queryBrand, minPrice = queryMinPrice, maxPrice = queryMaxPrice, rating = queryRating, color = queryColor, size=querySize)
+            searchCall()
 
-            /*expandable_price.visibility = View.GONE
-            expandable_rating.visibility = View.GONE
-            color_container.visibility = View.GONE
-            size_container.visibility = View.GONE
-            brand_container.visibility = View.GONE*/
         }
 
-
-        //val products = ArrayList<Product>()
-        //val adapter = ProductsAdapter(products)
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if(query != "") {
                     lastQuery = query
                 }
-                searchCall(query, sort)
+                searchCall()
+                searchFiltersCall()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
@@ -238,18 +257,17 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    private fun searchCall(query: String, sort: String, limit: Int = 1000, page: Int = 1, fields: String = "", brand: String = "", category: String = "", vendors: String = ""
-                           , maxPrice: String = "", minPrice: String = "", rating: String = "", color: String = "", size: String = "") {
+    private fun searchCall(limit: Int = 1000, page: Int = 1, fields: String = "", category: String = "", vendors: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        var resultUrl = "http://54.165.207.44:8080/product/search?" + sort + "&" + brand + "&" + category + "&" + vendors + "&" + maxPrice + "&" + minPrice + "&" + rating + "&" + color + "&" + size
+        var resultUrl = "http://54.165.207.44:8080/product/search?" + queryBrand + "&" + category + "&" + vendors + "&" + queryMaxPrice + "&" + queryMinPrice + "&" + queryRating + "&" + queryColor + "&" + querySize
 
         val url =
             resultUrl.toHttpUrlOrNull()
 
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(query))
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort)
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
@@ -266,15 +284,13 @@ class SearchFragment : Fragment() {
         apiCallerProductSearch.Failure = {}
         apiCallerProductSearch.run()
 
-
-        searchFiltersCall(query)
     }
 
-    private fun searchFiltersCall(query: String) {
+    private fun searchFiltersCall() {
         val apiCallerProductSearchFilters: ApiCaller<ResponseProductSearchFilters> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        apiCallerProductSearchFilters.Caller = ApiClient.getClient.productSearchFilters(SearchQuery(query))
+        apiCallerProductSearchFilters.Caller = ApiClient.getClient.productSearchFilters(SearchQuery(lastQuery))
         apiCallerProductSearchFilters.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
