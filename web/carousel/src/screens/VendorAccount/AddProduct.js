@@ -60,6 +60,9 @@ class AddProducts extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+
+    console.log(TOKEN);
+
     services
       .get("/vendor/me", config)
       .then((response) => {
@@ -134,9 +137,9 @@ class AddProducts extends Component {
     this.setState({ mainProducts: [] });
     this.setState((state) => {
       let list = [];
-      let params = [];
-      let paramValues = [];
       for (let i = 0; i < data.length; i++) {
+        let params = [];
+        let paramValues = [];
         for (let k = 0; k < data[i].parameters.length; k++) {
           params = params.concat([data[i].parameters[k].name]);
           paramValues = paramValues.concat([data[i].parameters[k].values]);
@@ -374,7 +377,7 @@ class AddProducts extends Component {
 
   createMainProduct = (values) => {
     const productInfo = values.user;
-    const tags = productInfo.tags.split(", ");
+    //const tags = productInfo.tags.split(", ");
     const parameter = productInfo.parameters;
     let params = [];
     for (let i = 0; i < parameter.length; i++) {
@@ -396,7 +399,7 @@ class AddProducts extends Component {
       soldAmount: 0,
       category: productInfo.category,
       isConfirmed: false,
-      tags: tags,
+      tags: this.state.newProductTags,
     };
     const url = "/mainProduct";
     const config = {
@@ -514,6 +517,7 @@ class AddProducts extends Component {
           <MainProductForm
             clicked={this.createMainProduct}
             onClick={this.goBackMain}
+            passTags={this.setTags}
           />
         ) : null}
         {this.state.showExistingProductForm ? (

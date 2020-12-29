@@ -34,6 +34,7 @@ class VendorProductRequests extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+    console.log(TOKEN);
     services
       .get("/vendor/me/productRequest/", config)
       .then((response) => {
@@ -69,6 +70,7 @@ class VendorProductRequests extends Component {
     let brand = "";
     let category = "";
     let list = [];
+    if (data.length === 0) this.setState({ loadingRequests: false });
     for (let i = 0; i < data.length; i++) {
       let params = [];
       let productData = data[i].newValue;

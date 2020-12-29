@@ -36,6 +36,7 @@ class VendorProducts extends Component {
   }
 
   getMyInfo = (config) => {
+    console.log(TOKEN);
     services
       .get("/vendor/me", config)
       .then((response) => {
@@ -80,6 +81,7 @@ class VendorProducts extends Component {
   showAllMyProducts = (data, config) => {
     let list = [];
 
+    if (data.length === 0) this.setState({ loadingProducts: false });
     for (let i = 0; i < data.length; i++) {
       let params = [];
       for (let k = 0; k < data[i].parameters.length; k++) {

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import classes from "../AddProduct.module.css";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input, Space, Tag } from "antd";
 import PicturesWall from "../../../PicturesWall";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { TweenOneGroup } from "rc-tween-one";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
 
 const TOKEN = localStorage.getItem("token");
@@ -24,7 +25,75 @@ const validateMessages = {
 };
 
 class MainProductForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: [],
+    };
+  }
+
+  showTagInput = () => {
+    this.setState({ tagInputVisible: true }, () => this.input.focus());
+  };
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  };
+
+  handleInputConfirm = () => {
+    const { inputValue } = this.state;
+
+    let { tags } = this.state;
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      tags = [...tags, inputValue];
+    }
+    this.setState({
+      tags,
+      tagInputVisible: false,
+      inputValue: "",
+    });
+    this.props.passTags(tags);
+  };
+
+  handleClose = (removedTag) => {
+    let id = this.state.categoryIdDic[removedTag];
+
+    const tags = this.state.tags.filter((tag) => tag !== removedTag);
+    delete this.state.categoryIdDic[removedTag];
+    this.setState({ tags });
+  };
+
+  saveInputRef = (input) => {
+    this.input = input;
+  };
+
+  setFields = (fields) => {
+    fields = this.state.tags;
+    return fields;
+  };
+
+  forMap = (tag) => {
+    const tagElem = (
+      <Tag
+        closable
+        onClose={(e) => {
+          e.preventDefault();
+          this.handleClose(tag);
+        }}
+      >
+        {tag}
+      </Tag>
+    );
+    return (
+      <span key={tag} style={{ display: "inline-block" }}>
+        {tagElem}
+      </span>
+    );
+  };
+
   render() {
+    const tagChild = this.state.tags.map(this.forMap);
+
     return (
       <Form
         {...layout}
@@ -60,14 +129,51 @@ class MainProductForm extends Component {
         >
           <Input placeholder="example: electronics" />
         </Form.Item>
-
         <Form.Item
           name={["user", "tags"]}
           label="Tags"
-          rules={[{ required: true }]}
+          setFieldsValue={this.state.tags}
         >
-          <Input placeholder="tag1, tag2, ..." />
+          <div style={{ marginBottom: 16 }}>
+            <TweenOneGroup
+              enter={{
+                scale: 0.8,
+                opacity: 0,
+                type: "from",
+                duration: 100,
+                onComplete: (e) => {
+                  e.target.style = "";
+                },
+              }}
+              leave={{ opacity: 0, width: 0, scale: 0, duration: 200 }}
+              appear={false}
+            >
+              {tagChild}
+            </TweenOneGroup>
+          </div>
+          <Tag onClick={this.showTagInput} className="site-tag-plus">
+            <PlusOutlined /> New Tag
+          </Tag>
+          {this.state.tagInputVisible && (
+            <Input
+              ref={this.saveInputRef}
+              type="text"
+              size="small"
+              style={{ width: 78 }}
+              value={this.state.inputValue}
+              onChange={this.handleInputChange}
+              onBlur={this.handleInputConfirm}
+              onPressEnter={this.handleInputConfirm}
+            />
+          )}
         </Form.Item>
+        {/*<Form.Item*/}
+        {/*  name={["user", "tags"]}*/}
+        {/*  label="Tags"*/}
+        {/*  rules={[{ required: true }]}*/}
+        {/*>*/}
+        {/*  <Input placeholder="tag1, tag2, ..." />*/}
+        {/*</Form.Item>*/}
         <Form.Item label="Parameters">
           <Form.List name={["user", "parameters"]}>
             {(fields, { add, remove }) => (
