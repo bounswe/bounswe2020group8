@@ -14,6 +14,8 @@ data class Product(
     val description: String = "",
     val amountLeft: Int = 0,
     val price: Double = 0.0,
+    val maxPrice: Int = 0,
+    val minPrice: Int = 0,
     val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
     val photoUrl: Int = 0,
@@ -46,6 +48,7 @@ data class Product(
         )
     }
 
+
 fun responseToProduct (product: AllProductData, main: MainProductData): Product {
     return Product(
         _id = product._id,
@@ -64,3 +67,19 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
 
     )
 }
+
+    fun responseToProductSearch(product: DataProductSearch, main: MainProduct): Product{
+        return Product(
+            _id = main._id,
+            title = main.title,
+            price = product.minPrice.toDouble(),
+            minPrice = product.minPrice,
+            maxPrice = product.maxPrice,
+            rating = main.rating.toDouble(),
+            numberOfRatings = main.numberOfRating,
+            photos = product.product.photos,
+            brand = product.brand,
+            category = product.category,
+        )
+    }
+

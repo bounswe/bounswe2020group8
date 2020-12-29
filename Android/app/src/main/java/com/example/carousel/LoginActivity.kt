@@ -1,31 +1,32 @@
 package com.example.carousel
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.View
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.customer.RegisterInfoActivity
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.*
+import com.example.carousel.vendor.VendorLoginActivity
 import com.github.razir.progressbutton.bindProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_login.*
 import okhttp3.*
-import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
+
     private val RC_SIGN_IN = 1
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val client = OkHttpClient()
@@ -50,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             forgotPassword.movementMethod = LinkMovementMethod.getInstance()
         }
+        vendor.setOnClickListener {
+            val intent = Intent(this, VendorLoginActivity::class.java)
+            startActivityForResult(intent, 123)
+            vendor.movementMethod = LinkMovementMethod.getInstance()
+        }
     }
 
     override fun onStart() {
@@ -64,33 +70,34 @@ class LoginActivity : AppCompatActivity() {
         val email = login_email.text.toString()
         val password = login_password.text.toString()
         val type: String
-        when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
-            true -> type = "CLIENT";
-            false -> type = "VENDOR"
-        }
 
-        val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
-        apiCallerLogin.Button = login_button
-        apiCallerLogin.Caller = ApiClient.getClient.login(email, password)
-        apiCallerLogin.Success = { it ->
-            if (it != null) {
-                this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+        val validationContainer: FormValidator = FormValidator(this@LoginActivity)
+        validationContainer.AddCondition(login_email.text.isEmpty(), "Email is required")
+        validationContainer.AddCondition(login_password.text.isEmpty(), "Password is required")
+        validationContainer.RunIfValid {
 
-                    val prefs =
-                        getSharedPreferences("userInfo", Context.MODE_PRIVATE)
-                    val editor = prefs.edit()
-                    editor.putString("token", it.tokenCode)
-                    editor.putBoolean("isAuthenticated", true)
-                    editor.putString("type", type)
-                    editor.apply()
-                    ApplicationContext.instance.authenticate(it.tokenCode, type)
-                    finish()
-                 
-                })
+            val apiCallerLogin: ApiCaller<ResponseLogin> = ApiCaller(this@LoginActivity)
+            apiCallerLogin.Button = login_button
+            apiCallerLogin.Caller = ApiClient.getClient.customerLogin(email, password)
+            apiCallerLogin.Success = { it ->
+                if (it != null) {
+                    this@LoginActivity.runOnUiThread(Runnable { //Handle UI here
+
+                        val prefs =
+                            getSharedPreferences("userInfo", Context.MODE_PRIVATE)
+                        val editor = prefs.edit()
+                        editor.putString("token", it.tokenCode)
+                        editor.putBoolean("isAuthenticated", true)
+                        editor.putString("type", "CLIENT")
+                        editor.apply()
+                        ApplicationContext.instance.authenticate(it.tokenCode, "CLIENT")
+                        finish()
+                    })
+                }
             }
+            apiCallerLogin.Failure = {}
+            apiCallerLogin.run()
         }
-        apiCallerLogin.Failure = {}
-        apiCallerLogin.run()
     }
 
     private fun signInCall(email: String?, googleId: String?) {
@@ -120,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun signup(view: View) {
-        val intent = Intent(this, SignupActivity::class.java)
+        val intent = Intent(this, RegisterInfoActivity::class.java)
         startActivity(intent)
     }
 
@@ -147,6 +154,10 @@ class LoginActivity : AppCompatActivity() {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 Log.e("TAG", "signInResult:failed code=" + e.statusCode)
+            }
+        } else if (requestCode == 123) {
+            if (resultCode == Activity.RESULT_OK) {
+                finish()
             }
         }
     }
