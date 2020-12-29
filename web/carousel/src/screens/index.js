@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,8 +11,11 @@ import Login from "./Login";
 import Reset from "./Reset";
 import Account from "./Account";
 import Forgot from "./Forgot";
+import AdminAccount from "./AdminAccount";
 import UserInfo from "../components/Context/UserInfo";
+
 import Header from "../components/Header/Header";
+import AdminLogin from "./AdminLogin";
 import NotFound from "./NotFound";
 import Product from "../components/Product/Product";
 import Search from "./Search";
@@ -47,8 +50,6 @@ const App = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [companyDomain, setCompanyDomain] = useState("");
-  const [vendorLocations, setVendorLocations] = useState([]);
   const [error, setError] = useState(false);
   const [IBAN, setIBAN] = useState("");
 
@@ -115,6 +116,15 @@ const App = () => {
     { path: "/account", exact: false, component: Account },
   ];
 
+  const adminRoutes = [
+    {
+      path: "/administration/login/admin",
+      exact: true,
+      component: { AdminLogin },
+    },
+    { path: "/admin", exact: true, component: { AdminAccount } },
+  ];
+
   const guestRoutes = [
     { path: "/", exact: true, component: Home },
     { path: "/account", exact: false, component: Login },
@@ -134,6 +144,8 @@ const App = () => {
     routes = [...routes, ...vendorRoutes];
   } else if (userType === "Customer") {
     routes = [...routes, ...customerRoutes];
+  } else if (userType === "Admin") {
+    routes = [...routes, adminRoutes];
   } else {
     routes = [...routes, ...guestRoutes];
   }
