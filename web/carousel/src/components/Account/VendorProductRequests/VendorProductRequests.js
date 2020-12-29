@@ -34,6 +34,7 @@ class VendorProductRequests extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+    console.log(TOKEN);
     services
       .get("/vendor/me/productRequest/", config)
       .then((response) => {

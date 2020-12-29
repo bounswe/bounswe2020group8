@@ -60,6 +60,9 @@ class AddProducts extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+
+    console.log(TOKEN);
+
     services
       .get("/vendor/me", config)
       .then((response) => {

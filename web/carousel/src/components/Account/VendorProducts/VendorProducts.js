@@ -36,6 +36,7 @@ class VendorProducts extends Component {
   }
 
   getMyInfo = (config) => {
+    console.log(TOKEN);
     services
       .get("/vendor/me", config)
       .then((response) => {
