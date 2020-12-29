@@ -218,7 +218,7 @@ data class DeleteCart(
 
 data class ID(
     @Expose @SerializedName("_id") val _id: String,
-
+)
 
 data class ResponseProductSearch(
     @Expose @SerializedName("results") val results: Int,
