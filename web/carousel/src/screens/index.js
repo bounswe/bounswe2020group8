@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Reset from "./Reset";
@@ -11,6 +16,26 @@ import Header from "../components/Header/Header";
 import NotFound from "./NotFound";
 import Product from "../components/Product/Product";
 import Search from "./Search";
+import VendorAccount from "./VendorAccount";
+import VendorHome from "./VendorHome";
+
+function PrivateRoute({ component: Component, authed, ...rest }) {
+  console.log("authed: ", localStorage.getItem("login"));
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        localStorage.getItem("login") === "true" ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
+        )
+      }
+    />
+  );
+}
 
 const App = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +48,9 @@ const App = () => {
   const [surname, setSurname] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyDomain, setCompanyDomain] = useState("");
+  const [vendorLocations, setVendorLocations] = useState([]);
   const [error, setError] = useState(false);
+  const [IBAN, setIBAN] = useState("");
 
   const loginHandler = (newEmail, newToken) => {
     setEmail(newEmail);
@@ -47,9 +74,71 @@ const App = () => {
   const companyNameChangeHandler = (newCompanyName) => {
     setCompanyName(newCompanyName);
   };
+  const vendorLocationHandler = (newLocations) => {
+    setVendorLocations(newLocations);
+  };
+  const addVendorLocationHandler = (newVendorLocation) => {
+    setVendorLocations([...vendorLocations, newVendorLocation]);
+  };
+  const removeVendorLocationHandler = (
+    removedLocationLat,
+    removedLocationLng
+  ) => {
+    setVendorLocations(
+      vendorLocations.filter(
+        (location) =>
+          location.latitude !== removedLocationLat ||
+          location.longitude !== removedLocationLng
+      )
+    );
+  };
+
   const setErrorHandler = (newError) => {
     setError(newError);
   };
+
+  const generalRoutes = [
+    { path: "/login", exact: true, component: Login },
+    { path: "/reset", exact: true, component: Reset },
+    { path: "/forgot", exact: true, component: Forgot },
+    { path: "/search", exact: true, component: Search },
+    {path: "/product/:id", exact: true, component=Product}
+  ];
+  const vendorRoutes = [
+    { path: "/vendor", exact: true, component: VendorHome },
+    { path: "/vendor/account", exact: false, component: VendorAccount },
+    { path: "/", exact: true, component: VendorHome },
+  ];
+
+  const customerRoutes = [
+    { path: "/", exact: true, component: Home },
+    { path: "/account", exact: false, component: Account },
+  ];
+
+  const guestRoutes = [
+    { path: "/", exact: true, component: Home },
+    { path: "/account", exact: false, component: Login },
+    { path: "/vendor", exact: false, component: Login },
+    { path: "/vendor/account", exact: false, component: Login },
+  ];
+
+  const notFound = { component: NotFound };
+
+  let routes = [...generalRoutes];
+
+  useEffect(() => {
+    setUserType(localStorage.getItem("userType"));
+  }, []);
+
+  if (userType === "Vendor") {
+    routes = [...routes, ...vendorRoutes];
+  } else if (userType === "Customer") {
+    routes = [...routes, ...customerRoutes];
+  } else {
+    routes = [...routes, ...guestRoutes];
+  }
+
+  routes = [...routes, notFound];
 
   return (
     <div>
@@ -64,7 +153,9 @@ const App = () => {
           surname: surname,
           companyName: companyName,
           companyDomain: companyDomain,
+          vendorLocations: vendorLocations,
           error: error,
+          IBAN: IBAN,
           login: loginHandler,
           changeEmail: emailChangeHandler,
           setPassword: passwordChangeHandler,
@@ -72,24 +163,32 @@ const App = () => {
           setUserType: userTypeChangeHandler,
           setCompanyName: companyNameChangeHandler,
           setCompanyDomain: setCompanyDomain,
+          setVendorLocations: vendorLocationHandler,
+          addVendorLocation: addVendorLocationHandler,
+          removeVendorLocation: removeVendorLocationHandler,
           setName: setName,
           setSurname: setSurname,
           setPasswordConfirm: confirmPasswordChangeHandler,
           setError: setErrorHandler,
+          setEmail: setEmail,
+          setIBAN: setIBAN,
         }}
       >
         <Router>
           <Header />
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/reset" exact component={Reset} />
-            <Route path="/forgot" exact component={Forgot} />
-            <Route path="/product/:id" exact component={Product} />
-            <Route path="/reset" exact component={Reset} />
-            <Route path="/search" exact component={Search} />
-            <Route path="/account" component={Account} />
-            <Route render={() => <NotFound />} />
+            {routes.map((route) => (
+              <Route
+                path={route.path}
+                exact={route.exact}
+                component={route.component}
+              />
+            ))}
+            <PrivateRoute
+              authed={localStorage.getItem("login")}
+              path="/account"
+              component={Account}
+            />
           </Switch>
         </Router>
       </UserInfo.Provider>
