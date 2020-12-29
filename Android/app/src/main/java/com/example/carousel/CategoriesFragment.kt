@@ -43,8 +43,8 @@ class CategoriesFragment : Fragment() {
                     val categories = ArrayList<Category>()
                     for(item in it.data) {
                         if(item.name != null) {
-                            if(item.name == "Electronics") {
-                                categories.add(Category(item._id, item.name, R.drawable.electronics))
+                            if(item.name == "electronics") {
+                                categories.add(Category(item._id, "Electronics", R.drawable.electronics))
                             }
                             else if(item.name == "Women's Fashion") {
                                 categories.add(Category(item._id, item.name, R.drawable.fashion))
