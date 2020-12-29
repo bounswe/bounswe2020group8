@@ -1,9 +1,9 @@
 package com.example.carousel
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.vendor.VendorDashboardActivity
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 
@@ -33,18 +34,24 @@ class DashboardActivity : AppCompatActivity() {
             Context.MODE_PRIVATE
         )
         if (prefs.getBoolean("isAuthenticated", false)) {
+            val type = prefs.getString("type", "GUEST")!!
             ApplicationContext.instance.authenticate(
-                prefs.getString("token", "")!!, prefs.getString("type", "GUEST")!!
+                prefs.getString("token", "")!!, type
             )
-            val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@DashboardActivity)
-            apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
-            apiCallerGetUser.Success = {
-                if (it != null) {
+            if (type == "VENDOR"){
+                transitionToVendor()
+            }else{
+                val apiCallerGetUser: ApiCaller<ResponseCustomerMe> = ApiCaller(this@DashboardActivity)
+                apiCallerGetUser.Caller = ApiClient.getClient.customerMe()
+                apiCallerGetUser.Success = {
+                    if (it != null) {
                         LoginActivity.user = it.data
+                    }
                 }
+                apiCallerGetUser.Failure = {}
+                apiCallerGetUser.run()
             }
-            apiCallerGetUser.Failure = {}
-            apiCallerGetUser.run()
+
         }
 
         bottomAppBar.setOnNavigationItemSelectedListener {
@@ -70,5 +77,12 @@ class DashboardActivity : AppCompatActivity() {
     fun refresh() {
         finish()
         startActivity(intent)
+    }
+
+    fun transitionToVendor()
+    {
+        val intent = Intent(this, VendorDashboardActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

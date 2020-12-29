@@ -147,5 +147,10 @@
         <item>Most commented</item>
         <item>Newest</item>
     </string-array>
+    <string name="orders">Orders</string>
+    <string name="vendor_home_title">Shop</string>
+    <string name="product">Product</string>
+    <string name="update">Update</string>
+    <string name="amount_left">Amount Left</string>
 
 </resources>

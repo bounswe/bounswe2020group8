@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -19,6 +20,7 @@ import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseHeader
 import com.example.carousel.pojo.ResponseLogin
 import com.example.carousel.pojo.ResponseVendorMe
+import com.example.carousel.vendor.VendorDashboardActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -92,12 +94,18 @@ class MemberAccountPageFragment : Fragment() {
             }else if (pos == 6) {
                 type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
+
                 mGoogleSignInClient?.signOut()
                 view?.guest?.visibility = View.VISIBLE
                 view?.login_user?.visibility = View.INVISIBLE
                 ApplicationContext.instance.terminateAuthentication()
                 prefs!!.edit().clear().apply()
-                (activity as DashboardActivity).refresh()
+                if (type == "CLIENT"){
+                    (activity as DashboardActivity).refresh()
+                }else if (type == "VENDOR"){
+                    (activity as VendorDashboardActivity).logout()
+                }
+
             }else if(pos == 8) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
@@ -130,6 +138,12 @@ class MemberAccountPageFragment : Fragment() {
             pageRender(type,true)
             view?.guest?.visibility = View.INVISIBLE
             view?.login_user?.visibility = View.VISIBLE
+        }
+
+        if(resultCode == Activity.RESULT_OK){
+            if (type == "VENDOR"){
+                (activity as DashboardActivity).transitionToVendor()
+            }
         }
     }
 
@@ -209,7 +223,7 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-                        name = it.data.name+" "+it.data.lastName
+                        name = it.data.companyName
 
                         mAdapter = CustomAdapter(context as Context) //this section will change for vendor profile
                         mAdapter.addSectionHeaderItem(name.toString())
@@ -245,6 +259,7 @@ class MemberAccountPageFragment : Fragment() {
             ?.commit()
         activity!!.bottomAppBar.selectedItemId = R.id.home
     }
+
     private fun logout(type: String){
         if(type.equals("CLIENT")){
             val apiCallerLogoutCustomer: ApiCaller<ResponseHeader> = ApiCaller(activity)
