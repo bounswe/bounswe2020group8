@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/fragment_account_page"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -10,47 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible">
-        <!--    <LinearLayout-->
-        <!--        android:id="@+id/user"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:layout_marginTop="15dp"-->
-        <!--        android:layout_marginLeft="15dp"-->
-        <!--        android:layout_marginRight="15dp"-->
-        <!--        android:layout_marginBottom="15dp"-->
-        <!--        android:layout_gravity="center_vertical"-->
-        <!--        android:orientation="horizontal"-->
-        <!--        tools:ignore="UseCompoundDrawables">-->
-
-        <!--        <ImageView-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_width="50dp"-->
-        <!--            android:textColor="@color/colorPrimaryDark"-->
-        <!--            android:gravity="center"-->
-
-        <!--            android:layout_gravity="center_vertical"-->
-        <!--            android:src="@drawable/ic_person"-->
-        <!--            android:contentDescription="TODO" />-->
-
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/userName"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center_vertical"-->
-        <!--            android:layout_marginTop="15dp"-->
-        <!--            android:text="@string/username"-->
-        <!--            android:textAllCaps="true"-->
-        <!--            android:textSize="30sp"-->
-        <!--            android:textStyle="bold"/>-->
-
-
-        <!--    </LinearLayout>-->
-
+<!--        <ImageView-->
+<!--            android:id="@+id/logo"-->
+<!--            android:layout_width="159dp"-->
+<!--            android:layout_height="173dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginStart="32dp"-->
+<!--            android:layout_marginLeft="32dp"-->
+<!--            android:layout_marginEnd="32dp"-->
+<!--            android:layout_marginRight="32dp"-->
+<!--            android:alpha="0.7"-->
+<!--            android:contentDescription="@string/logo"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/logo"/>-->
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/ubuntu_bold" android:gravity="center_horizontal" android:text="TextView"
+            android:textColor="@color/colorPrimaryDark" android:textSize="40sp"/>
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="687dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username" android:layout_centerHorizontal="false"
             tools:ignore="UnknownId">
 
         </ListView>

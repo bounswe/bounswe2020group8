@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fragment_add_address.view.*
 
 class Contacts : Fragment() {
 
@@ -14,6 +15,12 @@ class Contacts : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        view.back_button.setOnClickListener {
+            val fragment = MemberAccountPageFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_contacts, fragment)
+                ?.commit()
+        }
     }
 
 }

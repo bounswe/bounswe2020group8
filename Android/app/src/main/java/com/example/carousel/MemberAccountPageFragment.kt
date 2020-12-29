@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import android.widget.TextView
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -69,27 +70,27 @@ class MemberAccountPageFragment : Fragment() {
         }
 
         listView.onItemClickListener = OnItemClickListener { adapterView, view, pos, l ->
-            if(pos == 2) {
+            if(pos == 1) {
                 val fragment = UserInformationFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 3){
+            }else if(pos == 2){
                 val fragment = ShoppingListFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 4){
+            }else if(pos == 3){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 5) {
+            }else if(pos == 4) {
                 val fragment = Settings()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if (pos == 6) {
+            }else if (pos == 5) {
                 type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
                 mGoogleSignInClient?.signOut()
@@ -98,17 +99,17 @@ class MemberAccountPageFragment : Fragment() {
                 ApplicationContext.instance.terminateAuthentication()
                 prefs!!.edit().clear().apply()
                 (activity as DashboardActivity).refresh()
-            }else if(pos == 8) {
+            }else if(pos == 7) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 9) {
+            }else if(pos == 8) {
                 val fragment = Legals()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 10) {
+            }else if(pos == 9) {
                 val fragment = Contacts()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
@@ -180,8 +181,11 @@ class MemberAccountPageFragment : Fragment() {
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.name + " " + it.data.lastName
+
+                        var username = view?.findViewById<TextView>(R.id.username)
+                        username?.setText(name.toString())
                         mAdapter = CustomAdapter(context as Context)
-                        mAdapter.addSectionHeaderItem(name.toString())
+//                        mAdapter.addSectionHeaderItem(name.toString())
                         mAdapter.addSectionHeaderItem("Account")
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
