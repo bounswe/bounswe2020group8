@@ -128,7 +128,7 @@ data class MainProductData(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("title") val title: String,
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
-    @Expose @SerializedName("description") val description: String,
+    @Expose @SerializedName("description") val description: String? = "",
     @Expose @SerializedName("rating") val rating: Double,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("soldAmount") val soldAmount: Int,
@@ -136,7 +136,6 @@ data class MainProductData(
     @Expose @SerializedName("isConfirmed") val isConfirmed : Boolean,
     @Expose @SerializedName("createdAt") val createdAt: Date,
     @Expose @SerializedName("updatedAt") val updatedAt: Date,
-    @Expose @SerializedName("photos") val photos: ArrayList<String>
 ) : Serializable
 
 data class Parameters(
