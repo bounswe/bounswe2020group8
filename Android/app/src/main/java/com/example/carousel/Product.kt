@@ -36,7 +36,7 @@ data class Product(
         return Product(
             _id = product._id,
             title = main.title,
-            description = main.description,
+            description = main.description.toString(),
             price = product.default.price,
             amountLeft = product.default.amountLeft,
             shipmentPrice = product.default.shipmentPrice,
@@ -55,7 +55,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
         vendorId = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!._id,
         companyName = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!.companyName,
         title = main.title,
-        description = main.description,
+        description = main.description.toString(),
         price = product.default.price,
         amountLeft = product.default.amountLeft,
         shipmentPrice = product.default.shipmentPrice,

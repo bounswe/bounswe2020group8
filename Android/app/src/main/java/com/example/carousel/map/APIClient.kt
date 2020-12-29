@@ -17,7 +17,7 @@ import kotlin.jvm.Throws
 
 object ApiClient {
 
-    var BASE_URL:String="http://54.165.207.44:8080"
+    var BASE_URL:String="http://54.165.207.44:8888"
     val getClient: ApiInterface
         get() {
 
