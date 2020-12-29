@@ -6,6 +6,7 @@ import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
 import { withRouter } from "react-router-dom";
+import MapComponent from "../../components/MapComponent/MapComponent";
 
 const { Option } = Select;
 
@@ -357,7 +358,7 @@ class Profile extends Component {
           }}
         >
           {this.context.userType === "Customer"
-            ? this.renderCustomerProfileChangeForm()
+            ? this.renderProfileChangeForm()
             : this.renderVendorProfileChangeForm()}
 
           <Col span={2}>
