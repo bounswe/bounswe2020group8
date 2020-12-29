@@ -178,7 +178,7 @@ class UserInformationFragment : Fragment(){
                         email = it.data.email
                         isSuspended = it.data.isSuspended
                         isActive = it.data.isActive
-                        shoppingLists = it.data.shoppingLists
+                        //shoppingLists = it.data.shoppingLists
                         orders = it.data.orders
                         cart = it.data.cart
                         addresses = it.data.addresses
@@ -197,7 +197,7 @@ class UserInformationFragment : Fragment(){
                             email,
                             isSuspended,
                             isActive,
-                            shoppingLists,
+                            //shoppingLists,
                             orders,
                             cart,
                             addresses,

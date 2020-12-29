@@ -105,6 +105,29 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
+
+    @GET("/comment/{pid}/all")
+    fun getComments(
+        @Path("pid") pid: String = ""): Call<ResponseGetComments>
+
+    @POST("/comment/{pid}")
+    fun addComment(
+        @Path("pid") pid: String = "",
+        @Body body: PostComment): Call<PostComment>
+
+    @POST("/customer/shoppingCart/get")
+    fun getCart(
+        @Body id: ID
+    ): Call<ArrayList<ResponseCart>>
+
+    @POST("/customer/shoppingCart/update")
+    fun updateCart(
+        @Body data: UpdateCart): Call<DataCustomerMe>
+
+    @POST("/customer/shoppingCart/delete")
+    fun deleteCart(
+        @Body data: DeleteCart): Call<ArrayList<DataCustomerMe>>
+
     @POST
     fun productSearch(
         @Url url: HttpUrl?,
@@ -117,7 +140,6 @@ interface ApiInterface {
     @POST("/product/searchFilters")
     fun productSearchFilters(
         @Body searchQuery: SearchQuery, ): Call<ResponseProductSearchFilters>
-
 
 
 }

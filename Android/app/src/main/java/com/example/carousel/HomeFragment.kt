@@ -48,8 +48,12 @@ class HomeFragment : Fragment() {
 
         activity?.runOnUiThread {
             val productsDeals = ArrayList<Product>()
+
+
             //val apiCallerGetProduct: ApiCaller<ResponseProduct> = ApiCaller(activity)
             //apiCallerGetProduct.Caller = ApiClient.getClient.getProduct("5fe757b3d28edecdb6f1e5ce")
+
+
             val apiCallerGetProduct: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
             apiCallerGetProduct.Caller = ApiClient.getClient.getAllProducts()
             apiCallerGetProduct.Success = { firstResponse ->
@@ -76,7 +80,11 @@ class HomeFragment : Fragment() {
             }
             apiCallerGetProduct.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
             apiCallerGetProduct.run()
+
         }
+
+
+
         /*
         //val productsDeals = ArrayList<Product>()
         productsDeals.add(Product(title = "Macbook Pro 16 inch", price = 999.99, id = 1, photoUrl = R.drawable.image1,
@@ -125,8 +133,8 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
         }
-        Log.d("ITEMCOUNT",adapter.itemCount.toString())
         adapter.onItemClick = { product ->
+            Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product",product)
             startActivity(intent)

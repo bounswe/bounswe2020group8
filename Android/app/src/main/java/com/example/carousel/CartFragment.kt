@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,11 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_cart.view.*
 import android.view.animation.DecelerateInterpolator
 import com.example.carousel.application.ApplicationContext
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CartFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CartFragment : Fragment() {
+class CartFragment : Fragment(){
 
     private lateinit var adapter: CartAdapter
     private var totalCost = 0.0
@@ -33,7 +39,46 @@ class CartFragment : Fragment() {
     private var isCollapsed = false
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.runOnUiThread {
+            val apiCallerGetCart: ApiCaller<ArrayList<ResponseCart>> = ApiCaller(activity)
+            apiCallerGetCart.Caller = ApiClient.getClient.getCart(ID(LoginActivity.user.id))
+            apiCallerGetCart.Success = { it ->
+                if (it != null) {
+                    for (product in it) {
+                        val newProduct = Product(
+                            _id = product.productId,
+                            vendorId = product.vendorId,
+                            price = product.price,
+                            title = product.title,
+                            photos = product.photos,
+                            shipmentPrice = product.shipmentPrice,
+                        )
+                        Log.d("PRODUCT:", newProduct.toString())
+                        if(!isInCart(newProduct._id))
+                        addToCart(newProduct, product.amount)
+                    }
+                    adapter = CartAdapter(cart, requireActivity())
+                    products_in_cart.apply {
+                        layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                        setAdapter(this@CartFragment.adapter)
+                    }
+                    updateCartInfo(totalCost(), adapter.itemCount)
 
+                    val observer = object : RecyclerView.AdapterDataObserver() {
+                        override fun onChanged() {
+                            super.onChanged()
+                            updateCartInfo(totalCost(), adapter.itemCount)
+                        }
+
+                    }
+                    adapter.registerAdapterDataObserver(observer)
+                }
+            }
+            apiCallerGetCart.run()
+            apiCallerGetCart.Failure = { Log.d("FIRSTRESPONSE", "FAILED") }
+
+        }
+/*
         if(cart.isEmpty()) {
             addToCart(
                 Product(
@@ -60,12 +105,9 @@ class CartFragment : Fragment() {
                 ),2
             )
         }
-        adapter = CartAdapter(cart)
-        products_in_cart.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-            setAdapter(this@CartFragment.adapter)
-        }
-        updateCartInfo(adapter.totalCost(), adapter.itemCount)
+        */
+
+
 
         product_dropdown.setOnClickListener {
             if(isCollapsed) {
@@ -83,18 +125,14 @@ class CartFragment : Fragment() {
         purchase_cart_button.setOnClickListener{
             purchase()
         }
+        /*
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
             intent.putExtra("product", product)
             startActivity(intent)
         }
-        val observer = object : RecyclerView.AdapterDataObserver(){
-            override fun onChanged() {
-                super.onChanged()
-                updateCartInfo(adapter.totalCost(), adapter.itemCount)
-            }
-        }
-        adapter.registerAdapterDataObserver(observer)
+        */
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -138,7 +176,14 @@ class CartFragment : Fragment() {
                 }
             }
 
-
+        fun isInCart(productId: String) : Boolean {
+            for (item in cart) {
+                if (item.first._id == productId) {
+                    return true
+                }
+            }
+            return false
+        }
         fun addToCart(product: Product, num: Int) {
             for(item in cart){
                 if(item.first._id == product._id) {
@@ -153,6 +198,13 @@ class CartFragment : Fragment() {
         fun removeFromCart(productIndex: Int) {
             if (cart.isNotEmpty())
                 cart.removeAt(productIndex)
+        }
+        fun totalCost(): Double{
+            var sum : Double = 0.0
+            for(product in cart){
+                sum+= (product.first.price*product.second)
+            }
+            return sum
         }
     }
     fun View.animateVisibility(setVisible: Boolean) {

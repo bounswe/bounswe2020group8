@@ -8,7 +8,8 @@ import kotlin.collections.ArrayList
 data class Product(
     val _id: String = "",
     val id: Int = 0,
-    val vendorId: String = "Belethor",
+    val vendorId: String = "",
+    val companyName: String = "Unknown",
     val title: String,
     val description: String = "",
     val amountLeft: Int = 0,
@@ -17,7 +18,6 @@ data class Product(
     val minPrice: Int = 0,
     val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
-    val comments: ArrayList<Comment> = ArrayList<Comment>(),
     val photoUrl: Int = 0,
     val tags: ArrayList<String> = ArrayList<String>() ,
     val brand: String = "",
@@ -27,13 +27,14 @@ data class Product(
     val cargoCompany: String = "",
     val category: String = "",
     val photos: ArrayList<String> = ArrayList<String>(),
-    val vendorSpecifics: ArrayList<VendorSpecifics> = ArrayList<VendorSpecifics>()
+    val vendorSpecifics: ArrayList<VendorSpecifics> = ArrayList<VendorSpecifics>(),
+    val mainProductId: String = ""
     ) : Serializable
 
 
-    fun responseToProduct(product: ProductData, main: MainProductData): Product{
+    fun responseToProduct (product: ProductData, main: MainProductData): Product {
         return Product(
-            _id = main._id,
+            _id = product._id,
             title = main.title,
             description = main.description,
             price = product.default.price,
@@ -43,8 +44,29 @@ data class Product(
             rating = main.rating,
             photos = product.photos,
             tags = product.tags,
+            mainProductId = main._id
         )
     }
+
+
+fun responseToProduct (product: AllProductData, main: MainProductData): Product {
+    return Product(
+        _id = product._id,
+        vendorId = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!._id,
+        companyName = if(product.vendorSpecifics.isNullOrEmpty() || product.vendorSpecifics[0].vendorID == null)  ""  else product.vendorSpecifics[0].vendorID!!.companyName,
+        title = main.title,
+        description = main.description,
+        price = product.default.price,
+        amountLeft = product.default.amountLeft,
+        shipmentPrice = product.default.shipmentPrice,
+        cargoCompany = product.default.cargoCompany,
+        rating = main.rating,
+        photos = product.photos,
+        tags = product.tags,
+        mainProductId = main._id,
+
+    )
+}
 
     fun responseToProductSearch(product: DataProductSearch, main: MainProduct): Product{
         return Product(
@@ -60,3 +82,4 @@ data class Product(
             category = product.category,
         )
     }
+
