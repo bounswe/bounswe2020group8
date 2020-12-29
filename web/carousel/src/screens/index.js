@@ -102,7 +102,7 @@ const App = () => {
     { path: "/reset", exact: true, component: Reset },
     { path: "/forgot", exact: true, component: Forgot },
     { path: "/search", exact: true, component: Search },
-    {path: "/product/:id", exact: true, component=Product}
+    { path: "/product/:id", exact: true, component: Product },
   ];
   const vendorRoutes = [
     { path: "/vendor", exact: true, component: VendorHome },
