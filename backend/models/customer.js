@@ -37,7 +37,7 @@ var creditCard = {
 var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
-    shoppingCart: { type: shoppingCart },
+    shoppingCart: [],
     addresses: [address],
     phoneNumber: { type: String },
     birthday: { type: String },
