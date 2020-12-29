@@ -21,43 +21,55 @@ class AdminLoginComponent extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.isError) {
       setTimeout(() => {
-        this.setState({isError: false});
+        this.setState({ isError: false });
       }, 5000);
     }
   }
 
-
-
   static contextType = UserInfo;
 
   changeEmailHandler = (email) => {
-    this.setState({email: email});
-  }
+    this.setState({ email: email });
+  };
   changePasswordHandler = (password) => {
-    this.setState({password: password});
-  }
+    this.setState({ password: password });
+  };
 
   render() {
     return (
-      <div style={{display:"grid", fontSize:"14px", marginTop:"30px", height:"30px"}}>
+      <div
+        style={{
+          display: "grid",
+          fontSize: "14px",
+          marginTop: "30px",
+          height: "30px",
+        }}
+      >
         <input
-          style={{width:"200px", border:"black 1px solid"}}
+          style={{ width: "200px", border: "black 1px solid" }}
           placeholder="admin email"
-          onChange={(event) => this.changeEmailHandler(event.target.value)}/>
+          onChange={(event) => this.changeEmailHandler(event.target.value)}
+        />
         <input
-          style={{width:"200px", border:"black 1px solid", marginTop:"4px"}}
+          style={{
+            width: "200px",
+            border: "black 1px solid",
+            marginTop: "4px",
+          }}
           placeholder="password"
           type="password"
-          onChange={(event) => this.changePasswordHandler(event.target.value)}/>
+          onChange={(event) => this.changePasswordHandler(event.target.value)}
+        />
         {this.state.isError ? <p>Invalid login information</p> : null}
-        <button style={{width:"200px", marginTop:"20px"}} onClick={() => this.handleLoginClick()}>
+        <button
+          style={{ width: "200px", marginTop: "20px" }}
+          onClick={() => this.handleLoginClick()}
+        >
           Login
         </button>
       </div>
     );
   }
-
-
 
   handleLoginClick = () => {
     const payload = {
@@ -78,6 +90,7 @@ class AdminLoginComponent extends Component {
         localStorage.setItem("userType", "Admin");
         this.props.signIn();
         this.props.history.push("/admin");
+        window.location.reload();
       })
       .catch((err, response) => {
         console.log(err);
@@ -86,8 +99,6 @@ class AdminLoginComponent extends Component {
         this.setState({ isError: true });
       });
   };
-
-
 }
 
 export default withRouter(connect(null, { signIn })(AdminLoginComponent));
