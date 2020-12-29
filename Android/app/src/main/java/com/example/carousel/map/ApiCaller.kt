@@ -79,6 +79,7 @@ class ApiCaller<T : Any> {
 
 
             override fun onFailure(call: Call<T>?, t: Throwable?) {
+                Log.d("REASON", t.toString())
                 Failure()
                 revertAnimation()
                 Alerter.create(TargetActivity)

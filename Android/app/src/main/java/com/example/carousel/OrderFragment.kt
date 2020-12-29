@@ -77,6 +77,8 @@ class OrderFragment : Fragment() {
             setAdapter(adapter)
         }
         products_overview.text="Products Overview(${CartFragment.cart.size})"
+        total_cost.text = "\$${String.format("%.2f",CartFragment.totalCost())}"
+
     }
     companion object {
         /**

@@ -5,10 +5,11 @@
               android:orientation="vertical">
     <TextView
         android:id="@+id/comment_owner"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minLines="1"
         android:textStyle="bold"
+        android:text="Anonymous User"
     />
     <RatingBar
         android:id="@+id/rating"
