@@ -278,6 +278,32 @@
             android:orientation="vertical" />
 
         <Button
+            android:id="@+id/category_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+        <LinearLayout
+            android:id="@+id/category_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!--<Button
+            android:id="@+id/vendors_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vendors"
+            android:textColor="#292929"
+            app:backgroundTint="#FFFFFF" />
+        <LinearLayout
+            android:id="@+id/vendors_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />-->
+
+        <Button
             android:id="@+id/apply_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

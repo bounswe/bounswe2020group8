@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.map.SearchQuery
+import com.example.carousel.pojo.ResponseGetCategories
 import com.example.carousel.pojo.ResponseProductSearch
 import com.example.carousel.pojo.ResponseProductSearchFilters
+import kotlinx.android.synthetic.main.activity_product_page.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
@@ -35,6 +37,8 @@ class SearchFragment : Fragment() {
     private var queryColor = ""
     private var queryBrand = ""
     private var querySize = ""
+    private var queryCategory = ""
+    private var queryVendors = ""
 
     private val sortOptionsMap = mapOf<String, String>("Lowest Price" to "minPrice", "Highest Price" to "-minPrice", "Best Rating" to "-rating",
         "Most commented" to "-numberOfRatings", "Newest" to "releaseDate")
@@ -50,6 +54,8 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        //placecat()
 
         var sort = ""
 
@@ -92,6 +98,8 @@ class SearchFragment : Fragment() {
         color_container.visibility = View.GONE
         size_container.visibility = View.GONE
         brand_container.visibility = View.GONE
+        category_container.visibility = View.GONE
+        //vendors_container.visibility = View.GONE
 
 
         price_filter.setOnClickListener {
@@ -141,6 +149,24 @@ class SearchFragment : Fragment() {
 
             }
         }
+        category_filter.setOnClickListener {
+            if(category_container.visibility == View.GONE) {
+                category_container.visibility = View.VISIBLE
+            }
+            else {
+                category_container.visibility = View.GONE
+
+            }
+        }
+        /*vendors_filter.setOnClickListener {
+            if(vendors_container.visibility == View.GONE) {
+                vendors_container.visibility = View.VISIBLE
+            }
+            else {
+                vendors_container.visibility = View.GONE
+
+            }
+        }*/
 
 
         button_0_50.setOnClickListener {
@@ -228,7 +254,33 @@ class SearchFragment : Fragment() {
                 }
             }
 
+            var category_first = true
+            for(i in 0..(category_container.childCount-1)) {
+                val view = category_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    if(category_first) {
+                        queryCategory = "category=" + view.text.toString()
+                        category_first = false
+                    }
+                    else {
+                        queryCategory += "," + view.text.toString()
+                    }
+                }
+            }
 
+            /*var vendors_first = true
+            for(i in 0..(vendors_container.childCount-1)) {
+                val view = vendors_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    if(vendors_first) {
+                        queryVendors = "vendors=" + view.text.toString()
+                        vendors_first = false
+                    }
+                    else {
+                        queryVendors += "," + view.text.toString()
+                    }
+                }
+            }*/
 
             searchCall()
 
@@ -262,7 +314,9 @@ class SearchFragment : Fragment() {
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        var resultUrl = "http://54.165.207.44:8080/product/search?" + queryBrand + "&" + category + "&" + vendors + "&" + queryMaxPrice + "&" + queryMinPrice + "&" + queryRating + "&" + queryColor + "&" + querySize
+        var resultUrl = "http://54.165.207.44:8080/product/search?"
+        resultUrl += queryBrand + "&" + category + "&" + vendors + "&" + queryMaxPrice + "&" + queryMinPrice
+        resultUrl += "&" + queryRating + "&" + queryColor + "&" + querySize + "&" + queryCategory //+ "&" + queryVendors
 
         val url =
             resultUrl.toHttpUrlOrNull()
@@ -309,6 +363,16 @@ class SearchFragment : Fragment() {
                         brand_container.addView(newItem)
                     }
 
+                    for(catg in it.data.categories) {
+                        val newItem = CheckBox(requireContext())
+                        newItem.text = catg
+                        newItem.layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        )
+                        category_container.addView(newItem)
+                    }
+
                     for(param in it.data.parameters) {
                         var myContainer: LinearLayout
                         if (param.name == "color") {
@@ -327,18 +391,6 @@ class SearchFragment : Fragment() {
                             myContainer.addView((newItem))
                         }
                     }
-
-
-
-
-
-                    /*val filters = ArrayList<String, ArrayList<String>>()
-                    for(item in it.data.parameters) {
-                        item.name
-                        item.value
-                        //filters.add(responseToProductSearch(item, item.mainProduct[0]))
-                    }
-                    //createProductList(products, results)*/
                 })
             }
         }
@@ -358,6 +410,33 @@ class SearchFragment : Fragment() {
             intent.putExtra("product",product)
             startActivity(intent)
         }
+    }
+
+    // will be changed after milestone 2 :(
+    private fun placecat() {
+        val apiCallerGetCategories: ApiCaller<ResponseGetCategories> = ApiCaller(activity)
+        //apiCallerLogin.Button = login_button
+        apiCallerGetCategories.Caller = ApiClient.getClient.getCategories()
+        apiCallerGetCategories.Success = { it ->
+            if (it != null) {
+                activity?.runOnUiThread(Runnable { //Handle UI here
+                    for (item in it.data) {
+                        if (item.name != null) {
+                            val newItem = CheckBox(requireContext())
+                            newItem.text = item.name
+                            newItem.layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                            category_container.addView(newItem)
+                        }
+
+                    }
+                })
+            }
+        }
+        apiCallerGetCategories.Failure = {}
+        apiCallerGetCategories.run()
     }
 
 }
