@@ -68,11 +68,11 @@ class ApiCaller<T : Any> {
                     val type = object : TypeToken<ResponseError>() {}.type
                     val error: ResponseError? = gson.fromJson(response.errorBody()!!.charStream(), type)
 
-                    Alerter.create(TargetActivity)
+                    /*Alerter.create(TargetActivity)
                         .setTitle(TargetActivity?.getString(R.string.alert_error_title).toString())
                         .setText(error!!.returnMessage)
                         .setBackgroundColorRes(R.color.errorRed)
-                        .show()
+                        .show()*/
                 }
                 revertAnimation()
             }
@@ -81,12 +81,12 @@ class ApiCaller<T : Any> {
             override fun onFailure(call: Call<T>?, t: Throwable?) {
                 Log.d("REASON", t.toString())
                 Failure()
-                revertAnimation()
+                /*revertAnimation()
                 Alerter.create(TargetActivity)
                     .setTitle(TargetActivity?.getString(R.string.alert_error_title).toString())
                     .setText(R.string.api_error)
                     .setBackgroundColorRes(R.color.errorRed)
-                    .show()
+                    .show()*/
             }
         })
     }
