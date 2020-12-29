@@ -15,7 +15,12 @@ var address = {
 
 var shoppingList = {
   title: { type: String },
-  wishedProducts: [{ type: Schema.Types.ObjectId }],
+  wishedProducts: [
+    {
+      productId: { type: Schema.Types.ObjectId, ref: "Product" },
+      vendorId: { type: Schema.Types.ObjectId, ref: "Vendor" },
+    },
+  ],
 };
 
 var shoppingCart = {
