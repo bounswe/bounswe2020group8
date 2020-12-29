@@ -66,7 +66,7 @@ class MemberAccountPageFragment : Fragment() {
 
         pageRender(type, false)
 
-        view.login_button.setOnClickListener {
+        view.save_button.setOnClickListener {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivityForResult(intent, 11)
         }
@@ -230,9 +230,8 @@ class MemberAccountPageFragment : Fragment() {
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.companyName
-
+                        username.text = name
                         mAdapter = CustomAdapter(context as Context) //this section will change for vendor profile
-                        mAdapter.addSectionHeaderItem(name.toString())
                         mAdapter.addSectionHeaderItem("Account")
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
