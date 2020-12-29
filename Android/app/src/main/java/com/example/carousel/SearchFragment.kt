@@ -163,7 +163,9 @@ class SearchFragment : Fragment() {
         var queryMinPrice = ""
         var queryMaxPrice = ""
         var queryRating = ""
+        var queryColor = ""
         var queryBrand = ""
+        var querySize = ""
 
 
         apply_button.setOnClickListener {
@@ -180,16 +182,29 @@ class SearchFragment : Fragment() {
                 queryRating = "rating[gte]=" + r
 
             }
+            for(i in 0..(color_container.childCount-1)) {
+                val view = color_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    queryColor = "color=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                }
+            }
+
             for(i in 0..(brand_container.childCount-1)) {
                 val view = brand_container.getChildAt(i) as CheckBox
                 if(view.isChecked) {
                     queryBrand = "brand=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
                 }
             }
+            for(i in 0..(size_container.childCount-1)) {
+                val view = size_container.getChildAt(i) as CheckBox
+                if(view.isChecked) {
+                    querySize = "size=" + view.text.toString()    //TODO: make them accumulate, currently latest overwrite
+                }
+            }
 
 
 
-            searchCall(lastQuery, sort, brand=queryBrand, minPrice = queryMinPrice, maxPrice = queryMaxPrice, rating = queryRating)
+            searchCall(lastQuery, sort, brand=queryBrand, minPrice = queryMinPrice, maxPrice = queryMaxPrice, rating = queryRating, color = queryColor, size=querySize)
 
             /*expandable_price.visibility = View.GONE
             expandable_rating.visibility = View.GONE
@@ -224,12 +239,12 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchCall(query: String, sort: String, limit: Int = 1000, page: Int = 1, fields: String = "", brand: String = "", category: String = "", vendors: String = ""
-                           , maxPrice: String = "", minPrice: String = "", rating: String = "") {
+                           , maxPrice: String = "", minPrice: String = "", rating: String = "", color: String = "", size: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        var resultUrl = "http://54.165.207.44:8080/product/search?" + sort + "&" + brand + "&" + category + "&" + vendors + "&" + maxPrice + "&" + minPrice + "&" + rating
+        var resultUrl = "http://54.165.207.44:8080/product/search?" + sort + "&" + brand + "&" + category + "&" + vendors + "&" + maxPrice + "&" + minPrice + "&" + rating + "&" + color + "&" + size
 
         val url =
             resultUrl.toHttpUrlOrNull()
