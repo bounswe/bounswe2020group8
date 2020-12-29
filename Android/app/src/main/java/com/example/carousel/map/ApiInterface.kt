@@ -78,6 +78,9 @@ interface ApiInterface {
     @GET("/vendor/me")
     fun vendorMe(): Call<ResponseVendorMe>
 
+    @GET("/vendor/me/product")
+    fun vendorMeProduct(): Call<VendorResponseAllProducts>
+
     @POST("/customer/changePassword")
     fun customerChangePassword(
         @Query("oldPassword") oldPassword: String,

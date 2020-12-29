@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
+        mavenCentral()
         maven {
             url "https://maven.springframework.org/release"
         }

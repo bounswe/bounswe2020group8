@@ -102,7 +102,6 @@ class RegisterPasswordActivity : AppCompatActivity() {
                             .setBackgroundColorRes(R.color.successGreen)
                             .show()
                         val returnIntent = Intent()
-                        returnIntent.putExtra("result", 1)
                         setResult(Activity.RESULT_OK, returnIntent)
                         finish()
                     })
@@ -112,5 +111,7 @@ class RegisterPasswordActivity : AppCompatActivity() {
             apiCallerSignup.run()
         }
     }
-    fun cancel(view: View) {}
+    fun cancel(view: View) {
+        finish()
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.carousel
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,10 @@ import com.example.carousel.pojo.DataCustomerMe
 import com.example.carousel.pojo.ExampleObject
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseVendorMe
+import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.activity_product_page.view.*
+import kotlinx.android.synthetic.main.fragment_acount_page.*
+import kotlinx.android.synthetic.main.fragment_user_information.*
 import kotlinx.android.synthetic.main.fragment_user_information.view.*
 
 
@@ -132,7 +137,17 @@ class UserInformationFragment : Fragment(){
             apiCaller.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread(Runnable { //Handle UI here
-
+                        var editText = activity!!.findViewById<EditText>(R.id.profile_name_value)
+                        editText.setHint(it.data.name)
+                        editText = activity!!.findViewById<EditText>(R.id.profile_surname_value)
+                        editText.setHint(it.data.lastName)
+                        editText = activity!!.findViewById<EditText>(R.id.profile_email_value)
+                        editText.setHint(it.data.email)
+                        editText = activity!!.findViewById<EditText>(R.id.profile_number_value)
+                        editText.setHint(it.data.companyName)
+                        profile_number_tag.text = "COMPANY NAME"
+                        profile_birthday_value.setHint(it.data.companyDomainName)
+                        profile_birthday_tag.text = "DOMAIN"
                     })
                 }
             }

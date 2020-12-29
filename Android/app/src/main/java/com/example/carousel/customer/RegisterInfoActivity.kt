@@ -1,6 +1,7 @@
 package com.example.carousel.customer
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -26,9 +27,10 @@ class RegisterInfoActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = data?.getIntExtra("result", 0)
 
-        if (result == 1){
+        if (resultCode == RESULT_OK){
+            val returnIntent = Intent()
+            setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
 

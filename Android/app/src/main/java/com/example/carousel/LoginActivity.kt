@@ -157,6 +157,8 @@ class LoginActivity : AppCompatActivity() {
             }
         } else if (requestCode == 123) {
             if (resultCode == Activity.RESULT_OK) {
+                val returnIntent = Intent()
+                setResult(Activity.RESULT_OK, returnIntent)
                 finish()
             }
         }
