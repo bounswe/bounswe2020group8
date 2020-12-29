@@ -134,9 +134,9 @@ class AddProducts extends Component {
     this.setState({ mainProducts: [] });
     this.setState((state) => {
       let list = [];
-      let params = [];
-      let paramValues = [];
       for (let i = 0; i < data.length; i++) {
+        let params = [];
+        let paramValues = [];
         for (let k = 0; k < data[i].parameters.length; k++) {
           params = params.concat([data[i].parameters[k].name]);
           paramValues = paramValues.concat([data[i].parameters[k].values]);
