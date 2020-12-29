@@ -12,7 +12,6 @@ import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.DataCustomerMe
 import com.example.carousel.pojo.ExampleObject
 import com.example.carousel.pojo.ResponseCustomerMe
-import kotlinx.android.synthetic.main.address_view.view.*
 
 class AddressAdapter(
     private var addressList: ArrayList<Address>,
@@ -47,6 +46,12 @@ class AddressAdapter(
         holder.addressName.text = addressList[position].addressName
         holder.deleteButton.setOnClickListener{
             deleteAddress(position)
+        }
+        holder.editButton.setOnClickListener{
+            val fragment = editAddressFragment(position)
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_settings, fragment)
+                ?.commit()
         }
     }
 
