@@ -5,9 +5,9 @@ const authController = require("../controllers/authClient");
 const router = express.Router();
 
 router
-.route("/")
-.get(CategoryController.getAllCategoryController, RequestHelper.returnResponse)
-.post(CategoryController.createOneCategoryController, RequestHelper.returnResponse);
+  .route("/")
+  .get(CategoryController.getAllCategoryController, RequestHelper.returnResponse)
+  .post(CategoryController.createOneCategoryController, RequestHelper.returnResponse);
 
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
