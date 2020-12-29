@@ -1,20 +1,16 @@
 package com.example.carousel
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.core.view.marginLeft
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ExampleObject
 import com.example.carousel.pojo.ResponseCustomerMe
 import com.example.carousel.pojo.ResponseVendorMe
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -59,14 +55,14 @@ class Settings : Fragment() {
                         addresses = it.data.addresses
                         creditCards = it.data.creditCards
 
-                        val adapter = AddressAdapter(addresses as ArrayList<Address>)
+                        val adapter = AddressAdapter(addresses as ArrayList<Address>, activity!!)
                         val addressRecyclerView = activity!!.findViewById<RecyclerView>(R.id.profile_addresses_scroll)
                         addressRecyclerView.apply {
                             layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL, false)
                             setAdapter(adapter)
                         }
 
-                        val adapter2 = CardAdapter(creditCards as ArrayList<Card>)
+                        val adapter2 = CardAdapter(creditCards as ArrayList<Card>, activity!!)
                         val addressRecyclerView2 = activity!!.findViewById<RecyclerView>(R.id.profile_cards_scroll)
                         addressRecyclerView2.apply {
                             layoutManager = LinearLayoutManager(this.context,LinearLayoutManager.VERTICAL, false)
@@ -94,5 +90,13 @@ class Settings : Fragment() {
 
         }
     }
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    }
 }
