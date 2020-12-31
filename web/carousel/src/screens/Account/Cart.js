@@ -38,9 +38,12 @@ const Cart = () => {
       const data = response.data.data;
       ID = data._id;
     }
-    const URL = "/customer/shoppingCart/get?_id=" + ID;
+    const URL = "/customer/shoppingCart/get";
+    const payload = {
+      _id: ID,
+    };
     services
-      .post(URL, null, config)
+      .post(URL, payload, config)
       .then((response) => {
         if (response.data) {
           const newList = response.data;
@@ -60,10 +63,12 @@ const Cart = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-
-    const URL = "/customer/shoppingCart/reset?_id=" + ID;
+    const payload = {
+      _id: ID,
+    };
+    const URL = "/customer/shoppingCart/reset";
     services
-      .post(URL, null, config)
+      .post(URL, payload, config)
       .then((response) => {
         getCarts();
       })
@@ -81,10 +86,11 @@ const Cart = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
+      _id: ID,
       productId: productId,
       vendorId: vendorId,
     };
-    const URL = "/customer/shoppingCart/delete?_id=" + ID;
+    const URL = "/customer/shoppingCart/delete";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -100,11 +106,12 @@ const Cart = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
+      _id: ID,
       productId: productId,
       vendorId: vendorId,
       amount: value,
     };
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    const URL = "/customer/shoppingCart/update";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -124,7 +131,10 @@ const Cart = () => {
           headers: { Authorization: `Bearer ${TOKEN}` },
         };
 
-        if (orderAddress._id !== undefined && orderCreditCard._id !== undefined) {
+        if (
+          orderAddress._id !== undefined &&
+          orderCreditCard._id !== undefined
+        ) {
           const payload = {
             _id: ID,
             shippingAddressId: orderAddress._id,
@@ -140,9 +150,8 @@ const Cart = () => {
             })
             .catch((err) => console.log(err));
         } else {
-          alert("Please enter an address and payment method!")
+          alert("Please enter an address and payment method!");
         }
-
       } else {
         alert("Please read the sales agreement and accept it");
       }
@@ -169,7 +178,7 @@ const Cart = () => {
               }}
             >
               <div>
-                <Image height={70} width={70} src={product.imageUrl} />
+                {/* <Image height={70} width={70} src={product.photos[0]} /> */}
               </div>
               <div
                 style={{
@@ -178,8 +187,8 @@ const Cart = () => {
                   padding: 20,
                 }}
               >
-                <div style={{ fontSize: 16 }}>{product.productId}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorId}</div>
+                <div style={{ fontSize: 16 }}>{product.title}</div>
+                <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
               </div>
               <div
                 style={{
@@ -200,7 +209,7 @@ const Cart = () => {
                     width: 150,
                   }}
                 >
-                  {product.price}$
+                  ${product.price}
                 </div>
               </div>
               <div>

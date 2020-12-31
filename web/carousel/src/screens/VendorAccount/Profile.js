@@ -319,9 +319,7 @@ export default class Profile extends Component {
             display: "flex",
           }}
         >
-          {this.context.userType === "Customer"
-            ? this.renderCustomerProfileChangeForm()
-            : this.renderVendorProfileChangeForm()}
+          {this.renderVendorProfileChangeForm()}
 
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />

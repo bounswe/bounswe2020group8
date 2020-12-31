@@ -1,155 +1,153 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Badge } from "antd";
+import { Layout, Divider, Collapse } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import Image from "react-image-resizer";
-import { DeleteOutlined } from "@ant-design/icons";
-import { HeartOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
+import ProductBox from "../../components/ProductBox";
 
 let ID = "";
 const { Content } = Layout;
-const productListDemo = [
-  {
-    imageUrl:
-      "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-    productId: "5fe9fe35958f840f7844d706",
-    vendorId: "5fe51075ed0d0a79636dcfaa",
-    amount: 1,
-  },
-];
+const { Panel } = Collapse;
 
 const List = () => {
   const history = useHistory();
-  const [productList, setproductList] = useState(productListDemo);
+  const [productList, setproductList] = useState([]);
   const handleShopClicked = () => {
     history.push("/");
   };
 
   useEffect(() => {
-    getList();
+    getLists();
   }, []);
 
-  const getList = async () => {
+  const getLists = async () => {
     const TOKEN = localStorage.getItem("token");
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const response = await services.get("/customer/me", config);
     if (response) {
       const data = response.data.data;
       ID = data._id;
     }
-    // const URL = "/customer/shoppingList/get?_id=" + ID;
-    // services
-    //   .post(URL, null, config)
-    //   .then((response) => {
-    //     if (response.data) {
-    //       const newList = response.data;
-    //       setproductList(newList);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
+    const URL = "/shoppingList/all";
+    services
+      .get(URL, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data;
+          console.log("newList", newList);
+          setproductList(newList);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleDeleteClicked = ({ productId, vendorId }) => {
-    // const config = {
-    //   headers: { Authorization: `Bearer ${TOKEN}` },
-    // };
-    // const payload = {
-    //   productId: productId,
-    //   vendorId: vendorId,
-    // };
-    // const URL = "/customer/shoppingList/delete?_id=" + ID;
-    // services
-    //   .post(URL, payload, config)
-    //   .then((response) => {
-    //     getList();
-    //   })
-    //   .catch((err) => console.log(err));
-  };
-
-  const handleEmptyClicked = () => {
-    // const TOKEN = localStorage.getItem("token");
-    // const config = {
-    //   headers: { Authorization: `Bearer ${TOKEN}` },
-    // };
-    // const URL = "/customer/shoppingCart/reset?_id=" + ID;
-    // services
-    //   .post(URL, null, config)
-    //   .then((response) => {
-    //     getCarts();
-    //   })
-    //   .catch((err) => console.log(err));
-  };
-
-  function handleCartClicked({ productId, vendorId }) {
+  function handleDeleteProductClicked(list, deleteId) {
     const TOKEN = localStorage.getItem("token");
-
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+
+    const newlist = list.wishedProducts;
+    newlist.data.filter((item) => item._id !== deleteId);
+
     const payload = {
-      productId: productId,
-      vendorId: vendorId,
-      amount: 1,
+      title: list.title,
+      wishedProducts: newlist,
     };
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    // const URL = "/shoppingList/" + list._id;
+    // services
+    //   .delete(URL, payload, config)
+    //   .then((response) => {
+    //     getLists();
+    //   })
+    //   .catch((err) => console.log(err));
+  }
+
+  const handleEmptyListClicked = (id) => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const URL = "/shoppingList/" + id;
     services
-      .post(URL, payload, config)
+      .delete(URL, null, config)
       .then((response) => {
-        history.push("/account/cart");
+        getLists();
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleEmptyAllListClicked = () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const URL = "/shoppingList/all";
+    services
+      .delete(URL, null, config)
+      .then((response) => {
+        getLists();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  function handleCartClicked(productId, vendorId) {
+    if (productId && vendorId) {
+      const TOKEN = localStorage.getItem("token");
+
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const payload = {
+        _id: ID,
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+      };
+      const URL = "/customer/shoppingCart/update";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          history.push("/account/cart");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      return;
+    }
   }
 
   function ProductContent(productList = []) {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
-        My List
-        {productList.map((product) => (
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <Badge.Ribbon text={<HeartOutlined />} />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 20,
-                height: 100,
-                borderColor: "gray",
-                border: "1px solid",
-                color: "navy",
-              }}
+        My Lists
+        <Divider />
+        <Collapse accordion bordered={false} expandIconPosition="right">
+          {productList.map((list, i) => (
+            <Panel
+              header={list.title}
+              key={i}
+              onClick={() => handleEmptyListClicked()}
             >
-              <div>
-                <Image height={70} width={70} src={product.imageUrl} />
-              </div>
-              <div style={{ fontWeight: "normal" }}>
-                <div style={{ fontSize: 16 }}>{product.productId}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorId}</div>
-              </div>
-              <div>
-                <div>{product.price}$</div>
-              </div>
-              <div>
-                <DeleteOutlined
-                  style={{ fontSize: 20 }}
-                  onClick={() => handleDeleteClicked(product)}
-                />
-              </div>
-              <div>
-                <ButtonPrimary
-                  title="Add to Cart"
-                  style={{ width: 120, height: 50, fontSize: 16 }}
-                  onClick={() => handleCartClicked(product)}
-                />
-              </div>
-            </div>
-            <Divider />
-          </div>
-        ))}
+              {list.wishedProducts
+                ? list.wishedProducts.data.map((product) => (
+                    <ProductBox
+                      product={product}
+                      handleDeleteProductClicked={(_id) =>
+                        handleDeleteProductClicked(list, _id)
+                      }
+                      handleCartClicked={(productId, vendorId) =>
+                        handleCartClicked(productId, vendorId)
+                      }
+                    />
+                  ))
+                : null}
+            </Panel>
+          ))}
+        </Collapse>
       </div>
     );
   }
@@ -167,6 +165,10 @@ const List = () => {
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}
+          />
+          <ButtonSecondary
+            title="Empty All Lists"
+            onClick={() => handleEmptyAllListClicked()}
           />
         </Content>
       </Layout>
