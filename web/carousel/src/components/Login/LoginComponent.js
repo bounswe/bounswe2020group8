@@ -99,14 +99,16 @@ class LoginComponent extends Component {
       password: this.context.password,
     };
     let url = "";
-
+    let path = "/";
     if (this.context.userType === "Customer") {
       url = "/customer/login";
     } else if (this.context.userType === "Vendor") {
       url = "/vendor/login";
+      path = "/vendor/account";
     } else {
       return;
     }
+    localStorage.setItem("login", "false");
     services
       .post(url, null, { params: payload })
       .then((response) => {
@@ -114,14 +116,20 @@ class LoginComponent extends Component {
         localStorage.setItem("token", response.data.tokenCode);
         this.context.login(this.context.email, response.data.tokenCode);
         this.context.error = false;
-
+        localStorage.setItem("login", "true");
+        if (this.context.userType === "Customer") {
+          localStorage.setItem("userType", "Customer");
+        } else if (this.context.userType === "Vendor") {
+          localStorage.setItem("userType", "Vendor");
+        }
         this.props.signIn();
-        this.props.history.push("/");
+        this.props.history.push(path);
       })
       .catch((err, response) => {
         console.log(err);
         this.context.error = true;
         console.log("resp data: " + response);
+        localStorage.setItem("userType", "guest");
         this.setState({ isError: true });
       });
   };
@@ -129,6 +137,7 @@ class LoginComponent extends Component {
   handleSignupClick = () => {
     let payload = {};
     let url = "";
+    let body = {};
     if (this.context.userType === "Vendor") {
       payload = {
         name: this.context.name,
@@ -140,6 +149,10 @@ class LoginComponent extends Component {
         passwordConfirm: this.context.passwordConfirm,
       };
       url = "/vendor/signup";
+      body = {
+        locations: this.context.vendorLocations,
+      };
+      console.log(body);
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,
@@ -154,7 +167,7 @@ class LoginComponent extends Component {
     }
 
     services
-      .post(url, null, { params: payload })
+      .post(url, body, { params: payload })
       .then((response) => {
         console.log(response);
         this.context.error = false;

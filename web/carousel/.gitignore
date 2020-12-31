@@ -18,6 +18,7 @@
 .env.test.local
 .env.production.local
 
+# api keys
 .env
 
 npm-debug.log*
