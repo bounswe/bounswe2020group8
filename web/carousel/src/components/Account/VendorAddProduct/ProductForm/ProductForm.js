@@ -36,6 +36,9 @@ class ProductForm extends Component {
 
   componentDidMount() {
     this.setState({ parentProductId: this.props.parentProduct });
+    for (let i = 0; i < this.props.parentTags.length; i++) {
+      this.state.tags.push(this.props.parentTags[i]);
+    }
   }
 
   handleSubmit(values) {
