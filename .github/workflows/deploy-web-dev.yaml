@@ -60,6 +60,7 @@ jobs:
         run: |
           HOSTS=$( grep -oh -E "^([[:digit:]]+\.){3}[[:digit:]]+" dev-hosts)
           ssh-keyscan $HOSTS >> ~/.ssh/known_hosts
+          ansible-galaxy install geerlingguy.docker
           ansible-playbook web-dev.yml -i dev-hosts
 
           
