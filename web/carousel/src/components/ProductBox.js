@@ -55,7 +55,7 @@ const ProductBox = (props) => {
           <div>
             <DeleteOutlined
               style={{ fontSize: 20 }}
-              onClick={() => props.handleDeleteClicked(_id)}
+              onClick={() => props.handleDeleteProductClicked(_id)}
             />
           </div>
           <div>

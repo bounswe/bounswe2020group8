@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Divider, Collapse } from "antd";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
-import Image from "react-image-resizer";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
 import ProductBox from "../../components/ProductBox";
+import { DeleteOutlined } from "@ant-design/icons";
 
 let ID = "";
 const { Content } = Layout;
@@ -49,20 +49,20 @@ const List = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
 
-    const newlist = list.wishedProducts;
-    newlist.data.filter((item) => item._id !== deleteId);
+    let newlist = list.wishedProducts;
+    newlist = newlist.filter((item) => item.productId !== deleteId);
 
     const payload = {
       title: list.title,
       wishedProducts: newlist,
     };
-    // const URL = "/shoppingList/" + list._id;
-    // services
-    //   .delete(URL, payload, config)
-    //   .then((response) => {
-    //     getLists();
-    //   })
-    //   .catch((err) => console.log(err));
+    const URL = "/shoppingList/" + list._id;
+    services
+      .patch(URL, payload, config)
+      .then((response) => {
+        getLists();
+      })
+      .catch((err) => console.log(err));
   }
 
   const handleEmptyListClicked = (id) => {
@@ -72,7 +72,7 @@ const List = () => {
     };
     const URL = "/shoppingList/" + id;
     services
-      .delete(URL, null, config)
+      .delete(URL, config)
       .then((response) => {
         getLists();
       })
@@ -86,7 +86,7 @@ const List = () => {
     };
     const URL = "/shoppingList/all";
     services
-      .delete(URL, null, config)
+      .delete(URL, config)
       .then((response) => {
         getLists();
       })
@@ -118,18 +118,26 @@ const List = () => {
     }
   }
 
+  const genExtra = (id) => (
+    <DeleteOutlined
+      onClick={() => {
+        handleEmptyListClicked(id);
+      }}
+    />
+  );
+
   function ProductContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Lists
         <Divider />
-        <Collapse accordion bordered={false} expandIconPosition="right">
+        <Collapse bordered={false} expandIconPosition="left">
           {productList.map((list) => {
             return (
               <Panel
                 header={list.title}
-                // key={i}
                 onClick={() => handleEmptyListClicked()}
+                extra={genExtra(list._id)}
               >
                 {list.wishedProducts
                   ? list.wishedProducts.map((product) => (
@@ -162,7 +170,7 @@ const List = () => {
             minHeight: 280,
           }}
         >
-          {ProductContent()}
+          {productList ? ProductContent() : <div>You do not have a list!</div>}
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}
