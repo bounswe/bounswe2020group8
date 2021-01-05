@@ -6,4 +6,5 @@
 /practice_app/db.sqlite3
 practice_app/*.txt
 /practice_app/search/target/*
+web/carousel/src/.vscode/settings.json
 .vscode

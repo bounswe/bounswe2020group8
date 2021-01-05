@@ -1,0 +1,22 @@
+.DropdownContainer {
+  background-color: transparent;
+  border: none;
+  color: #ff6d00;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px;
+  margin: 10px;
+  font-weight: bold;
+  outline: none;
+  border-radius: 5px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80px;
+}
+
+.DropdownContainer:hover {
+  color: #d50000;
+  transition: all 0.3s ease-out;
+}

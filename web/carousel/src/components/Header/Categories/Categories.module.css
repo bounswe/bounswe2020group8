@@ -1,0 +1,9 @@
+.Categories {
+    height: 70px;
+    background-color: rgb(236, 236, 236);
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: black 2px solid; */
+}

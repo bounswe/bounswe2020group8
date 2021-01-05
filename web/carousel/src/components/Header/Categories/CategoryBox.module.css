@@ -1,0 +1,12 @@
+.Box {
+    width: auto;
+    margin: 0px 100px;
+    cursor: pointer;
+    font: inherit;
+}
+
+.Box:hover {
+    color: #FF6D00;
+    /* background-color: rgb(238, 238, 238); */
+    transition: all 0.3s ease-out;
+}
