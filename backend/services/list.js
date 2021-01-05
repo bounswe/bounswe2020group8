@@ -50,15 +50,8 @@ exports.deleteOneListService = async function (_id, customer) {
 };
 
 exports.getAllListsService = async function (customer) {
-  let dbResults = new Array();
-  console.log(customer);
-  for (i = 0; i < customer.shoppingLists.length; i++) {
-    let currentList = customer.shoppingLists[i];
-    let _id = currentList._id;
-    let itemList = await exports.getOneListService(_id, customer);
-    dbResults.push({ _id, title: currentList.title, wishedProducts: itemList });
-  }
-  return dbResults;
+  let allLists = customer.shoppingLists;
+  return { result: allLists.length, data: allLists };
 };
 
 exports.deleteAllListsService = async function (customer) {
