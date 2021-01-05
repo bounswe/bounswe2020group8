@@ -1,0 +1,41 @@
+name: Code Quality
+on:
+  pull_request:
+    branches: [ backend ]
+
+jobs:
+  build:
+    name: Code Quality Check with Prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup Node Project
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.19.1'
+
+      - name: Install dependency
+        run: npm install prettier
+
+      - name: Prettier linting
+        id: prettier
+        run: |
+          ./node_modules/.bin/prettier --config ./backend/.prettierrc.json --list-different backend/**/*.js | tee ~/prettier.txt
+          export wc_result=`wc -l ~/prettier.txt`
+          export non_prettied_count=`echo $wc_result | cut -d' ' -f1`
+          echo "::set-output name=count::$non_prettied_count"
+          if [ $non_prettied_count -gt 0 ]; then
+            exit 1;
+          fi
+
+      - name: Comment on PR
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: " ${{ steps.prettier.outputs.count }} files are not prettied.\nMake them prettier on your local and commit again."
+          check_for_duplicate_msg: true
+        if: ${{ failure() }}

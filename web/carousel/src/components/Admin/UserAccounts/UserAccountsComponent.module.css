@@ -1,0 +1,63 @@
+.SearchInput {
+  border: black solid 1px;
+  width: 260px;
+  height: 30px;
+  border-radius: 5px;
+  border-right: none;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  padding-left: 10px;
+}
+
+.SearchInput:focus {
+  border: black solid 1px !important;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none !important;
+}
+
+.SearchIcon {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  padding-top: 4px;
+  background-color: #ffffff;
+  border: black solid 1px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left: none !important;
+}
+
+.Delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 0, 0);
+  opacity: 0;
+  z-index: 10;
+  margin-top: -183px;
+  width: 290px;
+  height: 183px;
+  border-radius: 14.5px;
+  font-size: 50px;
+  color: black;
+}
+
+.InputSpan {
+  height: 40px;
+  display: inline-flex;
+  width: 300px;
+}
+
+.TableActionsSuspend{
+  color: #FF9100;
+}
+
+.TableActionsDelete{
+  color: #d33a09;
+}
+
+.TableActionsSuspend:hover,
+.TableActionsDelete:hover{
+  color: #FF6D00;
+}

@@ -1,0 +1,68 @@
+{
+  "name": "group8-backend",
+  "version": "1.0.0",
+  "description": "Group 8 backend.",
+  "main": "bin/index.js",
+  "scripts": {
+    "start": "node bin/app.js",
+    "lint": "eslint --ignore-pattern \"node_modules/**/*.js\" \"**/*.js\"",
+    "lint-fix": "npm run lint -- --fix",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,jsx,ts,tsx}": [
+      "npm run lint-fix",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "backend",
+    "bin"
+  ],
+  "author": "Boun",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^26.6.3",
+    "lint-staged": "^8.1.5",
+    "mocha": "^8.2.1",
+    "mongodb-memory-server": "^6.9.2",
+    "prettier": "^2.1.2",
+    "supertest": "^6.0.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.568.0",
+    "blocked": "^1.2.1",
+    "bluebird": "^3.5.4",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cron": "^1.7.1",
+    "express": "^4.17.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
+    "mongoose": "^5.5.5",
+    "nodemailer": "^6.4.16",
+    "nodemon": "^1.19.1",
+    "proxyquire": "^2.1.3",
+    "random": "^2.2.0",
+    "request": "^2.88.0",
+    "swagger-ui-express": "^4.1.4",
+    "underscore": "^1.9.1",
+    "uuid": "^3.3.3",
+    "uuidv4": "^6.0.5",
+    "validator": "^10.11.0"
+  }
+}

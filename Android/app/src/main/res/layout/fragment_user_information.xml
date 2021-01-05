@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:clickable="true" tools:context=".SignupCustomerActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/back"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="25dp"
+        android:onClick="login"
+        android:text="BACK"
+        app:layout_constraintEnd_toStartOf="@+id/profile_delete_1"
+        app:layout_constraintTop_toBottomOf="@+id/profile_birthday"/>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="159dp"
+        android:layout_height="173dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:alpha="0.7"
+        android:contentDescription="@string/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo"/>
+
+    <LinearLayout
+        android:id="@+id/profile_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" android:layout_marginTop="40dp"
+        android:layout_marginEnd="50dp" android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo">
+        <TextView
+            android:id="@+id/profile_name_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/profile_name"
+        />
+        <EditText
+            android:id="@+id/profile_name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:autofillHints=""
+            android:background="?attr/editTextBackground"
+            android:clickable="false"
+            android:ems="10" android:enabled="false"
+            android:hint="@string/signup_name" android:inputType="textPersonName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_surname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp" android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_name">
+        <TextView
+            android:id="@+id/profile_surname_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/profile_last_name"
+        />
+        <EditText
+            android:id="@+id/profile_surname_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:autofillHints=""
+            android:clickable="false"
+            android:ems="10" android:enabled="false" android:hint="@string/signup_surname"
+            android:inputType="textPersonName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp" android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_surname">
+        <TextView
+            android:id="@+id/profile_email_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/profile_email"
+        />
+        <EditText
+            android:id="@+id/profile_email_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:autofillHints=""
+            android:clickable="false"
+            android:ems="10" android:enabled="false" android:hint="@string/login_email"
+            android:inputType="textPersonName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp" android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_email">
+        <TextView
+            android:id="@+id/profile_number_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/profile_number"
+        />
+        <EditText
+            android:id="@+id/profile_number_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:autofillHints=""
+            android:clickable="false"
+            android:ems="10" android:enabled="false" android:hint="@string/profile_number_hint"
+            android:inputType="phone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_birthday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp" android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp" android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_number">
+        <TextView
+            android:id="@+id/profile_birthday_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/profile_birthday"
+        />
+        <EditText
+            android:id="@+id/profile_birthday_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:autofillHints=""
+            android:clickable="false"
+            android:ems="10" android:enabled="false" android:hint="@string/profile_birthday_hint"
+            android:inputType="textPersonName"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/profile_delete_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp" android:text="EDIT"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/profile_birthday"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

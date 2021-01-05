@@ -1,8 +1,11 @@
 /practice_app/myvenv/
 /practice_app/myenv/
-/.idea/
+/**/.idea/
+Android/.idea/
 /practice_app/**/*.pyc
 /practice_app/*/__pycache__/
 /practice_app/db.sqlite3
 practice_app/*.txt
 /practice_app/search/target/*
+web/carousel/src/.vscode/settings.json
+.vscode
