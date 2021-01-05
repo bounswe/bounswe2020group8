@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Divider, Collapse } from "antd";
-import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import Image from "react-image-resizer";
 import { useHistory, withRouter } from "react-router-dom";
@@ -37,8 +36,7 @@ const List = () => {
       .get(URL, config)
       .then((response) => {
         if (response.data) {
-          const newList = response.data;
-          console.log("newList", newList);
+          const newList = response.data.data;
           setproductList(newList);
         }
       })
@@ -120,33 +118,36 @@ const List = () => {
     }
   }
 
-  function ProductContent(productList = []) {
+  function ProductContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Lists
         <Divider />
         <Collapse accordion bordered={false} expandIconPosition="right">
-          {productList.map((list, i) => (
-            <Panel
-              header={list.title}
-              key={i}
-              onClick={() => handleEmptyListClicked()}
-            >
-              {list.wishedProducts
-                ? list.wishedProducts.data.map((product) => (
-                    <ProductBox
-                      product={product}
-                      handleDeleteProductClicked={(_id) =>
-                        handleDeleteProductClicked(list, _id)
-                      }
-                      handleCartClicked={(productId, vendorId) =>
-                        handleCartClicked(productId, vendorId)
-                      }
-                    />
-                  ))
-                : null}
-            </Panel>
-          ))}
+          {productList.map((list) => {
+            return (
+              <Panel
+                header={list.title}
+                // key={i}
+                onClick={() => handleEmptyListClicked()}
+              >
+                {list.wishedProducts
+                  ? list.wishedProducts.map((product) => (
+                      <ProductBox
+                        product={product}
+                        list
+                        handleDeleteProductClicked={(_id) =>
+                          handleDeleteProductClicked(list, _id)
+                        }
+                        handleCartClicked={(productId, vendorId) =>
+                          handleCartClicked(productId, vendorId)
+                        }
+                      />
+                    ))
+                  : null}
+              </Panel>
+            );
+          })}
         </Collapse>
       </div>
     );
@@ -161,7 +162,7 @@ const List = () => {
             minHeight: 280,
           }}
         >
-          {ProductContent(productList)}
+          {ProductContent()}
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}

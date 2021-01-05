@@ -8,6 +8,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
 import services from "../../apis/services";
+import ProductBox from "../../components/ProductBox";
 
 const { Content, Sider } = Layout;
 
@@ -158,69 +159,17 @@ const Cart = () => {
     }
   };
 
-  function ProductContent(productList = []) {
+  function ProductContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Cart
         {productList.map((product) => (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: 20,
-                height: 100,
-                borderColor: "gray",
-                border: "1px solid",
-                color: "navy",
-              }}
-            >
-              <div>
-                {/* <Image height={70} width={70} src={product.photos[0]} /> */}
-              </div>
-              <div
-                style={{
-                  fontWeight: "normal",
-                  marginRight: "auto",
-                  padding: 20,
-                }}
-              >
-                <div style={{ fontSize: 16 }}>{product.title}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorName}</div>
-              </div>
-              <div
-                style={{
-                  marginLeft: "auto",
-                  padding: 20,
-                  display: "flex",
-                  flexDirection: "row",
-                  textAlign: "center",
-                }}
-              >
-                <InputNumber
-                  min={1}
-                  onChange={(value) => onAmountChange(value, product)}
-                  defaultValue={product.amount}
-                />
-                <div
-                  style={{
-                    width: 150,
-                  }}
-                >
-                  ${product.price}
-                </div>
-              </div>
-              <div>
-                <DeleteOutlined
-                  style={{ fontSize: 20 }}
-                  onClick={() => handleDeleteClicked(product)}
-                />
-              </div>
-            </div>
-            <Divider />
-          </>
+          <ProductBox
+            product={product}
+            cart
+            handleDeleteClicked={() => handleDeleteClicked(product)}
+            onAmountChange={(value) => onAmountChange(value, product)}
+          />
         ))}
       </div>
     );
@@ -302,7 +251,7 @@ const Cart = () => {
         >
           {currentPage === "cart" ? (
             <>
-              {ProductContent(productList)}
+              {ProductContent()}
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <ButtonSecondary
                   title="Go back to Shopping"
