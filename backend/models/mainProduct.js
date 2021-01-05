@@ -1,0 +1,31 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
+const parameter = {
+  name: { type: String },
+  values: [{ type: String }],
+};
+
+var mainProductSchema = new Schema(
+  {
+    title: { type: String },
+    parameters: [parameter],
+    description: { type: String },
+    rating: { type: Number },
+    numberOfRating: { type: Number },
+    brand: { type: String },
+    soldAmount: { type: Number },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+    category: { type: String },
+    isConfirmed: { type: Boolean },
+    // might add a field for filtering
+    tags: [{ type: String }],
+  },
+  {
+    collection: "MainProducts",
+  }
+);
+
+module.exports = mongoose.model("MainProduct", mainProductSchema);

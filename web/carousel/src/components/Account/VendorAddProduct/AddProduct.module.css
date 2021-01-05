@@ -1,0 +1,47 @@
+.my-reset {
+  /* Global resets (e.g. font family) */
+}
+
+.TableActionsSuspend{
+  color: #FF9100;
+}
+
+.TableActionsSuspend:hover {
+  color: #FF6D00;
+}
+
+.InputSpan {
+  height: 40px;
+  display: inline-flex;
+  width: 300px;
+}
+
+.SearchInput {
+  border: black solid 1px;
+  width: 260px;
+  height: 30px;
+  border-radius: 5px;
+  border-right: none;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  padding-left: 10px;
+}
+
+.SearchInput:focus {
+  border: black solid 1px !important;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none !important;
+}
+
+.SearchIcon {
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  padding-top: 4px;
+  background-color: #ffffff;
+  border: black solid 1px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left: none !important;
+}
