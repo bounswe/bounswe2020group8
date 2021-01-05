@@ -1,0 +1,196 @@
+<resources>
+    <string name="app_name">Carousel</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">LOGIN</string>
+    <string name="signup_button">SIGN UP</string>
+    <string name="signup_header">Sign Up Page</string>
+
+    <string name="profile_name">NAME:</string>
+
+    <string name="type_customer">CUSTOMER</string>
+    <string name="type_vendor">VENDOR</string>
+    <string name="type_guest">GUEST</string>
+
+    <string name="signup_button_vendor">SIGN UP AS VENDOR</string>
+    <string name="signup_button_customer">SIGN UP AS CUSTOMER</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_surname">Last Name</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_company_name">Company Name</string>
+    <string name="signup_error0">Email Address Is Not Valid</string>
+    <string name="signup_error1">Password Is Not Strong Enough</string>
+
+    <string name="login_opt_customer">Customer</string>
+    <string name="login_opt_vendor">Vendor</string>
+    <string name="action_search">Search</string>
+    <string name="forgot_password">
+        <u>Forgot my password</u>
+    </string>
+
+    <!--Change Password Titles-->
+    <string name="old_password">Old Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_cancel">Cancel</string>
+
+
+    <!-- Settings Activity Title -->
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="logo">logo</string>
+    <string name="cart">Cart</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="please_login">Please login to see account details.</string>
+    <string name="username">username</string>
+    <string name="title1">Deals of the Day</string>
+    <string name="productName1">Macbook Pro 16 inch</string>
+    <string name="productName2">PlayStation 4 Pro 1TB</string>
+    <string name="productName3">Samsung Galaxy Tab S6 Lite 10.4</string>
+    <string name="productName4">Bose Noise Cancelling Wireless Bluetooth Headphones 700</string>
+    <string name="productName5">Sony X800H 43 Inch TV</string>
+    <string name="productName6">ASUS F512DA-EB51 VivoBook 15</string>
+    <string name="productName7">DualSense Wireless Controller</string>
+    <string name="productName8">SAMSUNG 870 QVO SATA III 2.5\' SSD</string>
+    <string name="productName9">Introducing Fire TV Stick Lite with Alexa Voice Remote Lite</string>
+    <string name="productName10">To Kill a Mockingbird</string>
+    <string name="productName11">Arlo VMC2030-100NAS Essential Spotlight Camera</string>
+    <string name="productName12">Compact Wireless Smart Speaker</string>
+
+    <string name="title2">New Arrivals</string>
+    <string name="title3">Top Sellers</string>
+    <string name="new_password">New Password</string>
+    <string name="new_password_confirm">Confirm Password</string>
+    <string name="send_button">Send</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="descriptionTitle">Description</string>
+    <string name="addToCart">To Cart</string>
+    <string name="addToList">To List</string>
+    <string name="add">Add</string>
+
+    <string name="forgot_password_cancel">Cancel</string>
+    <string name="sort">SORT</string>
+    <string name="filter">FILTER</string>
+    <string name="categories">Categories</string>
+    <string name="search">Search</string>
+    <string name="api_error">Server is currently unavailable</string>
+    <string name="alert_error_title">Error</string>
+    <string name="submitting">Sending</string>
+    <string name="select">Select</string>
+    <string name="delete">Delete</string>
+    <string name="create">Create</string>
+    <string name="list">Select a list</string>
+    <string name="register">Register</string>
+    <string name="register_title">Customer Info</string>
+    <string name="register_sub_title">Enter Name, Surname and Email</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="term">I have read and agree the customer agreement and the privacy policy.</string>
+    <string name="next">NEXT</string>
+    <string name="register_info_activity_name_required">Name is mandotory.</string>
+    <string name="register_info_activity_surname_required">Surname is mandotory.</string>
+    <string name="passwordHint">Password</string>
+    <string name="passwordConfirmHint">Password Confirm</string>
+    <string name="register_confirm_terms_warning">Please make sure that you have read and agree to the Terms and Conditions. </string>
+    <string name="register_info_activity_email_required">Email is mandotory.</string>
+    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis libero id ligula pellentesque lacinia. Vivamus at enim nec lectus rutrum malesuada. Nam rutrum odio in rhoncus fermentum. Cras sed nisl facilisis, scelerisque turpis vel, varius neque. Curabitur bibendum, lectus a semper suscipit, diam ligula fermentum ante, sit amet malesuada tortor ligula eget turpis. Aliquam in massa lacinia odio aliquam porta sed ac nunc. Ut lacus orci, vulputate vel congue quis, egestas vitae sem. Cras placerat, velit a pulvinar interdum, arcu libero tristique libero, id volutpat nisl dolor non mi. Curabitur id odio metus. Curabitur nisl turpis, imperdiet elementum quam in, commodo dapibus dolor. Etiam sit amet elementum augue. Phasellus bibendum blandit turpis ac tincidunt. Pellentesque rutrum malesuada urna, eget blandit tortor faucibus nec. Mauris semper auctor metus, a ullamcorper urna maximus quis. Nulla non finibus nunc. Pellentesque magna libero, pharetra rutrum consectetur nec, interdum rhoncus justo. Vivamus eu ornare tortor. Nunc dictum, urna nec sagittis gravida, elit lorem facilisis nulla, ac lobortis arcu felis eget diam. Sed rhoncus eget quam at efficitur. Quisque id arcu vel nisl lobortis luctus sed eu ligula. In eu porta arcu. Mauris sit amet tellus at risus eleifend faucibus vitae ac augue. Etiam elementum, lectus sagittis molestie iaculis, quam velit mattis sapien, porttitor suscipit sapien libero a mauris.</string>
+    <string name="close">CLOSE</string>
+    <string name="registerPassword">Register-Set Password</string>
+    <string name="register_password_sub_title">Please Set up a Password</string>
+    <string name="register_password_required_password">Password is mandotory</string>
+    <string name="register_password_confirm_error">Make Sure Passwords Match</string>
+    <string name="strong_password_error">Your password needs to be between 6 and 20 characters, contains at least one lower, one upper case letter and one digit</string>
+    <string name="register_info_valid_email">Email Address Is Not Valid</string>
+    <string name="vendor_login"><u>Do you have a shop?</u></string>
+    <string name="login_vendor_header">Login - Vendor</string>
+    <string name="login_vendor_subtitle">Please Enter Email and Password</string>
+    <string name="forgot_password_sub_title">Please Enter Email</string>
+    <string name="Vendor_forgot_password_title">Forgot Password</string>
+    <string name="register_info_title_vendor">Vendor Info</string>
+    <string name="register_info_sub_title_vendor">Please Enter Name, Surname and Company Name</string>
+    <string name="register_email_title_vendor">Vendor Contact</string>
+    <string name="company_email">Company Email</string>
+    <string name="company_domain">Company Domain</string>
+    <string name="vendor_register_password">Vendor Set Password</string>
+    <string name="register_info_activity_company_name_required">Company Name is mandatory.</string>
+    <string name="register_info_activity_domain_required">Company Domain is mandatory.</string>
+
+    <string name="profile_last_name">SURNAME:</string>
+    <string name="profile_email">EMAIL:</string>
+    <string name="profile_number">NUMBER:</string>
+    <string name="profile_number_hint">Number</string>
+    <string name="profile_birthday">BIRTHDAY:</string>
+    <string name="profile_birthday_hint">Birthday</string>
+    <string name="delete_list_title">DELETE LIST</string>
+    <string name="delete_list_body">Do you really want to delete this list?</string>
+    <string-array name="sort_options">
+        <item>Lowest Price</item>
+        <item>Highest Price</item>
+        <item>Best Rating</item>
+        <item>Most commented</item>
+        <item>Newest</item>
+    </string-array>
+    <string name="profile_addresses">Addresses</string>
+    <string name="profile_cards">Credit Cards</string>
+    <string name="profile_address_1">Adress 1:</string>
+    <string name="profile_cards_1">Card 1:</string>
+    <string name="address_name">Name of The Address</string>
+    <string name="adress_city">City</string>
+    <string name="address_state">State</string>
+    <string name="address_zipcode">Zipcode</string>
+    <string name="address_block">Address</string>
+    <string name="card_name">Name on Your Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_date">Card Date</string>
+    <string name="card_cvc">CVC</string>
+    <string name="legals_lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac ante non nisl dictum condimentum. Sed pharetra blandit augue, facilisis sollicitudin ligula aliquet non. Mauris vel mauris et neque tristique consequat. Vestibulum mollis metus sapien, vitae rhoncus diam consequat nec. Nam at mauris ac quam hendrerit tincidunt. Pellentesque cursus porta nisl vitae iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer interdum diam at felis malesuada, a suscipit felis iaculis.
+        Nullam luctus mauris vel diam cursus, ut dignissim lorem feugiat. Mauris interdum metus ac aliquet mollis. Etiam id sollicitudin massa. Sed ante est, rhoncus eget orci vitae, cursus ullamcorper sapien. Aenean tempus, augue viverra varius pharetra, nibh arcu tempor est, et vulputate justo tortor vel urna. Curabitur et arcu ut sapien volutpat egestas vitae vel sem. Quisque sed feugiat eros.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hendrerit consequat turpis. Etiam porttitor quam sed mauris elementum porta. Maecenas ac orci eget nisl rhoncus tempus. In sagittis non turpis nec euismod. Nullam condimentum risus sit amet nisi vulputate consequat eu non elit. Sed id metus non eros suscipit varius. Duis feugiat tristique turpis, nec fringilla elit porta nec. Pellentesque non lorem interdum, blandit justo eget, mollis urna.
+    </string>
+    <string name="about">
+        © 2020 Corousel. All Rights Reserved.\n\n
+        Corousel App is created in context of CMPE352 and CMPE451 at Bogazici University by current members of\n
+        </string>
+    <string name="members">
+        Göksu Başer\n
+        Öncel Keleş\n
+        Onur Enginer\n
+        Nursima Çelik\n
+        Afra Arslan\n
+        Burak Berk Özer\n
+        Yasin Kaya\n
+        Özgürcan Öztaş\n
+        Muhammet Tayyip Yazıcı\n
+        Ahmet Yiğit Gedik\n
+        Nazım Berke Metin</string>
+    <string name="contacts">
+        corouselapp@gmail.com\n
+        github.com/bounswe/bounswe2020group8\n
+
+    <string name="vendor_home_title">Shop</string>
+
+
+    </string>
+    <string name="product">Product</string>
+    <string name="amount_left">Stock</string>
+    <string name="update">Update</string>
+    <string name="orders">Orders</string>
+</resources>

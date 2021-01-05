@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".vendor.VandorRegisterContactActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="159dp"
+        android:layout_height="173dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="left"
+        android:text="@string/register_email_title_vendor"
+        android:textColor="@color/colorAccent"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:text="@string/register_info_sub_title_vendor"
+        android:textColor="@android:color/black" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/vendor_signup_layout_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sub_title"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/vendor_signup_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/company_email"
+            android:inputType="textEmailAddress"
+            android:maxLength="40"
+            android:autofillHints="email"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/vendor_signup_layout_domain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vendor_signup_layout_email"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/vendor_signup_domain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/company_domain"
+            android:inputType="textPersonName"
+            android:maxLength="40" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vendor_signup_layout_domain"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/vendor_signup_contact_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="next"
+            android:text="@string/next" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_toStartOf="@id/vendor_signup_contact_next"
+            android:layout_toLeftOf="@id/vendor_signup_contact_next"
+            android:onClick="cancel"
+            android:text="@string/cancel" />
+
+    </RelativeLayout>
+</RelativeLayout>

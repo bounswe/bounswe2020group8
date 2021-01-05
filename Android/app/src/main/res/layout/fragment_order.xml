@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context=".OrderFragment">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/address_menu"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:hint="Address">
+
+        <AutoCompleteTextView
+            android:id="@+id/textFieldAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:minLines="3"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cards_menu"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:hint="Credit Card">
+        <AutoCompleteTextView
+            android:id="@+id/textFieldCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minLines="1"
+            android:maxLength="19"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:hint="Cvv">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="3"
+            android:inputType="number"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/purchase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:text="Purchase"
+    />
+    <View android:id="@+id/divider"
+          style="@style/Divider"
+          android:layout_marginTop="30dp"
+          android:layout_marginBottom="5dp"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+    >
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="24sp"
+                  android:text="Total Cost: "/>
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+
+        <TextView   android:id="@+id/total_cost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"/>
+    </LinearLayout>
+
+    <View android:id="@+id/divider2"
+          style="@style/Divider" android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:id="@+id/products_overview"
+              android:textSize="24sp"
+              android:layout_marginTop="40dp"
+             />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/products"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+
+
+</LinearLayout>
