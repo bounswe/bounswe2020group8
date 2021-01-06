@@ -43,6 +43,7 @@ class AddProducts extends Component {
       parentProductCategory: "",
       parentProductId: "",
       parentProductParameters: "",
+      parentProductTags: [],
       existingProductTags: "",
       newProductTags: "",
       loadingMainProducts: false,
@@ -95,6 +96,9 @@ class AddProducts extends Component {
 
   getExistingProducts = (parentProduct) => {
     this.setState({ loadingChildProducts: true });
+    for (let i = 0; i < parentProduct.tags.length; i++) {
+      this.state.parentProductTags.push(parentProduct.tags[i]);
+    }
     services
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
@@ -514,6 +518,7 @@ class AddProducts extends Component {
             product={this.state.product}
             parameterInputs={this.state.parentProductParameters}
             parameterValues={this.state.parentProductParameterValues}
+            parentTags={this.state.parentProductTags}
             clicked={this.createFromMainProduct}
             onClick={this.goBackMain}
             passTags={this.setTags}
