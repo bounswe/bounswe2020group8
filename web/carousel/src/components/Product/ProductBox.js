@@ -5,6 +5,7 @@ import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
 import services from "../../apis/services";
+import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
@@ -131,12 +132,54 @@ const ProductBox = (props) => {
     );
   }
 
+  function renderOrders() {
+    return (
+      <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: 20,
+            height: 100,
+            color: "navy",
+          }}
+        >
+          <div>
+            <Image height={70} width={70} src={photos[0]} />
+          </div>
+          <div>
+            <div style={{ fontSize: 16 }}>{brand}</div>
+            <div style={{ fontWeight: "normal", fontSize: 12 }}>
+              Vendor: {vendorSpecifics[0]._id}
+            </div>
+          </div>
+          <div style={{ fontSize: 16 }}>Amount: {props.product.amount}</div>
+          <div>
+            <div style={{ fontSize: 16 }}>
+              ${props.product.price * props.product.amount}
+            </div>
+          </div>
+          <div>
+            <ButtonSecondary
+              title="Add review"
+              style={{ width: 120, height: 50, fontSize: 18 }}
+            />
+          </div>
+        </div>
+        <Divider />
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       {product?._id ? (
         <div>
           {props.list ? renderList() : null}
           {props.cart ? renderCart() : null}
+          {props.order ? renderOrders() : null}
         </div>
       ) : null}
     </div>

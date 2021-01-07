@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Collapse } from "antd";
-import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
-import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
-import Image from "react-image-resizer";
-import { DeleteOutlined } from "@ant-design/icons";
-import { HeartOutlined } from "@ant-design/icons";
+import { Layout, Divider, Steps } from "antd";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
-// import OrderDiv from "../../components/UI/OrderDiv/OrderDiv";
-// import classes from "../../components/UI/OrderDiv/OrderDiv.module.css";
+import ProductBox from "../../components/Product/ProductBox";
+import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 
 let ID = "";
 const { Content } = Layout;
-const { Panel } = Collapse;
+const { Step } = Steps;
 
 const ActiveOrder = () => {
   const history = useHistory();
@@ -34,81 +29,92 @@ const ActiveOrder = () => {
     }
     const URL = "/customer/order/getByCustomerID";
     services
-      .get(URL, { customerID: ID }, config)
+      .post(URL, { customerID: ID }, config)
       .then((response) => {
         if (response.data) {
           const newList = response.data;
-          console.log("AA ~ .then ~ newList", newList);
-
           setOrders(newList);
         }
       })
       .catch((err) => console.log(err));
   };
 
+  function handleReviewClicked(productId, vendorId) {}
+
   function OrderContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Active Orders
         <Divider />
-        <Collapse bordered={false} expandIconPosition="left">
-          {orders.map((order) => {
-            return <Panel />;
-          })}
-        </Collapse>
-        {/* {Object.values(orders).map((order, index) => {
-          console.log(order);
-          const divSize = order.length;
+        {orders.map((order) => {
           return (
-            <div>
-              <div style={{ border: "1px solid black", paddingLeft: "10px" }}>
-                Order {index + 1}
-                {order.map((product) => (
+            <div
+              style={{
+                border: "1px solid #e2e2e2",
+                marginBottom: 15,
+                borderRadius: 3,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  backgroundColor: "#fafafa",
+                  // justifyContent: "center",
+                  // alignItems: "center",
+                  padding: "15px 20px",
+                }}
+              >
+                <Steps size="small">
+                  <Step title="Finished" description="This is a description." />
+                  <Step
+                    title="In Progress"
+                    subTitle="Left 00:00:08"
+                    description="This is a description."
+                  />
+                  <Step title="Waiting" description="This is a description." />
+                </Steps>
+                <Divider />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      border: "none",
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      color: "black",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: 20,
-                        height: 100,
-                        color: "navy",
-                      }}
-                    >
-                      <div>
-                        <Image height={70} width={70} src={product.imageUrl} />
-                      </div>
-                      <div style={{ fontWeight: "normal" }}>
-                        <div style={{ fontSize: 16 }}>{product.name}</div>
-                        <div style={{ fontSize: 12 }}>
-                          Vendor: {product.vendorName}
-                        </div>
-                      </div>
-                      <div style={{ fontWeight: "normal" }}>
-                        <div style={{ fontSize: 16 }}>
-                          Estimated Delivery Date:
-                        </div>
-                        <div style={{ fontSize: 12 }}>03.01-11.01 2021</div>
-                      </div>
-                      <div>
-                        <div>{product.price}$</div>
-                      </div>
-                    </div>
-                    <Divider />
+                    Total: $
                   </div>
+                  <ButtonPrimary
+                    title="Cancel Order"
+                    style={{
+                      width: 135,
+                      height: 40,
+                      fontSize: 16,
+                    }}
+                  />
+                </div>
+              </div>
+              <div style={{ padding: 20 }}>
+                {order.orders.map((product) => (
+                  <ProductBox
+                    product={product}
+                    order
+                    handleReviewClicked={(productId, vendorId) =>
+                      handleReviewClicked(productId, vendorId)
+                    }
+                  />
                 ))}
               </div>
-              <div style={{ height: "10px" }} />
             </div>
           );
-        })} */}
+        })}
       </div>
     );
   }
