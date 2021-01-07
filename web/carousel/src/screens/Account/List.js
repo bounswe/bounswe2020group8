@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Collapse } from "antd";
+import { Layout, Divider, Collapse, Spin } from "antd";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
-import ProductBox from "../../components/ProductBox";
+import ProductBox from "../../components/Product/ProductBox";
 import { DeleteOutlined } from "@ant-design/icons";
 
 let ID = "";
@@ -13,6 +13,8 @@ const { Panel } = Collapse;
 const List = () => {
   const history = useHistory();
   const [productList, setproductList] = useState([]);
+  const [noContent, setnoContent] = useState(false);
+
   const handleShopClicked = () => {
     history.push("/");
   };
@@ -38,12 +40,15 @@ const List = () => {
         if (response.data) {
           const newList = response.data.data;
           setproductList(newList);
+          setnoContent(false);
         }
       })
       .catch((err) => console.log(err));
   };
 
   function handleDeleteProductClicked(list, deleteId) {
+    setnoContent(true);
+
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -139,20 +144,33 @@ const List = () => {
                 onClick={() => handleEmptyListClicked()}
                 extra={genExtra(list._id)}
               >
-                {list.wishedProducts
-                  ? list.wishedProducts.map((product) => (
-                      <ProductBox
-                        product={product}
-                        list
-                        handleDeleteProductClicked={(_id) =>
-                          handleDeleteProductClicked(list, _id)
-                        }
-                        handleCartClicked={(productId, vendorId) =>
-                          handleCartClicked(productId, vendorId)
-                        }
-                      />
-                    ))
-                  : null}
+                {noContent ? (
+                  <div
+                    style={{
+                      padding: "0 24px",
+                      minHeight: "140",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Spin size="large" />
+                  </div>
+                ) : list.wishedProducts ? (
+                  list.wishedProducts.map((product) => (
+                    <ProductBox
+                      product={product}
+                      list
+                      handleDeleteProductClicked={(_id) =>
+                        handleDeleteProductClicked(list, _id)
+                      }
+                      handleCartClicked={(productId, vendorId) =>
+                        handleCartClicked(productId, vendorId)
+                      }
+                    />
+                  ))
+                ) : null}
               </Panel>
             );
           })}

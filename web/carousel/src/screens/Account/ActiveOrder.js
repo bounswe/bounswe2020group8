@@ -1,51 +1,62 @@
-import React, { useState } from "react";
-import { Layout, Divider, Badge } from "antd";
+import React, { useState, useEffect } from "react";
+import { Layout, Divider, Collapse } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
+import services from "../../apis/services";
 // import OrderDiv from "../../components/UI/OrderDiv/OrderDiv";
 // import classes from "../../components/UI/OrderDiv/OrderDiv.module.css";
 
+let ID = "";
 const { Content } = Layout;
-const orders = {
-  order1: [
-    {
-      imageUrl:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
-      name: "Macbook Pro 16 inch",
-      price: 2199.99,
-      vendorName: "AA",
-    },
-  ],
-  order2: [
-    {
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-      name: "PlayStation 4 Pro 1TB",
-      price: 399.99,
-      vendorName: "AA",
-    },
-    {
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/61nziNd634L._AC_SX679_.jpg",
-      name: "Sewatshirt",
-      price: 99.99,
-      vendorName: "BB",
-    },
-  ],
-};
+const { Panel } = Collapse;
 
 const ActiveOrder = () => {
   const history = useHistory();
+  const [orders, setOrders] = useState([]);
 
-  function OrderContent(productList = []) {
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+  const getOrders = async () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const response = await services.get("/customer/me", config);
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+    }
+    const URL = "/customer/order/getByCustomerID";
+    services
+      .get(URL, { customerID: ID }, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data;
+          console.log("AA ~ .then ~ newList", newList);
+
+          setOrders(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  function OrderContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Active Orders
-        {Object.values(orders).map((order, index) => {
+        <Divider />
+        <Collapse bordered={false} expandIconPosition="left">
+          {orders.map((order) => {
+            return <Panel />;
+          })}
+        </Collapse>
+        {/* {Object.values(orders).map((order, index) => {
           console.log(order);
           const divSize = order.length;
           return (
@@ -60,7 +71,6 @@ const ActiveOrder = () => {
                       border: "none",
                     }}
                   >
-                    {/*<Badge.Ribbon text={<HeartOutlined />} />*/}
                     <div
                       style={{
                         display: "flex",
@@ -98,7 +108,7 @@ const ActiveOrder = () => {
               <div style={{ height: "10px" }} />
             </div>
           );
-        })}
+        })} */}
       </div>
     );
   }
@@ -112,7 +122,7 @@ const ActiveOrder = () => {
             minHeight: 280,
           }}
         >
-          {OrderContent(orders)}
+          {OrderContent()}
         </Content>
       </Layout>
     </Layout>

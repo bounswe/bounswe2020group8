@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, InputNumber } from "antd";
+import { Layout, Divider, Spin } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import Image from "react-image-resizer";
@@ -8,7 +8,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
 import services from "../../apis/services";
-import ProductBox from "../../components/ProductBox";
+import ProductBox from "../../components/Product/ProductBox";
 
 const { Content, Sider } = Layout;
 
@@ -23,6 +23,7 @@ const Cart = () => {
   const [orderAddress, setOrderAddress] = useState("null");
   const [orderCreditCard, setOrderCreditCard] = useState("null");
   const [consentGiven, setConsentGiven] = useState(false);
+  const [noContent, setnoContent] = useState(false);
 
   useEffect(() => {
     getCarts();
@@ -49,6 +50,7 @@ const Cart = () => {
         if (response.data) {
           const newList = response.data;
           setproductList(newList);
+          setnoContent(false);
         }
       })
       .catch((err) => console.log(err));
@@ -81,6 +83,7 @@ const Cart = () => {
   };
 
   const handleDeleteClicked = ({ productId, vendorId }) => {
+    setnoContent(true);
     const TOKEN = localStorage.getItem("token");
 
     const config = {
@@ -163,14 +166,30 @@ const Cart = () => {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Cart
-        {productList.map((product) => (
-          <ProductBox
-            product={product}
-            cart
-            handleDeleteClicked={() => handleDeleteClicked(product)}
-            onAmountChange={(value) => onAmountChange(value, product)}
-          />
-        ))}
+        <Divider />
+        {noContent ? (
+          <div
+            style={{
+              padding: "0 24px",
+              minHeight: "140",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Spin size="large" />
+          </div>
+        ) : (
+          productList.map((product) => (
+            <ProductBox
+              product={product}
+              cart
+              handleDeleteClicked={() => handleDeleteClicked(product)}
+              onAmountChange={(value) => onAmountChange(value, product)}
+            />
+          ))
+        )}
       </div>
     );
   }

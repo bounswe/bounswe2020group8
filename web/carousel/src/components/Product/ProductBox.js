@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Divider, Badge, InputNumber } from "antd";
-import ButtonPrimary from "./UI/ButtonPrimary/ButtonPrimary";
+import ButtonPrimary from "../UI/ButtonPrimary/ButtonPrimary";
 import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
-import { useHistory, withRouter } from "react-router-dom";
-import services from "../apis/services";
+import services from "../../apis/services";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
@@ -13,7 +12,7 @@ const ProductBox = (props) => {
 
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [props]);
 
   const getProduct = async () => {
     const { productId, vendorId } = props.product;
