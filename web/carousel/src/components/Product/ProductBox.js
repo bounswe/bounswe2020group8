@@ -25,10 +25,10 @@ const ProductBox = (props) => {
     }
   };
 
-  function renderList() {
+  function renderContent() {
     return (
       <div>
-        <Badge.Ribbon text={<HeartOutlined />} />
+        {props.list ? <Badge.Ribbon text={<HeartOutlined />} /> : null}
         <div
           style={{
             display: "flex",
@@ -39,110 +39,6 @@ const ProductBox = (props) => {
             height: 100,
             borderColor: "gray",
             border: "1px solid",
-            color: "navy",
-          }}
-        >
-          <div>
-            <Image height={70} width={70} src={photos[0]} />
-          </div>
-          <div style={{ fontWeight: "normal" }}>
-            <div style={{ fontSize: 16 }}>{brand}</div>
-            <div style={{ fontSize: 12 }}>Vendor: {vendorSpecifics[0]._id}</div>
-          </div>
-          <div>
-            <div>${vendorSpecifics[0].price}</div>
-          </div>
-          <div>
-            <DeleteOutlined
-              style={{ fontSize: 20 }}
-              onClick={() => props.handleDeleteProductClicked(_id)}
-            />
-          </div>
-          <div>
-            <ButtonPrimary
-              title="Add to Cart"
-              style={{ width: 120, height: 50, fontSize: 16 }}
-              onClick={() =>
-                props.handleCartClicked(_id, vendorSpecifics[0]._id)
-              }
-            />
-          </div>
-        </div>
-        <Divider />
-      </div>
-    );
-  }
-
-  function renderCart() {
-    return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: 20,
-            height: 100,
-            borderColor: "gray",
-            border: "1px solid",
-            color: "navy",
-          }}
-        >
-          <div>
-            <Image height={70} width={70} src={photos[0]} />
-          </div>
-          <div
-            style={{ fontWeight: "normal", marginRight: "auto", padding: 20 }}
-          >
-            <div style={{ fontSize: 16 }}>{brand}</div>
-            <div style={{ fontSize: 12 }}>Vendor: {vendorSpecifics[0]._id}</div>
-          </div>
-          <div
-            style={{
-              marginLeft: "auto",
-              padding: 20,
-              display: "flex",
-              flexDirection: "row",
-              textAlign: "center",
-            }}
-          >
-            <InputNumber
-              min={1}
-              onChange={(value) => props.onAmountChange(value)}
-              defaultValue={props.product.amount}
-            />
-            <div
-              style={{
-                width: 150,
-              }}
-            >
-              ${vendorSpecifics[0].price}
-            </div>
-          </div>
-          <div>
-            <DeleteOutlined
-              style={{ fontSize: 20 }}
-              onClick={() => props.handleDeleteClicked()}
-            />
-          </div>
-        </div>
-        <Divider />
-      </div>
-    );
-  }
-
-  function renderOrders() {
-    return (
-      <div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: 20,
-            height: 100,
             color: "navy",
           }}
         >
@@ -155,18 +51,73 @@ const ProductBox = (props) => {
               Vendor: {vendorSpecifics[0]._id}
             </div>
           </div>
-          <div style={{ fontSize: 16 }}>Amount: {props.product.amount}</div>
-          <div>
-            <div style={{ fontSize: 16 }}>
-              ${props.product.price * props.product.amount}
-            </div>
-          </div>
-          <div>
-            <ButtonSecondary
-              title="Add review"
-              style={{ width: 120, height: 50, fontSize: 18 }}
-            />
-          </div>
+
+          {props.cart ? (
+            <>
+              <div
+                style={{
+                  marginLeft: "auto",
+                  padding: 20,
+                  display: "flex",
+                  flexDirection: "row",
+                  textAlign: "center",
+                }}
+              >
+                <InputNumber
+                  min={1}
+                  onChange={(value) => props.onAmountChange(value)}
+                  defaultValue={props.product.amount}
+                />
+                <div
+                  style={{
+                    width: 150,
+                  }}
+                >
+                  ${vendorSpecifics[0].price}
+                </div>
+              </div>
+              <div>
+                <DeleteOutlined
+                  style={{ fontSize: 20 }}
+                  onClick={() => props.handleDeleteClicked()}
+                />
+              </div>
+            </>
+          ) : null}
+          {props.order ? (
+            <>
+              <div style={{ fontSize: 16 }}>Amount: {props.product.amount}</div>
+              <div>
+                <div>${props.product.price * props.product.amount}</div>
+              </div>
+              <ButtonSecondary
+                title="Add review"
+                style={{ width: 120, height: 50, fontSize: 18 }}
+              />
+            </>
+          ) : null}
+          {props.list ? (
+            <>
+              <div style={{ fontSize: 18 }}>
+                <div>${vendorSpecifics[0].price}</div>
+              </div>
+              <div>
+                <DeleteOutlined
+                  style={{ fontSize: 20 }}
+                  onClick={() => props.handleDeleteProductClicked(_id)}
+                />
+              </div>
+              <div>
+                <ButtonPrimary
+                  title="Add to Cart"
+                  style={{ width: 120, height: 50, fontSize: 16 }}
+                  onClick={() =>
+                    props.handleCartClicked(_id, vendorSpecifics[0]._id)
+                  }
+                />
+              </div>
+            </>
+          ) : null}
         </div>
         <Divider />
       </div>
@@ -175,13 +126,7 @@ const ProductBox = (props) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      {product?._id ? (
-        <div>
-          {props.list ? renderList() : null}
-          {props.cart ? renderCart() : null}
-          {props.order ? renderOrders() : null}
-        </div>
-      ) : null}
+      {product?._id ? <div>{renderContent()}</div> : null}
     </div>
   );
 };

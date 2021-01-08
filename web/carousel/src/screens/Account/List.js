@@ -13,7 +13,7 @@ const { Panel } = Collapse;
 const List = () => {
   const history = useHistory();
   const [productList, setproductList] = useState([]);
-  const [noContent, setnoContent] = useState(false);
+  const [loading, setloading] = useState(false);
 
   const handleShopClicked = () => {
     history.push("/");
@@ -40,14 +40,14 @@ const List = () => {
         if (response.data) {
           const newList = response.data.data;
           setproductList(newList);
-          setnoContent(false);
+          setloading(false);
         }
       })
       .catch((err) => console.log(err));
   };
 
   function handleDeleteProductClicked(list, deleteId) {
-    setnoContent(true);
+    setloading(true);
 
     const TOKEN = localStorage.getItem("token");
     const config = {
@@ -137,43 +137,45 @@ const List = () => {
         My Lists
         <Divider />
         <Collapse bordered={false} expandIconPosition="left">
-          {productList.map((list) => {
-            return (
-              <Panel
-                header={list.title}
-                onClick={() => handleEmptyListClicked()}
-                extra={genExtra(list._id)}
-              >
-                {noContent ? (
-                  <div
-                    style={{
-                      padding: "0 24px",
-                      minHeight: "140",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Spin size="large" />
-                  </div>
-                ) : list.wishedProducts ? (
-                  list.wishedProducts.map((product) => (
-                    <ProductBox
-                      product={product}
-                      list
-                      handleDeleteProductClicked={(_id) =>
-                        handleDeleteProductClicked(list, _id)
-                      }
-                      handleCartClicked={(productId, vendorId) =>
-                        handleCartClicked(productId, vendorId)
-                      }
-                    />
-                  ))
-                ) : null}
-              </Panel>
-            );
-          })}
+          {loading ? (
+            <div
+              style={{
+                padding: "0 24px",
+                minHeight: "140",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : (
+            productList.map((list) => {
+              return (
+                <Panel
+                  header={list.title}
+                  onClick={() => handleEmptyListClicked()}
+                  extra={genExtra(list._id)}
+                >
+                  {list.wishedProducts
+                    ? list.wishedProducts.map((product) => (
+                        <ProductBox
+                          product={product}
+                          list
+                          handleDeleteProductClicked={(_id) =>
+                            handleDeleteProductClicked(list, _id)
+                          }
+                          handleCartClicked={(productId, vendorId) =>
+                            handleCartClicked(productId, vendorId)
+                          }
+                        />
+                      ))
+                    : null}
+                </Panel>
+              );
+            })
+          )}
         </Collapse>
       </div>
     );

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Layout, Divider, Spin } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
-import Image from "react-image-resizer";
-import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
@@ -23,7 +21,7 @@ const Cart = () => {
   const [orderAddress, setOrderAddress] = useState("null");
   const [orderCreditCard, setOrderCreditCard] = useState("null");
   const [consentGiven, setConsentGiven] = useState(false);
-  const [noContent, setnoContent] = useState(false);
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     getCarts();
@@ -50,7 +48,7 @@ const Cart = () => {
         if (response.data) {
           const newList = response.data;
           setproductList(newList);
-          setnoContent(false);
+          setloading(false);
         }
       })
       .catch((err) => console.log(err));
@@ -83,7 +81,7 @@ const Cart = () => {
   };
 
   const handleDeleteClicked = ({ productId, vendorId }) => {
-    setnoContent(true);
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
 
     const config = {
@@ -167,7 +165,7 @@ const Cart = () => {
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Cart
         <Divider />
-        {noContent ? (
+        {loading ? (
           <div
             style={{
               padding: "0 24px",

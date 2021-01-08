@@ -12,6 +12,9 @@ const { Step } = Steps;
 const ActiveOrder = () => {
   const history = useHistory();
   const [orders, setOrders] = useState([]);
+  const [amount, setAmount] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     getOrders();
@@ -26,6 +29,7 @@ const ActiveOrder = () => {
     if (response) {
       const data = response.data.data;
       ID = data._id;
+      setUser({ name: data.name, lastName: data.lastName });
     }
     const URL = "/customer/order/getByCustomerID";
     services
@@ -50,21 +54,11 @@ const ActiveOrder = () => {
           return (
             <div
               style={{
-                border: "1px solid #e2e2e2",
                 marginBottom: 15,
                 borderRadius: 3,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  backgroundColor: "#fafafa",
-                  // justifyContent: "center",
-                  // alignItems: "center",
-                  padding: "15px 20px",
-                }}
-              >
+              <div style={{ padding: "15px 20px" }}>
                 <Steps size="small">
                   <Step title="Finished" description="This is a description." />
                   <Step
@@ -74,25 +68,25 @@ const ActiveOrder = () => {
                   />
                   <Step title="Waiting" description="This is a description." />
                 </Steps>
-                <Divider />
+              </div>
+              <div style={{ border: "1px solid #e2e2e2" }}>
                 <div
                   style={{
                     display: "flex",
+                    backgroundColor: "#fafafa",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    padding: "15px 20px",
+                    fontSize: 16,
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                  >
-                    Total: $
+                  <div>
+                    Customer: {user.name} {user.lastName}
                   </div>
+                  <div>Total product: {amount}</div>
+                  <div>Total: $ {price}</div>
                   <ButtonPrimary
-                    title="Cancel Order"
+                    title="See details"
                     style={{
                       width: 135,
                       height: 40,
@@ -100,18 +94,19 @@ const ActiveOrder = () => {
                     }}
                   />
                 </div>
+                <div style={{ padding: 20 }}>
+                  {order.orders.map((product) => (
+                    <ProductBox
+                      product={product}
+                      order
+                      handleReviewClicked={(productId, vendorId) =>
+                        handleReviewClicked(productId, vendorId)
+                      }
+                    />
+                  ))}
+                </div>
               </div>
-              <div style={{ padding: 20 }}>
-                {order.orders.map((product) => (
-                  <ProductBox
-                    product={product}
-                    order
-                    handleReviewClicked={(productId, vendorId) =>
-                      handleReviewClicked(productId, vendorId)
-                    }
-                  />
-                ))}
-              </div>
+              <Divider />
             </div>
           );
         })}
