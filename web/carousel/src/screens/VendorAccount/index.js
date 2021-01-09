@@ -125,21 +125,18 @@ class VendorAccount extends Component {
     );
   }
 
-  renderVendorAccount() {
-    return (
-      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        {this.renderSideBar()}
-        {this.renderContent()}
-      </Layout>
-    );
-  }
-
   render() {
     return (
       <div>
         <Layout>
           <Content style={{ padding: "0 50px", zIndex: 10 }}>
-            {this.renderVendorAccount()}
+            <Layout
+              className="site-layout-background"
+              style={{ padding: "24px 0" }}
+            >
+              {this.renderSideBar()}
+              {this.renderContent()}
+            </Layout>
           </Content>
         </Layout>
       </div>

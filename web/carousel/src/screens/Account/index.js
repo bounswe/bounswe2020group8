@@ -128,22 +128,18 @@ class Account extends Component {
     );
   }
 
-  renderCustomerAccount() {
-    return (
-      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        {this.renderCustomerSideBar()}
-        {this.renderContent()}
-      </Layout>
-    );
-  }
-
   render() {
-    console.log(this.context);
     return (
       <div>
         <Layout>
           <Content style={{ padding: "0 50px", zIndex: 10 }}>
-            {this.renderCustomerAccount()}
+            <Layout
+              className="site-layout-background"
+              style={{ padding: "24px 0" }}
+            >
+              {this.renderCustomerSideBar()}
+              {this.renderContent()}
+            </Layout>
           </Content>
         </Layout>
       </div>
