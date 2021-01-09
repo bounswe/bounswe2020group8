@@ -31,11 +31,12 @@ class VendorAccount extends Component {
     const submenukeys = {
       profile: "/profile",
       products: "/products",
+      productRequests: "/products",
+      addProduct: "/products",
       "active-order": "/order",
       "inactive-order": "/order",
       comments: "/comments",
       rate: "/comments",
-      addProduct: "/addProduct",
     };
 
     return (
@@ -56,7 +57,9 @@ class VendorAccount extends Component {
               <Link to="/vendor/account/products">My Products</Link>
             </Menu.Item>
             <Menu.Item key="productRequests">
-              <Link to="/vendor/account/productRequests">My Products Requests</Link>
+              <Link to="/vendor/account/productRequests">
+                My Products Requests
+              </Link>
             </Menu.Item>
             <Menu.Item key="addProduct">
               <Link to="/vendor/account/addProduct">Add product</Link>
@@ -95,8 +98,16 @@ class VendorAccount extends Component {
           <Route path="/vendor/account" exact component={Profile} />
           <Route path="/vendor/account/profile" exact component={Profile} />
           <Route path="/vendor/account/products" exact component={Products} />
-          <Route path="/vendor/account/productRequests" exact component={ProductRequests} />
-          <Route path="/vendor/account/addProduct" exact component={AddProduct} />
+          <Route
+            path="/vendor/account/productRequests"
+            exact
+            component={ProductRequests}
+          />
+          <Route
+            path="/vendor/account/addProduct"
+            exact
+            component={AddProduct}
+          />
           <Route
             path="/vendor/account/active-order"
             exact
@@ -111,14 +122,6 @@ class VendorAccount extends Component {
           <Route path="/vendor/account/rate" exact component={Rate} />
         </Switch>
       </Content>
-    );
-  }
-
-  renderCustomerAccount() {
-    return (
-      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        Customer site
-      </Layout>
     );
   }
 

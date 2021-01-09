@@ -38,7 +38,6 @@ class VendorProducts extends Component {
 
   getMyInfo = (config) => {
     const TOKEN = localStorage.getItem("token");
-    console.log(TOKEN);
     services
       .get("/vendor/me", config)
       .then((response) => {

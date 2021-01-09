@@ -42,7 +42,6 @@ const SectionToggle = (props, { section }) => {
     }
   };
 
-  console.log(props.product);
   return (
     <div>
       <div className={classes.SectionToggle}>

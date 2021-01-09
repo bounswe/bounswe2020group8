@@ -32,7 +32,6 @@ const HomepageProduct = (props) => {
       vendorId: vendorId,
       amount: 1,
     };
-    console.log(productId, vendorId);
     const URL = "/customer/shoppingCart/update?_id=" + ID;
     services
       .post(URL, payload, config)

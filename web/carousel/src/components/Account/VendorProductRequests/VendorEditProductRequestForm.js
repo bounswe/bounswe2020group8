@@ -33,8 +33,6 @@ class ProductRequestForm extends Component {
     super(props);
     this.state = {
       parentProductId: "",
-
-      //photo related states
       previewVisible: false,
       previewImage: "",
       previewTitle: "",
@@ -64,8 +62,6 @@ class ProductRequestForm extends Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    console.log(this.props.request);
-
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
