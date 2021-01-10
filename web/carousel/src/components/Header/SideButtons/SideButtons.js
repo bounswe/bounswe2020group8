@@ -154,15 +154,13 @@ function SideButtons(props) {
   );
 
   const handleUrlClick = (path) => {
-    if (props.isSignedIn) {
+    if (localStorage.getItem("login") === "true") {
       props.history.push("/account/" + path);
     } else {
       props.history.push("/login");
     }
   };
 
-  let userType = localStorage.getItem("userType");
-  let loggedIn = localStorage.getItem("login");
   return (
     <div className={classes.SideButtons}>
       {localStorage.getItem("login") === "true" ? (

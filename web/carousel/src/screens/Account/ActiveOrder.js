@@ -8,12 +8,12 @@ import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 let ID = "";
 const { Content } = Layout;
 const { Step } = Steps;
+let amount = 0;
+let totalPrice = 0;
 
 const ActiveOrder = () => {
   const history = useHistory();
   const [orders, setOrders] = useState([]);
-  const [amount, setAmount] = useState(0);
-  const [price, setPrice] = useState(0);
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -52,62 +52,80 @@ const ActiveOrder = () => {
         <Divider />
         {orders.map((order) => {
           return (
-            <div
-              style={{
-                marginBottom: 15,
-                borderRadius: 3,
-              }}
-            >
-              <div style={{ padding: "15px 20px" }}>
-                <Steps size="small">
-                  <Step title="Finished" description="This is a description." />
-                  <Step
-                    title="In Progress"
-                    subTitle="Left 00:00:08"
-                    description="This is a description."
-                  />
-                  <Step title="Waiting" description="This is a description." />
-                </Steps>
-              </div>
-              <div style={{ border: "1px solid #e2e2e2" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    backgroundColor: "#fafafa",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    padding: "15px 20px",
-                    fontSize: 16,
-                  }}
-                >
-                  <div>
-                    Customer: {user.name} {user.lastName}
+            (amount = 0),
+            (totalPrice = 0),
+            (
+              <div
+                style={{
+                  marginBottom: 15,
+                  borderRadius: 3,
+                  border: "2px solid #e2e2e2",
+                  backgroundColor: "white",
+                }}
+              >
+                <div style={{ padding: "15px 20px" }}>
+                  <Steps size="small">
+                    <Step
+                      title="Finished"
+                      description="This is a description."
+                    />
+                    <Step
+                      title="In Progress"
+                      subTitle="Left 00:00:08"
+                      description="This is a description."
+                    />
+                    <Step
+                      title="Waiting"
+                      description="This is a description."
+                    />
+                  </Steps>
+                </div>
+                <div>
+                  <div style={{ padding: 20 }}>
+                    {order.orders.map(
+                      (product, index) => (
+                        (amount = amount + product.amount),
+                        (totalPrice = totalPrice + product.price),
+                        (
+                          <ProductBox
+                            product={product}
+                            order
+                            handleReviewClicked={(productId, vendorId) =>
+                              handleReviewClicked(productId, vendorId)
+                            }
+                            isLastItem={order.orders.length - 1 === index}
+                          />
+                        )
+                      )
+                    )}
                   </div>
-                  <div>Total product: {amount}</div>
-                  <div>Total: $ {price}</div>
-                  <ButtonPrimary
-                    title="See details"
+                  <div
                     style={{
-                      width: 135,
-                      height: 40,
+                      display: "flex",
+                      backgroundColor: "#fff8f0",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "15px 20px",
                       fontSize: 16,
                     }}
-                  />
-                </div>
-                <div style={{ padding: 20 }}>
-                  {order.orders.map((product) => (
-                    <ProductBox
-                      product={product}
-                      order
-                      handleReviewClicked={(productId, vendorId) =>
-                        handleReviewClicked(productId, vendorId)
-                      }
+                  >
+                    <div>
+                      Customer: {user.name} {user.lastName}
+                    </div>
+                    <div>Total product: {amount}</div>
+                    <div>Total: $ {totalPrice}</div>
+                    <ButtonPrimary
+                      title="See details"
+                      style={{
+                        width: 135,
+                        height: 40,
+                        fontSize: 16,
+                      }}
                     />
-                  ))}
+                  </div>
                 </div>
               </div>
-              <Divider />
-            </div>
+            )
           );
         })}
       </div>

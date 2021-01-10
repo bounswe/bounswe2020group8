@@ -10,8 +10,8 @@ import ProductBox from "../../components/Product/ProductBox";
 
 const { Content, Sider } = Layout;
 
-const productPrice = 123.43;
-const shipmentPrice = 25.5;
+let totalPrice = 0;
+let shipmentPrice = 0;
 let ID = "";
 
 const Cart = () => {
@@ -148,7 +148,9 @@ const Cart = () => {
           services
             .post(URL, payload, config)
             .then((response) => {
-              alert("Purchase is successful! Checkout the active order page");
+              alert("Purchase is successful!");
+              onEmptyClicked();
+              history.push("/account/active-order");
             })
             .catch((err) => console.log(err));
         } else {
@@ -162,33 +164,44 @@ const Cart = () => {
 
   function ProductContent() {
     return (
-      <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
-        My Cart
-        <Divider />
-        {loading ? (
-          <div
-            style={{
-              padding: "0 24px",
-              minHeight: "140",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Spin size="large" />
-          </div>
-        ) : (
-          productList.map((product) => (
-            <ProductBox
-              product={product}
-              cart
-              handleDeleteClicked={() => handleDeleteClicked(product)}
-              onAmountChange={(value) => onAmountChange(value, product)}
-            />
-          ))
-        )}
-      </div>
+      (totalPrice = 0),
+      (shipmentPrice = 0),
+      (
+        <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
+          My Cart
+          <Divider />
+          {loading ? (
+            <div
+              style={{
+                padding: "0 24px",
+                minHeight: "140",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : (
+            productList.map((product, index) => {
+              return (
+                (totalPrice = totalPrice + product.price),
+                (shipmentPrice = shipmentPrice + product.shipmentPrice),
+                (
+                  <ProductBox
+                    product={product}
+                    cart
+                    handleDeleteClicked={() => handleDeleteClicked(product)}
+                    onAmountChange={(value) => onAmountChange(value, product)}
+                    isLastItem={productList.length - 1 === index}
+                  />
+                )
+              );
+            })
+          )}
+        </div>
+      )
     );
   }
 
@@ -221,7 +234,7 @@ const Cart = () => {
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Product price</div>
-                <div style={{ fontSize: 16 }}>{productPrice}</div>
+                <div style={{ fontSize: 16 }}>{totalPrice}</div>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Shipment price</div>
@@ -230,9 +243,7 @@ const Cart = () => {
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Total price</div>
-                <div style={{ fontSize: 16 }}>
-                  {productPrice + shipmentPrice}
-                </div>
+                <div style={{ fontSize: 16 }}>{totalPrice + shipmentPrice}</div>
               </div>
             </div>
             <Divider style={{ width: 220 }} />

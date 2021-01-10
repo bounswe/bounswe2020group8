@@ -119,7 +119,7 @@ const ProductBox = (props) => {
             </>
           ) : null}
         </div>
-        <Divider />
+        {!props.isLastItem && <Divider />}
       </div>
     );
   }
