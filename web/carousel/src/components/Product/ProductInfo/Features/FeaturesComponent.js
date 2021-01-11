@@ -24,7 +24,6 @@ export default class FeaturesComponent extends React.Component {
   }
 
   getDataSource() {
-    console.log(this.props.product);
     var dataSource = [];
     if (this.props.product) {
       var i;
@@ -38,7 +37,6 @@ export default class FeaturesComponent extends React.Component {
         dataSource.push(dataElement);
       }
     }
-    console.log(dataSource);
     return dataSource;
   }
 

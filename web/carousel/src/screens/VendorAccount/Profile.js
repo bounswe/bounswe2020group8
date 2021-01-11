@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
+import { Form, Row, Col, Input, Select, Divider } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
@@ -38,8 +38,6 @@ export default class Profile extends Component {
         this.context.setVendorLocations(data.locations);
         this.context.setEmail(data.email);
         this.context.setIBAN(data.IBAN);
-        console.log(this.context);
-        console.log(data);
       } else {
         alert("Couldn't get the profile information!");
       }
@@ -68,16 +66,14 @@ export default class Profile extends Component {
       companyDomainName: this.context.companyDomain,
       IBAN: this.context.IBAN,
       locations: this.context.vendorLocations,
-      // phoneNumber: this.state.phone,
     };
-    console.log(payload);
     const response = await services.patch("/vendor/me", payload, {
       headers: { Authorization: "Bearer " + token },
     });
     if (response) {
       this.props.history.push("/vendor/account/profile");
     } else {
-      console.log("try again");
+      return;
     }
   };
 
@@ -129,71 +125,6 @@ export default class Profile extends Component {
         this.setState({ visible: true });
       });
   };
-
-  renderCustomerProfileChangeForm() {
-    return (
-      <Col span={10} style={{ textAlign: "left" }}>
-        <Form
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          size="middle"
-        >
-          <Form.Item
-            name="Name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="Surname"
-            label="Surname"
-            rules={[{ required: true, message: "Please input your Surname!" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item name="email" label="E-mail">
-            <Input placeholder={this.context.email} disabled />
-          </Form.Item>
-
-          <Form.Item name="phone" label="Phone Number">
-            <Input
-              addonBefore={this.prefixSelector()}
-              style={{ width: "100%" }}
-            />
-          </Form.Item>
-
-          <Form.Item label="Birthday Date">
-            <DatePicker />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <ButtonPrimary
-                title="Save Changes"
-                style={{ width: 150 }}
-                onClick={() => console.log("clicked")} // TODO: implement this function to backend
-              />
-            </div>
-          </Form.Item>
-        </Form>
-      </Col>
-    );
-  }
 
   renderVendorProfileChangeForm() {
     return (
@@ -319,9 +250,7 @@ export default class Profile extends Component {
             display: "flex",
           }}
         >
-          {this.context.userType === "Customer"
-            ? this.renderCustomerProfileChangeForm()
-            : this.renderVendorProfileChangeForm()}
+          {this.renderVendorProfileChangeForm()}
 
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />

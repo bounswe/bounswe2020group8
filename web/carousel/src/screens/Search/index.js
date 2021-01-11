@@ -236,7 +236,6 @@ class Search extends Component {
   }
 
   renderContent() {
-    console.log(this.state.productList);
     return this.state.productList.length ? (
       <div>
         <div

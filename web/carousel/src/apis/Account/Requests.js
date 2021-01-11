@@ -29,9 +29,7 @@ const patchField = async (field, list, setState) => {
 };
 
 const handleAddItem = (field, setState, currentList, newItem) => {
-  console.log(`Add new ${field}`, currentList, newItem);
   const newList = [...currentList, { ...newItem }];
-  console.log(newList);
   patchField(field, newList, setState)
     .then()
     .catch((err) => {

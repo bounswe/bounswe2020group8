@@ -22,9 +22,8 @@ export default class CategoriesComponent extends React.Component {
       },
     };
     await services
-      .get( "/category", config)
+      .get("/category", config)
       .then((response) => {
-        console.log(response.data);
         let categoryList = response.data.data;
         let category_arr = [];
         let category_id_dic = {};
@@ -34,7 +33,6 @@ export default class CategoriesComponent extends React.Component {
             category_id_dic[element["name"]] = element["_id"];
           }
         });
-        console.log(category_id_dic);
         this.setState({ tags: category_arr });
         this.setState({ categoryIdDic: category_id_dic });
       })
@@ -45,14 +43,13 @@ export default class CategoriesComponent extends React.Component {
   }
   handleClose = (removedTag) => {
     let id = this.state.categoryIdDic[removedTag];
-    console.log(id);
     let config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
     };
     services
-      .delete( "/category/" + id, config)
+      .delete("/category/" + id, config)
       .then((response) => {})
       .catch((err, response) => {});
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
@@ -88,7 +85,6 @@ export default class CategoriesComponent extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
-    console.log(tags);
     this.setState({
       tags,
       inputVisible: false,

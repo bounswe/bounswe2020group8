@@ -6,7 +6,6 @@ import PasswordForm from "../../components/PasswordForm/PasswordForm";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
 import { withRouter } from "react-router-dom";
-import MapComponent from "../../components/MapComponent/MapComponent";
 
 const { Option } = Select;
 
@@ -44,79 +43,8 @@ class Profile extends Component {
     );
   };
 
-  async componentDidMount() {
-    const token = localStorage.getItem("token");
-
-    if (this.context.userType === "Vendor") {
-      const response = await services.get("vendor/me", {
-        headers: { Authorization: "Bearer " + token },
-      });
-
-      if (response.data.data != null) {
-        const data = response.data.data;
-        this.context.setCompanyName(data.companyName);
-        this.context.setCompanyDomain(data.companyDomainName);
-        this.context.setVendorLocations(data.locations);
-        this.context.setEmail(data.email);
-        this.context.setIBAN(data.IBAN);
-        console.log(this.context);
-        console.log(data);
-      } else {
-        alert("Couldn't get the profile information!");
-      }
-    }
-  }
-  onVendorProfileChange = async (values) => {
-    const token = localStorage.getItem("token");
-
-    console.log(values);
-
-    if (values.companyName) {
-      this.context.setCompanyName(values.companyName);
-    }
-    if (values.domain) {
-      this.context.setCompanyDomain(values.domain);
-    }
-    if (values.iban) {
-      this.context.setIBAN(values.iban);
-    }
-    if (values.phone) {
-      this.setState({ phone: values.phone });
-    }
-
-    const payload = {
-      companyName: this.context.companyName,
-      companyDomainName: this.context.companyDomain,
-      IBAN: this.context.IBAN,
-      locations: this.context.vendorLocations,
-      // phoneNumber: this.state.phone,
-    };
-    console.log(payload);
-    const response = await services.patch("/vendor/me", payload, {
-      headers: { Authorization: "Bearer " + token },
-    });
-    if (response) {
-      this.props.history.push("/account/profile");
-    } else {
-      console.log("try again");
-    }
-  };
-
   eraseError = () => {
     this.setState({ visible: false });
-  };
-
-  addVendorLocationHandler = (newLocation) => {
-    this.setState({ locations: [...this.locations, newLocation] });
-  };
-  removeLocationHandler = (removedLocationLat, removedLocationLng) => {
-    this.state({
-      locations: this.locations.filter(
-        (location) =>
-          location.lat !== removedLocationLat ||
-          location.lng !== removedLocationLng
-      ),
-    });
   };
 
   onPasswordChange = () => {
@@ -179,7 +107,7 @@ class Profile extends Component {
     if (response) {
       this.props.history.push("/account/profile");
     } else {
-      console.log("try again");
+      return;
     }
   };
 
@@ -215,70 +143,6 @@ class Profile extends Component {
 
           <Form.Item name="birthday" label="Birthday Date">
             <DatePicker placeholder={this.state.birthday} />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <ButtonPrimary title="Save Changes" style={{ width: 150 }} />
-            </div>
-          </Form.Item>
-        </Form>
-      </Col>
-    );
-  }
-
-  renderVendorProfileChangeForm() {
-    return (
-      <Col span={10} style={{ textAlign: "left" }}>
-        <Form
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          size="middle"
-          onFinish={this.onVendorProfileChange}
-        >
-          <Form.Item name="companyName" label="Company Name">
-            <Input placeholder={this.context.companyName} />
-          </Form.Item>
-
-          <Form.Item name="location" label="Company Locations">
-            <MapComponent
-              isMarkerShown
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: `400px` }} />}
-              mapElement={<div style={{ height: `100%` }} />}
-              markerLocations={this.context.vendorLocations}
-              addLocation={this.context.addVendorLocation}
-              removeLocation={this.context.removeVendorLocation}
-            />
-          </Form.Item>
-
-          <Form.Item name="email" label="E-mail">
-            <Input placeholder={this.context.email} disabled />
-          </Form.Item>
-
-          <Form.Item name="iban" label="IBAN">
-            <Input placeholder={this.context.IBAN} />
-          </Form.Item>
-
-          <Form.Item name="domain" label="Company Website">
-            <Input placeholder={this.context.companyDomain} />
-          </Form.Item>
-
-          {/* TODO */}
-          <Form.Item name="phone" label="Contact Number">
-            <Input
-              placeholder={this.context.phone}
-              addonBefore={this.prefixSelector()}
-              style={{ width: "100%" }}
-            />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
@@ -357,10 +221,7 @@ class Profile extends Component {
             display: "flex",
           }}
         >
-          {this.context.userType === "Customer"
-            ? this.renderProfileChangeForm()
-            : this.renderVendorProfileChangeForm()}
-
+          {this.renderProfileChangeForm()}
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>

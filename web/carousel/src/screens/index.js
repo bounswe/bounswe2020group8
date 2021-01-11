@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +12,6 @@ import Account from "./Account";
 import Forgot from "./Forgot";
 import AdminAccount from "./AdminAccount";
 import UserInfo from "../components/Context/UserInfo";
-
 import Header from "../components/Header/Header";
 import AdminLogin from "./AdminLogin";
 import NotFound from "./NotFound";
@@ -23,7 +21,6 @@ import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
-  console.log("authed: ", localStorage.getItem("login"));
   return (
     <Route
       {...rest}
