@@ -40,8 +40,8 @@ class VendorProductPageActivity : AppCompatActivity() {
         price.text = "\$${product!!.price}"
         description.text = product!!.description
         vendor.text = "by ${product!!.vendorId}"
-        product!!.comments.add(Comment("Very good", 5f, "Ahmet Zübüzüb","123"))
-        product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", 1f, "Tuba Engin","122"))
+        product!!.comments.add(Comment("Very good", "5f", "Ahmet Zübüzüb"))
+        product!!.comments.add(Comment("Very bad I had terrible experience with this product please delete this from this website.", "1f", "Tuba Engin"))
 
         createCommentList(product!!.comments)
 
