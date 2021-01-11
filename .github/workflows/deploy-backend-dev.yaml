@@ -24,6 +24,7 @@ jobs:
       - name: Checkout to project
         uses: actions/checkout@v2
         with:
+          ref: backend
           path: project
 
 
