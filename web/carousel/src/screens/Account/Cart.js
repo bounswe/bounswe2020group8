@@ -234,16 +234,18 @@ const Cart = () => {
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Product price</div>
-                <div style={{ fontSize: 16 }}>{totalPrice}</div>
+                <div style={{ fontSize: 16 }}>${totalPrice}</div>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Shipment price</div>
-                <div style={{ fontSize: 16 }}>{shipmentPrice}</div>
+                <div style={{ fontSize: 16 }}>${shipmentPrice}</div>
               </div>
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Total price</div>
-                <div style={{ fontSize: 16 }}>{totalPrice + shipmentPrice}</div>
+                <div style={{ fontSize: 16 }}>
+                  ${totalPrice + shipmentPrice}
+                </div>
               </div>
             </div>
             <Divider style={{ width: 220 }} />
