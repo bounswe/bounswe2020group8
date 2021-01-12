@@ -8,7 +8,8 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
-import { Select } from "antd";
+import { Select, Modal, Button } from "antd";
+import services from "../../../apis/services";
 
 const { Option } = Select;
 
@@ -34,6 +35,8 @@ const ProductActions = ({
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const [buttonStyle, setButtonStyle] = useState(regularCart);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [lists, setLists] = useState([]);
 
   useEffect(() => {
     if (added) {
@@ -45,7 +48,43 @@ const ProductActions = ({
     }
   }, [added]);
 
-  //let cartButton = added ? addedToCart : regularCart;
+  useEffect(() => {
+    getLists();
+  }, [liked]);
+
+  const getLists = async () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const URL = "/shoppingList/all";
+    services
+      .get(URL, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data.data;
+          setLists(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleCreateNewList = async () => {
+    setIsModalVisible(false);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleListClicked = () => {
+    setIsModalVisible(true);
+    liked ? setLiked(false) : setLiked(true);
+  };
 
   return (
     <div className={classes.ProductActions}>
@@ -104,10 +143,33 @@ const ProductActions = ({
               )
             }
             style={{ marginTop: "-6px" }}
-            onClick={() => {
-              liked ? setLiked(false) : setLiked(true);
-            }}
+            onClick={
+              () => handleListClicked()
+              // () => {
+              //   liked ? setLiked(false) : setLiked(true);
+              // }
+            }
           />
+          <Modal
+            title="Add this products to your list"
+            centered
+            style={{ justifyContent: "space-between" }}
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                Cancel
+              </Button>,
+              <Button key="submit" type="primary" onClick={handleCreateNewList}>
+                Create A New List
+              </Button>,
+            ]}
+          >
+            {lists.map((list) => (
+              <ButtonSecondary title={list.title} onClick={handleOk} />
+            ))}
+          </Modal>
         </div>
       </div>
       <div style={{ height: "140px" }}>
