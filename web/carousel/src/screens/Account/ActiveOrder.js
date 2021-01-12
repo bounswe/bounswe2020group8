@@ -1,102 +1,131 @@
-import React, { useState } from "react";
-import { Layout, Divider, Badge } from "antd";
-import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
-import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
-import Image from "react-image-resizer";
-import { DeleteOutlined } from "@ant-design/icons";
-import { HeartOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { Layout, Divider, Steps } from "antd";
 import { useHistory, withRouter } from "react-router-dom";
-// import OrderDiv from "../../components/UI/OrderDiv/OrderDiv";
-// import classes from "../../components/UI/OrderDiv/OrderDiv.module.css";
+import services from "../../apis/services";
+import ProductBox from "../../components/Product/ProductBox";
+import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 
+let ID = "";
 const { Content } = Layout;
-const orders = {
-  order1: [
-    {
-      imageUrl:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/mbp16touch-space-select-201911_GEO_TR?wid=892&hei=820&&qlt=80&.v=1582326712648",
-      name: "Macbook Pro 16 inch",
-      price: 2199.99,
-      vendorName: "AA",
-    },
-  ],
-  order2: [
-    {
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/41GGPRqTZtL._AC_.jpg",
-      name: "PlayStation 4 Pro 1TB",
-      price: 399.99,
-      vendorName: "AA",
-    },
-    {
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/61nziNd634L._AC_SX679_.jpg",
-      name: "Sewatshirt",
-      price: 99.99,
-      vendorName: "BB",
-    },
-  ],
-};
+const { Step } = Steps;
+let amount = 0;
+let totalPrice = 0;
 
 const ActiveOrder = () => {
   const history = useHistory();
+  const [orders, setOrders] = useState([]);
+  const [user, setUser] = useState({});
 
-  function OrderContent(productList = []) {
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+  const getOrders = async () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const response = await services.get("/customer/me", config);
+    if (response) {
+      const data = response.data.data;
+      ID = data._id;
+      setUser({ name: data.name, lastName: data.lastName });
+    }
+    const URL = "/customer/order/getByCustomerID";
+    services
+      .post(URL, { customerID: ID }, config)
+      .then((response) => {
+        if (response.data) {
+          const newList = response.data;
+          setOrders(newList);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  function handleReviewClicked(productId, vendorId) {}
+
+  function OrderContent() {
     return (
       <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
         My Active Orders
-        {Object.values(orders).map((order, index) => {
-          console.log(order);
-          const divSize = order.length;
+        <Divider />
+        {orders.map((order) => {
           return (
-            <div>
-              <div style={{ border: "1px solid black", paddingLeft: "10px" }}>
-                Order {index + 1}
-                {order.map((product) => (
+            (amount = 0),
+            (totalPrice = 0),
+            (
+              <div
+                style={{
+                  marginBottom: 15,
+                  borderRadius: 3,
+                  border: "2px solid #e2e2e2",
+                  backgroundColor: "white",
+                }}
+              >
+                <div style={{ padding: "15px 20px" }}>
+                  <Steps size="small">
+                    <Step
+                      title="Finished"
+                      description="This is a description."
+                    />
+                    <Step
+                      title="In Progress"
+                      subTitle="Left 00:00:08"
+                      description="This is a description."
+                    />
+                    <Step
+                      title="Waiting"
+                      description="This is a description."
+                    />
+                  </Steps>
+                </div>
+                <div>
+                  <div style={{ padding: 20 }}>
+                    {order.orders.map(
+                      (product, index) => (
+                        (amount = amount + product.amount),
+                        (totalPrice = totalPrice + product.price),
+                        (
+                          <ProductBox
+                            product={product}
+                            order
+                            handleReviewClicked={(productId, vendorId) =>
+                              handleReviewClicked(productId, vendorId)
+                            }
+                            isLastItem={order.orders.length - 1 === index}
+                          />
+                        )
+                      )
+                    )}
+                  </div>
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "column",
-                      border: "none",
+                      backgroundColor: "#fff8f0",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "15px 20px",
+                      fontSize: 16,
                     }}
                   >
-                    {/*<Badge.Ribbon text={<HeartOutlined />} />*/}
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        padding: 20,
-                        height: 100,
-                        color: "navy",
-                      }}
-                    >
-                      <div>
-                        <Image height={70} width={70} src={product.imageUrl} />
-                      </div>
-                      <div style={{ fontWeight: "normal" }}>
-                        <div style={{ fontSize: 16 }}>{product.name}</div>
-                        <div style={{ fontSize: 12 }}>
-                          Vendor: {product.vendorName}
-                        </div>
-                      </div>
-                      <div style={{ fontWeight: "normal" }}>
-                        <div style={{ fontSize: 16 }}>
-                          Estimated Delivery Date:
-                        </div>
-                        <div style={{ fontSize: 12 }}>03.01-11.01 2021</div>
-                      </div>
-                      <div>
-                        <div>{product.price}$</div>
-                      </div>
+                    <div>
+                      Customer: {user.name} {user.lastName}
                     </div>
-                    <Divider />
+                    <div>Total product: {amount}</div>
+                    <div>Total: $ {totalPrice}</div>
+                    <ButtonPrimary
+                      title="See details"
+                      style={{
+                        width: 135,
+                        height: 40,
+                        fontSize: 16,
+                      }}
+                    />
                   </div>
-                ))}
+                </div>
               </div>
-              <div style={{ height: "10px" }} />
-            </div>
+            )
           );
         })}
       </div>
@@ -112,7 +141,7 @@ const ActiveOrder = () => {
             minHeight: 280,
           }}
         >
-          {OrderContent(orders)}
+          {OrderContent()}
         </Content>
       </Layout>
     </Layout>

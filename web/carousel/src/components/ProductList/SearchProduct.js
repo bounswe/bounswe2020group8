@@ -35,12 +35,12 @@ const SearchProduct = (props) => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
+      _id: ID,
       productId: productId,
       vendorId: vendorId,
       amount: 1,
     };
-    console.log(productId, vendorId);
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    const URL = "/customer/shoppingCart/update";
     services
       .post(URL, payload, config)
       .then((response) => {
