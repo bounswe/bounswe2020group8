@@ -18,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ResponseCustomerMe
+import com.example.carousel.pojo.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_cart.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_order.*
 import kotlinx.android.synthetic.main.fragment_shopping_list.*;
@@ -62,7 +63,7 @@ class ShoppingListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
+        /*
         if (lists.isEmpty()) {
             val p1 = Product(title = "PlayStation 4 Pro 1TB", price = 399.99, id = 2, photoUrl = R.drawable.image2)
             val p2 = Product(
@@ -88,6 +89,38 @@ class ShoppingListFragment : Fragment() {
             addToList(1, p2)
             addToList(1, p3)
             addToList(1, p4)
+        }
+
+         */
+        activity?.runOnUiThread {
+            val apiCallerGetLists: ApiCaller<ResponseAllLists> = ApiCaller(activity)
+            apiCallerGetLists.Caller = ApiClient.getClient.getAllLists()
+            apiCallerGetLists.Success = { it ->
+                if (it != null) {
+                    for (list in it.data) {
+                        val apiCallerGetList: ApiCaller<ResponseList> = ApiCaller(activity)
+                        apiCallerGetList.Caller = ApiClient.getClient.getList(list._id)
+                        apiCallerGetList.Success = { products ->
+
+/*
+                            val newProduct = Product(
+                                _id = product.productId,
+                                vendorId = product.vendorId,
+                                price = product.price,
+                                title = product.title,
+                                photos = product.photos,
+                                shipmentPrice = product.shipmentPrice,
+                            )
+                            */
+
+                        }
+
+                    }
+                }
+            }
+            apiCallerGetLists.run()
+            apiCallerGetLists.Failure = { Log.d("FIRSTRESPONSE", "FAILED") }
+
         }
         val spinner = list_choice
         ArrayAdapter(requireContext(), R.layout.shopping_list_names, listNames)

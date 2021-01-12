@@ -141,5 +141,12 @@ interface ApiInterface {
     fun productSearchFilters(
         @Body searchQuery: SearchQuery, ): Call<ResponseProductSearchFilters>
 
+    @GET("/shoppingList/all")
+    fun getAllLists(): Call<ResponseAllLists>
+
+    @GET("/shoppingList/{id}")
+    fun getList(@Path("id") id: String = ""): Call<ResponseList>
+
+
 
 }

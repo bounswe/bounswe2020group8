@@ -267,3 +267,35 @@ data class DataProductSearchFilters(
     @Expose @SerializedName("categories") val categories: List<String>,
 
 )
+
+data class ResponseAllLists(
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: ArrayList<DataAllLists>,
+
+    )
+
+data class DataAllLists(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("title") val title: String,
+    @Expose @SerializedName("wishedProducts") val wishedProducts: ArrayList<DataWishedProducts>,
+    )
+data class DataWishedProducts(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("productId") val productId: String,
+    @Expose @SerializedName("vendorId") val vendorId: String,
+)
+
+data class ResponseList(
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: ArrayList<DataAllLists>,
+    )
+
+data class DataList(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("data") val data: ArrayList<DataAllLists>,
+    @Expose @SerializedName("tags") val tags: ArrayList<String>,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
+    @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: ArrayList<VendorDefaults>,
+    @Expose @SerializedName("parentProduct") val parentProduct: MainProductData,
+
+)
