@@ -11,21 +11,20 @@ import { Space } from "antd";
 
 const TOKEN = localStorage.getItem("token");
 
-
 export default class UserAccountsComponent extends Component {
   constructor(props) {
     super(props);
-    this.state =
-      { users: null,
-        userEmpty: true,
-        columns: [],
-        data: null,
-        sortParams:"",
-        showPopup:false,
-        id: "",
-        actionType:"",
-        userName: "",
-      };
+    this.state = {
+      users: null,
+      userEmpty: true,
+      columns: [],
+      data: null,
+      sortParams: "",
+      showPopup: false,
+      id: "",
+      actionType: "",
+      userName: "",
+    };
   }
 
   componentDidMount() {
@@ -38,39 +37,41 @@ export default class UserAccountsComponent extends Component {
     let config = "";
     let getCustomer = "";
     let getVendor = "";
-    if(value === "") {
+    if (value === "") {
       config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
       };
       getCustomer = services.get("/customer", config);
-      getVendor = services.get( "/vendor", config);
+      getVendor = services.get("/vendor", config);
     } else {
-      let regex = new RegExp(  value , "g");
-      console.log(regex);
+      let regex = new RegExp(value, "g");
       config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
         params: {
           "email[regex]": value,
-          // "name[regex]": value,
         },
       };
       getCustomer = services.get("/customer", config);
       getVendor = services.get("/vendor", config);
     }
 
-
-    axios.all([getCustomer, getVendor])
-      .then(axios.spread((...responses) => {
-        const customersResponse = responses[0];
-        const vendorsResponse = responses[1];
-        //console.log(responses[0]);
-        const allUsers = [...customersResponse.data.data, ...vendorsResponse.data.data];
-        this.setState({
-          searched: true,
-          data: allUsers,
-        });
-        this.showUsers(allUsers, value);
-      }))
+    axios
+      .all([getCustomer, getVendor])
+      .then(
+        axios.spread((...responses) => {
+          const customersResponse = responses[0];
+          const vendorsResponse = responses[1];
+          const allUsers = [
+            ...customersResponse.data.data,
+            ...vendorsResponse.data.data,
+          ];
+          this.setState({
+            searched: true,
+            data: allUsers,
+          });
+          this.showUsers(allUsers, value);
+        })
+      )
       .catch((error) => {
         this.setState({ error: true });
         console.log(error);
@@ -103,12 +104,10 @@ export default class UserAccountsComponent extends Component {
     });
   };
 
-
-
   suspendUserHandler = (id, apiURL, config, suspend) => {
-    services.patch(apiURL, {isSuspended:suspend} , config)
+    services
+      .patch(apiURL, { isSuspended: suspend }, config)
       .then((response) => {
-        console.log("res: ", response);
         this.searchRequest();
       })
       .catch((error) => {
@@ -117,12 +116,10 @@ export default class UserAccountsComponent extends Component {
       });
   };
 
-
   deleteUserHandler = (id, apiURL, config) => {
     services
       .delete(apiURL, config)
       .then((response) => {
-        console.log("res: ", response);
         this.searchRequest();
       })
       .catch((error) => {
@@ -145,8 +142,8 @@ export default class UserAccountsComponent extends Component {
       actionApi = "/vendor/" + selectedUserId;
     }
 
-    if(actionType === "delete") {
-      this.setState({showPopup: false})
+    if (actionType === "delete") {
+      this.setState({ showPopup: false });
       this.deleteUserHandler(id, actionApi, config);
     } else if (actionType === "suspend") {
       this.suspendUserHandler(id, actionApi, config, true);
@@ -161,8 +158,7 @@ export default class UserAccountsComponent extends Component {
 
     if (value !== "" && e.key === "Enter") {
       this.searchRequest(value);
-    }
-    else if (e.key === "Enter") this.searchRequest();
+    } else if (e.key === "Enter") this.searchRequest();
   };
 
   render() {
@@ -205,7 +201,14 @@ export default class UserAccountsComponent extends Component {
             <br />
             <a
               className={classes.TableActionsDelete}
-              onClick={() => this.setState({id:record.key, actionType: "delete", showPopup: true, userName: record.email})}
+              onClick={() =>
+                this.setState({
+                  id: record.key,
+                  actionType: "delete",
+                  showPopup: true,
+                  userName: record.email,
+                })
+              }
             >
               Delete
             </a>
@@ -218,17 +221,19 @@ export default class UserAccountsComponent extends Component {
 
     return (
       <div>
-        {this.state.showPopup ?
+        {this.state.showPopup ? (
           <PopUp
-            clickYes={() => this.actionHandler(this.state.id, this.state.actionType)}
-            clickNo={() => this.setState({showPopup: false})}
+            clickYes={() =>
+              this.actionHandler(this.state.id, this.state.actionType)
+            }
+            clickNo={() => this.setState({ showPopup: false })}
             buttonYes="Delete"
             buttonNo="Cancel"
             title={this.state.userName}
           />
-          :
+        ) : (
           <p />
-        }
+        )}
         <p>Search for users</p>
         <span className={classes.InputSpan}>
           <input

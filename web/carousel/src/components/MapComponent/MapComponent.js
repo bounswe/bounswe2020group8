@@ -15,8 +15,6 @@ const MapComponent = withScriptjs(
           latitude: ev.latLng.lat(),
           longitude: ev.latLng.lng(),
         });
-        console.log("latitude = ", ev.latLng.lat());
-        console.log("longitude = ", ev.latLng.lng());
       }}
     >
       {props.markerLocations.map((marker) => (

@@ -43,24 +43,8 @@ class ExistingProductForm extends Component {
         );
       } else if (key === "id") {
         productId = val;
-        //this.setState({productId: val});
       }
     });
-
-    // parameterInputs = params.map((param, igKey) => {
-    //   Object.entries(param).map(([key, val], igKey) =>{
-    //     if (key !== "tags") {
-    //       console.log(key);
-    //       console.log(val);
-    //
-    //       return(
-    //         <Form.Item name={['user', key]} label={key.charAt(0).toUpperCase() + key.slice(1)}>
-    //           <Input value={val}/>
-    //         </Form.Item>
-    //       );
-    //     }
-    //   });
-    // });
 
     return (
       <Form

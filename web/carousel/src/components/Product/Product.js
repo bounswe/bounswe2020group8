@@ -56,7 +56,6 @@ const Product = (props) => {
       top: 480,
       behavior: "smooth",
     });
-    //sectionRef.current.scrollIntoView({behavior: "smooth", block: "start", inline:"start"});
     setTimeout(() => {
       setInfoSection("");
     }, 500);
@@ -77,8 +76,6 @@ const Product = (props) => {
 
   const handleCartClicked = async ({ productId, vendorId }) => {
     const TOKEN = localStorage.getItem("token");
-
-    console.log(TOKEN);
 
     if (!TOKEN || TOKEN === "") {
       props.history.push("/login");

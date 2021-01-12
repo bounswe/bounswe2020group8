@@ -22,40 +22,46 @@ const { Content, Sider } = Layout;
 
 export default class AdminAccount extends Component {
   renderSideBar() {
+    const { location } = this.props;
+    const path = location.pathname.split("/");
+
+    const submenukeys = {
+      "pending-products": "/products",
+      products: "/products",
+      "main-products": "/products",
+    };
+
     return (
       <Sider className="site-layout-background" width={250}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
+          defaultSelectedKeys={[path[2]]}
+          defaultOpenKeys={[submenukeys[path[2]]]}
           style={{ height: "100%" }}
         >
-          <Menu.Item icon={<UserOutlined />} key="1">
+          <Menu.Item icon={<UserOutlined />} key="profile">
             <Link to="/admin/profile">Admin Profile</Link>
           </Menu.Item>
 
-          <SubMenu key="sub2" icon={<ShoppingOutlined />} title="Products">
-            <Menu.Item key="2" icon={<PauseOutlined />}>
+          <SubMenu key="/products" icon={<ShoppingOutlined />} title="Products">
+            <Menu.Item key="pending-products" icon={<PauseOutlined />}>
               <Link to="/admin/pending-products">Product Requests</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<FileSearchOutlined/>}>
+            <Menu.Item key="products" icon={<FileSearchOutlined />}>
               <Link to="/admin/products">Available Products</Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<FolderOutlined/>}>
+            <Menu.Item key="main-products" icon={<FolderOutlined />}>
               <Link to="/admin/main-products">Main Products</Link>
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<BookOutlined />} key="5">
+          <Menu.Item icon={<BookOutlined />} key="categories">
             <Link to="/admin/categories">Categories</Link>
           </Menu.Item>
 
-          <Menu.Item icon={<UsergroupDeleteOutlined />} key="6">
+          <Menu.Item icon={<UsergroupDeleteOutlined />} key="accounts">
             <Link to="/admin/accounts">User Accounts</Link>
           </Menu.Item>
-
-
-
         </Menu>
       </Sider>
     );
@@ -67,7 +73,11 @@ export default class AdminAccount extends Component {
         <Switch>
           <Route path="/admin" exact component={Profile} />
           <Route path="/admin/profile" exact component={Profile} />
-          <Route path="/admin/pending-products" exact component={PendingProducts} />
+          <Route
+            path="/admin/pending-products"
+            exact
+            component={PendingProducts}
+          />
           <Route path="/admin/categories" exact component={Categories} />
           <Route path="/admin/products" exact component={SearchProducts} />
           <Route path="/admin/main-products" exact component={MainProducts} />

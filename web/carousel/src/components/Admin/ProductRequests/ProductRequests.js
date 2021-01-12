@@ -104,7 +104,6 @@ class ProductRequests extends Component {
                     id: data[i]._id,
                   },
                 ]);
-                // console.log(list);
 
                 return {
                   productRequests: list,
@@ -112,7 +111,6 @@ class ProductRequests extends Component {
                   loading: false,
                 };
               });
-              //console.log(this.state.productRequests);
             })
             .catch((error) => {
               console.log(error);
@@ -139,7 +137,6 @@ class ProductRequests extends Component {
               services
                 .get("/mainProduct/" + normalProduct.parentProduct, config)
                 .then((response) => {
-                  //console.log(response.data.data);
                   title = response.data.data.title;
                   brand = response.data.data.brand;
                   category = response.data.data.category;
@@ -173,11 +170,11 @@ class ProductRequests extends Component {
                 });
             })
             .catch((error) => {
-              //console.log(error);
+              console.log(error);
             });
         }
       } else {
-        this.setState({loading:false});
+        this.setState({ loading: false });
       }
     }
   };
@@ -203,7 +200,6 @@ class ProductRequests extends Component {
       .patch("/productRequest/" + product.id, payload, config)
       .then((response) => {
         if (payload.status === "ACCEPTED") {
-          //alert("Product request accepted!");
           if (product.type === "Existing Product") {
             this.publishVendorToExistingProduct(product, response.data.data);
           } else if (product.type === "New Product") {
@@ -219,8 +215,6 @@ class ProductRequests extends Component {
   };
 
   publishProduct = (product, vendorData) => {
-    console.log(vendorData);
-    console.log(vendorData.newValue.photos);
     let payload = {
       parameters: vendorData.newValue.parameters,
       vendorSpecifics: [

@@ -36,25 +36,6 @@ function SideButtons(props) {
     } else if (user.userType === "Admin") {
       alert("admin log out");
       url = "admin/logoutAdmin";
-      const token = localStorage.getItem("token");
-      services
-        .post(url, null, {
-          headers: { Authorization: "Bearer " + token },
-        })
-        .then((response) => {
-          props.signOut();
-          user.error = false;
-          localStorage.setItem("userType", "guest");
-          localStorage.setItem("token", "");
-          localStorage.setItem("login", "false");
-          localStorage.removeItem("token");
-          user.setUserType("");
-          props.history.push("/");
-        })
-        .catch((err, response) => {
-          console.log(err);
-          user.error = true;
-        });
     } else {
       return;
     }

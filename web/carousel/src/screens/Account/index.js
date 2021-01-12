@@ -6,7 +6,6 @@ import {
   HeartOutlined,
   ShoppingCartOutlined,
   NotificationOutlined,
-  GiftOutlined,
   CommentOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
@@ -22,8 +21,6 @@ import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
-import AllProducts from "./AllProduct";
-import NewProduct from "./NewProduct";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -103,70 +100,6 @@ class Account extends Component {
     );
   }
 
-  renderVendorSideBar() {
-    const { location } = this.props;
-    const path = location.pathname.split("/");
-
-    const submenukeys = {
-      profile: "/profile",
-      address: "/profile",
-      "all-products": "/products",
-      "new-product": "/products",
-      "active-order": "/order",
-      "inactive-order": "/order",
-      comments: "/comments",
-      rate: "/comments",
-    };
-
-    return (
-      <Sider className="site-layout-background" width={250}>
-        <Menu
-          mode="inline"
-          selectedKeys={[path[2]]}
-          defaultOpenKeys={[submenukeys[path[2]]]}
-          style={{ height: "100%" }}
-        >
-          <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
-            <Menu.Item key="profile">
-              <Link to="/account/profile">Profile Info</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <SubMenu key="/products" icon={<GiftOutlined />} title="My products">
-            <Menu.Item key="all-products">
-              <Link to="/account/all-products">All products</Link>
-            </Menu.Item>
-            <Menu.Item key="new-product">
-              <Link to="/account/new-product">Create new product</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
-            <Menu.Item key="active-order">
-              <Link to="/account/active-order">Active Orders</Link>
-            </Menu.Item>
-            <Menu.Item key="inactive-order">
-              <Link to="/account/inactive-order">Inactive Orders</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <SubMenu
-            key="/comments"
-            icon={<CommentOutlined />}
-            title="My Feedbacks"
-          >
-            <Menu.Item key="comments">
-              <Link to="/account/comments">Comments</Link>
-            </Menu.Item>
-            <Menu.Item key="rate">
-              <Link to="/account/rate">Rates</Link>
-            </Menu.Item>
-          </SubMenu>
-        </Menu>
-      </Sider>
-    );
-  }
-
   renderContent() {
     return (
       <Content style={{ padding: "0 24px", minHeight: 280 }}>
@@ -183,8 +116,6 @@ class Account extends Component {
           />
           <Route path="/account/list" exact component={List} />
           <Route path="/account/cart" exact component={Cart} />
-          <Route path="/account/all-products" exact component={AllProducts} />
-          <Route path="/account/new-product" exact component={NewProduct} />
           <Route path="/account/comments" exact component={Comments} />
           <Route path="/account/rate" exact component={Rate} />
           <Route
@@ -197,31 +128,18 @@ class Account extends Component {
     );
   }
 
-  renderCustomerAccount() {
-    return (
-      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        {this.renderCustomerSideBar()}
-        {this.renderContent()}
-      </Layout>
-    );
-  }
-
-  renderVendorAccount() {
-    return (
-      <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
-        {this.renderVendorSideBar()}
-        {this.renderContent()}
-      </Layout>
-    );
-  }
-
   render() {
-    console.log(this.context);
     return (
       <div>
         <Layout>
           <Content style={{ padding: "0 50px", zIndex: 10 }}>
-            {this.renderCustomerAccount()}
+            <Layout
+              className="site-layout-background"
+              style={{ padding: "24px 0" }}
+            >
+              {this.renderCustomerSideBar()}
+              {this.renderContent()}
+            </Layout>
           </Content>
         </Layout>
       </div>

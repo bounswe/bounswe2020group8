@@ -5,10 +5,7 @@ import classes from "../VendorAddProduct/AddProduct.module.css";
 import services from "../../../apis/services";
 import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 import VendorEditProductRequestForm from "./VendorEditProductRequestForm";
-import VendorEditProductForm from "../VendorProducts/VendorEditProductForm";
 import { SearchOutlined } from "@ant-design/icons";
-
-const TOKEN = localStorage.getItem("token");
 
 class VendorProductRequests extends Component {
   constructor(props) {
@@ -36,7 +33,6 @@ class VendorProductRequests extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    console.log(TOKEN);
     services
       .get("/vendor/me/productRequest/", config)
       .then((response) => {
@@ -76,7 +72,6 @@ class VendorProductRequests extends Component {
     for (let i = 0; i < data.length; i++) {
       let params = [];
       let productData = data[i].newValue;
-      console.log(data[i]);
       if (data[i].status !== "ACCEPTED") {
         if (data[i].type === "ADD_NEW_PRODUCT") {
           for (let k = 0; k < productData.parameters.length; k++) {
@@ -195,7 +190,9 @@ class VendorProductRequests extends Component {
     services
       .delete("/vendor/me/productRequest/" + product.id, config)
       .then((response) => {
-        this.getProductRequests().then((r) => console.log(r));
+        this.getProductRequests().then(() => {
+          return;
+        });
       })
       .catch((error) => {
         console.log(error);

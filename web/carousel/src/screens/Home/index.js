@@ -51,8 +51,6 @@ export default function Home() {
     getSearchedProducts();
   }, []);
 
-  console.log(productList);
-
   return (
     <div className="App">
       <header className="App-header">

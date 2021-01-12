@@ -40,8 +40,6 @@ const SignupForm = (props) => {
     setVisible(false);
   };
 
-  console.log(user.vendorLocations);
-
   return (
     <Form
       name="normal_login"
@@ -92,7 +90,9 @@ const SignupForm = (props) => {
           clicked={eraseError}
           iconSel="email"
           inputType="text"
-          placeholder={user.userType === "Customer" ? "user@email.com" : "user@company.com" }
+          placeholder={
+            user.userType === "Customer" ? "user@email.com" : "user@company.com"
+          }
         />
       </Form.Item>
       <PasswordForm eraseError={eraseError} />

@@ -107,7 +107,7 @@ class Profile extends Component {
     if (response) {
       this.props.history.push("/account/profile");
     } else {
-      console.log("try again");
+      return;
     }
   };
 
@@ -222,7 +222,6 @@ class Profile extends Component {
           }}
         >
           {this.renderProfileChangeForm()}
-
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>

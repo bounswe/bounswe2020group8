@@ -82,7 +82,6 @@ class AdminLoginComponent extends Component {
       .post(url, null, { params: payload })
       .then((response) => {
         this.setState({ isError: false });
-        console.log(response.data);
         localStorage.setItem("token", response.data.tokenCode);
         this.context.login(this.state.email, response.data.tokenCode);
         this.context.error = false;
@@ -92,10 +91,9 @@ class AdminLoginComponent extends Component {
         this.props.history.push("/admin");
         window.location.reload();
       })
-      .catch((err, response) => {
+      .catch((err) => {
         console.log(err);
         this.context.error = true;
-        console.log("resp daata: " + response);
         this.setState({ isError: true });
       });
   };
