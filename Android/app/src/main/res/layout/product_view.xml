@@ -39,20 +39,23 @@
             android:isIndicator="true"
             android:numStars="5"
             android:rating="5"
-            android:stepSize="0.1" />
+            android:stepSize="0.1"
+            android:progressTint="@color/golden"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="(12)"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:paddingStart="4dp"
-            android:paddingLeft="4dp"/>
+            android:paddingEnd="4dp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/price"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:minLines="1"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:paddingLeft="8dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"/>
@@ -60,6 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="Add to Cart"/>
+        android:textColor="@color/gray_text_color"
+        android:text="@string/addToCartLong"/>
 
 </LinearLayout>
