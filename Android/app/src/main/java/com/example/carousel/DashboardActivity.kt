@@ -21,7 +21,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        setSupportActionBar(findViewById(R.id.my_toolbar))
+        //setSupportActionBar(findViewById(R.id.my_toolbar))
         val homeFragment = HomeFragment()
         val categoriesFragment = CategoriesFragment()
         val cartFragment = CartFragment()

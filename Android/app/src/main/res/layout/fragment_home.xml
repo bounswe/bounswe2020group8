@@ -4,11 +4,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#FFFFFF" android:clickable="true" tools:context=".HomeFragment">
+             android:clickable="true" tools:context=".HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="#FFFFFF" android:clickable="true">
+        android:layout_height="match_parent" android:clickable="true">
 
         <LinearLayout
             android:id="@+id/product"

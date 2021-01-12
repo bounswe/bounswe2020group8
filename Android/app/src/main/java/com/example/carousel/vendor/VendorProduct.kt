@@ -37,7 +37,7 @@ fun responseToProduct(product: VendorProductData, main: MainProductData): Vendor
     return VendorProduct(
         _id = main._id,
         title = main.title,
-        description = main.description,
+        description = main.description!!,
         price = product.vendorSpecifics.price,
         amountLeft = product.vendorSpecifics.amountLeft,
         shipmentPrice = product.vendorSpecifics.shipmentPrice,
