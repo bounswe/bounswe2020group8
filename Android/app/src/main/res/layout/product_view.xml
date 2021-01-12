@@ -6,6 +6,7 @@
     android:background="@drawable/product_background"
     android:layout_marginLeft="6dp"
     android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
     android:layout_marginTop="10dp">
 
     <ImageView
@@ -63,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:textColor="@color/gray_text_color"
+        android:textColor="@color/black_text_color"
         android:text="@string/addToCartLong"/>
 
 </LinearLayout>

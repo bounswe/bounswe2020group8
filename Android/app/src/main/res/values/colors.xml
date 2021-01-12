@@ -16,4 +16,5 @@
     <color name="text_inpıt_layout_border_color">#AEAEB8</color>
     <color name="gray_text_color">#4A4A4A</color>
     <color name="golden">#F4DD0F</color>
+    <color name="black_text_color">#292929</color>
 </resources>
