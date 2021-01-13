@@ -1,0 +1,11 @@
+"/rating/{pid}":
+  patch:
+    tags:
+      - rating
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: rate
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Rate"

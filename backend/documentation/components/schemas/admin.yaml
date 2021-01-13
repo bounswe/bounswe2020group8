@@ -1,0 +1,8 @@
+Admin:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+  xml:
+    name: User

@@ -1,0 +1,7 @@
+Rate:
+  type: object
+  properties:
+    rate:
+      type: number
+      minimum: 0
+      maximum: 5

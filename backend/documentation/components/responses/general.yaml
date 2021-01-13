@@ -1,0 +1,23 @@
+ApiResponse:
+  type: object
+  properties:
+    returnMessage:
+      type: string
+    returnCode:
+      type: number
+ApiResponseWtoken:
+  type: object
+  properties:
+    tokenCode:
+      type: string
+    returnMessage:
+      type: string
+    returnCode:
+      type: number
+NullData:
+  allOf:
+    - $ref: "#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          type: "null"

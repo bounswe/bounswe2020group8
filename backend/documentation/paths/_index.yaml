@@ -1,0 +1,83 @@
+/category:
+  $ref: "./category.yaml#/~1category"
+
+"/category/{id}":
+  $ref: "./category.yaml#/~1category~1{id}"
+
+/customer/signup:
+  $ref: "./customer.yaml#/~1customer~1signup"
+
+/customer/login:
+  $ref: "./customer.yaml#/~1customer~1login"
+
+/customer/logout:
+  $ref: "./customer.yaml#/~1customer~1logout"
+
+/customer/verifyEmail:
+  $ref: "./customer.yaml#/~1customer~1verifyEmail"
+
+/customer/changePassword:
+  $ref: "./customer.yaml#/~1customer~1changePassword"
+
+/customer/signupWithGoogle:
+  $ref: "./customer.yaml#/~1customer~1signupWithGoogle"
+
+/customer/loginWithGoogle:
+  $ref: "./customer.yaml#/~1customer~1loginWithGoogle"
+
+/customer/forgotPassword:
+  $ref: "./customer.yaml#/~1customer~1forgotPassword"
+
+/customer/resetPassword:
+  $ref: "./customer.yaml#/~1customer~1resetPassword"
+
+/customer/me:
+  $ref: "./customer.yaml#/~1customer~1me"
+
+/customer:
+  $ref: "./customer.yaml#/~1customer"
+
+"/customer/{id}":
+  $ref: "./customer.yaml#/~1customer~1{id}"
+
+/vendor/signup:
+  $ref: "./vendor.yaml#/~1vendor~1signup"
+
+/vendor/login:
+  $ref: "./vendor.yaml#/~1vendor~1login"
+
+/vendor/logout:
+  $ref: "./vendor.yaml#/~1vendor~1logout"
+
+/vendor/verifyEmail:
+  $ref: "./vendor.yaml#/~1vendor~1verifyEmail"
+
+/vendor/changePassword:
+  $ref: "./vendor.yaml#/~1vendor~1changePassword"
+
+/vendor/forgotPassword:
+  $ref: "./vendor.yaml#/~1vendor~1forgotPassword"
+
+/vendor/resetPassword:
+  $ref: "./vendor.yaml#/~1vendor~1resetPassword"
+
+/vendor/me:
+  $ref: "./vendor.yaml#/~1vendor~1me"
+
+/vendor:
+  $ref: "./vendor.yaml#/~1vendor"
+
+"/vendor/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1changePassword"
+
+/admin/loginAdmin:
+  $ref: "./admin.yaml#/~1admin~1loginAdmin"
+
+/admin/logoutAdmin:
+  $ref: "./admin.yaml#/~1admin~1logoutAdmin"
+
+"/comment/{pid}/all":
+  $ref: "./comment.yaml#/~1comment~1{pid}~1all"
+
+"/comment/{pid}":
+  $ref: "./comment.yaml#/~1comment~1{pid}"

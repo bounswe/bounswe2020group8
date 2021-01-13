@@ -1,0 +1,52 @@
+Vendor:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    name:
+      type: string
+    lastName:
+      type: string
+    email:
+      type: string
+    isSuspended:
+      type: boolean
+    isActive:
+      type: boolean
+    companyName:
+      type: string
+    companyDomainName:
+      type: string
+    aboutCompany:
+      type: string
+    IBAN:
+      type: string
+    address:
+      type: object
+      properties:
+        addressName:
+          type: String
+        name:
+          type: String
+        addressLine:
+          type: String
+        city:
+          type: String
+        state:
+          type: String
+        zipCode:
+          type: String
+        phone:
+          type: String
+    locations:
+      type: array
+      items:
+        type: object
+        properties:
+          longitude:
+            type: Number
+          latitude:
+            type: Number
+  xml:
+    name: User
