@@ -1,0 +1,117 @@
+/category:
+  get:
+    tags:
+      - category
+    description: >-
+      Returns all the categories. You can filter, sort ,limit number of
+      results, paginate and limit the returned fields. For filter, you need to
+      use the fields's name and value. You can filter using some operators.
+      They are gte, gt ,lte, lt, regex.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: query
+        name: sort
+        description: >-
+          name of the field to sort, An example would be: sort=name,lastName.
+          Default doesn't sort anything
+        required: false
+        type: string
+      - in: query
+        name: limit
+        description: "number of elements to return, default is 1000"
+        required: false
+        type: number
+      - in: query
+        name: page
+        description: "page number for the results, default is 1"
+        required: false
+        type: number
+      - in: query
+        name: fields
+        description: >-
+          Fields you want in the returned elements, an example would be:
+          fields=name,lastName,email. Default returns every field
+        required: false
+        type: number
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/CategoryList"
+      "400":
+        description: Authorization error
+  post:
+    tags:
+      - category
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Category"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Category"
+      "400":
+        description: Authorization error
+"/category/{id}":
+  get:
+    tags:
+      - category
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Category"
+      "400":
+        description: Authorization error
+  patch:
+    tags:
+      - category
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Category"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Category"
+      "400":
+        description: Authorization error
+  delete:
+    tags:
+      - category
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "../components/responses/_index.yaml#/ApiResponse"
+                - type: object
+                  properties:
+                    data:
+                      type: "null"
+      "400":
+        description: Authorization error

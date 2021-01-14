@@ -1,0 +1,13 @@
+PostComment:
+  type: object
+  properties:
+    text:
+      type: string
+PatchComment:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    text:
+      type: string

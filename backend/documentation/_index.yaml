@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Boun Group 8
+  description: Application API
+  license:
+    name: MIT
+    url: "https://opensource.org/licenses/MIT"
+host: "localhost:8080"
+basePath: /
+tags:
+  - name: Users
+    description: API for users in the system
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  $ref: "./paths/_index.yaml"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+  responses:
+    $ref: "./components/responses/_index.yaml"
+  schemas:
+    $ref: "./components/schemas/_index.yaml"

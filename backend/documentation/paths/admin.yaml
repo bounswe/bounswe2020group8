@@ -1,0 +1,38 @@
+/admin/loginAdmin:
+  post:
+    tags:
+      - admin
+    parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponseWtoken"
+      "400":
+        description: Invalid email or password or type
+/admin/logoutAdmin:
+  post:
+    tags:
+      - admin
+    security:
+      - bearerAuth: []
+    parameters: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid token

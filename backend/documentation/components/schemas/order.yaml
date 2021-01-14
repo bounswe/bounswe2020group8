@@ -1,0 +1,62 @@
+Order:
+  type: object
+  properties:
+    _id:
+      type: string
+    customerID:
+      type: string
+    product:
+      type: string
+    email:
+      type: string
+    shippingAddress:
+      type: object
+      properties:
+        addressName:
+          type: String
+        name:
+          type: String
+        addressLine:
+          type: String
+        city:
+          type: String
+        state:
+          type: String
+        zipCode:
+          type: String
+        phone:
+          type: String
+    billingAddress:
+      type: object
+      properties:
+        addressName:
+          type: String
+        name:
+          type: String
+        addressLine:
+          type: String
+        city:
+          type: String
+        state:
+          type: String
+        zipCode:
+          type: String
+        phone:
+          type: String
+    creditCard:
+      type: object
+      properties:
+        creditCardNumber:
+          type: String
+        creditCardCvc:
+          type: String
+        creditCardData:
+          type: String
+        creditCardName:
+          type: String
+    shippingInfo:
+      type: string
+    refundProcess:
+      type: string
+  xml:
+    name: User

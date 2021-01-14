@@ -1,0 +1,20 @@
+Rate:
+  $ref: "./rating.yaml#/Rate"
+
+PostComment:
+  $ref: "./comment.yaml#/PostComment"
+
+PatchComment:
+  $ref: "./comment.yaml#/PatchComment"
+
+Customer:
+  $ref: "./customer.yaml#/Customer"
+
+Vendor:
+  $ref: "./vendor.yaml#/Vendor"
+
+Category:
+  $ref: "./category.yaml#/Category"
+
+Order:
+  $ref: "./order.yaml#/Order"

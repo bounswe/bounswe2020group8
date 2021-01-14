@@ -1,0 +1,90 @@
+Customer:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    name:
+      type: string
+    lastName:
+      type: string
+    email:
+      type: string
+    isSuspended:
+      type: boolean
+    isActive:
+      type: boolean
+    shoppingLists:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: String
+          wishedProducts:
+            type: array
+            items:
+              type: ObjectId
+    shoppingCart:
+      type: array
+      items:
+        type: object
+        properties:
+          productId:
+            type: String
+          vendorId:
+            type: String
+          amount:
+            type: Number
+          price:
+            type: Number
+          shipmentPrice:
+            type: Number
+          cargoCompany:
+            type: String
+          vendorName:
+            type: String
+          title:
+            type: String
+          photos:
+            type: array
+            items:
+              type: String
+    addresses:
+      type: array
+      items:
+        type: object
+        properties:
+          addressName:
+            type: String
+          name:
+            type: String
+          addressLine:
+            type: String
+          city:
+            type: String
+          state:
+            type: String
+          zipCode:
+            type: String
+          phone:
+            type: String
+    telephoneNumber:
+      type: string
+    birthday:
+      type: string
+    creditCards:
+      type: array
+      items:
+        type: object
+        properties:
+          creditCardNumber:
+            type: String
+          creditCardCvc:
+            type: String
+          creditCardData:
+            type: String
+          creditCardName:
+            type: String
+  xml:
+    name: User

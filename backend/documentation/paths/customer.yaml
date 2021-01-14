@@ -1,0 +1,352 @@
+/customer/signup:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: name
+        required: true
+        type: string
+      - in: query
+        name: lastName
+        required: true
+        type: string
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: passwordConfirm
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid email or password or type
+/customer/login:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponseWtoken"
+      "400":
+        description: Invalid email or password or type
+/customer/logout:
+  post:
+    tags:
+      - customer
+    security:
+      - bearerAuth: []
+    parameters: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid token
+/customer/verifyEmail:
+  get:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: verifyEmailToken
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Insufficient token
+/customer/changePassword:
+  post:
+    tags:
+      - customer
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: query
+        name: oldPassword
+        required: true
+        type: string
+      - in: query
+        name: newPassword
+        required: true
+        type: string
+      - in: query
+        name: newPasswordRepeat
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid password
+/customer/signupWithGoogle:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        name: googleID
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponseWtoken"
+      "400":
+        description: "Invalid email, type or googleID"
+/customer/loginWithGoogle:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: email
+        required: true
+        type: string
+      - in: query
+        name: googleID
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponseWtoken"
+      "400":
+        description: "Invalid email, type or googleID"
+/customer/forgotPassword:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: email
+        description: Email Address
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid e-mail or type.
+/customer/resetPassword:
+  post:
+    tags:
+      - customer
+    parameters:
+      - in: query
+        name: resetPasswordToken
+        description: Reset Password Token
+        required: true
+        type: string
+      - in: query
+        name: newPassword
+        required: true
+        type: string
+      - in: query
+        name: newPasswordCheck
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ApiResponse"
+      "400":
+        description: Invalid resetPasswordToken or newPassword or newPasswordCheck
+/customer/me:
+  patch:
+    tags:
+      - customer
+    security:
+      bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Customer"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Customer"
+      "400":
+        description: Invalid bearer token
+  get:
+    tags:
+      - customer
+    parameters: []
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Customer"
+      "400":
+        description: Invalid bearer token
+  delete:
+    tags:
+      - customer
+    security:
+      bearerAuth: []
+    parameters: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid bearer token
+/customer:
+  get:
+    tags:
+      - customer
+    description: >-
+      Returns all the customers. You can filter, sort ,limit number of
+      results, paginate and limit the returned fields. For filter, you need to
+      use the fields's name and value. You can filter using some operators.
+      They are gte, gt ,lte, lt, regex. An example for filtering could be:
+      ?email=test@test.com&name[regex]=can
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: query
+        name: sort
+        description: >-
+          name of the field to sort, An example would be: sort=name,lastName.
+          Default doesn't sort anything
+        required: false
+        type: string
+      - in: query
+        name: limit
+        description: "number of elements to return, default is 1000"
+        required: false
+        type: number
+      - in: query
+        name: page
+        description: "page number for the results, default is 1"
+        required: false
+        type: number
+      - in: query
+        name: fields
+        description: >-
+          Fields you want in the returned elements, an example would be:
+          fields=name,lastName,email. Default returns every field
+        required: false
+        type: number
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/CustomerList"
+      "400":
+        description: Authorization error
+"/customer/{id}":
+  get:
+    tags:
+      - customer
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Customer"
+      "400":
+        description: Authorization error
+  patch:
+    tags:
+      - customer
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Customer"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Customer"
+      "400":
+        description: Authorization error
+  delete:
+    tags:
+      - customer
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Authorization error

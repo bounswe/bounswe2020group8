@@ -1,0 +1,26 @@
+ApiResponse:
+  $ref: "./general.yaml#/ApiResponse"
+
+ApiResponseWtoken:
+  $ref: "./general.yaml#/ApiResponseWtoken"
+
+NullData:
+  $ref: "./general.yaml#/NullData"
+
+Category:
+  $ref: "./category.yaml#/Category"
+
+CategoryList:
+  $ref: "./category.yaml#/CategoryList"
+
+CustomerList:
+  $ref: "./customer.yaml#/CustomerList"
+
+Customer:
+  $ref: "./customer.yaml#/Customer"
+
+VendorList:
+  $ref: "./vendor.yaml#/VendorList"
+
+Vendor:
+  $ref: "./vendor.yaml#/Vendor"

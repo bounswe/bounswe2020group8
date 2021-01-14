@@ -26,7 +26,9 @@ const shoppingListRouter = require("./routers/list");
 BB.longStackTraces();
 mongooseConfig.connect(Config);
 
-let swaggerDocument = require("./swagger.json");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./documentation/swagger.yaml");
+
 swaggerDocument.host = `${Config.hostAddr}:${Config.port}`;
 
 app.use(cors());
