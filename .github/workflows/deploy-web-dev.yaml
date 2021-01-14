@@ -48,15 +48,15 @@ jobs:
           docker push ${IMAGE_NAME}
           
 
-      - name: Checkout to backend branch
+      - name: Checkout to development branch
         uses: actions/checkout@v2
         with:
-          path: backend
-          ref: backend
+          path: development
+          ref: development
 
 
       - name: Run Ansible Playbook
-        working-directory: ./backend/.github/web-deployment
+        working-directory: ./development/.github/web-deployment
         run: |
           HOSTS=$( grep -oh -E "^([[:digit:]]+\.){3}[[:digit:]]+" dev-hosts)
           ssh-keyscan $HOSTS >> ~/.ssh/known_hosts
