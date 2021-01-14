@@ -1,0 +1,113 @@
+/mainProduct:
+  get:
+    tags:
+      - mainProduct
+    description: >-
+      Returns all the main products. You can filter, sort ,limit number of
+      results, paginate and limit the returned fields. For filter, you need to
+      use the fields's name and value. You can filter using some operators.
+      They are gte, gt ,lte, lt, regex.
+    parameters:
+      - in: query
+        name: sort
+        description: >-
+          name of the field to sort
+        required: false
+        type: string
+      - in: query
+        name: limit
+        description: "number of elements to return, default is 1000"
+        required: false
+        type: number
+      - in: query
+        name: page
+        description: "page number for the results, default is 1"
+        required: false
+        type: number
+      - in: query
+        name: fields
+        description: >-
+          Fields you want in the returned elements.
+        required: false
+        type: number
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/MainProductList"
+      "400":
+        description: Invalid body
+  post:
+    tags:
+      - mainProduct
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/MainProduct"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/MainProduct"
+      "400":
+        description: Invalid body
+"/mainProduct/{id}":
+  get:
+    tags:
+      - mainProduct
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/MainProduct"
+      "400":
+        description: Invalid
+  patch:
+    tags:
+      - mainProduct
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/MainProduct"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/MainProduct"
+      "400":
+        description: Invalid
+  delete:
+    tags:
+      - mainProduct
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid
+"/mainProduct/{mpid}/vendor/{vid}":
+  delete:
+    tags:
+      - mainProduct
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid

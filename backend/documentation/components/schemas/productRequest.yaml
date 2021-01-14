@@ -1,0 +1,18 @@
+ProductRequest:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    type:
+      type: string
+    vendorID:
+      type: string
+      format: mongoID
+    oldValue:
+      type: string
+      format: mongoID
+    newValue:
+      type: object
+    messageFromAdmin:
+      type: string

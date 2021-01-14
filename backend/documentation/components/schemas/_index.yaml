@@ -18,3 +18,20 @@ Category:
 
 Order:
   $ref: "./order.yaml#/Order"
+
+MainProduct:
+  $ref: "./mainProduct.yaml#/MainProduct"
+
+Product:
+  $ref: "./product.yaml#/Product"
+
+ProductofVendor:
+  $ref: "./product.yaml#/ProductofVendor"
+
+UpdatableProductForVendor:
+  $ref: "./product.yaml#/UpdatableProductForVendor"
+
+VendorSpecific:
+  $ref: "./product.yaml#/vendorSpecific"
+ProductRequest:
+  $ref: "./productRequest.yaml#/ProductRequest"

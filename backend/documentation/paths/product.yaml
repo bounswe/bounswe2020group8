@@ -1,0 +1,205 @@
+/product:
+  get:
+    tags:
+      - product
+    description: >-
+      Returns all the products. You can filter, sort ,limit number of
+      results, paginate and limit the returned fields. For filter, you need to
+      use the fields's name and value. You can filter using some operators.
+      They are gte, gt ,lte, lt, regex.
+    parameters:
+      - in: query
+        name: sort
+        description: >-
+          name of the field to sort
+        required: false
+        type: string
+      - in: query
+        name: limit
+        description: "number of elements to return, default is 1000"
+        required: false
+        type: number
+      - in: query
+        name: page
+        description: "page number for the results, default is 1"
+        required: false
+        type: number
+      - in: query
+        name: fields
+        description: >-
+          Fields you want in the returned elements.
+        required: false
+        type: number
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductList"
+      "400":
+        description: Invalid body
+  post:
+    tags:
+      - product
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Product"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Product"
+      "400":
+        description: Invalid body
+"/product/{id}":
+  get:
+    tags:
+      - product
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Product"
+      "400":
+        description: Invalid
+  post:
+    tags:
+      - product
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/VendorSpecific"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Product"
+      "400":
+        description: Invalid body
+  patch:
+    tags:
+      - product
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Product"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Product"
+      "400":
+        description: Invalid
+  delete:
+    tags:
+      - product
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid
+"/product/{pid}/vendor/{vid}":
+  patch:
+    tags:
+      - product
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/VendorSpecific"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Product"
+      "400":
+        description: Invalid
+  delete:
+    tags:
+      - product
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid
+"/product/search":
+  post:
+    tags:
+      - product
+    parameters:
+      - in: query
+        name: sort
+        description: >-
+          name of the field to sort
+        required: false
+        type: string
+      - in: query
+        name: limit
+        description: "number of elements to return, default is 1000"
+        required: false
+        type: number
+      - in: query
+        name: page
+        description: "page number for the results, default is 1"
+        required: false
+        type: number
+      - in: body
+        name: query string
+        schema:
+          type: object
+          properties:
+            query:
+              type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/SearchResults"
+      "400":
+        description: Invalid body
+"/product/searchFilters":
+  post:
+    tags:
+      - product
+    parameters:
+      - in: body
+        name: query string
+        schema:
+          type: object
+          properties:
+            query:
+              type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/SearchFilterResults"
+      "400":
+        description: Invalid body

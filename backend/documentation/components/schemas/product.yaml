@@ -1,0 +1,91 @@
+Product:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    tags:
+      type: array
+      items:
+        type: string
+    parameters:
+      type: array
+      items:
+        $ref: "#/parameter"
+    vendorSpecifics:
+      type: array
+      items:
+        $ref: "#/vendorSpecific"
+    default:
+      $ref: "#/vendorSpecific"
+    photos:
+      type: array
+      items:
+        type: string
+    parentProduct:
+      type: string
+      format: mongoID
+    brand:
+      type: string
+    category:
+      type: string
+
+vendorSpecific:
+  type: object
+  properties:
+    vendorID:
+      type: string
+      format: mongoID
+    price:
+      type: number
+    amountLeft:
+      type: number
+    shipmentPrice:
+      type: number
+    cargoCompany:
+      type: string
+parameter:
+  type: object
+  properties:
+    name:
+      type: string
+    value:
+      type: string
+
+ProductofVendor:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    tags:
+      type: array
+      items:
+        type: string
+    parameters:
+      type: array
+      items:
+        $ref: "#/parameter"
+    vendorSpecifics:
+      $ref: "#/vendorSpecific"
+    photos:
+      type: array
+      items:
+        type: string
+    parentProduct:
+      type: string
+      format: mongoID
+    brand:
+      type: string
+    category:
+      type: string
+
+UpdatableProductForVendor:
+  type: object
+  properties:
+    vendorSpecifics:
+      $ref: "#/vendorSpecific"
+    photos:
+      type: array
+      items:
+        type: string

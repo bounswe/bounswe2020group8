@@ -70,6 +70,30 @@
 "/vendor/{id}":
   $ref: "./vendor.yaml#/~1vendor~1changePassword"
 
+"/vendor/me/product":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product"
+
+"/vendor/me/product/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1{id}"
+
+"/vendor/me/mainProduct":
+  $ref: "./vendor.yaml#/~1vendor~1me~1mainProduct"
+
+"/vendor/me/mainProduct/{mpid}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1mainProduct~1{mpid}"
+
+/vendor/me/product/new:
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1new"
+
+"/vendor/me/product/existing/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1existing~1{id}"
+
+/vendor/me/productRequest:
+  $ref: "./vendor.yaml#/~1vendor~1me~1productRequest"
+
+"/vendor/me/productRequest/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1productRequest~1{id}"
+
 /admin/loginAdmin:
   $ref: "./admin.yaml#/~1admin~1loginAdmin"
 
@@ -81,3 +105,33 @@
 
 "/comment/{pid}":
   $ref: "./comment.yaml#/~1comment~1{pid}"
+
+"/product":
+  $ref: "./product.yaml#/~1product"
+
+"/product/{id}":
+  $ref: "./product.yaml#/~1product~1{id}"
+
+"/product/{pid}/vendor/{vid}":
+  $ref: "./product.yaml#/~1product~1{pid}~1vendor~1{vid}"
+
+"/product/search":
+  $ref: "./product.yaml#/~1product~1search"
+
+"/product/searchFilters":
+  $ref: "./product.yaml#/~1product~1searchFilters"
+
+"/mainProduct":
+  $ref: "./mainProduct.yaml#/~1mainProduct"
+
+"/mainProduct/{id}":
+  $ref: "./mainProduct.yaml#/~1mainProduct~1{id}"
+
+"/mainProduct/{mpid}/vendor/{vid}":
+  $ref: "./mainProduct.yaml#/~1mainProduct~1{mpid}~1vendor~1{vid}"
+
+"/productRequest":
+  $ref: "./productRequest.yaml#/~1productRequest"
+
+"/productRequest/{id}":
+  $ref: "./productRequest.yaml#/~1productRequest~1{id}"

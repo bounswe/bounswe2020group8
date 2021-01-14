@@ -24,3 +24,33 @@ VendorList:
 
 Vendor:
   $ref: "./vendor.yaml#/Vendor"
+
+ProductList:
+  $ref: "./product.yaml#/ProductList"
+
+Product:
+  $ref: "./product.yaml#/Product"
+
+ProductofVendorList:
+  $ref: "./product.yaml#/ProductofVendorList"
+
+ProductofVendor:
+  $ref: "./product.yaml#/ProductofVendor"
+
+SearchResults:
+  $ref: "./product.yaml#/SearchResults"
+
+SearchFilterResults:
+  $ref: "./product.yaml#/SearchFilterResults"
+
+MainProductList:
+  $ref: "./mainProduct.yaml#/MainProductList"
+
+MainProduct:
+  $ref: "./mainProduct.yaml#/MainProduct"
+
+ProductRequestList:
+  $ref: "./productRequest.yaml#/ProductRequestList"
+
+ProductRequest:
+  $ref: "./productRequest.yaml#/ProductRequest"
