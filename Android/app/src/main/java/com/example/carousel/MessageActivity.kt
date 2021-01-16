@@ -2,6 +2,8 @@ package com.example.carousel
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.carousel.pojo.VendorSpecifics
@@ -24,6 +26,19 @@ class MessageActivity : AppCompatActivity() {
         }
         topAppBar.title = "Messages"
 
+        message_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                send_button.isEnabled = s?.length!!>0
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        }
+
+        )
         groupieAdapter = GroupieAdapter()
 
         groupieAdapter.add(MessageFromItem(Message("Hello friend how are you doing in this blessed day?")))
@@ -38,7 +53,8 @@ class MessageActivity : AppCompatActivity() {
 
     }
     fun sendMessage(view: View){
-        groupieAdapter.add(MessageToItem(Message(message_input.editText?.text.toString())))
+        groupieAdapter.add(MessageToItem(Message(message_layout.editText?.text.toString())))
+        message_text.setText("")
     }
 }
 

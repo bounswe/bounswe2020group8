@@ -45,13 +45,14 @@
                   android:orientation="horizontal"
                   android:layout_alignParentBottom="true">
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/message_input"
+            android:id="@+id/message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="5"
             android:hint="Write a message...">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/message_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -64,6 +65,7 @@
             android:layout_alignParentRight="true"
             android:layout_weight="1"
             android:onClick="sendMessage"
+            android:enabled="false"
             android:text="@string/send_button"/>
     </LinearLayout>
 
