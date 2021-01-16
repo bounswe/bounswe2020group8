@@ -8,8 +8,9 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
-import { Select, Modal, Button } from "antd";
+import { Select, Modal, Button, Form, Input, message, Popconfirm } from "antd";
 import services from "../../../apis/services";
+import { useHistory, withRouter } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -21,6 +22,53 @@ const addedToCart = {
   width: "200px",
   backgroundColor: "#46af62",
   fontSize: "20px",
+};
+
+const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+  const [form] = Form.useForm();
+  return (
+    <Modal
+      visible={visible}
+      centered
+      title="Create a new list"
+      okText="Create"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        form
+          .validateFields()
+          .then((values) => {
+            form.resetFields();
+            onCreate(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        name="form_in_modal"
+        initialValues={{
+          modifier: "public",
+        }}
+      >
+        <Form.Item
+          name="title"
+          label="Title"
+          rules={[
+            {
+              required: true,
+              message: "Please input the title of collection!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 };
 
 const ProductActions = ({
@@ -35,8 +83,11 @@ const ProductActions = ({
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const [buttonStyle, setButtonStyle] = useState(regularCart);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLikedModalVisible, setIsLikedModalVisible] = useState(false);
+  const [isUnlikedModalVisible, setIsUnlikedModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [lists, setLists] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     if (added) {
@@ -50,9 +101,10 @@ const ProductActions = ({
 
   useEffect(() => {
     getLists();
-  }, [liked]);
+  }, []);
 
   const getLists = async () => {
+    const { _id } = productList[0];
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -64,26 +116,131 @@ const ProductActions = ({
         if (response.data) {
           const newList = response.data.data;
           setLists(newList);
+          const l = newList.some((r) =>
+            r.wishedProducts.some((w) => w.productId === _id)
+          );
+          setLiked(l);
         }
       })
       .catch((err) => console.log(err));
   };
 
   const handleCreateNewList = async () => {
-    setIsModalVisible(false);
+    setVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const handleOk = (list) => {
+    const { _id, vendorSpecifics } = productList[0];
+    if (_id && vendorSpecifics && list) {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+
+      const payload = {
+        title: list.title,
+        wishedProducts: [
+          ...list.wishedProducts,
+          {
+            productId: _id,
+            vendorId: _id,
+          },
+        ],
+      };
+      const URL = "/shoppingList/" + list._id;
+      services
+        .patch(URL, payload, config)
+        .then((response) => {
+          message.success(
+            "Product is added to your list. You can check it from LIST"
+          );
+          setIsLikedModalVisible(false);
+          setLiked(true);
+        })
+        .catch(() => {
+          message.error("Something went wrong. Please try again");
+        });
+    }
+  };
+
+  const handleUnlike = () => {
+    const { _id, vendorSpecifics } = productList[0];
+    if (_id && vendorSpecifics) {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+
+      const r = lists.some((r) =>
+        r.wishedProducts.some((w) => w.productId === _id)
+      );
+      if (!r) {
+        message.error("Not in a list");
+        return;
+      }
+      let newlist = [];
+      lists.map((l) =>
+        l.wishedProducts.some((w) => w.productId === _id) ? (newlist = l) : null
+      );
+
+      newlist.wishedProducts = newlist.wishedProducts.filter(
+        (item) => item.productId !== _id
+      );
+
+      const payload = newlist;
+      const URL = "/shoppingList/" + newlist._id;
+      services
+        .patch(URL, payload, config)
+        .then((response) => {
+          message.success(
+            "Product is removed from your list. You can check it from LIST"
+          );
+          setIsUnlikedModalVisible(false);
+          setLiked(false);
+        })
+        .catch(() => {
+          message.error("Something went wrong. Please try again");
+        });
+    }
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    setIsLikedModalVisible(false);
+    setIsUnlikedModalVisible(false);
   };
 
   const handleListClicked = () => {
-    setIsModalVisible(true);
-    liked ? setLiked(false) : setLiked(true);
+    if (localStorage.getItem("login") === "true") {
+      if (liked) {
+        setIsUnlikedModalVisible(true);
+      } else {
+        setIsLikedModalVisible(true);
+      }
+    } else {
+      history.push("/");
+    }
+  };
+
+  const onCreate = (values) => {
+    const { _id, vendorSpecifics } = productList[0];
+    if (values && _id && vendorSpecifics) {
+      const payload = {
+        title: values.title,
+        wishedProducts: [],
+      };
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const URL = "/shoppingList/";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          getLists();
+        })
+        .catch((err) => console.log(err));
+    }
+    setVisible(false);
   };
 
   return (
@@ -93,7 +250,7 @@ const ProductActions = ({
           <p
             style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
-            onClick={() => alert("Looking for this vendor's products!")}
+            onClick={() => message.info("Looking for this vendor's products!")}
           >
             Seller: {seller} &gt;
           </p>
@@ -143,18 +300,13 @@ const ProductActions = ({
               )
             }
             style={{ marginTop: "-6px" }}
-            onClick={
-              () => handleListClicked()
-              // () => {
-              //   liked ? setLiked(false) : setLiked(true);
-              // }
-            }
+            onClick={() => handleListClicked()}
           />
           <Modal
-            title="Add this products to your list"
+            title="Select the list you want to add this product"
             centered
             style={{ justifyContent: "space-between" }}
-            visible={isModalVisible}
+            visible={isLikedModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={[
@@ -167,9 +319,28 @@ const ProductActions = ({
             ]}
           >
             {lists.map((list) => (
-              <ButtonSecondary title={list.title} onClick={handleOk} />
+              <ButtonSecondary
+                title={list.title}
+                onClick={() => handleOk(list)}
+              />
             ))}
           </Modal>
+          <Popconfirm
+            title="Are you sure to remove this product from your list?"
+            visible={isUnlikedModalVisible}
+            onConfirm={handleUnlike}
+            onCancel={handleCancel}
+            okText="Yes"
+            cancelText="No"
+          />
+
+          <CollectionCreateForm
+            visible={visible}
+            onCreate={onCreate}
+            onCancel={() => {
+              setVisible(false);
+            }}
+          />
         </div>
       </div>
       <div style={{ height: "140px" }}>
@@ -198,4 +369,4 @@ const ProductActions = ({
   );
 };
 
-export default ProductActions;
+export default withRouter(ProductActions);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Spin } from "antd";
+import { Layout, Divider, Spin, message } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import { useHistory, withRouter } from "react-router-dom";
@@ -148,16 +148,16 @@ const Cart = () => {
           services
             .post(URL, payload, config)
             .then((response) => {
-              alert("Purchase is successful!");
+              message.success("Purchase is successful!");
               onEmptyClicked();
               history.push("/account/active-order");
             })
             .catch((err) => console.log(err));
         } else {
-          alert("Please enter an address and payment method!");
+          message.warning("Please enter an address and payment method!");
         }
       } else {
-        alert("Please read the sales agreement and accept it");
+        message.warning("Please read the sales agreement and accept it");
       }
     }
   };
