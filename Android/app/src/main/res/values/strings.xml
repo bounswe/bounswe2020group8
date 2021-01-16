@@ -109,17 +109,37 @@
     <string name="register_info_activity_surname_required">Surname is mandotory.</string>
     <string name="passwordHint">Password</string>
     <string name="passwordConfirmHint">Password Confirm</string>
-    <string name="register_confirm_terms_warning">Please make sure that you have read and agree to the Terms and Conditions. </string>
+    <string name="register_confirm_terms_warning">Please make sure that you have read and agree to the Terms and
+        Conditions.
+    </string>
     <string name="register_info_activity_email_required">Email is mandotory.</string>
-    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis libero id ligula pellentesque lacinia. Vivamus at enim nec lectus rutrum malesuada. Nam rutrum odio in rhoncus fermentum. Cras sed nisl facilisis, scelerisque turpis vel, varius neque. Curabitur bibendum, lectus a semper suscipit, diam ligula fermentum ante, sit amet malesuada tortor ligula eget turpis. Aliquam in massa lacinia odio aliquam porta sed ac nunc. Ut lacus orci, vulputate vel congue quis, egestas vitae sem. Cras placerat, velit a pulvinar interdum, arcu libero tristique libero, id volutpat nisl dolor non mi. Curabitur id odio metus. Curabitur nisl turpis, imperdiet elementum quam in, commodo dapibus dolor. Etiam sit amet elementum augue. Phasellus bibendum blandit turpis ac tincidunt. Pellentesque rutrum malesuada urna, eget blandit tortor faucibus nec. Mauris semper auctor metus, a ullamcorper urna maximus quis. Nulla non finibus nunc. Pellentesque magna libero, pharetra rutrum consectetur nec, interdum rhoncus justo. Vivamus eu ornare tortor. Nunc dictum, urna nec sagittis gravida, elit lorem facilisis nulla, ac lobortis arcu felis eget diam. Sed rhoncus eget quam at efficitur. Quisque id arcu vel nisl lobortis luctus sed eu ligula. In eu porta arcu. Mauris sit amet tellus at risus eleifend faucibus vitae ac augue. Etiam elementum, lectus sagittis molestie iaculis, quam velit mattis sapien, porttitor suscipit sapien libero a mauris.</string>
+    <string name="lipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis libero id ligula
+        pellentesque lacinia. Vivamus at enim nec lectus rutrum malesuada. Nam rutrum odio in rhoncus fermentum. Cras
+        sed nisl facilisis, scelerisque turpis vel, varius neque. Curabitur bibendum, lectus a semper suscipit, diam
+        ligula fermentum ante, sit amet malesuada tortor ligula eget turpis. Aliquam in massa lacinia odio aliquam porta
+        sed ac nunc. Ut lacus orci, vulputate vel congue quis, egestas vitae sem. Cras placerat, velit a pulvinar
+        interdum, arcu libero tristique libero, id volutpat nisl dolor non mi. Curabitur id odio metus. Curabitur nisl
+        turpis, imperdiet elementum quam in, commodo dapibus dolor. Etiam sit amet elementum augue. Phasellus bibendum
+        blandit turpis ac tincidunt. Pellentesque rutrum malesuada urna, eget blandit tortor faucibus nec. Mauris semper
+        auctor metus, a ullamcorper urna maximus quis. Nulla non finibus nunc. Pellentesque magna libero, pharetra
+        rutrum consectetur nec, interdum rhoncus justo. Vivamus eu ornare tortor. Nunc dictum, urna nec sagittis
+        gravida, elit lorem facilisis nulla, ac lobortis arcu felis eget diam. Sed rhoncus eget quam at efficitur.
+        Quisque id arcu vel nisl lobortis luctus sed eu ligula. In eu porta arcu. Mauris sit amet tellus at risus
+        eleifend faucibus vitae ac augue. Etiam elementum, lectus sagittis molestie iaculis, quam velit mattis sapien,
+        porttitor suscipit sapien libero a mauris.
+    </string>
     <string name="close">CLOSE</string>
     <string name="registerPassword">Register-Set Password</string>
     <string name="register_password_sub_title">Please Set up a Password</string>
     <string name="register_password_required_password">Password is mandotory</string>
     <string name="register_password_confirm_error">Make Sure Passwords Match</string>
-    <string name="strong_password_error">Your password needs to be between 6 and 20 characters, contains at least one lower, one upper case letter and one digit</string>
+    <string name="strong_password_error">Your password needs to be between 6 and 20 characters, contains at least one
+        lower, one upper case letter and one digit
+    </string>
     <string name="register_info_valid_email">Email Address Is Not Valid</string>
-    <string name="vendor_login"><u>Do you have a shop?</u></string>
+    <string name="vendor_login">
+        <u>Do you have a shop?</u>
+    </string>
     <string name="login_vendor_header">Login - Vendor</string>
     <string name="login_vendor_subtitle">Please Enter Email and Password</string>
     <string name="forgot_password_sub_title">Please Enter Email</string>
@@ -162,14 +182,25 @@
     <string name="card_date">Card Date</string>
     <string name="card_cvc">CVC</string>
     <string name="legals_lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac ante non nisl dictum condimentum. Sed pharetra blandit augue, facilisis sollicitudin ligula aliquet non. Mauris vel mauris et neque tristique consequat. Vestibulum mollis metus sapien, vitae rhoncus diam consequat nec. Nam at mauris ac quam hendrerit tincidunt. Pellentesque cursus porta nisl vitae iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer interdum diam at felis malesuada, a suscipit felis iaculis.
-        Nullam luctus mauris vel diam cursus, ut dignissim lorem feugiat. Mauris interdum metus ac aliquet mollis. Etiam id sollicitudin massa. Sed ante est, rhoncus eget orci vitae, cursus ullamcorper sapien. Aenean tempus, augue viverra varius pharetra, nibh arcu tempor est, et vulputate justo tortor vel urna. Curabitur et arcu ut sapien volutpat egestas vitae vel sem. Quisque sed feugiat eros.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hendrerit consequat turpis. Etiam porttitor quam sed mauris elementum porta. Maecenas ac orci eget nisl rhoncus tempus. In sagittis non turpis nec euismod. Nullam condimentum risus sit amet nisi vulputate consequat eu non elit. Sed id metus non eros suscipit varius. Duis feugiat tristique turpis, nec fringilla elit porta nec. Pellentesque non lorem interdum, blandit justo eget, mollis urna.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac ante non nisl dictum condimentum. Sed
+        pharetra blandit augue, facilisis sollicitudin ligula aliquet non. Mauris vel mauris et neque tristique
+        consequat. Vestibulum mollis metus sapien, vitae rhoncus diam consequat nec. Nam at mauris ac quam hendrerit
+        tincidunt. Pellentesque cursus porta nisl vitae iaculis. Pellentesque habitant morbi tristique senectus et netus
+        et malesuada fames ac turpis egestas. Integer interdum diam at felis malesuada, a suscipit felis iaculis.
+        Nullam luctus mauris vel diam cursus, ut dignissim lorem feugiat. Mauris interdum metus ac aliquet mollis. Etiam
+        id sollicitudin massa. Sed ante est, rhoncus eget orci vitae, cursus ullamcorper sapien. Aenean tempus, augue
+        viverra varius pharetra, nibh arcu tempor est, et vulputate justo tortor vel urna. Curabitur et arcu ut sapien
+        volutpat egestas vitae vel sem. Quisque sed feugiat eros.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In hendrerit consequat turpis. Etiam porttitor quam sed
+        mauris elementum porta. Maecenas ac orci eget nisl rhoncus tempus. In sagittis non turpis nec euismod. Nullam
+        condimentum risus sit amet nisi vulputate consequat eu non elit. Sed id metus non eros suscipit varius. Duis
+        feugiat tristique turpis, nec fringilla elit porta nec. Pellentesque non lorem interdum, blandit justo eget,
+        mollis urna.
     </string>
     <string name="about">
         © 2020 Corousel. All Rights Reserved.\n\n
         Corousel App is created in context of CMPE352 and CMPE451 at Bogazici University by current members of\n
-        </string>
+    </string>
     <string name="members">
         Göksu Başer\n
         Öncel Keleş\n
@@ -181,12 +212,13 @@
         Özgürcan Öztaş\n
         Muhammet Tayyip Yazıcı\n
         Ahmet Yiğit Gedik\n
-        Nazım Berke Metin</string>
+        Nazım Berke Metin
+    </string>
     <string name="contacts">
         corouselapp@gmail.com\n
         github.com/bounswe/bounswe2020group8\n
 
-    <string name="vendor_home_title">Shop</string>
+        <string name="vendor_home_title">Shop</string>
 
 
     </string>
