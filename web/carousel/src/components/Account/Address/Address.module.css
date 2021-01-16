@@ -1,0 +1,43 @@
+.AddressBox {
+  height: 300px;
+  width: 300px;
+  border: solid 1px #e2e2e2;
+  border-radius: 5px;
+  margin: 35px;
+  display: inline-block;
+  font-size: medium;
+  background-color: white;
+  overflow: hidden;
+}
+
+.Header {
+  height: 40x;
+  max-height: 40px;
+  background-color: #d50000;
+  text-align: center;
+  font-size: larger;
+  color: white;
+  width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.Details {
+  height: 190px;
+  margin-left: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.ButtonRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30px;
+  margin: 15px 15px 10px 15px;
+}
