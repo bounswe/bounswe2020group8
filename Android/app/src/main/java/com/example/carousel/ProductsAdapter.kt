@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.snippet_item1.view.*
 
 
 class ProductsAdapter (    private var productList: ArrayList<Product> ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>(){
@@ -22,6 +24,8 @@ class ProductsAdapter (    private var productList: ArrayList<Product> ) : Recyc
         val image: ImageView = itemView.findViewById(R.id.icon)
         val title: TextView = itemView.findViewById(R.id.title)
         val price: TextView = itemView.findViewById(R.id.price)
+        val rating: RatingBar = itemView.findViewById(R.id.rating)
+        val numberOfRatings: TextView = itemView.findViewById(R.id.numberOfRatings)
 
             init {
                 itemView.setOnClickListener {
@@ -45,6 +49,9 @@ class ProductsAdapter (    private var productList: ArrayList<Product> ) : Recyc
 
         holder.title.text = productList[position].title
         holder.price.text = "\$${productList[position].price}"
+        holder.rating.rating = productList[position].rating.toFloat()
+        val numberOfRatingsText = productList[position].numberOfRatings.toString()
+        holder.numberOfRatings.text = "($numberOfRatingsText)"
     }
     fun replaceProducts(newProducts: ArrayList<Product>){
         this.productList = newProducts

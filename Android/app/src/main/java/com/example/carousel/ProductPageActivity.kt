@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +30,10 @@ class ProductPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_page)
+
+        // prevent the keyboard from opening
+        this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+
         var commentList: ArrayList<Comment> = ArrayList<Comment>()
         this.product = intent?.getSerializableExtra("product") as Product
         //image.setImageResource(product!!.photoUrl)

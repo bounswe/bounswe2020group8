@@ -30,7 +30,7 @@
         android:layout_height="20dp"
         android:orientation="horizontal" >
         <RatingBar
-            android:id="@+id/overallRating"
+            android:id="@+id/rating"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +43,7 @@
             android:stepSize="0.1"
             android:progressTint="@color/golden"/>
         <TextView
+            android:id="@+id/numberOfRatings"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="(12)"
@@ -55,6 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:minLines="1"
+        android:textColor="@color/black_text_color"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:paddingLeft="8dp"
