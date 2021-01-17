@@ -88,6 +88,19 @@
               $ref: "../components/responses/_index.yaml#/ApiResponse"
       "400":
         description: Invalid token
+"/vendor/public/{id}":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PublicVendor"
+      "400":
+        description: Invalid Id
 /vendor/verifyEmail:
   get:
     tags:

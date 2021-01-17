@@ -25,6 +25,9 @@ VendorList:
 Vendor:
   $ref: "./vendor.yaml#/Vendor"
 
+PublicVendor:
+  $ref: "./vendor.yaml#/PublicVendor"
+
 ProductList:
   $ref: "./product.yaml#/ProductList"
 

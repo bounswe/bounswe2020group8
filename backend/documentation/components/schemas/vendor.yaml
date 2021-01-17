@@ -26,27 +26,67 @@ Vendor:
       type: object
       properties:
         addressName:
-          type: String
+          type: string
         name:
-          type: String
+          type: string
         addressLine:
-          type: String
+          type: string
         city:
-          type: String
+          type: string
         state:
-          type: String
+          type: string
         zipCode:
-          type: String
+          type: string
         phone:
-          type: String
+          type: string
     locations:
       type: array
       items:
         type: object
         properties:
           longitude:
-            type: Number
+            type: number
           latitude:
-            type: Number
+            type: number
+  xml:
+    name: User
+PublicVendor:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    companyName:
+      type: string
+    companyDomainName:
+      type: string
+    aboutCompany:
+      type: string
+    address:
+      type: object
+      properties:
+        addressName:
+          type: string
+        name:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipCode:
+          type: string
+        phone:
+          type: string
+    locations:
+      type: array
+      items:
+        type: object
+        properties:
+          longitude:
+            type: number
+          latitude:
+            type: number
   xml:
     name: User

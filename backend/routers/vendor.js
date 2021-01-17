@@ -6,9 +6,21 @@ const authController = require("../controllers/authClient");
 const router = express.Router();
 
 router.post("/signup", VendorController.signupController, RequestHelper.returnResponse);
+router.get(
+  "/public/:id",
+  VendorController.getOneVendorPublicController,
+  RequestHelper.returnResponse
+);
+router.use(authController.protectRoute);
 
 // BELOW ARE PROTECTED ROUTES
-router.use(authController.protectRoute);
+router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
+
+router
+  .route("/:id")
+  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
+  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
 
 router
   .route("/me")
@@ -62,13 +74,5 @@ router
   .get(VendorController.getMyProductRequestController, RequestHelper.returnResponse)
   .patch(VendorController.updateMyProductRequestController, RequestHelper.returnResponse)
   .delete(VendorController.deleteMyProductRequestController, RequestHelper.returnResponse);
-
-router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
-
-router
-  .route("/:id")
-  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
-  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
-  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
 
 module.exports = router;

@@ -67,6 +67,9 @@
 /vendor:
   $ref: "./vendor.yaml#/~1vendor"
 
+"/vendor/public/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1public~1{id}"
+
 "/vendor/{id}":
   $ref: "./vendor.yaml#/~1vendor~1changePassword"
 
