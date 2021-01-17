@@ -16,6 +16,18 @@ exports.populateOrderDB = function (data, path = "order") {
 };
 
 exports.getOrderByCustomerIdDB = function (customerID) {
-  console.log(customerID);
   return Order.find({ customerID: customerID });
 };
+
+exports.getOrderByOrderIdDB = function (mainOrderID, orderID) {
+  console.log(mainOrderID);
+  console.log(orderID);
+  return Order.findOne({ _id: mainOrderID }).select({orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } } });
+  // return Order.findOne({ _id: mainOrderID }).select({orders: { $elemMatch: { price: 420 } } });
+};
+
+// exports.getOrderByOrderIdDB = function (mainOrderID, orderID) {
+//   console.log(mainOrderID);
+//   console.log(orderID);
+//   return Order.findOne({ _id: mainOrderID });
+// };

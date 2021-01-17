@@ -62,6 +62,12 @@ router.post(
   OrderController.getOrderByCustomerIdController,
   RequestHelper.returnResponse
 );
+router.get(
+  "/order/orderID",
+  OrderController.getOrderByOrderIdController,
+  RequestHelper.returnResponse
+);
 router.post("/purchase", PurchaseController.purchaseController, RequestHelper.returnResponse);
+
 
 module.exports = router;

@@ -13,6 +13,12 @@ exports.getOrderByCustomerIdService = async function ({ customerID }) {
   return order;
 };
 
+exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
+  const order = await OrderDataAccess.getOrderByOrderIdDB(mainOrderID, orderID);
+  console.log(order);
+  return { data: order};
+};
+
 exports.createOrderService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   var items = [];

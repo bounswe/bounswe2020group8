@@ -20,3 +20,13 @@ exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() => OrderService.getOrderByCustomerIdService({ customerID }));
 });
+
+exports.getOrderByOrderIdController = BaseUtil.createController((req) => {
+  let { mainOrderID, orderID } = req.body;
+  return BB.all([
+    AppValidator.validateIfNullOrEmpty(mainOrderID, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
+    AppValidator.validateIfNullOrEmpty(orderID, Messages.RETURN_MESSAGES.ERR_UNDEFINED)
+  ])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => OrderService.getOrderByOrderIdService({ mainOrderID, orderID }));
+});
