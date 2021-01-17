@@ -121,6 +121,9 @@ const ActiveOrder = () => {
                         height: 40,
                         fontSize: 16,
                       }}
+                      onClick={() =>
+                        history.push("/account/active-order/" + order._id)
+                      }
                     />
                   </div>
                 </div>

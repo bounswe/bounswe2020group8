@@ -17,6 +17,7 @@ import UserInfo from "../../components/Context/UserInfo";
 import Products from "./Products";
 import AddProduct from "./AddProduct";
 import ProductRequests from "./ProductsRequests";
+import OrderDetail from "../Account/OrderDetail";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -114,9 +115,19 @@ class VendorAccount extends Component {
             component={ActiveOrder}
           />
           <Route
+            path="/account/active-order/:id"
+            exact
+            component={OrderDetail}
+          />
+          <Route
             path="/vendor/account/inactive-order"
             exact
             component={InactiveOrder}
+          />
+          <Route
+            path="/account/inactive-order/:id"
+            exact
+            component={OrderDetail}
           />
           <Route path="/vendor/account/comments" exact component={Comments} />
           <Route path="/vendor/account/rate" exact component={Rate} />
