@@ -135,47 +135,51 @@ const List = () => {
 
   function ProductContent() {
     return (
-      <Collapse bordered={false} expandIconPosition="left">
-        {loading ? (
-          <div
-            style={{
-              padding: "0 24px",
-              minHeight: "140",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Spin size="large" />
-          </div>
-        ) : (
-          productList.map((list) => {
-            return (
-              <Panel
-                header={list.title}
-                onClick={() => handleEmptyListClicked()}
-                extra={genExtra(list._id)}
-              >
-                {list.wishedProducts
-                  ? list.wishedProducts.map((product) => (
-                      <ProductBox
-                        product={product}
-                        list
-                        handleDeleteProductClicked={(_id) =>
-                          handleDeleteProductClicked(list, _id)
-                        }
-                        handleCartClicked={(productId, vendorId) =>
-                          handleCartClicked(productId, vendorId)
-                        }
-                      />
-                    ))
-                  : null}
-              </Panel>
-            );
-          })
-        )}
-      </Collapse>
+      <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
+        My Lists
+        <Divider />
+        <Collapse bordered={false} expandIconPosition="left">
+          {loading ? (
+            <div
+              style={{
+                padding: "0 24px",
+                minHeight: "140",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Spin size="large" />
+            </div>
+          ) : (
+            productList.map((list) => {
+              return (
+                <Panel
+                  header={list.title}
+                  onClick={() => handleEmptyListClicked()}
+                  extra={genExtra(list._id)}
+                >
+                  {list.wishedProducts
+                    ? list.wishedProducts.map((product) => (
+                        <ProductBox
+                          product={product}
+                          list
+                          handleDeleteProductClicked={(_id) =>
+                            handleDeleteProductClicked(list, _id)
+                          }
+                          handleCartClicked={(productId, vendorId) =>
+                            handleCartClicked(productId, vendorId)
+                          }
+                        />
+                      ))
+                    : null}
+                </Panel>
+              );
+            })
+          )}
+        </Collapse>
+      </div>
     );
   }
 
@@ -188,15 +192,8 @@ const List = () => {
             minHeight: 280,
           }}
         >
-          <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
-            My Lists
-            <Divider />
-          </div>
-          {productList.length ? (
-            ProductContent()
-          ) : (
-            <div>You do not have a list!</div>
-          )}
+          {productList ? ProductContent() : <div>You do not have a list!</div>}
+
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}
