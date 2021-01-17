@@ -1,0 +1,41 @@
+MainProduct:
+  type: object
+  properties:
+    _id:
+      type: string
+      format: mongoID
+    title:
+      type: string
+    description:
+      type: string
+    rating:
+      type: number
+    numberOfRating:
+      type: number
+    tags:
+      type: array
+      items:
+        type: string
+    parameters:
+      type: array
+      items:
+        type: object
+        $ref: "#/parameter"
+    brand:
+      type: string
+    category:
+      type: string
+    soldAmount:
+      type: number
+    isConfirmed:
+      type: boolean
+
+parameter:
+  type: object
+  properties:
+    name:
+      type: string
+    value:
+      type: array
+      items:
+        type: string

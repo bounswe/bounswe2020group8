@@ -503,6 +503,16 @@ paths:
           name: passwordConfirm
           required: true
           type: string
+        - in: body
+          name: locations
+          type: array
+          items:
+            type: object
+            properties: null
+            longitude:
+              type: number
+            latitude:
+              type: number
       responses:
         '200':
           description: successful operation
@@ -731,6 +741,178 @@ paths:
                 $ref: '#/components/responses/ApiResponse'
         '400':
           description: Invalid token code or passwords don't match
+  /vendor/me/product:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductofVendorList'
+        '400':
+          description: Invalid
+  '/vendor/me/product/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductofVendor'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/UpdatableProductForVendor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+  /vendor/me/mainProduct:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProductList'
+        '400':
+          description: Invalid
+  '/vendor/me/mainProduct/{mpid}':
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+  /vendor/me/product/new:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid body
+  '/vendor/me/product/existing/{id}':
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/UpdatableProductForVendor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid body
+  /vendor/me/productRequest:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequestList'
+        '400':
+          description: Invalid
+  '/vendor/me/productRequest/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
   /admin/loginAdmin:
     post:
       tags:
@@ -848,6 +1030,388 @@ paths:
                 $ref: '#/components/responses/ApiResponse'
         '400':
           description: An error has occured.
+  /product:
+    get:
+      tags:
+        - product
+      description: 'Returns all the products. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductList'
+        '400':
+          description: Invalid body
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid body
+  '/product/{id}':
+    get:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/VendorSpecific'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid body
+    patch:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  '/product/{pid}/vendor/{vid}':
+    patch:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/VendorSpecific'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /product/search:
+    post:
+      tags:
+        - product
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: body
+          name: query string
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Invalid body
+  /product/searchFilters:
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: query string
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchFilterResults'
+        '400':
+          description: Invalid body
+  /mainProduct:
+    get:
+      tags:
+        - mainProduct
+      description: 'Returns all the main products. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProductList'
+        '400':
+          description: Invalid body
+    post:
+      tags:
+        - mainProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/MainProduct'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid body
+  '/mainProduct/{id}':
+    get:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - mainProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/MainProduct'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  '/mainProduct/{mpid}/vendor/{vid}':
+    delete:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /productRequest:
+    get:
+      tags:
+        - productRequest
+      description: 'Returns all the product requests. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequestList'
+        '400':
+          description: Invalid body
+  '/productRequest/{id}':
+    get:
+      tags:
+        - productRequest
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - productRequest
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - productRequest
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
 components:
   securitySchemes:
     bearerAuth:
@@ -932,6 +1496,184 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/Vendor'
+    ProductList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+    Product:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Product'
+    ProductofVendorList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductofVendor'
+    ProductofVendor:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/ProductofVendor'
+    SearchResults:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  matches:
+                    type: number
+                  maxPrice:
+                    type: number
+                  minPrice:
+                    type: number
+                  vendors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        companyName:
+                          type: string
+                  mainProduct:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        title:
+                          type: string
+                        rating:
+                          type: number
+                        numberOfRating:
+                          type: number
+                  product:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        format: mongoID
+                      photos:
+                        type: array
+                        items:
+                          type: string
+                  mpid:
+                    type: string
+                    format: mongoID
+                  brand:
+                    type: string
+                  category:
+                    type: string
+    SearchFilterResults:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: null
+                  maxPrice:
+                    type: number
+                  minPrice:
+                    type: number
+                  vendors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        companyName:
+                          type: string
+                  parameters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: array
+                          items:
+                            type: string
+                  brands:
+                    type: array
+                    items:
+                      type: string
+                  categories:
+                    type: array
+                    items:
+                      type: string
+    MainProductList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/MainProduct'
+    MainProduct:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/MainProduct'
+    ProductRequestList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductRequest'
+    ProductRequest:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/ProductRequest'
   schemas:
     Rate:
       type: object
@@ -1167,3 +1909,144 @@ components:
           type: string
       xml:
         name: User
+    MainProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        title:
+          type: string
+        description:
+          type: string
+        rating:
+          type: number
+        numberOfRating:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: array
+                items:
+                  type: string
+        brand:
+          type: string
+        category:
+          type: string
+        soldAmount:
+          type: number
+        isConfirmed:
+          type: boolean
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+        vendorSpecifics:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorSpecific'
+        default:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+        parentProduct:
+          type: string
+          format: mongoID
+        brand:
+          type: string
+        category:
+          type: string
+    ProductofVendor:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product/properties/parameters/items'
+        vendorSpecifics:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+        parentProduct:
+          type: string
+          format: mongoID
+        brand:
+          type: string
+        category:
+          type: string
+    UpdatableProductForVendor:
+      type: object
+      properties:
+        vendorSpecifics:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+    VendorSpecific:
+      type: object
+      properties:
+        vendorID:
+          type: string
+          format: mongoID
+        price:
+          type: number
+        amountLeft:
+          type: number
+        shipmentPrice:
+          type: number
+        cargoCompany:
+          type: string
+    ProductRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        type:
+          type: string
+        vendorID:
+          type: string
+          format: mongoID
+        oldValue:
+          type: string
+          format: mongoID
+        newValue:
+          type: object
+        messageFromAdmin:
+          type: string

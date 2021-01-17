@@ -31,6 +31,16 @@
         name: passwordConfirm
         required: true
         type: string
+      - in: body
+        name: locations
+        type: array
+        items:
+          type: object
+          properties:
+          longitude:
+            type: number
+          latitude:
+            type: number
     responses:
       "200":
         description: successful operation
@@ -314,3 +324,176 @@
               $ref: "../components/responses/_index.yaml#/NullData"
       "400":
         description: Authorization error
+"/vendor/me/product":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductofVendorList"
+      "400":
+        description: Invalid
+"/vendor/me/product/{id}":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductofVendor"
+      "400":
+        description: Invalid
+  patch:
+    tags:
+      - vendor
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/UpdatableProductForVendor"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid
+  delete:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid
+"/vendor/me/mainProduct":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/MainProductList"
+      "400":
+        description: Invalid
+
+"/vendor/me/mainProduct/{mpid}":
+  delete:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid
+"/vendor/me/product/new":
+  post:
+    tags:
+      - vendor
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/Product"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid body
+"/vendor/me/product/existing/{id}":
+  post:
+    tags:
+      - vendor
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/UpdatableProductForVendor"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid body
+"/vendor/me/productRequest":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequestList"
+      "400":
+        description: Invalid
+"/vendor/me/productRequest/{id}":
+  get:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid
+  patch:
+    tags:
+      - vendor
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/ProductRequest"
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ProductRequest"
+      "400":
+        description: Invalid
+  delete:
+    tags:
+      - vendor
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid
