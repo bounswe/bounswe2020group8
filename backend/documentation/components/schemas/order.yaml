@@ -13,47 +13,47 @@ Order:
       type: object
       properties:
         addressName:
-          type: String
+          type: string
         name:
-          type: String
+          type: string
         addressLine:
-          type: String
+          type: string
         city:
-          type: String
+          type: string
         state:
-          type: String
+          type: string
         zipCode:
-          type: String
+          type: string
         phone:
-          type: String
+          type: string
     billingAddress:
       type: object
       properties:
         addressName:
-          type: String
+          type: string
         name:
-          type: String
+          type: string
         addressLine:
-          type: String
+          type: string
         city:
-          type: String
+          type: string
         state:
-          type: String
+          type: string
         zipCode:
-          type: String
+          type: string
         phone:
-          type: String
+          type: string
     creditCard:
       type: object
       properties:
         creditCardNumber:
-          type: String
+          type: string
         creditCardCvc:
-          type: String
+          type: string
         creditCardData:
-          type: String
+          type: string
         creditCardName:
-          type: String
+          type: string
     shippingInfo:
       type: string
     refundProcess:

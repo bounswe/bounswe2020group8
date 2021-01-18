@@ -713,6 +713,19 @@ paths:
                 $ref: '#/components/responses/VendorList'
         '400':
           description: Authorization error
+  '/vendor/public/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PublicVendor'
+        '400':
+          description: Invalid Id
   '/vendor/{id}':
     post:
       tags:
@@ -1496,6 +1509,13 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/Vendor'
+    PublicVendor:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PublicVendor'
     ProductList:
       allOf:
         - $ref: '#/components/responses/ApiResponse'
@@ -1732,11 +1752,11 @@ components:
               vendorId:
                 type: String
               amount:
-                type: Number
+                type: number
               price:
-                type: Number
+                type: number
               shipmentPrice:
-                type: Number
+                type: number
               cargoCompany:
                 type: String
               vendorName:
@@ -1766,7 +1786,7 @@ components:
                 type: String
               phone:
                 type: String
-        telephoneNumber:
+        phoneNumber:
           type: string
         birthday:
           type: string
@@ -1813,28 +1833,68 @@ components:
           type: object
           properties:
             addressName:
-              type: String
+              type: string
             name:
-              type: String
+              type: string
             addressLine:
-              type: String
+              type: string
             city:
-              type: String
+              type: string
             state:
-              type: String
+              type: string
             zipCode:
-              type: String
+              type: string
             phone:
-              type: String
+              type: string
         locations:
           type: array
           items:
             type: object
             properties:
               longitude:
-                type: Number
+                type: number
               latitude:
-                type: Number
+                type: number
+      xml:
+        name: User
+    PublicVendor:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        companyName:
+          type: string
+        companyDomainName:
+          type: string
+        aboutCompany:
+          type: string
+        address:
+          type: object
+          properties:
+            addressName:
+              type: string
+            name:
+              type: string
+            addressLine:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            phone:
+              type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              longitude:
+                type: number
+              latitude:
+                type: number
       xml:
         name: User
     Category:
@@ -1862,47 +1922,47 @@ components:
           type: object
           properties:
             addressName:
-              type: String
+              type: string
             name:
-              type: String
+              type: string
             addressLine:
-              type: String
+              type: string
             city:
-              type: String
+              type: string
             state:
-              type: String
+              type: string
             zipCode:
-              type: String
+              type: string
             phone:
-              type: String
+              type: string
         billingAddress:
           type: object
           properties:
             addressName:
-              type: String
+              type: string
             name:
-              type: String
+              type: string
             addressLine:
-              type: String
+              type: string
             city:
-              type: String
+              type: string
             state:
-              type: String
+              type: string
             zipCode:
-              type: String
+              type: string
             phone:
-              type: String
+              type: string
         creditCard:
           type: object
           properties:
             creditCardNumber:
-              type: String
+              type: string
             creditCardCvc:
-              type: String
+              type: string
             creditCardData:
-              type: String
+              type: string
             creditCardName:
-              type: String
+              type: string
         shippingInfo:
           type: string
         refundProcess:

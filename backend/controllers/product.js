@@ -3,13 +3,16 @@ const BaseUtil = require("../util/baseUtil");
 const BB = require("bluebird");
 const Product = require("../models/product");
 const factory = require("../services/crudFactory");
+const { isEmpty } = require("underscore");
 
 exports.searchProductsController = BaseUtil.createController((req) => {
-  let tags = req.body.query
-    .trim()
-    .toLowerCase()
-    .split(/[ \t\n]+/);
-  console.log(tags);
+  if (typeof req.body.query == "string") {
+    req.body.query = req.body.query.trim();
+  }
+  if (!isEmpty(req.body.query)) {
+    var tags = req.body.query.toLowerCase().split(/[ \t\n]+/);
+  }
+
   return BB.all([]).then(() =>
     ProductService.searchProductsService({
       query: req.query,
