@@ -14,6 +14,7 @@ const { Content, Sider } = Layout;
 class Search extends Component {
   state = {
     filters: {},
+    results: 0,
     selectedFilters: [],
     productList: [],
     error: null,
@@ -58,7 +59,7 @@ class Search extends Component {
       .then((response) => {
         const results = response.data.results;
         const data = response.data.data;
-        this.setState({ productList: data });
+        this.setState({ results: results, productList: data });
       })
       .catch((err, response) => {
         console.log(err);
@@ -243,7 +244,7 @@ class Search extends Component {
             margin: "0px 0px 35px 35px",
             height: "50px",
             backgroundColor: "white",
-            width: "1100px",
+            width: "100%",
             display: "flex",
             paddingLeft: "15px",
             paddingRight: "15px",
@@ -254,9 +255,8 @@ class Search extends Component {
           }}
         >
           <div>
-            We've found {this.state.productList.length} result
-            {this.state.productList.length > 0 ? "s" : ""} related to "
-            {this.state.query}"
+            We've found {this.state.results} result
+            {this.state.results > 1 ? "s" : ""} related to "{this.state.query}"
           </div>
           <div>
             Sort According To:{" "}

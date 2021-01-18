@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import { Select } from "antd";
+import { useHistory } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -34,6 +35,7 @@ const ProductActions = ({
   const [liked, setLiked] = useState(false);
   const [added, setAdded] = useState(false);
   const [buttonStyle, setButtonStyle] = useState(regularCart);
+  const history = useHistory();
 
   useEffect(() => {
     if (added) {
@@ -54,7 +56,7 @@ const ProductActions = ({
           <p
             style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
-            onClick={() => alert("Looking for this vendor's products!")}
+            onClick={() => history.push("/v/" + seller)}
           >
             Seller: {seller} &gt;
           </p>
