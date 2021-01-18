@@ -17,16 +17,16 @@ router.use(authController.protectRoute);
 router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
 
 router
-  .route("/:id")
-  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
-  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
-  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
-
-router
   .route("/me")
   .get(VendorController.getProfile, RequestHelper.returnResponse)
   .patch(VendorController.patchProfile, RequestHelper.returnResponse)
   .delete(VendorController.freezeProfile, RequestHelper.returnResponse);
+
+router
+  .route("/:id")
+  .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
+  .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
+  .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
 
 router.get(
   "/me/product",

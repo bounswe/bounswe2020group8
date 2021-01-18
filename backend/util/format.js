@@ -50,6 +50,7 @@ exports.formatVendor = function ({
   aboutCompany,
   address,
   locations,
+  phoneNumber,
   IBAN,
   isActive,
   isSuspended,
