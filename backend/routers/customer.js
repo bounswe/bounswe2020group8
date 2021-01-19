@@ -67,6 +67,11 @@ router.get(
   OrderController.getOrderByOrderIdController,
   RequestHelper.returnResponse
 );
+router.patch(
+  "/order/status",
+  OrderController.updateOrderStatusController,
+  RequestHelper.returnResponse
+);
 router.post("/purchase", PurchaseController.purchaseController, RequestHelper.returnResponse);
 
 

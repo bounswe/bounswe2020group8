@@ -13,10 +13,19 @@ exports.getOrderByCustomerIdService = async function ({ customerID }) {
   return order;
 };
 
+exports.getOrderByVendorIdService = async function ({ _id }) {
+  const order = await OrderDataAccess.getOrderByVendorIdDB(_id);
+  return { data: order };
+};
+
 exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
   const order = await OrderDataAccess.getOrderByOrderIdDB(mainOrderID, orderID);
-  console.log(order);
-  return { data: order};
+  return { data: order };
+};
+
+exports.updateOrderStatusService = async function ({ _id, mainOrderID, orderID, status }) {
+  const order = await OrderDataAccess.updateOrderStatusDB(_id, mainOrderID, orderID, status);
+  return { data: order };
 };
 
 exports.createOrderService = async function ({ _id }) {

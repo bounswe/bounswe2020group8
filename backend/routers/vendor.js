@@ -2,6 +2,7 @@ const express = require("express");
 const VendorController = require("../controllers/vendor");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
+const OrderController = require("../controllers/order");
 
 const router = express.Router();
 
@@ -70,5 +71,11 @@ router
   .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
   .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
   .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
+
+  router.get(
+    "/order/getByVendorID",
+    OrderController.getOrderByVendorIdController,
+    RequestHelper.returnResponse
+  );
 
 module.exports = router;
