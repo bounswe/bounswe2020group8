@@ -26,6 +26,7 @@ const addedToCart = {
 const ProductActions = ({
   clickSellers,
   seller,
+  sellerId,
   defaultProduct,
   onProductChange,
   productList,
@@ -56,7 +57,7 @@ const ProductActions = ({
           <p
             style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
-            onClick={() => history.push("/v/" + seller)}
+            onClick={() => history.push("/v/" + sellerId)}
           >
             Seller: {seller} &gt;
           </p>

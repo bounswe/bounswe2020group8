@@ -1,46 +1,44 @@
 import React, { Component } from "react";
 import { Layout } from "antd";
 import SearchProduct from "../../components/ProductList/SearchProduct";
+import services from "../../apis/services";
 
 const { Content } = Layout;
 
 export class VendorPublicPage extends Component {
-  productList = [
-    {
-      matches: 1,
-      maxPrice: 799.99,
-      minPrice: 650,
-      vendors: [
-        {
-          _id: "5fea4ff1d585002036b0fb28",
-          companyName: "Teknosa",
-        },
-        {
-          _id: "5fea6a12161e5428c3caa39e",
-          companyName: "bilir",
-        },
-      ],
-      mainProduct: [
-        {
-          _id: "5fea526bd585002036b0fb2e",
-          title: "Iphone 10",
-          rating: 0,
-          numberOfRating: 0,
-        },
-      ],
-      product: {
-        _id: "5fea56e4d585002036b0fb38",
-        photos: [
-          "https://carouselbucket.s3.eu-central-1.amazonaws.com/452a48f2-dcc4-42b4-897d-863d80b7d591",
-          "https://carouselbucket.s3.eu-central-1.amazonaws.com/2c490e01-9cd1-4cff-b337-8c4a28a33af5",
-          "https://carouselbucket.s3.eu-central-1.amazonaws.com/c0e41112-9199-4f2b-87b8-7bdd1fc6417a",
-        ],
-      },
-      mpid: "5fea526bd585002036b0fb2e",
-      brand: "Apple",
-      category: "electronics",
-    },
-  ];
+  state = {
+    productList: [],
+    vendor: {},
+  };
+
+  async componentDidMount() {
+    const { location } = this.props;
+    const path = location.pathname.split("/");
+
+    const profileUrl = "/vendor/public/" + path?.[2];
+    const response = await services.get(profileUrl);
+    if (response) {
+      this.setState({ vendor: response.data.data });
+      const productUrl = "/product/search";
+      const params = {
+        vendors: path[2],
+      };
+      const r = await services.post(productUrl, null, params);
+      if (r) {
+        this.setState({ productList: r.data.data });
+      }
+    }
+  }
+
+  /*
+    Displays vendors information. It contains two box which are Company Name box 
+    and About Us box.
+    In about us box. there are four fields;
+      Company Name => name
+      Contact Info => phone number and domain name, default value is "We will add soon!"
+      Store Address => store address, default value is "We will add soon!"
+      About Company => about field, default value is "Check our products!"
+  */
 
   renderVendorInfo() {
     return (
@@ -63,7 +61,7 @@ export class VendorPublicPage extends Component {
             fontWeight: "bold",
           }}
         >
-          VendorName
+          {this.state.vendor.companyName}
         </div>
         <div
           style={{
@@ -86,31 +84,53 @@ export class VendorPublicPage extends Component {
               fontWeight: "bold",
             }}
           >
-            VendorInformation
+            About Us
           </div>
-          <div style={{ padding: 20, backgroundColor: "white" }}>
-            <div>Company Name</div>
-            <div>Contact Info</div>
-            <div>Our Store Address</div>
+          <div
+            style={{
+              padding: 20,
+              backgroundColor: "white",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div>Company Name: {this.state.vendor.companyName}</div>
+            <div>
+              Contact Info:{" "}
+              {(this.state.vendor.phoneNumber,
+              this.state.vendor.companyDomainName) || "We will add soon!"}
+            </div>
+            <div>
+              Our Store Address:{" "}
+              {this.state.vendor.location || "We will add soon!"}
+            </div>
+            <div>{this.state.vendor.aboutCompany || "Check our products"}</div>
           </div>
         </div>
       </div>
     );
   }
 
+  /* 
+    Lists vendor's product as it is on the search page.
+    If there is no product of the vendor, it writes "No Product"
+  */
+
   renderProducts() {
-    return this.productList.length ? (
+    return this.state.productList.length ? (
       <Content
         style={{
           padding: "0 24px",
           minHeight: "280px",
-          width: "1200px",
           display: "grid",
           gridGap: "25px",
           gridTemplateColumns: "repeat(auto-fit, 350px)",
+          justifyContent: "center",
         }}
       >
-        {this.productList.map((product) => {
+        {this.state.productList.map((product) => {
           return (
             <span>
               <SearchProduct product={product} />;
@@ -129,7 +149,7 @@ export class VendorPublicPage extends Component {
           alignItems: "center",
         }}
       >
-        <div>No product</div>
+        <div>No Product</div>
       </Content>
     );
   }

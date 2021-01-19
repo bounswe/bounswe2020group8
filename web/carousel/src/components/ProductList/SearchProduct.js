@@ -54,7 +54,6 @@ const SearchProduct = (props) => {
   const handleClick = () => {
     props.history.push(`/product/${mainProduct[0]._id}`);
   };
-  console.log(product);
   return (
     <div className={classes.SearchProduct}>
       <FixedDiv width={350} height={15} margin={"10px 0px"}>

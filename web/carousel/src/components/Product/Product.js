@@ -130,6 +130,7 @@ const Product = (props) => {
           />
           <ProductActions
             seller={productInfo.companyName} //TODO
+            sellerId={productInfo.vendorID}
             defaultProduct={product.option}
             productList={allProducts}
             onProductChange={handleOnProductChange}

@@ -244,7 +244,7 @@ class Search extends Component {
             margin: "0px 0px 35px 35px",
             height: "50px",
             backgroundColor: "white",
-            width: "100%",
+            width: "1100px",
             display: "flex",
             paddingLeft: "15px",
             paddingRight: "15px",
