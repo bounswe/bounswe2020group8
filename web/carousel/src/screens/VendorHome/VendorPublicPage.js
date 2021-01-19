@@ -131,11 +131,7 @@ export class VendorPublicPage extends Component {
         }}
       >
         {this.state.productList.map((product) => {
-          return (
-            <span>
-              <SearchProduct product={product} />;
-            </span>
-          );
+          return <SearchProduct product={product} />;
         })}
       </Content>
     ) : (
