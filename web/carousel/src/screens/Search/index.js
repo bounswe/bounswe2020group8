@@ -51,8 +51,6 @@ class Search extends Component {
     params["minPrice[lte]"] = this.state.priceInterval[1];
     params["sort"] = this.state.sort;
 
-    console.log(params);
-
     services
       .post("/product/search", payload, { params: params })
       .then((response) => {
