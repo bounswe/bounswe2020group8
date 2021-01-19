@@ -71,6 +71,7 @@ const List = () => {
   }
 
   const handleEmptyListClicked = (id) => {
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -85,6 +86,7 @@ const List = () => {
   };
 
   const handleEmptyAllListClicked = () => {
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -191,6 +193,7 @@ const List = () => {
           }}
         >
           {productList ? ProductContent() : <div>You do not have a list!</div>}
+
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}
