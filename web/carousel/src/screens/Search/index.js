@@ -18,7 +18,7 @@ class Search extends Component {
     productList: [],
     error: null,
     priceInterval: [],
-    sort: "brand",
+    sort: null,
   };
 
   componentDidMount() {
@@ -67,7 +67,7 @@ class Search extends Component {
 
   onSortChange(e) {
     if (e === "default") {
-      this.setState({ sort: "brand" });
+      this.setState({ sort: null });
     } else if (e === "ascendingPrice") {
       this.setState({ sort: "minPrice" });
     } else if (e === "decreasingPrice") {
