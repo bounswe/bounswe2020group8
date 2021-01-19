@@ -49,9 +49,9 @@ class Search extends Component {
 
     params["minPrice[gte]"] = this.state.priceInterval[0];
     params["minPrice[lte]"] = this.state.priceInterval[1];
-    //TODO Check whether they are working fine
-
     params["sort"] = this.state.sort;
+
+    console.log(params);
 
     services
       .post("/product/search", payload, { params: params })
@@ -207,7 +207,7 @@ class Search extends Component {
 
         {Array.isArray(vendors) && vendors.length
           ? this.renderMultiCheckbox({
-              name: "vendor",
+              name: "vendors",
               values: vendors.map((e) => e.companyName),
               ids: vendors.map((e) => e._id),
             })
