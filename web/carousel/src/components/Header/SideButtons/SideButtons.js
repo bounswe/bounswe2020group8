@@ -13,6 +13,7 @@ import {
   NotificationOutlined,
   LogoutOutlined,
   GiftOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
@@ -91,6 +92,13 @@ function SideButtons(props) {
               My Feedbacks
             </Link>
           </Menu.Item>
+          <Menu.Item>
+            <Link to="/account/tickets">
+              <FormOutlined />
+              My Tickets
+            </Link>
+          </Menu.Item>
+
           <Menu.Item>
             <Link to="/account/recommendation">
               <NotificationOutlined />

@@ -7,6 +7,7 @@ import {
   ShoppingCartOutlined,
   NotificationOutlined,
   CommentOutlined,
+  FormOutlined
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -19,6 +20,7 @@ import Cart from "./Cart";
 import Comments from "./Comments";
 import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
+import Tickets from "./Tickets";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
 
@@ -92,6 +94,10 @@ class Account extends Component {
             </Menu.Item>
           </SubMenu>
 
+          <Menu.Item icon={<FormOutlined />} key="ticket">
+            <Link to="/account/tickets">My Tickets</Link>
+          </Menu.Item>
+
           <Menu.Item icon={<NotificationOutlined />} key="recommendation">
             <Link to="/account/recommendation">New Recommendations</Link>
           </Menu.Item>
@@ -118,6 +124,7 @@ class Account extends Component {
           <Route path="/account/cart" exact component={Cart} />
           <Route path="/account/comments" exact component={Comments} />
           <Route path="/account/rate" exact component={Rate} />
+          <Route path="/account/tickets" exact component={Tickets} />
           <Route
             path="/account/recommendation"
             exact
