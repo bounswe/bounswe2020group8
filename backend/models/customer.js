@@ -23,6 +23,11 @@ var shoppingList = {
   ],
 };
 
+var searchHistory = {
+  tags: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
+};
+
 var shoppingCart = {
   productsIn: [({ type: Schema.Types.ObjectId }, { type: Number })], // productId and productAmount
 };
@@ -42,6 +47,7 @@ var customerSchema = new Schema(
     phoneNumber: { type: String },
     birthday: { type: String },
     creditCards: [creditCard],
+    searchHistory: [],
   },
   { collection: "Clients" }
 );

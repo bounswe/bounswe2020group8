@@ -1,10 +1,17 @@
 const express = require("express");
 const ProductController = require("../controllers/product");
+const CustomerController = require("../controllers/customer");
+
 const RequestHelper = require("./../util/requestHelper");
 
 const router = express.Router();
 
-router.post("/search", ProductController.searchProductsController, RequestHelper.returnResponse);
+router.post(
+  "/search",
+  ProductController.searchProductsController,
+  CustomerController.productSearchAddDB,
+  RequestHelper.returnResponse
+);
 router.post(
   "/searchFilters",
   ProductController.getSearchFiltersController,
