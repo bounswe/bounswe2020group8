@@ -47,6 +47,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:background="@color/colorWhite"
+                android:progressTint="@color/golden"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="5"
@@ -129,7 +130,13 @@
                     app:icon="@drawable/ic_remove_circle_24px"
                     android:onClick="decCount"
                 />
-                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:text="0" android:id="@+id/counter" android:layout_marginLeft="8dp"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:id="@+id/counter"
+                    android:layout_marginLeft="8dp"/>
 
 
                 <Button

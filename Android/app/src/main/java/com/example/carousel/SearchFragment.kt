@@ -399,7 +399,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
-        val adapter = ProductsAdapter(products)
+        val adapter = ProductsAdapter(products, requireActivity())
         recyclerId.apply {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)

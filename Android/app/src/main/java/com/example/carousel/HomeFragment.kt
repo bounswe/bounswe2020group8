@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
     private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView ){
-        val adapter = ProductsAdapter(products)
+        val adapter = ProductsAdapter(products, requireActivity())
         productCategory.apply {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
