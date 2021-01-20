@@ -10,6 +10,11 @@ router.post(
   ProductController.getSearchFiltersController,
   RequestHelper.returnResponse
 );
+router.get(
+  "/recommendations/:id",
+  ProductController.getProductRecommendationController,
+  RequestHelper.returnResponse
+);
 
 router
   .route("/")

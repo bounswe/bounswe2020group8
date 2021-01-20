@@ -121,6 +121,9 @@
 "/product/search":
   $ref: "./product.yaml#/~1product~1search"
 
+"/product/recommendations/{id}":
+  $ref: "./product.yaml#/~1product~1recommendations~1{id}"
+
 "/product/searchFilters":
   $ref: "./product.yaml#/~1product~1searchFilters"
 

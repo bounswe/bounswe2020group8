@@ -21,6 +21,14 @@ exports.searchProductsController = BaseUtil.createController((req) => {
   );
 });
 
+exports.getProductRecommendationController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    ProductService.getProductRecommendationService({
+      pid: req.params.id,
+    })
+  );
+});
+
 exports.getSearchFiltersController = BaseUtil.createController((req) => {
   let tags = req.body.query
     .trim()
