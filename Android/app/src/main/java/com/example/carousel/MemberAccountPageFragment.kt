@@ -82,17 +82,26 @@ class MemberAccountPageFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 3){
+
+            }
+            else if(pos == 3){
+                val fragment = MessageFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_account_page, fragment)
+                    ?.commit()
+
+            }
+            else if(pos == 4){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 4) {
+            }else if(pos == 5) {
                 val fragment = Settings()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if (pos == 5) {
+            }else if (pos == 6) {
                 type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
 
@@ -107,19 +116,19 @@ class MemberAccountPageFragment : Fragment() {
                     (activity as VendorDashboardActivity).logout()
                 }
 
-            }else if(pos == 8) {
+            }else if(pos == 9) {
                 (activity as DashboardActivity).refresh()
-            }else if(pos == 7) {
+            }else if(pos == 8) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 8) {
+            }else if(pos == 9) {
                 val fragment = Legals()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 9) {
+            }else if(pos == 10) {
                 val fragment = Contacts()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
@@ -205,6 +214,7 @@ class MemberAccountPageFragment : Fragment() {
                         mAdapter.addSectionHeaderItem("Account")
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
+                        mAdapter.addItem("Messages", drawable.ic_message_24px)
                         mAdapter.addItem("Change Password", drawable.ic_key)
                         mAdapter.addItem("Addresses and Credit Cards", drawable.ic_settings)
                         mAdapter.addItem("Logout", drawable.ic_exit)
