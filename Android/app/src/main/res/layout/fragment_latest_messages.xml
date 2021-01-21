@@ -5,7 +5,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/fragment_latest_messages"
-                tools:context=".LatestMessagesFragment">
+                tools:context=".LatestMessagesFragment"
+                android:background="?android:windowBackground">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_alignParentTop="true"
