@@ -24,7 +24,7 @@ class MessageActivity : AppCompatActivity() {
         topAppBar.setNavigationOnClickListener{
             finish()
         }
-        topAppBar.title = "Messages"
+        topAppBar.title = (intent.getSerializableExtra("conversation") as LatestMessagesFragment.User).name
 
         message_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -58,7 +58,7 @@ class MessageActivity : AppCompatActivity() {
     }
 }
 
-class MessageFromItem(private val message: Message) : Item<GroupieViewHolder>() {
+class MessageFromItem(private val message: Message) : Item<GroupieViewHolder>() {//Received message view
 
     override fun getLayout() = R.layout.other_chat_item
 
@@ -67,7 +67,7 @@ class MessageFromItem(private val message: Message) : Item<GroupieViewHolder>() 
     }
 }
 
-class MessageToItem(private val message: Message) : Item<GroupieViewHolder>() {
+class MessageToItem(private val message: Message) : Item<GroupieViewHolder>() {//Sent message view
 
     override fun getLayout() = R.layout.my_chat_item
 

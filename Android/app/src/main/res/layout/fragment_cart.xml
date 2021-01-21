@@ -38,7 +38,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="false"
             android:duplicateParentState="true"
-            android:src="@drawable/ic_arrow_drop_down_24px"
+            app:srcCompat="@drawable/ic_arrow_drop_down_24px"
         />
 
     </LinearLayout>

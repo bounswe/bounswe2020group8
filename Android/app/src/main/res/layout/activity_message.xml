@@ -28,9 +28,8 @@
             />
 
         </com.google.android.material.appbar.AppBarLayout>
-
-        <!-- Note: A RecyclerView can also be used -->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/message_view"
         android:layout_width="match_parent"

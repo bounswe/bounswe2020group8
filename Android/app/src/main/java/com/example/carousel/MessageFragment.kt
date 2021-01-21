@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.example.carousel.customer.RegisterInfoActivity
 import kotlinx.android.synthetic.main.fragment_message.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,8 +29,12 @@ class MessageFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        val intent = Intent(this.requireContext(), MessageActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(this.requireContext(), MessageActivity::class.java)
+        //startActivity(intent)
+        val fragment = LatestMessagesFragment()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.fragment_message, fragment)
+            .commit()
     }
 
     override fun onCreateView(
