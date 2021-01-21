@@ -5,6 +5,7 @@ import {
   ShoppingOutlined,
   CommentOutlined,
   GiftOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -17,6 +18,7 @@ import UserInfo from "../../components/Context/UserInfo";
 import Products from "./Products";
 import AddProduct from "./AddProduct";
 import ProductRequests from "./ProductsRequests";
+import Tickets from "../Account/Tickets";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -73,7 +75,12 @@ class VendorAccount extends Component {
               <Link to="/vendor/account/inactive-order">Inactive Orders</Link>
             </Menu.Item>
           </SubMenu>
-
+          <Menu.Item>
+            <Link to="/vendor/account/tickets">
+              <FormOutlined />
+              My Tickets
+            </Link>
+          </Menu.Item>
           <SubMenu
             key="/comments"
             icon={<CommentOutlined />}
@@ -118,6 +125,7 @@ class VendorAccount extends Component {
             exact
             component={InactiveOrder}
           />
+          <Route path="/vendor/account/tickets" exact component={Tickets} />
           <Route path="/vendor/account/comments" exact component={Comments} />
           <Route path="/vendor/account/rate" exact component={Rate} />
         </Switch>

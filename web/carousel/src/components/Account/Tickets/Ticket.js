@@ -25,7 +25,7 @@ const Ticket = ({ ticket, clearFocustTicket }) => {
         }
         return (
           <div className={classes.MessageBox} style={style}>
-            {ticket.messages[1].message}
+            {message.message}
           </div>
         );
       })}
