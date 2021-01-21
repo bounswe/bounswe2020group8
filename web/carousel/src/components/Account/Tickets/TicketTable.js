@@ -4,7 +4,7 @@ import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import TicketModal from "./TicketModal";
 
-const TicketTable = ({ tickets, setFocusTicket }) => {
+const TicketTable = ({ tickets, setFocusTicket, admin }) => {
   const [modal, setModal] = useState({ visible: false });
   const columns = [
     {
@@ -24,11 +24,13 @@ const TicketTable = ({ tickets, setFocusTicket }) => {
         <TicketModal setModal={setModal} visible={true} />
       ) : null}
       <span>
-        <ButtonSecondary
-          title={"Create New Ticket"}
-          style={{ width: 200 }}
-          onClick={() => setModal({ visible: true })}
-        />
+        {!admin ? (
+          <ButtonSecondary
+            title={"Create New Ticket"}
+            style={{ width: 200 }}
+            onClick={() => setModal({ visible: true })}
+          />
+        ) : null}
       </span>
       <Table
         dataSource={tickets}

@@ -132,6 +132,12 @@ function SideButtons(props) {
               My Feedbacks
             </Link>
           </Menu.Item>
+          <Menu.Item>
+            <Link to="/vendor/account/tickets">
+              <FormOutlined />
+              My Tickets
+            </Link>
+          </Menu.Item>
         </>
       )}
 
