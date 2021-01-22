@@ -77,7 +77,10 @@ exports.deleteFromGuestShoppingCartDB = function (_id, productId, vendorId) {
     { _id: _id },
     {
       $pull: {
-        shoppingCart: { productId: mongoose.Types.ObjectId(productId), vendorId: mongoose.Types.ObjectId(vendorId) },
+        shoppingCart: {
+          productId: mongoose.Types.ObjectId(productId),
+          vendorId: mongoose.Types.ObjectId(vendorId),
+        },
       },
     },
     { new: true }
@@ -95,7 +98,6 @@ exports.resetGuestShoppingCartDB = function (_id) {
     { new: true }
   );
 };
-
 
 exports.getGuestShoppingCartDB = function (_id) {
   return GuestShoppingCart.findById({ _id: _id }).select("shoppingCart");

@@ -8,10 +8,10 @@ const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
 
-exports.getIDService = async function ({ }) {
+exports.getIDService = async function ({}) {
   _id = mongoose.Types.ObjectId();
   date = Date.now();
-  data = { _id: _id, date: date};
+  data = { _id: _id, date: date };
   shoppingCart = GuestDataAccess.populateGuestShoppingCartDB(data);
-  return {data: {_id: _id}};
+  return { data: { _id: _id } };
 };

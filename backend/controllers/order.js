@@ -30,9 +30,7 @@ exports.updateOrderStatusVendorController = BaseUtil.createController((req) => {
 
 exports.updateOrderStatusGuestController = BaseUtil.createController((req) => {
   let { mainOrderID, orderID, status } = req.body;
-  return BB.all([
-    OrderService.updateOrderStatusGuestService({ mainOrderID, orderID, status }),
-  ]);
+  return BB.all([OrderService.updateOrderStatusGuestService({ mainOrderID, orderID, status })]);
 });
 
 exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {

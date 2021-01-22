@@ -44,7 +44,9 @@ exports.deleteFromShoppingCartController = BaseUtil.createController((req) => {
 
 exports.deleteFromGuestShoppingCartController = BaseUtil.createController((req) => {
   let { _id, productId, vendorId } = req.body;
-  return BB.all([ShoppingCartService.deleteFromGuestShoppingCartService({ _id, productId, vendorId })]);
+  return BB.all([
+    ShoppingCartService.deleteFromGuestShoppingCartService({ _id, productId, vendorId }),
+  ]);
 });
 
 exports.resetShoppingCartController = BaseUtil.createController((req) => {
