@@ -12,11 +12,20 @@ exports.searchProductsController = BaseUtil.createController((req) => {
   if (!isEmpty(req.body.query)) {
     var tags = req.body.query.toLowerCase().split(/[ \t\n]+/);
   }
+  req.custom.tags = tags;
 
   return BB.all([]).then(() =>
     ProductService.searchProductsService({
       query: req.query,
       tags,
+    })
+  );
+});
+
+exports.getProductRecommendationController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    ProductService.getProductRecommendationService({
+      pid: req.params.id,
     })
   );
 });

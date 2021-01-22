@@ -49,6 +49,9 @@
 /customer/me:
   $ref: "./customer.yaml#/~1customer~1me"
 
+/customer/me/recommendations:
+  $ref: "./customer.yaml#/~1customer~1me~1recommendations"
+
 /customer:
   $ref: "./customer.yaml#/~1customer"
 
@@ -135,6 +138,9 @@
 
 "/product/search":
   $ref: "./product.yaml#/~1product~1search"
+
+"/product/recommendations/{id}":
+  $ref: "./product.yaml#/~1product~1recommendations~1{id}"
 
 "/product/searchFilters":
   $ref: "./product.yaml#/~1product~1searchFilters"

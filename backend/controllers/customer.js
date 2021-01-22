@@ -1,11 +1,14 @@
 const CustomerService = require("../services/customer");
+const CustomerDataAccess = require("../dataAccess/customer");
+const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const AppValidator = require("../util/appValidator");
 const BaseUtil = require("../util/baseUtil");
 const Messages = require("../util/messages");
 const BB = require("bluebird");
 const factory = require("../services/crudFactory");
-
 const Customer = require("../models/customer");
+const { isNullOrEmpty } = require("../util/coreUtil");
+const AppError = require("../util/appError");
 
 exports.signupController = BaseUtil.createController((req) => {
   let { email, password, passwordConfirm, name, lastName } = req.query;
@@ -104,4 +107,37 @@ exports.updateOneCustomerController = BaseUtil.createController((req) => {
 
 exports.deleteOneCustomerController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.deleteOne(Customer)(req));
+});
+
+exports.productSearchAddDB = async (req, res, next) => {
+  let tokenCode;
+  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    tokenCode = req.headers.authorization.split(" ")[1];
+  } else {
+    return next();
+  }
+
+  let tokenWithClient = await ClientTokenDataAccess.getClientTokenDB(tokenCode);
+
+  if (isNullOrEmpty(tokenWithClient)) {
+    return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+  }
+
+  let customer = tokenWithClient.client;
+  if (isNullOrEmpty(customer)) {
+    req.custom.respObj = new AppError(Messages.RETURN_MESSAGES.ERR_NO_CLIENT_ASSOCIATED_WITH_TOKEN);
+    return res.status(401).json({ returnMessage: "Unauthorized access", returnCode: "401" });
+  }
+
+  searchObj = { tags: req.custom.tags, createdAt: Date.now() };
+  await CustomerDataAccess.pushSearchEntryToDB(customer._id, searchObj);
+  next();
+};
+
+exports.getProductRecommendationController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    CustomerService.getProductRecommendationService({
+      customer: req.client,
+    })
+  );
 });

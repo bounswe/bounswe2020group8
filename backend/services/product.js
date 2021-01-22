@@ -15,6 +15,20 @@ exports.searchProductsService = async function ({ query, tags }) {
   return { results: products.length, data: products };
 };
 
+exports.getProductRecommendationService = async function ({ pid }) {
+  let product = await ProductDataAccess.getProductByIdDB(pid);
+  if (isNullOrEmpty(product)) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
+  }
+  let { tags, category, parentProduct } = product;
+  console.log(product.parentProduct);
+  let query = { category: category };
+  let products = await ProductDataAccess.searchProducts(query, tags);
+  console.log(products);
+  products = products.filter((el) => el.mpid.toString() != parentProduct.toString());
+  return { results: products.length, data: products };
+};
+
 exports.getSearchFiltersService = async function ({ query, tags }) {
   let products = await ProductDataAccess.getSearchFilters(query, tags);
   if (isNullOrEmpty(products)) {
