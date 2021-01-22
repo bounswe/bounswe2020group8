@@ -3,6 +3,7 @@ const VendorController = require("../controllers/vendor");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const OrderController = require("../controllers/order");
+const RegisterActivity = require("../util/endpoint");
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.get(
   RequestHelper.returnResponse
 );
 router.use(authController.protectRoute);
+router.use(RegisterActivity.registerActivity);
 
 // BELOW ARE PROTECTED ROUTES
 router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);

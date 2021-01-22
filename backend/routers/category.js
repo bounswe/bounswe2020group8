@@ -2,6 +2,7 @@ const express = require("express");
 const CategoryController = require("../controllers/category");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
+const RegisterActivity = require("../util/endpoint");
 const router = express.Router();
 
 router
@@ -11,6 +12,7 @@ router
 
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
+router.use(RegisterActivity.registerActivity);
 
 router
   .route("/:id")

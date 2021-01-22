@@ -6,6 +6,7 @@ const authController = require("../controllers/authClient");
 const router = express.Router();
 const OrderController = require("../controllers/order");
 const PurchaseController = require("../controllers/purchase");
+const RegisterActivity = require("../util/endpoint");
 
 router.post("/signup", CustomerController.signupController, RequestHelper.returnResponse);
 router.post(
@@ -21,6 +22,7 @@ router.post(
 
 // BELOW ARE PROTECTED ROUTES
 router.use(authController.protectRoute);
+router.use(RegisterActivity.registerActivity);
 
 router
   .route("/me")
