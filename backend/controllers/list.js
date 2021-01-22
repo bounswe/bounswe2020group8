@@ -45,7 +45,7 @@ exports.deleteAllListsController = BaseUtil.createController((req) => {
 exports.exportOneListController = BaseUtil.createController((req) => {
   let _id = req.params.lid;
   let customer = req.client;
-  return BB.all([]).then(() => ListService.importOneListService(_id, customer));
+  return BB.all([]).then(() => ListService.exportOneListService(_id, customer));
 });
 
 exports.exportAllListsController = BaseUtil.createController((req) => {
