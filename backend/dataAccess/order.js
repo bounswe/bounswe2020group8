@@ -19,14 +19,14 @@ exports.getOrderByCustomerIdDB = function (customerID) {
 
 exports.getOrderByVendorIdDB = function (vendorID) {
   return Order.aggregate([
-    { $match: { "orders.vendorId": vendorID } },
+    { $match: { "orders.vendorId": mongoose.Types.ObjectId(vendorID) } },
     {
       $project: {
         orders: {
           $filter: {
             input: "$orders",
             as: "order",
-            cond: { $eq: ["$$order.vendorId", vendorID] },
+            cond: { $eq: ["$$order.vendorId", mongoose.Types.ObjectId(vendorID)] },
           },
         },
         _id: 1,
