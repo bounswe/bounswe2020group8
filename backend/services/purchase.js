@@ -16,7 +16,9 @@ exports.purchaseService = async function ({
   billingAddressId,
   creditCardId,
 }) {
-  const items = await OrderService.createOrderService({ _id });
+  var items = await OrderService.createOrderService({ _id });
+  items = items["data"];
+  console.log(items);
   var f_items = [];
   var i;
   for (i = 0; i < items.length; i++) {
@@ -53,15 +55,12 @@ exports.purchaseService = async function ({
     var orderId = mongoose.Types.ObjectId();
     current["_id"] = orderId;
     delete current["enoughLeft"];
+    current["status"] = "being prepared";
     f_items.push(current);
   }
   var mainOrderId = mongoose.Types.ObjectId();
-  data = { _id: mainOrderId, orders: f_items, customerID: _id, refundProcess: "No" };
+  date = Date.now();
+  data = { _id: mainOrderId, orders: f_items, customerID: _id, createdAt: date };
   newOrder = await OrderDataAccess.populateOrderDB(data);
   return newOrder;
-};
-
-exports.getShoppingCartService = async function ({ _id }) {
-  const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
-  return shoppingCart["shoppingCart"];
 };

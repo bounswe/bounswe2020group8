@@ -23,8 +23,16 @@ var shoppingList = {
   ],
 };
 
-var shoppingCart = {
-  productsIn: [({ type: Schema.Types.ObjectId }, { type: Number })], // productId and productAmount
+var shoppingCartItem = {
+  productId: { type: Schema.Types.ObjectId },
+  vendorId: { type: Schema.Types.ObjectId },
+  amount: { type: Number },
+  price: { type: Number },
+  shipmentPrice: { type: Number },
+  cargoCompany: { type: String },
+  title: { type: String },
+  vendorName: { type: String },
+  photos: [String],
 };
 
 var creditCard = {
@@ -37,7 +45,7 @@ var creditCard = {
 var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
-    shoppingCart: [],
+    shoppingCart: [shoppingCartItem],
     addresses: [address],
     phoneNumber: { type: String },
     birthday: { type: String },
