@@ -32,7 +32,6 @@ exports.updateShoppingCartService = async function ({ _id, productId, vendorId, 
   if (!(current_vendor == null)) {
     temp["vendorName"] = current_vendor["name"] + " " + current_vendor["lastName"];
   }
-  console.log(temp);
   updatedCustomer = await CustomerDataAccess.addToCustomerShoppingCartDB(
     _id,
     productId,
@@ -45,7 +44,6 @@ exports.updateShoppingCartService = async function ({ _id, productId, vendorId, 
     temp["vendorName"],
     temp["photos"]
   );
-  console.log(updatedCustomer);
   updatedCustomer = await CustomerDataAccess.updateCustomerShoppingCartDB(
     _id,
     productId,
@@ -70,8 +68,6 @@ exports.resetShoppingCartService = async function ({ _id }) {
 };
 
 exports.getShoppingCartService = async function ({ _id }) {
-  console.log(_id);
-  // const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
-  // return { data: shoppingCart["shoppingCart"] };
-  return { data: "5"};
+  const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
+  return { data: shoppingCart["shoppingCart"] };
 };

@@ -36,15 +36,10 @@ router
   .patch(CustomerController.updateOneCustomerController, RequestHelper.returnResponse)
   .delete(CustomerController.deleteOneCustomerController, RequestHelper.returnResponse);
 
-router.post(
-  "/shoppingCart",
-  ShoppingCartController.getShoppingCartController,
-  RequestHelper.returnResponse
-);
-// router
-//   .route("/shoppingCart")
-//   // .get(ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse)
-//   .post(ShoppingCartController.updateShoppingCartController, RequestHelper.returnResponse);
+router
+  .route("/shoppingCart/main")
+  .get(ShoppingCartController.getShoppingCartController, RequestHelper.returnResponse)
+  .post(ShoppingCartController.updateShoppingCartController, RequestHelper.returnResponse);
 
 router.post(
   "/shoppingCart/delete",
@@ -56,34 +51,19 @@ router.post(
   ShoppingCartController.resetShoppingCartController,
   RequestHelper.returnResponse
 );
-// router.post(
-//   "/shoppingCart/get",
-//   ShoppingCartController.getShoppingCartController,
-//   RequestHelper.returnResponse
-// );
 
 router
-  .route("/order")
+  .route("/order/main")
   .get(OrderController.getOrderByCustomerIdController, RequestHelper.returnResponse) // Get by CustomerID
   .post(OrderController.createOrderController, RequestHelper.returnResponse) //  Create order
   .patch(OrderController.updateOrderStatusCustomerController, RequestHelper.returnResponse); // Patch order status
 
-// router.post("/order/create", OrderController.createOrderController, RequestHelper.returnResponse);
-// router.post(
-//   "/order/getByCustomerID",
-//   OrderController.getOrderByCustomerIdController,
-//   RequestHelper.returnResponse
-// );
 router.get(
   "/order/orderID",
   OrderController.getOrderByOrderIdController,
   RequestHelper.returnResponse
 );
-// router.patch(
-//   "/order/status",
-//   OrderController.updateOrderStatusCustomerController,
-//   RequestHelper.returnResponse
-// );
+
 router.post("/purchase", PurchaseController.purchaseController, RequestHelper.returnResponse);
 
 module.exports = router;

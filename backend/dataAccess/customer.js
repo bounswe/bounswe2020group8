@@ -121,7 +121,6 @@ exports.resetCustomerShoppingCartDB = function (_id) {
 };
 
 exports.getCustomerShoppingCartDB = function (_id) {
-  console.log("here")
   return Customer.findById({ _id: _id }).select("shoppingCart");
 };
 

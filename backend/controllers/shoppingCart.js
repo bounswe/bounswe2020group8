@@ -8,10 +8,8 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.updateShoppingCartController = BaseUtil.createController((req) => {
-  console.log("UPDATE SC SERVICE");
   let { _id } = req.client;
   let { productId, vendorId, amount } = req.body;
-  // _id = _id.toString();
   return BB.all([
     AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
     AppValidator.validateIfNullOrEmpty(productId, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
@@ -36,10 +34,6 @@ exports.resetShoppingCartController = BaseUtil.createController((req) => {
 });
 
 exports.getShoppingCartController = BaseUtil.createController((req) => {
-  console.log("controller started");
-  // let { _id } = req.client;
-  let { _id } = "5fd7ae30edd1504b481ef463";
-  console.log(_id);
-  console.log("controller end.");
-  return BB.all(ShoppingCartService.getShoppingCartService({ _id }));
+  let { _id } = req.client;
+  return BB.all([ShoppingCartService.getShoppingCartService({ _id })]);
 });

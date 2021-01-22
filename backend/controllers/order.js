@@ -15,20 +15,22 @@ exports.createOrderController = BaseUtil.createController((req) => {
 exports.updateOrderStatusCustomerController = BaseUtil.createController((req) => {
   let { _id } = req.client;
   let { mainOrderID, orderID, status } = req.body;
-  return BB.all(OrderService.updateOrderStatusCustomerService({ _id, mainOrderID, orderID, status }));
+  return BB.all([
+    OrderService.updateOrderStatusCustomerService({ _id, mainOrderID, orderID, status }),
+  ]);
 });
 
 exports.updateOrderStatusVendorController = BaseUtil.createController((req) => {
   let { _id } = req.client;
   let { mainOrderID, orderID, status } = req.body;
-  return BB.all(OrderService.updateOrderStatusVendorService({ _id, mainOrderID, orderID, status }));
+  return BB.all([
+    OrderService.updateOrderStatusVendorService({ _id, mainOrderID, orderID, status }),
+  ]);
 });
 
 exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {
   let { _id } = req.client;
-  return BB.all([
-    AppValidator.validateIfNullOrEmpty(customerID, Messages.RETURN_MESSAGES.ERR_UNDEFINED),
-  ])
+  return BB.all([AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED)])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() => OrderService.getOrderByCustomerIdService({ _id }));
 });
