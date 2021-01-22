@@ -13,6 +13,9 @@ Customer:
 Vendor:
   $ref: "./vendor.yaml#/Vendor"
 
+PublicVendor:
+  $ref: "./vendor.yaml#/PublicVendor"
+
 Category:
   $ref: "./category.yaml#/Category"
 

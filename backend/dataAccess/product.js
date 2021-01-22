@@ -3,6 +3,7 @@ const AppError = require("../util/appError");
 const Messages = require("../util/messages");
 const QueryHelper = require("../util/queryHelpers");
 const Product = mongoose.model("Product");
+const { isNullOrEmpty } = require("../util/coreUtil");
 
 exports.populateProductDB = function (obj, path = "product") {
   return Product.populate(obj, {
@@ -222,8 +223,27 @@ exports.searchProducts = function (query, tags) {
   let skip = QueryHelper.skip(query);
   let limit = QueryHelper.limit(query);
 
+  let matched_statement;
+  let matches;
+  if (!isNullOrEmpty(tags)) {
+    console.log("HERE");
+    matched_statement = { $match: { tags: { $in: tags } } };
+    matches = {
+      $reduce: {
+        input: "$tags",
+        initialValue: 0,
+        in: {
+          $cond: [{ $in: ["$$this", tags] }, { $add: ["$$value", 1] }, "$$value"],
+        },
+      },
+    };
+  } else {
+    matched_statement = { $match: {} };
+    matches = 1;
+    tags = [];
+  }
   return Product.aggregate([
-    { $match: { tags: { $in: tags } } },
+    matched_statement,
     {
       $set: {
         maxPrice: { $max: "$vendorSpecifics.price" },
@@ -238,15 +258,7 @@ exports.searchProducts = function (query, tags) {
           },
         },
         vendors: "$vendorSpecifics.vendorID",
-        matches: {
-          $reduce: {
-            input: "$tags",
-            initialValue: 0,
-            in: {
-              $cond: [{ $in: ["$$this", tags] }, { $add: ["$$value", 1] }, "$$value"],
-            },
-          },
-        },
+        matches: matches,
       },
     },
     {
