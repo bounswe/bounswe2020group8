@@ -350,3 +350,16 @@
               $ref: "../components/responses/_index.yaml#/NullData"
       "400":
         description: Authorization error
+"/customer/me/recommendations":
+  get:
+    tags:
+      - customer
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/SearchResults"
+      "400":
+        description: Internal error

@@ -133,3 +133,11 @@ exports.productSearchAddDB = async (req, res, next) => {
   await CustomerDataAccess.pushSearchEntryToDB(customer._id, searchObj);
   next();
 };
+
+exports.getProductRecommendationController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    CustomerService.getProductRecommendationService({
+      customer: req.client,
+    })
+  );
+});

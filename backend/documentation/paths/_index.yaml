@@ -34,6 +34,9 @@
 /customer/me:
   $ref: "./customer.yaml#/~1customer~1me"
 
+/customer/me/recommendations:
+  $ref: "./customer.yaml#/~1customer~1me~1recommendations"
+
 /customer:
   $ref: "./customer.yaml#/~1customer"
 
