@@ -6,7 +6,7 @@ exports.populateOrderDB = function (data, path = "order") {
   order["orders"] = data["orders"];
   order["_id"] = data["_id"];
   order["customerID"] = data["customerID"];
-  order["refundProcess"] = data["refundProcess"];
+  order["createdAt"] = data["createdAt"];
   order.save(function (err) {
     if (err) return handleError(err);
   });

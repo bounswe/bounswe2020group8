@@ -76,8 +76,6 @@ router
   .patch(VendorController.updateMyProductRequestController, RequestHelper.returnResponse)
   .delete(VendorController.deleteMyProductRequestController, RequestHelper.returnResponse);
 
-router.get("/", VendorController.getAllVendorsController, RequestHelper.returnResponse);
-
 router
   .route("/:id")
   .get(VendorController.getOneVendorController, RequestHelper.returnResponse)
