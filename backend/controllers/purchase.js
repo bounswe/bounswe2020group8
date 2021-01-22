@@ -32,18 +32,7 @@ exports.purchaseController = BaseUtil.createController((req) => {
 
 exports.purchaseGuestController = BaseUtil.createController((req) => {
   let { _id, shippingAddress, billingAddress, creditCard } = req.body;
-  return BB.all([
-    AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
-    AppValidator.validateIfNullOrEmpty(
-      shippingAddress,
-      Messages.RETURN_MESSAGES.ERR_UNDEFINED
-    ).reflect(),
-    AppValidator.validateIfNullOrEmpty(
-      billingAddress,
-      Messages.RETURN_MESSAGES.ERR_UNDEFINED
-    ).reflect(),
-    AppValidator.validateIfNullOrEmpty(creditCard, Messages.RETURN_MESSAGES.ERR_UNDEFINED),
-  ])
+  return BB.all([AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED)])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() =>
       PurchaseService.purchaseGuestService({ _id, shippingAddress, billingAddress, creditCard })

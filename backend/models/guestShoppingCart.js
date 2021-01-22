@@ -22,6 +22,6 @@ var guestShoppingCartSchema = new Schema(
   { collection: "GuestShoppingCart" }
 );
 
-guestShoppingCartSchema.index({ lastActivity: 1 }, { expires: "25m" });
+guestShoppingCartSchema.index({ lastActivity: 1 }, { expires: "6h" });
 
 module.exports = mongoose.model("GuestShoppingCart", guestShoppingCartSchema);
