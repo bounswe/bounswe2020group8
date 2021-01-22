@@ -78,5 +78,5 @@ exports.exportAllListsService = async function (customer) {
   for (i = 0; i < customer.shoppingLists.length; i++) {
     await exports.exportOneListService(customer.shoppingLists[i]._id, customer);
   }
-  return dbResults;
+  return {};
 };

@@ -4,6 +4,21 @@
 "/category/{id}":
   $ref: "./category.yaml#/~1category~1{id}"
 
+/shoppingList/:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1"
+
+/shoppingList/all:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1all"
+
+/shoppingList/all/export:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1all~1export"
+
+"/shoppingList/{lid}":
+  $ref: "./shoppingList.yaml#/~1shoppingList~1{lid}"
+
+"/shoppingList/{lid}/export":
+  $ref: "./shoppingList.yaml#/~1shoppingList~1{lid}~1export"
+
 /customer/signup:
   $ref: "./customer.yaml#/~1customer~1signup"
 

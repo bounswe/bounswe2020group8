@@ -10,7 +10,8 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.purchaseController = BaseUtil.createController((req) => {
-  let { _id, shippingAddressId, billingAddressId, creditCardId } = req.body;
+  let { _id } = req.client;
+  let { shippingAddressId, billingAddressId, creditCardId } = req.body;
   return BB.all([
     AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
     AppValidator.validateIfNullOrEmpty(

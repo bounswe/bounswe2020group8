@@ -32,7 +32,6 @@ exports.updateShoppingCartService = async function ({ _id, productId, vendorId, 
   if (!(current_vendor == null)) {
     temp["vendorName"] = current_vendor["name"] + " " + current_vendor["lastName"];
   }
-
   updatedCustomer = await CustomerDataAccess.addToCustomerShoppingCartDB(
     _id,
     productId,
@@ -51,7 +50,7 @@ exports.updateShoppingCartService = async function ({ _id, productId, vendorId, 
     vendorId,
     amount
   );
-  return updatedCustomer;
+  return { data: updatedCustomer };
 };
 
 exports.deleteFromShoppingCartService = async function ({ _id, productId, vendorId }) {
@@ -60,15 +59,15 @@ exports.deleteFromShoppingCartService = async function ({ _id, productId, vendor
     productId,
     vendorId
   );
-  return updatedCustomer;
+  return { data: updatedCustomer };
 };
 
 exports.resetShoppingCartService = async function ({ _id }) {
   const updatedCustomer = await CustomerDataAccess.resetCustomerShoppingCartDB(_id);
-  return updatedCustomer;
+  return { data: updatedCustomer };
 };
 
 exports.getShoppingCartService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
-  return shoppingCart["shoppingCart"];
+  return { data: shoppingCart["shoppingCart"] };
 };

@@ -7,6 +7,15 @@ PostComment:
 PatchComment:
   $ref: "./comment.yaml#/PatchComment"
 
+PostShoppingList:
+  $ref: "./shoppingList.yaml#/PostShoppingList"
+
+PatchShoppingList:
+  $ref: "./shoppingList.yaml#/PatchShoppingList"
+
+ShoppingLists:
+  $ref: "./shoppingList.yaml#/ShoppingLists"
+
 Customer:
   $ref: "./customer.yaml#/Customer"
 
