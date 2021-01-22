@@ -5,6 +5,7 @@ import ProductHeader from "./ProductHeader/ProductHeader";
 import ProductActions from "./ProductActions/ProductActions";
 import scrollIntoView from "scroll-into-view-if-needed";
 import ProductPhotoCarousel from "./ProductPhotoCarousel/ProductPhotoCarousel";
+import Recommendations from "./Recommendations/Recommendations";
 import "react-alice-carousel/lib/alice-carousel.css";
 import services from "../../apis/services";
 import { useParams, withRouter } from "react-router-dom";
@@ -142,6 +143,10 @@ const Product = (props) => {
             clickSellers={() => scrollToInfo("sellers")}
           />
         </div>
+      </div>
+      <div style={{ height: "40px" }} />
+      <div className={classes.Recommendation}>
+        <Recommendations productId={product._id} />
       </div>
       <div style={{ height: "40px" }} />
       <div className={classes.ProductInfo} ref={sectionRef}>
