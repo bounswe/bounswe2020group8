@@ -439,3 +439,116 @@ exports.getSearchFilters = function (query, tags) {
     },
   ]);
 };
+
+exports.getProductRecommendations = function (freqTable, purchasedMainProducts) {
+  tags = Object.keys(freqTable);
+  return Product.aggregate([
+    { $match: { tags: { $in: tags } } },
+    {
+      $set: {
+        freqTable: freqTable,
+        maxPrice: { $max: "$vendorSpecifics.price" },
+        minPrice: { $min: "$vendorSpecifics.price" },
+        parameters: {
+          $arrayToObject: {
+            $map: {
+              input: "$parameters",
+              as: "el",
+              in: { k: "$$el.name", v: "$$el.value" },
+            },
+          },
+        },
+        vendors: "$vendorSpecifics.vendorID",
+        matches: {
+          $filter: {
+            input: "$tags",
+            as: "tag",
+            cond: { $in: ["$$tag", tags] },
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$parentProduct",
+        products: { $push: { _id: "$_id", photos: "$photos", matches: "$matches" } },
+        matches: { $push: "$matches" },
+        maxPrice: { $max: "$maxPrice" },
+        minPrice: { $min: "$minPrice" },
+        vendors: { $push: "$vendors" },
+        parameters: { $push: "$parameters" },
+      },
+    },
+    { $match: { _id: { $nin: purchasedMainProducts } } },
+    {
+      $set: {
+        mainProduct: "$_id",
+        product: {
+          $reduce: {
+            input: "$products",
+            initialValue: { matches: 0 },
+            in: { $cond: [{ $gt: ["$$this.matches", "$$value.matches"] }, "$$this", "$$value"] },
+          },
+        },
+        vendors: {
+          $reduce: {
+            input: "$vendors",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+        matches: {
+          $reduce: {
+            input: "$matches",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+      },
+    },
+    {
+      $addFields: {
+        vendors: { $setUnion: ["$vendors", []] },
+        matches: { $setUnion: ["$matches", []] },
+      },
+    },
+    {
+      $lookup: {
+        from: "MainProducts",
+        localField: "mainProduct",
+        foreignField: "_id",
+        as: "mainProduct",
+      },
+    },
+    {
+      $lookup: {
+        from: "Clients",
+        localField: "vendors",
+        foreignField: "_id",
+        as: "vendors",
+      },
+    },
+    {
+      $project: {
+        mpid: "$_id",
+        _id: 0,
+        "product._id": 1,
+        "product.photos": 1,
+        matches: 1,
+        maxPrice: 1,
+        minPrice: 1,
+        parameters: 1,
+        brand: { $arrayElemAt: ["$mainProduct.brand", 0] },
+        category: { $arrayElemAt: ["$mainProduct.category", 0] },
+        "mainProduct._id": 1,
+        "mainProduct.title": 1,
+        "mainProduct.rating": 1,
+        "mainProduct.numberOfRating": 1,
+        "vendors._id": 1,
+        "vendors.companyName": 1,
+      },
+    },
+    { $limit: 20 },
+    { $unset: ["parameters"] },
+  ]);
+};

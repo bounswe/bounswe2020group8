@@ -265,3 +265,15 @@ exports.deleteAllShoppingListsDB = function (cid) {
     {}
   );
 };
+
+exports.pushSearchEntryToDB = function (_id, obj) {
+  return Customer.findOneAndUpdate(
+    { _id: _id },
+    {
+      $push: {
+        searchHistory: obj,
+      },
+    },
+    { new: true }
+  ).lean();
+};

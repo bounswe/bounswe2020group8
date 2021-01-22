@@ -127,6 +127,147 @@ paths:
                         type: 'null'
         '400':
           description: Authorization error
+  /shoppingList/:
+    post:
+      tags:
+        - shoppingList
+      description: Returns the created list defined by the information provided by the user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: title
+          description: name of the field. Sets the name of the shopping list.
+          required: true
+          type: string
+        - in: body
+          name: wishedProducts
+          description: 'list of product objects, which includes product id and vendor id per object.'
+          required: true
+          type: object
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Authorization error
+  /shoppingList/all:
+    get:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingLists'
+        '400':
+          description: Insufficient token
+    delete:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
+  /shoppingList/all/export:
+    post:
+      tags:
+        - shoppingList
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Insufficient token
+  '/shoppingList/{lid}':
+    get:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Insufficient token
+    patch:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: title
+          description: title of the shopping list
+          required: true
+          type: string
+        - in: body
+          name: wishedProducts
+          description: 'list of product objects, which includes product id and vendor id per object.'
+          required: true
+          type: object
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Insufficient token
+    delete:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Invalid bearer token
+  '/shoppingList/{lid}/export':
+    post:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
   /customer/signup:
     post:
       tags:
@@ -385,6 +526,19 @@ paths:
                 $ref: '#/components/responses/NullData'
         '400':
           description: Invalid bearer token
+  /customer/me/recommendations:
+    get:
+      tags:
+        - customer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Internal error
   /customer:
     get:
       tags:
@@ -1220,6 +1374,19 @@ paths:
                 $ref: '#/components/responses/SearchResults'
         '400':
           description: Invalid body
+  '/product/recommendations/{id}':
+    post:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Invalid product id
   /product/searchFilters:
     post:
       tags:
@@ -1473,6 +1640,24 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Category'
+    ShoppingList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PostShoppingList'
+    ShoppingLists:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingLists'
     CustomerList:
       allOf:
         - $ref: '#/components/responses/ApiResponse'
@@ -1715,6 +1900,22 @@ components:
           format: mongoID
         text:
           type: string
+    PostShoppingList:
+      type: object
+      properties:
+        title:
+          type: string
+        wishedProducts:
+          type: array
+    PatchShoppingList:
+      type: object
+      properties:
+        title:
+          type: string
+        wishedProducts:
+          type: array
+    ShoppingLists:
+      type: array
     Customer:
       type: object
       properties:

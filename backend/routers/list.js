@@ -2,9 +2,12 @@ const express = require("express");
 const RequestHelper = require("./../util/requestHelper");
 const authController = require("../controllers/authClient");
 const ListController = require("../controllers/list");
+const RegisterActivity = require("../util/endpoint");
 const router = express.Router();
 
+// BELOW ARE PROTECTED
 router.use(authController.protectRoute);
+router.use(RegisterActivity.registerActivity);
 
 router.route("/").post(ListController.createOneListController, RequestHelper.returnResponse);
 router

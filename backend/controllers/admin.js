@@ -21,3 +21,16 @@ exports.logoutController = BaseUtil.createController((req) => {
       })
     );
 });
+
+exports.getAllActivitiesController = BaseUtil.createController((req) => {
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => AdminService.getAllActivitiesService());
+});
+
+exports.getOneActivityController = BaseUtil.createController((req) => {
+  let _id = req.params.aid;
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => AdminService.getOneActivityService(_id));
+});

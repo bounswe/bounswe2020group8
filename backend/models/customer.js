@@ -23,6 +23,11 @@ var shoppingList = {
   ],
 };
 
+var searchHistory = {
+  tags: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
+};
+
 var shoppingCartItem = {
   productId: { type: Schema.Types.ObjectId },
   vendorId: { type: Schema.Types.ObjectId },
@@ -50,6 +55,7 @@ var customerSchema = new Schema(
     phoneNumber: { type: String },
     birthday: { type: String },
     creditCards: [creditCard],
+    searchHistory: [searchHistory],
   },
   { collection: "Clients" }
 );

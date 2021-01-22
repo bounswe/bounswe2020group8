@@ -82,3 +82,68 @@ exports.updateOrderStatusGuestDB = function (mainOrderID, orderID, status) {
     orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
   });
 };
+exports.getProductTagsInLastOrders = function (customerID) {
+  console.log(customerID);
+  return Order.aggregate([
+    { $match: { customerID } },
+    { $sort: { createdAt: -1 } },
+    { $limit: 5 },
+    {
+      $project: {
+        products: "$orders.productId",
+      },
+    },
+    { $unwind: "$products" },
+    {
+      $lookup: {
+        from: "Products",
+        localField: "products",
+        foreignField: "_id",
+        as: "products",
+      },
+    },
+    { $project: { tags: "$products.tags" } },
+    { $group: { _id: {}, tags: { $push: "$tags" } } },
+    {
+      $set: {
+        tags: {
+          $reduce: {
+            input: "$tags",
+            initialValue: [],
+            in: { $concatArrays: ["$$value", "$$this"] },
+          },
+        },
+      },
+    },
+  ]);
+};
+
+exports.getProductsInLastOrders = function (customerID) {
+  console.log(customerID);
+  return Order.aggregate([
+    { $match: { customerID } },
+    { $sort: { createdAt: -1 } },
+    { $limit: 5 },
+    {
+      $project: {
+        products: "$orders.productId",
+      },
+    },
+    { $unwind: "$products" },
+    {
+      $lookup: {
+        from: "Products",
+        localField: "products",
+        foreignField: "_id",
+        as: "products",
+      },
+    },
+    { $project: { parentProduct: "$products.parentProduct" } },
+    { $group: { _id: {}, parentProducts: { $push: "$parentProduct" } } },
+    {
+      $addFields: {
+        parentProducts: { $setUnion: ["$parentProducts", []] },
+      },
+    },
+  ]);
+};
