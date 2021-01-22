@@ -25,9 +25,7 @@ exports.getOrderByCustomerIdDB = function (customerID) {
 // };
 
 exports.getOrderByVendorIdDB = function (vendorID) {
-  //return Order.find({ "orders.vendorId": vendorID }).select( {"orders.$.vendorId": vendorID});
   return Order.aggregate([
-    // Get just the docs that contain a shapes element where color is 'red'
     { $match: { "orders.vendorId": vendorID } },
     {
       $project: {
@@ -53,12 +51,25 @@ exports.getOrderByOrderIdDB = function (mainOrderID, orderID) {
   });
 };
 
-exports.updateOrderStatusDB = function (clientID, mainOrderID, orderID, status) {
+exports.updateOrderStatusCustomerDB = function (clientID, mainOrderID, orderID, status) {
   return Order.findOneAndUpdate(
     {
       _id: mongoose.Types.ObjectId(mainOrderID),
       customerID: mongoose.Types.ObjectId(clientID),
       orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
+    },
+    { $set: { "orders.$.status": status } },
+    { new: true }
+  ).select({
+    orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
+  });
+};
+
+exports.updateOrderStatusVendorDB = function (clientID, mainOrderID, orderID, status) {
+  return Order.findOneAndUpdate(
+    {
+      _id: mongoose.Types.ObjectId(mainOrderID),
+      orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID), vendorId: mongoose.Types.ObjectId(clientID), } },
     },
     { $set: { "orders.$.status": status } },
     { new: true }

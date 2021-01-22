@@ -8,9 +8,9 @@ const Formatters = require("../util/format");
 const Config = require("../config");
 const ProductDataAccess = require("../dataAccess/product");
 
-exports.getOrderByCustomerIdService = async function ({ customerID }) {
-  const order = await OrderDataAccess.getOrderByCustomerIdDB(customerID);
-  return order;
+exports.getOrderByCustomerIdService = async function ({ _id }) {
+  const order = await OrderDataAccess.getOrderByCustomerIdDB(_id);
+  return { data: order };
 };
 
 exports.getOrderByVendorIdService = async function ({ _id }) {
@@ -23,8 +23,18 @@ exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
   return { data: order };
 };
 
-exports.updateOrderStatusService = async function ({ _id, mainOrderID, orderID, status }) {
-  const order = await OrderDataAccess.updateOrderStatusDB(_id, mainOrderID, orderID, status);
+exports.updateOrderStatusCustomerService = async function ({ _id, mainOrderID, orderID, status }) {
+  const order = await OrderDataAccess.updateOrderStatusCustomerDB(
+    _id,
+    mainOrderID,
+    orderID,
+    status
+  );
+  return { data: order };
+};
+
+exports.updateOrderStatusVendorService = async function ({ _id, mainOrderID, orderID, status }) {
+  const order = await OrderDataAccess.updateOrderStatusVendorDB(_id, mainOrderID, orderID, status);
   return { data: order };
 };
 
@@ -54,5 +64,5 @@ exports.createOrderService = async function ({ _id }) {
       items.push(temp);
     }
   }
-  return items;
+  return { data: items };
 };

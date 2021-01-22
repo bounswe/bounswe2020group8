@@ -72,10 +72,21 @@ router
   .patch(VendorController.updateOneVendorController, RequestHelper.returnResponse)
   .delete(VendorController.deleteOneVendorController, RequestHelper.returnResponse);
 
-  router.get(
-    "/order/getByVendorID",
-    OrderController.getOrderByVendorIdController,
-    RequestHelper.returnResponse
-  );
+router
+  .route("/order")
+  .get(OrderController.getOrderByVendorIdController, RequestHelper.returnResponse)
+  .patch(OrderController.updateOrderStatusVendorController, RequestHelper.returnResponse); //  Patch order status
+
+// router.get(
+//   "/order",
+//   OrderController.getOrderByVendorIdController,
+//   RequestHelper.returnResponse
+// );
+//
+// router.patch(
+//   "/order/status",
+//   OrderController.updateOrderStatusController,
+//   RequestHelper.returnResponse
+// );
 
 module.exports = router;

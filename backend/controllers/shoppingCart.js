@@ -8,7 +8,10 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.updateShoppingCartController = BaseUtil.createController((req) => {
-  let { _id, productId, vendorId, amount } = req.body;
+  console.log("UPDATE SC SERVICE");
+  let { _id } = req.client;
+  let { productId, vendorId, amount } = req.body;
+  // _id = _id.toString();
   return BB.all([
     AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
     AppValidator.validateIfNullOrEmpty(productId, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
@@ -22,16 +25,21 @@ exports.updateShoppingCartController = BaseUtil.createController((req) => {
 });
 
 exports.deleteFromShoppingCartController = BaseUtil.createController((req) => {
-  let { _id, productId, vendorId } = req.body;
+  let { _id } = req.client;
+  let { productId, vendorId } = req.body;
   return BB.all([ShoppingCartService.deleteFromShoppingCartService({ _id, productId, vendorId })]);
 });
 
 exports.resetShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.body;
+  let { _id } = req.client;
   return BB.all([ShoppingCartService.resetShoppingCartService({ _id })]);
 });
 
 exports.getShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.body;
+  console.log("controller started");
+  // let { _id } = req.client;
+  let { _id } = "5fd7ae30edd1504b481ef463";
+  console.log(_id);
+  console.log("controller end.");
   return BB.all(ShoppingCartService.getShoppingCartService({ _id }));
 });
