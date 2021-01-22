@@ -26,7 +26,6 @@ router.post(
 
 router
   .route("/order/main")
-  // .get(OrderController.getOrderByCustomerIdController, RequestHelper.returnResponse) // Get by CustomerID
   .patch(OrderController.updateOrderStatusGuestController, RequestHelper.returnResponse); // Patch order status
 
 router.get(
