@@ -28,6 +28,13 @@ exports.updateOrderStatusVendorController = BaseUtil.createController((req) => {
   ]);
 });
 
+exports.updateOrderStatusGuestController = BaseUtil.createController((req) => {
+  let { mainOrderID, orderID, status } = req.body;
+  return BB.all([
+    OrderService.updateOrderStatusGuestService({ _id, mainOrderID, orderID, status }),
+  ]);
+});
+
 exports.getOrderByCustomerIdController = BaseUtil.createController((req) => {
   let { _id } = req.client;
   return BB.all([AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED)])

@@ -19,14 +19,14 @@ exports.getOrderByCustomerIdDB = function (customerID) {
 
 exports.getOrderByVendorIdDB = function (vendorID) {
   return Order.aggregate([
-    { $match: { "orders.vendorId": vendorID } },
+    { $match: { "orders.vendorId": mongoose.Types.ObjectId(vendorID) } },
     {
       $project: {
         orders: {
           $filter: {
             input: "$orders",
             as: "order",
-            cond: { $eq: ["$$order.vendorId", vendorID] },
+            cond: { $eq: ["$$order.vendorId", mongoose.Types.ObjectId(vendorID)] },
           },
         },
         _id: 1,
@@ -62,6 +62,19 @@ exports.updateOrderStatusVendorDB = function (clientID, mainOrderID, orderID, st
     {
       _id: mongoose.Types.ObjectId(mainOrderID),
       orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID), vendorId: clientID } },
+    },
+    { $set: { "orders.$.status": status } },
+    { new: true }
+  ).select({
+    orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
+  });
+};
+
+exports.updateOrderStatusGuestDB = function (mainOrderID, orderID, status) {
+  return Order.findOneAndUpdate(
+    {
+      _id: mongoose.Types.ObjectId(mainOrderID),
+      orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
     },
     { $set: { "orders.$.status": status } },
     { new: true }

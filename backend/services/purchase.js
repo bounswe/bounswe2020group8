@@ -64,3 +64,39 @@ exports.purchaseService = async function ({
   newOrder = await OrderDataAccess.populateOrderDB(data);
   return newOrder;
 };
+
+exports.purchaseGuestService = async function ({
+  _id,
+  shippingAddress,
+  billingAddress,
+  creditCard,
+}) {
+  var items = await OrderService.createGuestOrderService({ _id });
+  items = items["data"];
+  var f_items = [];
+  var i;
+  for (i = 0; i < items.length; i++) {
+    current = items[i];
+    if (current["enoughLeft"]) {
+      updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
+        current["productId"],
+        current["vendorId"],
+        current["amount"] * -1
+      );
+    }
+
+    current["shippingAddress"] = shippingAddress;
+    current["billingAddress"] = billingAddress;
+    current["creditCard"] = creditCard;
+    var orderId = mongoose.Types.ObjectId();
+    current["_id"] = orderId;
+    delete current["enoughLeft"];
+    current["status"] = "being prepared";
+    f_items.push(current);
+  }
+  var mainOrderId = mongoose.Types.ObjectId();
+  date = Date.now();
+  data = { _id: mainOrderId, orders: f_items, customerID: _id, createdAt: date };
+  newOrder = await OrderDataAccess.populateOrderDB(data);
+  return newOrder;
+};

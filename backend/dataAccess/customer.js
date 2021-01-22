@@ -84,6 +84,7 @@ exports.addToCustomerShoppingCartDB = function (
   );
 };
 
+
 exports.updateCustomerShoppingCartDB = function (_id, productId, vendorId, amount) {
   return Customer.findOneAndUpdate(
     { _id: _id, shoppingCart: { $elemMatch: { productId: productId, vendorId: vendorId } } },
