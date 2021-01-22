@@ -31,7 +31,11 @@ router
   .delete(CustomerController.freezeProfile, RequestHelper.returnResponse);
 
 router.get("/", CustomerController.getAllCustomersController, RequestHelper.returnResponse);
-
+router.get(
+  "/me/recommendations",
+  CustomerController.getProductRecommendationController,
+  RequestHelper.returnResponse
+);
 router
   .route("/:id")
   .get(CustomerController.getOneCustomerController, RequestHelper.returnResponse)

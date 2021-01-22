@@ -526,6 +526,19 @@ paths:
                 $ref: '#/components/responses/NullData'
         '400':
           description: Invalid bearer token
+  /customer/me/recommendations:
+    get:
+      tags:
+        - customer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Internal error
   /customer:
     get:
       tags:
@@ -1361,6 +1374,19 @@ paths:
                 $ref: '#/components/responses/SearchResults'
         '400':
           description: Invalid body
+  '/product/recommendations/{id}':
+    post:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Invalid product id
   /product/searchFilters:
     post:
       tags:
