@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
               android:orientation="vertical"
+              android:id="@+id/fragment_order"
              tools:context=".OrderFragment">
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/address_menu"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -22,7 +26,14 @@
         />
 
     </com.google.android.material.textfield.TextInputLayout>
-
+    <Button style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/new_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="New Address"
+    />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cards_menu"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -40,10 +51,11 @@
         />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:hint="Cvv">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -53,7 +65,13 @@
         />
 
     </com.google.android.material.textfield.TextInputLayout>
-
+    <Button style="@style/Widget.MaterialComponents.Button"
+            android:id="@+id/new_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="New Card"/>
     <Button style="@style/Widget.MaterialComponents.Button"
             android:id="@+id/purchase_button"
             android:layout_width="wrap_content"
@@ -62,6 +80,7 @@
             android:layout_marginTop="48dp"
             android:text="Purchase"
     />
+
     <View android:id="@+id/divider"
           style="@style/Divider"
           android:layout_marginTop="30dp"
@@ -95,6 +114,5 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 
-
-
 </LinearLayout>
+ </ScrollView>

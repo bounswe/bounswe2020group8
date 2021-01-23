@@ -2,6 +2,7 @@ package com.example.carousel
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +77,25 @@ class OrderFragment : Fragment() {
             purchase_button.setOnClickListener{
                 purchase()
             }
+            new_card.setOnClickListener {
+                val fragment = AddCardFragment()
+                val bundle = Bundle()
+                bundle.putBoolean("isFromOrder", true)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.activity_main_nav_host_fragment, fragment)
+                    ?.commit()
+            }
+
+            new_address.setOnClickListener {
+                val fragment = AddAddressFragment()
+                val bundle = Bundle()
+                bundle.putBoolean("isFromOrder", true)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.activity_main_nav_host_fragment, fragment)
+                    ?.commit()
+            }
         }
         val addressAdapter = ArrayAdapter(requireContext(), R.layout.shopping_list_names, addressList.toTypedArray())
         (view.findViewById<TextInputLayout>(R.id.address_menu).editText as? AutoCompleteTextView)?.setAdapter(addressAdapter)
@@ -94,7 +114,7 @@ class OrderFragment : Fragment() {
 
     }
 
-    fun purchase() {
+    private fun purchase() {
         val apiCallerPurchase: ApiCaller<ID> = ApiCaller(activity)
         apiCallerPurchase.Button = purchase_button
         for(product in CartFragment.cart) {
