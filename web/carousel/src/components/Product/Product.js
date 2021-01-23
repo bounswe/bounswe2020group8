@@ -80,24 +80,15 @@ const Product = (props) => {
     if (!TOKEN || TOKEN === "") {
       props.history.push("/login");
     }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
-      _id: ID,
       productId: productId,
       vendorId: vendorId,
       amount: 1,
     };
-    const URL = "/customer/shoppingCart/update";
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {

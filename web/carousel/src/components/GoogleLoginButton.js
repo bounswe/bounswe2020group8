@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { useGoogleLogout } from "react-google-login";
 import services from "../apis/services";
 import userInfo from "./Context/UserInfo";
+import { message } from "antd";
 
 const clientId =
   "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
@@ -31,6 +32,8 @@ function GoogleLoginButton(props) {
       .then((response) => {
         const { tokenCode } = response.data;
         localStorage.setItem("token", tokenCode);
+        localStorage.setItem("userType", "customer");
+        localStorage.setItem("login", "true");
         user.login(userProfile.email, tokenCode);
         props.signIn();
         props.history.push("/");
@@ -42,10 +45,10 @@ function GoogleLoginButton(props) {
   };
 
   const onFailure = (res) => {
-    alert(`Failed to login. 😢`);
+    message.error(`Failed to login. 😢`);
   };
   const onLogoutSuccess = (res) => {
-    alert("You have already sign up.");
+    message.info("You have already sign up.");
   };
 
   const { signOut } = useGoogleLogout({

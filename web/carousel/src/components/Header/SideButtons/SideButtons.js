@@ -135,7 +135,7 @@ export function SideButtons(props) {
   );
 
   const handleUrlClick = (path) => {
-    if (localStorage.getItem("login") === "true") {
+    if (localStorage.getItem("login") === "true" || path === "cart") {
       props.history.push("/account/" + path);
     } else {
       props.history.push("/login");
