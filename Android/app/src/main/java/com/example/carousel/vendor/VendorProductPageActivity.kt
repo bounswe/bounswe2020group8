@@ -17,6 +17,7 @@ import com.example.carousel.CommentAdapter
 import com.example.carousel.R
 import com.example.carousel.application.ApplicationContext
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_product_page.*
 import kotlinx.android.synthetic.main.fragment_acount_page.view.*
 
@@ -32,10 +33,10 @@ class VendorProductPageActivity : AppCompatActivity() {
         setContentView(R.layout.vendor_activity_product_page)
         this.product = intent?.getSerializableExtra("product") as VendorProduct
         //image.setImageResource(product!!.photoUrl)
-        val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
-        Glide.with(image)
-            .load(imgUri)
-            .into(image)
+        carouselView.pageCount = product!!.photos.size
+        val imageListener =
+            ImageListener { position, imageView -> Glide.with(imageView).load(product!!.photos[position]).into(imageView) }
+        carouselView.setImageListener(imageListener)
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description

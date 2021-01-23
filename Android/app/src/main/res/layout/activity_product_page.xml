@@ -18,16 +18,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.09">
+            android:layout_marginTop="32dp" android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <!--ImageView
                 android:id="@+id/image"
                 android:layout_width="250dp"
                 android:layout_height="220dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"/-->
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/carouselView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:fillColor="#FFFFFFFF"
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:slideInterval="3000"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp"
+                app:autoPlay="false"/>
             <TextView
                 android:id="@+id/header"
                 android:layout_width="match_parent"
@@ -44,13 +54,13 @@
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:background="@color/colorWhite"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="5"
-                android:layout_gravity="center_horizontal"
                 android:stepSize="0.1" app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/comments"
@@ -89,47 +99,50 @@
             >
 
                 <com.google.android.material.button.MaterialButton
-                    app:icon="@drawable/ic_add_shopping_cart"
+                    android:id="@+id/cart_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
 
-                    android:id="@+id/cart_button"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginRight="12dp"
                     android:gravity="center_horizontal"
                     android:onClick="addToCart"
-                    android:text="@string/addToCart"/>
+                    android:text="@string/addToCart"
+                    app:icon="@drawable/ic_add_shopping_cart"/>
                 <com.google.android.material.button.MaterialButton
-                    app:icon="@drawable/ic_add"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:id="@+id/list_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginLeft="12dp"
                     android:gravity="center_horizontal"
                     android:onClick="addToList"
-                    android:text="@string/addToList"/>
+                    android:text="@string/addToList"
+                    app:icon="@drawable/ic_add"/>
 
             </LinearLayout>
             <LinearLayout android:id="@+id/counter_view"
-                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="horizontal"
                           app:layout_constraintEnd_toEndOf="parent"
                           app:layout_constraintStart_toStartOf="parent"
-                          app:layout_constraintTop_toBottomOf="@+id/product_frame"
-                          android:orientation="horizontal"
-                          android:gravity="center">
+                          app:layout_constraintTop_toBottomOf="@+id/product_frame">
                 <Button
                     android:id="@+id/dec_count"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="32dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    app:icon="@drawable/ic_remove_circle_24px"
                     android:onClick="decCount"
+                    app:icon="@drawable/ic_remove_circle_24px"
                 />
-                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:text="0" android:id="@+id/counter" android:layout_marginLeft="8dp"/>
+                <EditText android:id="@+id/counter" android:layout_width="wrap_content"
+                          android:layout_height="wrap_content" android:layout_marginLeft="8dp"
+                          android:inputType="number"
+                          android:text="0"/>
 
 
                 <Button
@@ -138,8 +151,8 @@
                     android:layout_width="32dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    app:icon="@drawable/ic_add_circle_24px"
                     android:onClick="incCount"
+                    app:icon="@drawable/ic_add_circle_24px"
                 />
             </LinearLayout>
         </LinearLayout>
