@@ -314,7 +314,7 @@ class SearchFragment : Fragment() {
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        var resultUrl = "http://54.165.207.44:8888/product/search?"
+        var resultUrl = "http://54.165.207.44:8080/product/search?"
         resultUrl += queryBrand + "&" + category + "&" + vendors + "&" + queryMaxPrice + "&" + queryMinPrice
         resultUrl += "&" + queryRating + "&" + queryColor + "&" + querySize + "&" + queryCategory //+ "&" + queryVendors
 
