@@ -226,7 +226,6 @@ exports.searchProducts = function (query, tags) {
   let matched_statement;
   let matches;
   if (!isNullOrEmpty(tags)) {
-    console.log("HERE");
     matched_statement = { $match: { tags: { $in: tags } } };
     matches = {
       $reduce: {
