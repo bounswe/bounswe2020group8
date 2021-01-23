@@ -284,8 +284,8 @@ data class ResponseProductSearch(
 
 data class DataProductSearch(
     @Expose @SerializedName("matches") val matches: Int,
-    @Expose @SerializedName("maxPrice") val maxPrice: Int,
-    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("maxPrice") val maxPrice: Double,
+    @Expose @SerializedName("minPrice") val minPrice: Double,
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("mainProduct") val mainProduct: ArrayList<MainProduct>,
     @Expose @SerializedName("product") val product: ProductDataSearch,
