@@ -19,7 +19,7 @@ import UserAccounts from "./UserAccounts";
 import MainProducts from "../../components/Admin/MainProducts/MainProducts";
 import OpenTickets from "../../components/Admin/Tickets/OpenTickets";
 import ClosedTickets from "../../components/Admin/Tickets/ClosedTickets";
-
+import UnassignedTickets from "../../components/Admin/Tickets/UnassignedTickets";
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
@@ -67,6 +67,9 @@ export default class AdminAccount extends Component {
           </Menu.Item>
 
           <SubMenu key="/tickets" icon={<FormOutlined />} title="Tickets">
+            <Menu.Item key="unassigned-tickets">
+              <Link to="/admin/unassigned-tickets">Unassigned Tickets</Link>
+            </Menu.Item>
             <Menu.Item key="open-tickets">
               <Link to="/admin/open-tickets">Open Tickets</Link>
             </Menu.Item>
@@ -96,6 +99,11 @@ export default class AdminAccount extends Component {
           <Route path="/admin/accounts" exact component={UserAccounts} />
           <Route path="/admin/open-tickets" exact component={OpenTickets} />
           <Route path="/admin/closed-tickets" exact component={ClosedTickets} />
+          <Route
+            path="/admin/unassigned-tickets"
+            exact
+            component={UnassignedTickets}
+          />
         </Switch>
       </Content>
     );
