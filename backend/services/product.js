@@ -21,6 +21,14 @@ exports.getProductRecommendationService = async function ({ pid }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
   }
   let { tags, parentProduct } = product;
+  recIndex = tags.indexOf("hotsellers");
+  if (recIndex != 1) {
+    tags.splice(recIndex, 1);
+  }
+  trendIndex = tags.indexOf("trendings");
+  if (trendIndex != 1) {
+    tags.splice(trendIndex, 1);
+  }
   query = {};
   let products = await ProductDataAccess.searchProducts(query, tags);
   products = products.filter((el) => el.mpid.toString() != parentProduct.toString());

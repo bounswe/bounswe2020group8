@@ -128,7 +128,9 @@ exports.getProductRecommendationService = async function ({ customer }) {
 
   allTags = orderTags.concat(searchTags);
   freqTable = listToFreqDict(allTags);
-  console.log(freqTable, typeof freqTable);
+
+  delete freqTable.hotsellers;
+  delete freqTable.trendings;
 
   let products = await ProductDataAccess.getProductRecommendations(
     freqTable,
