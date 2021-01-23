@@ -286,5 +286,17 @@
                 android:text="@string/cancel"/>
 
         </RelativeLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/recommendations_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIMILAR PRODUCTS"
+            android:textColor="#202020"
+            app:layout_constraintTop_toBottomOf="@id/relativeLayout" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/recommendations_title"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
