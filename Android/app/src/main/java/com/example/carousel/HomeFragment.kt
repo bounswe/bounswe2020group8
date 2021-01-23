@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ResponseAllProducts
-import com.example.carousel.pojo.ResponseCustomerMe
-import com.example.carousel.pojo.ResponseMainProduct
-import com.example.carousel.pojo.ResponseProduct
+import com.example.carousel.pojo.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -48,10 +45,33 @@ class HomeFragment : Fragment() {
 
         activity?.runOnUiThread {
             val productsDeals = ArrayList<Product>()
+            val recommendedProducts = ArrayList<Product>()
 
-
-            //val apiCallerGetProduct: ApiCaller<ResponseProduct> = ApiCaller(activity)
-            //apiCallerGetProduct.Caller = ApiClient.getClient.getProduct("5fe757b3d28edecdb6f1e5ce")
+            /*val apiCallerGetRecommendation: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
+            apiCallerGetRecommendation.Caller = ApiClient.getClient.getRecommendations(LoginActivity.user.id)
+            apiCallerGetRecommendation.Success = { firstResponse ->
+                if (firstResponse != null) {
+                    activity?.runOnUiThread {
+                        for(product in firstResponse.data) {
+                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                            apiCallerGetMainProduct.Caller =
+                                ApiClient.getClient.getMainProduct(product.parentProduct)
+                            apiCallerGetMainProduct.Success = { it ->
+                                if (it!= null) {
+                                    Log.d("SECONDRESPONSE", it.toString())
+                                    recommendedProducts.add(responseToProduct(product, it.data))
+                                    if(recommendations != null)
+                                        createProductListLinear(recommendedProducts, recommendations)
+                                }
+                            }
+                            apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+                            apiCallerGetMainProduct.run()
+                        }
+                    }
+                }
+            }
+            apiCallerGetRecommendation.Failure = {Log.d("GETTING CUST REC", "FAILED")}
+            apiCallerGetRecommendation.run()*/
 
 
             val apiCallerGetProduct: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
@@ -69,7 +89,7 @@ class HomeFragment : Fragment() {
                                     Log.d("SECONDRESPONSE", it.toString())
                                     productsDeals.add(responseToProduct(product, it.data))
                                     if(deals != null)
-                                        createProductList(productsDeals, deals)
+                                        createProductListGrid(productsDeals, deals)
                                 }
                             }
                             apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
@@ -127,7 +147,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
-    private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView ){
+    private fun createProductListGrid(products: ArrayList<Product>, productCategory: RecyclerView ){
         val adapter = ProductsAdapter(products, requireActivity())
         productCategory.apply {
             layoutManager = GridLayoutManager(this.context, 2)
@@ -140,6 +160,20 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
+    private fun createProductListLinear(products: ArrayList<Product>, productCategory: RecyclerView ){
+        val adapter = ProductsAdapter(products, requireActivity())
+        productCategory.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL ,false)
+            setAdapter(adapter)
+        }
+        adapter.onItemClick = { product ->
+            Log.d("PRODUCT:", product.toString())
+            val intent = Intent(this.context, ProductPageActivity::class.java)
+            intent.putExtra("product",product)
+            startActivity(intent)
+        }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
