@@ -47,31 +47,39 @@ class HomeFragment : Fragment() {
             val productsDeals = ArrayList<Product>()
             val recommendedProducts = ArrayList<Product>()
 
-            /*val apiCallerGetRecommendation: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
-            apiCallerGetRecommendation.Caller = ApiClient.getClient.getRecommendations(LoginActivity.user.id)
+            val apiCallerGetRecommendation: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
+            apiCallerGetRecommendation.Caller = ApiClient.getClient.customerMeRecommendations()
             apiCallerGetRecommendation.Success = { firstResponse ->
                 if (firstResponse != null) {
                     activity?.runOnUiThread {
                         for(product in firstResponse.data) {
-                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
-                            apiCallerGetMainProduct.Caller =
-                                ApiClient.getClient.getMainProduct(product.parentProduct)
+                            recommendedProducts.add(
+                                responseToProductSearch(
+                                    product,
+                                    product.mainProduct[0]
+                                )
+                            )
+                            /*val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                            apiCallerGetMainProduct.Caller = ApiClient.getClient.getMainProduct(product.parentProduct)
                             apiCallerGetMainProduct.Success = { it ->
                                 if (it!= null) {
                                     Log.d("SECONDRESPONSE", it.toString())
                                     recommendedProducts.add(responseToProduct(product, it.data))
                                     if(recommendations != null)
-                                        createProductListLinear(recommendedProducts, recommendations)
-                                }
-                            }
-                            apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
-                            apiCallerGetMainProduct.run()
+                                        createProductListLinear(recommendedProducts, recommendations)*/
+
                         }
+                        Log.d("PRODs ", recommendedProducts[0].title)
+                        createProductListLinear(recommendedProducts, recommendations)
                     }
+//                            apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+//                            apiCallerGetMainProduct.run()
+//                        }
+//                    }
                 }
             }
             apiCallerGetRecommendation.Failure = {Log.d("GETTING CUST REC", "FAILED")}
-            apiCallerGetRecommendation.run()*/
+            apiCallerGetRecommendation.run()
 
 
             val apiCallerGetProduct: ApiCaller<ResponseAllProducts> = ApiCaller(activity)

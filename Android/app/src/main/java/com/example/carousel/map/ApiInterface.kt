@@ -156,7 +156,11 @@ interface ApiInterface {
     ): Call<ID>
 
     @GET("/product/recommendations/{id}")
-    fun getRecommendations(
+    fun productRecommendations(
         @Path("id") id: String
-    ): Call<ResponseAllProducts>    // TODO: response?
+    ):  Call<ResponseProductSearch>
+
+    @GET("/customer/me/recommendations")
+    fun customerMeRecommendations(
+    ) : Call<ResponseProductSearch>
 }
