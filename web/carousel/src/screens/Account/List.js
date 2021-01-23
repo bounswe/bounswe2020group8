@@ -28,11 +28,6 @@ const List = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    const response = await services.get("/customer/me", config);
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
     const URL = "/shoppingList/all";
     services
       .get(URL, config)
@@ -108,12 +103,11 @@ const List = () => {
         headers: { Authorization: `Bearer ${TOKEN}` },
       };
       const payload = {
-        _id: ID,
         productId: productId,
         vendorId: vendorId,
         amount: 1,
       };
-      const URL = "/customer/shoppingCart/update";
+      const URL = "/customer/shoppingCart/main";
       services
         .post(URL, payload, config)
         .then((response) => {
