@@ -123,24 +123,22 @@ data class ResponseAllProducts(
 ) : Serializable
 
 data class VendorResponseAllProducts(
-    @Expose @SerializedName("results") val results: Int,
-    @Expose @SerializedName("data") val data: ArrayList<VendorProductData>,
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int,
-    @Expose @SerializedName("returnMessage") val returnMessage: String
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: ArrayList<VendorProductData>
 )
 
 data class VendorProductData(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("tags") val tags: ArrayList<String>,
-    @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
     @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: VendorMeSpecifics,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("parentProduct") val parentProduct: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
-    @Expose @SerializedName("createdAt") val createdAt: Date,
-    @Expose @SerializedName("updatedAt") val updatedAt: Date,
-    @Expose @SerializedName("__v") val __v: Int,
+
 )
 
 data class ProductData(

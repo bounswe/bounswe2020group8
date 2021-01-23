@@ -60,15 +60,16 @@ class HomeFragment : Fragment() {
                 if (firstResponse != null) {
                     activity?.runOnUiThread {
                         Log.d("FIRSTRESPONSE", firstResponse.toString())
-                        for(product in firstResponse.data) {
-                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                        for (product in firstResponse.data) {
+                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> =
+                                ApiCaller(activity)
                             apiCallerGetMainProduct.Caller =
                                 ApiClient.getClient.getMainProduct(product.parentProduct)
                             apiCallerGetMainProduct.Success = { it ->
-                                if (it!= null) {
+                                if (it != null) {
                                     Log.d("SECONDRESPONSE", it.toString())
                                     productsDeals.add(responseToProduct(product, it.data))
-                                    if(deals != null)
+                                    if (deals != null)
                                         createProductList(productsDeals, deals)
                                 }
                             }
@@ -78,11 +79,10 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-            apiCallerGetProduct.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
+            apiCallerGetProduct.Failure = { Log.d("FIRSTRESPONSE", "FAILED") }
             apiCallerGetProduct.run()
 
         }
-
 
 
         /*
@@ -120,6 +120,7 @@ class HomeFragment : Fragment() {
          */
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -127,7 +128,8 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
-    private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView ){
+
+    private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView) {
         val adapter = ProductsAdapter(products, requireActivity())
         productCategory.apply {
             layoutManager = GridLayoutManager(this.context, 2)
@@ -136,10 +138,11 @@ class HomeFragment : Fragment() {
         adapter.onItemClick = { product ->
             Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
-            intent.putExtra("product",product)
+            intent.putExtra("product", product)
             startActivity(intent)
         }
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
