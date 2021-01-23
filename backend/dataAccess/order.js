@@ -70,6 +70,18 @@ exports.updateOrderStatusVendorDB = function (clientID, mainOrderID, orderID, st
   });
 };
 
+exports.updateOrderStatusGuestDB = function (mainOrderID, orderID, status) {
+  return Order.findOneAndUpdate(
+    {
+      _id: mongoose.Types.ObjectId(mainOrderID),
+      orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
+    },
+    { $set: { "orders.$.status": status } },
+    { new: true }
+  ).select({
+    orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
+  });
+};
 exports.getProductTagsInLastOrders = function (customerID) {
   console.log(customerID);
   return Order.aggregate([

@@ -1,4 +1,5 @@
 const CustomerDataAccess = require("../dataAccess/customer");
+const GuestDataAccess = require("../dataAccess/guest");
 const OrderDataAccess = require("../dataAccess/order");
 const ClientTokenDataAccess = require("../dataAccess/clientToken");
 const { sha1, sha256 } = require("../util/baseUtil");
@@ -38,8 +39,42 @@ exports.updateOrderStatusVendorService = async function ({ _id, mainOrderID, ord
   return { data: order };
 };
 
+exports.updateOrderStatusGuestService = async function ({ mainOrderID, orderID, status }) {
+  const order = await OrderDataAccess.updateOrderStatusGuestDB(mainOrderID, orderID, status);
+  return { data: order };
+};
+
 exports.createOrderService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
+  var items = [];
+  var i;
+  for (i = 0; i < shoppingCart["shoppingCart"].length; i++) {
+    temp = {};
+    current = shoppingCart["shoppingCart"][i];
+    const current_product = await ProductDataAccess.getProductByVendorIdDB2(
+      current["productId"],
+      current["vendorId"]
+    );
+    if (!(current_product == null)) {
+      temp["productId"] = current["productId"];
+      temp["vendorId"] = current["vendorId"];
+      temp["amount"] = current["amount"];
+      temp["price"] = current_product["vendorSpecifics"][0]["price"];
+      temp["shipmentPrice"] = current_product["vendorSpecifics"][0]["shipmentPrice"];
+      temp["cargoCompany"] = current_product["vendorSpecifics"][0]["cargoCompany"];
+      if (current_product["vendorSpecifics"][0]["amountLeft"] > current["amount"]) {
+        temp["enoughLeft"] = true;
+      } else {
+        temp["enoughLeft"] = false;
+      }
+      items.push(temp);
+    }
+  }
+  return { data: items };
+};
+
+exports.createGuestOrderService = async function ({ _id }) {
+  const shoppingCart = await GuestDataAccess.getGuestShoppingCartDB(_id);
   var items = [];
   var i;
   for (i = 0; i < shoppingCart["shoppingCart"].length; i++) {
