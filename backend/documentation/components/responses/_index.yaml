@@ -13,6 +13,12 @@ Category:
 CategoryList:
   $ref: "./category.yaml#/CategoryList"
 
+PostTicket:
+  $ref: "./ticket.yaml#/PostTicket"
+
+GetAllTicket:
+  $ref: "./ticket.yaml#/GetAllTicket"
+
 ShoppingList:
   $ref: "./shoppingList.yaml#/ShoppingList"
 

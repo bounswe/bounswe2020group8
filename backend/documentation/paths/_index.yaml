@@ -4,6 +4,33 @@
 "/category/{id}":
   $ref: "./category.yaml#/~1category~1{id}"
 
+/ticket/:
+  $ref: "./ticket.yaml#/~1ticket~1"
+
+"/ticket/{tid}":
+  $ref: "./ticket.yaml#/~1ticket~1{tid}"
+
+/ticket/all:
+  $ref: "./ticket.yaml#/~1ticket~1all"
+
+"/ticket/admin/{aid}":
+  $ref: "./ticket.yaml#/~1ticket~1admin~1{aid}"
+
+"/ticket/all/admin/{aid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1admin~1{aid}"
+
+"/ticket/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1client~1{cid}"
+
+"/ticket/all/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1client~1{cid}"
+
+"/ticket/admin/{aid}/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1admin~1{aid}~1client~1{cid}"
+
+"/ticket/all/admin/{aid}/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1admin~1{aid}~1client~1{cid}"
+
 /shoppingList/:
   $ref: "./shoppingList.yaml#/~1shoppingList~1"
 
