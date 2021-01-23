@@ -1,8 +1,7 @@
-import { fireEvent } from "@testing-library/react";
 import { Form, Input, Modal } from "antd";
 
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
-import Ticket from "./Ticket";
+import services from "../../../apis/services";
 
 const { TextArea } = Input;
 
@@ -10,8 +9,16 @@ const TicketModal = (props) => {
   const [form] = Form.useForm();
 
   const handleFormSubmit = () => {
-    form.validateFields().then((values) => {
+    form.validateFields().then(async (values) => {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+
+      const resp = await services.post("/ticket", values, config);
+      console.log(resp);
       props.setModal({ visible: false });
+      window.location.reload();
     });
   };
 
@@ -35,7 +42,7 @@ const TicketModal = (props) => {
         form={form}
       >
         <Form.Item
-          name="title"
+          name="topic"
           label="Title"
           rules={[
             {

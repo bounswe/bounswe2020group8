@@ -1,23 +1,44 @@
-import { useState } from "react";
-import TicketTable from "../../components/Account/Tickets/TicketTable"
-import Ticket from "../../components/Account/Tickets/Ticket"
+import { useEffect, useState, useContext } from "react";
+import TicketTable from "../../components/Account/Tickets/TicketTable";
+import Ticket from "../../components/Account/Tickets/Ticket";
+import services from "../../apis/services";
+import UserInfo from "../../components/Context/UserInfo";
+
 const Tickets = (props) => {
-
   const [focusTicket, setFocusTicket] = useState(null);
+  const [tickets, setTickets] = useState([]);
+  const user = useContext(UserInfo);
 
-  const tickets = [
-    { id: 1, title: "Teknosa urunu gondermedi :(", createdAt: "12-20-20", messages: [{ sender: "you", message: "Teknosadan bir urun aldim, 45 gundur bekliyorum. Teknosayla direk iletisime gecmeye calistim ama artik benim ismimi duyunca direk telefonu kapatiyorlar. Urunu filan istemiyorum, parasini versinler yeter! Lutfen bana yardimci olun bu konu hakkinda" }, { sender: "carousel", message: "Merhaba kerim bey\n Mesajinizi aldik, en yakin zamanda sizinle bu konu hakkinda bir donus yapacagiz.\n Tesekkurler\n Carousel Admin Takimi" }] },
-    { id: 2, title: "Vatan Computer parami caldi", createdAt: "13-32-20" },
-    { id: 3, title: "Urun elime ulasmadi", createdAt: "12-11-20" }
-  ]
+  useEffect(async () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
 
-  return <div>
-    {
-      focusTicket ? <Ticket ticket={focusTicket} clearFocustTicket={() => setFocusTicket(null)} />
-        : <TicketTable tickets={tickets} setFocusTicket={setFocusTicket} />
+    let resp = await services.get(`/${user.userType.toLowerCase()}/me`, config);
+    const cid = resp.data.data._id;
 
-    }
-  </div>
+    resp = await services.get(`/ticket/client/${cid}`, config);
+
+    setTickets(resp.data.data);
+  }, []);
+
+  return (
+    <div>
+      {focusTicket ? (
+        <Ticket
+          ticket={focusTicket}
+          clearFocustTicket={() => setFocusTicket(null)}
+        />
+      ) : (
+        <TicketTable
+          tickets={tickets}
+          setFocusTicket={setFocusTicket}
+          setTickets={setTickets}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Tickets;

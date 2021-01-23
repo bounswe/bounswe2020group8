@@ -4,24 +4,28 @@ import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import TicketModal from "./TicketModal";
 
-const TicketTable = ({ tickets, setFocusTicket, admin }) => {
+const TicketTable = ({ tickets, setFocusTicket, admin, setTickets }) => {
   const [modal, setModal] = useState({ visible: false });
   const columns = [
     {
       title: "Title",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "topic",
+      key: "topic",
     },
     {
       title: "Creation Time",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      dataIndex: "startedAt",
+      key: "startedAt",
     },
   ];
   return (
     <div>
       {modal.visible ? (
-        <TicketModal setModal={setModal} visible={true} />
+        <TicketModal
+          setModal={setModal}
+          visible={true}
+          setTickets={setTickets}
+        />
       ) : null}
       <span>
         {!admin ? (
