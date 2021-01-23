@@ -70,8 +70,11 @@ class SearchFragment : Fragment() {
         initApplyButton()
 
         initSearchView()
+
+        //noResultText.visibility = View.INVISIBLE
+        noResultImage.visibility = View.INVISIBLE
     }
-    
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -403,6 +406,14 @@ class SearchFragment : Fragment() {
                     for(item in it.data) {
                         products.add(responseToProductSearch(item, item.mainProduct[0]))
                     }
+                    if(products.isEmpty()) {
+                        //noResultText.visibility = View.VISIBLE
+                        noResultImage.visibility = View.VISIBLE
+                    }
+                    else {
+                        //noResultText.visibility = View.INVISIBLE
+                        noResultImage.visibility = View.INVISIBLE
+                    }
                     createProductList(products, results)
                     print("PRODUCTS")
                     print(products)
@@ -426,42 +437,42 @@ class SearchFragment : Fragment() {
                     color_container.removeAllViews()
                     brand_container.removeAllViews()
                     size_container.removeAllViews()
-
-                    for(brand in it.data.brands) {
-                        val newItem = CheckBox(requireContext())
-                        newItem.text = brand
-                        newItem.layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
-                        brand_container.addView(newItem)
-                    }
-
-                    for(catg in it.data.categories) {
-                        for(i in 0..(category_container.childCount-1)) {
-                            val view = category_container.getChildAt(i) as CheckBox
-                            if(view.text == catg) {
-                                view.isChecked = true
-                            }
-                        }
-                    }
-
-                    for(param in it.data.parameters) {
-                        var myContainer: LinearLayout
-                        if (param.name == "color") {
-                            myContainer = color_container
-                        }
-                        else {
-                            myContainer = size_container
-                        }
-                        for(v in param.value) {
+                    if(it.data != null) {
+                        for (brand in it.data.brands) {
                             val newItem = CheckBox(requireContext())
-                            newItem.text = v
+                            newItem.text = brand
                             newItem.layoutParams = LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                             )
-                            myContainer.addView((newItem))
+                            brand_container.addView(newItem)
+                        }
+
+                        for (catg in it.data.categories) {
+                            for (i in 0..(category_container.childCount - 1)) {
+                                val view = category_container.getChildAt(i) as CheckBox
+                                if (view.text == catg) {
+                                    view.isChecked = true
+                                }
+                            }
+                        }
+
+                        for (param in it.data.parameters) {
+                            var myContainer: LinearLayout
+                            if (param.name == "color") {
+                                myContainer = color_container
+                            } else {
+                                myContainer = size_container
+                            }
+                            for (v in param.value) {
+                                val newItem = CheckBox(requireContext())
+                                newItem.text = v
+                                newItem.layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                myContainer.addView((newItem))
+                            }
                         }
                     }
                 })
