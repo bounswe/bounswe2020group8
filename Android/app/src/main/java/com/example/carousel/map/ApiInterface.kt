@@ -144,7 +144,8 @@ interface ApiInterface {
         @Query("sort") sort: String = "",
         @Query("limit") limit: Int = 1000,
         @Query("page") page: Int = 1,
-        @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
+        @Query("fields") fields: String = "",
+        @Header("Authorization") authHeader: String, ): Call<ResponseProductSearch>
 
     @POST("/product/searchFilters")
     fun productSearchFilters(
