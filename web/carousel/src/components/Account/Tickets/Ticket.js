@@ -1,5 +1,5 @@
 import classes from "./Ticket.module.css";
-import { Input } from "antd";
+import { Input, Divider } from "antd";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import { useEffect, useState } from "react";
@@ -8,20 +8,39 @@ import services from "../../../apis/services";
 
 const { TextArea } = Input;
 
-const Ticket = ({ ticket, clearFocustTicket }) => {
+const Ticket = ({ ticket, clearFocustTicket, admin }) => {
   const [reply, setReply] = useState("");
   const [myTicket, setMyTicket] = useState(null);
 
   const handleSubmit = async (reply) => {
+    if (!reply) {
+      alert("Please enter an input");
+      return;
+    }
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
 
-    console.log(reply);
     const payload = { payload: reply };
-    console.log(ticket);
+
     const resp = await services.post(`/ticket/${ticket._id}`, payload, config);
+
+    setMyTicket(resp.data.data);
+    setReply("");
+  };
+
+  const handleCloseTicket = async () => {
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+
+    console.log(TOKEN);
+
+    const resp = await services.delete(`/ticket/${ticket._id}`, config);
+
+    console.log(resp.data.data);
     setMyTicket(resp.data.data);
     setReply("");
   };
@@ -38,17 +57,23 @@ const Ticket = ({ ticket, clearFocustTicket }) => {
           onClick={clearFocustTicket}
         />
       </span>
-
       {myTicket &&
         myTicket.conversation.map((message) => {
           let style = {};
-          if (message.isSentByAdmin === false) {
+          if (message.isSentByAdmin ^ (admin !== true)) {
             style = {
               alignSelf: "flex-end",
             };
           }
           return (
             <div className={classes.MessageBox} style={style}>
+              <p style={{ color: "gray" }}>
+                {message.sendAt
+                  .replace("T", " ")
+                  .replace("Z", " ")
+                  .slice(0, -5)}
+              </p>
+              <Divider />
               {message.payload}
             </div>
           );
@@ -64,11 +89,17 @@ const Ticket = ({ ticket, clearFocustTicket }) => {
         value={reply}
         onChange={(e) => setReply(e.target.value)}
         rows={4}
+        disabled={myTicket && !myTicket.isActive}
       />
       <div style={{ alignSelf: "center" }}>
-        <span>
-          <ButtonSecondary title={"Close the Ticket"} />
-        </span>
+        {admin && myTicket && myTicket.isActive && (
+          <span>
+            <ButtonSecondary
+              title={"Close the Ticket"}
+              onClick={handleCloseTicket}
+            />
+          </span>
+        )}
         <span>
           <ButtonPrimary
             title={"Submit New Message"}

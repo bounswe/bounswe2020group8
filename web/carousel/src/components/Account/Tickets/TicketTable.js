@@ -4,7 +4,13 @@ import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import TicketModal from "./TicketModal";
 
-const TicketTable = ({ tickets, setFocusTicket, admin, setTickets }) => {
+const TicketTable = ({
+  tickets,
+  setFocusTicket,
+  admin,
+  setTickets,
+  extraTableColumns = [],
+}) => {
   const [modal, setModal] = useState({ visible: false });
   const columns = [
     {
@@ -16,7 +22,11 @@ const TicketTable = ({ tickets, setFocusTicket, admin, setTickets }) => {
       title: "Creation Time",
       dataIndex: "startedAt",
       key: "startedAt",
+      render: (text, record) => {
+        return text.replace("T", " ").replace("Z", " ").slice(0, -5);
+      },
     },
+    ...extraTableColumns,
   ];
   return (
     <div>
