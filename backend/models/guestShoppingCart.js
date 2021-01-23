@@ -17,7 +17,7 @@ var guestShoppingCartSchema = new Schema(
   {
     _id: { type: Schema.Types.ObjectId },
     shoppingCart: [shoppingCartItem],
-    lastActivity: { type: Date, default: Date.now, expires: "25m" },
+    lastActivity: { type: Date, default: Date.now, expires: "6h" },
   },
   { collection: "GuestShoppingCart" }
 );
