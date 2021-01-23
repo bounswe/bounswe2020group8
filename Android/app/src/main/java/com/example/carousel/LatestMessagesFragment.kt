@@ -50,7 +50,7 @@ class LatestMessagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         topAppBar.setNavigationOnClickListener{
-            val fragment = MemberAccountPageFragment()
+            val fragment = MessageFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragment_account_page, fragment)
                 ?.commit()

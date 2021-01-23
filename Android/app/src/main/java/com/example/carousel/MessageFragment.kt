@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.fragment_message.*
+import kotlinx.android.synthetic.main.fragment_message.topAppBar
+
 //import kotlinx.android.synthetic.main.fragment_message.item_count
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,6 +46,13 @@ class MessageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         order_count.text = "My Orders (3)"
         ticket_count.text = "My Tickets (4)"
+
+        topAppBar.setNavigationOnClickListener{
+            val fragment = MemberAccountPageFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_account_page, fragment)
+                ?.commit()
+        }
 
         orders.setOnClickListener {
             tickets.visibility = View.GONE
