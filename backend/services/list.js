@@ -1,20 +1,21 @@
 const CustomerDataAccess = require("../dataAccess/customer");
 const ShoppingCartService = require("../services/shoppingCart");
+const WatcherDataAccess = require("../dataAccess/watcher");
 const mongoose = require("mongoose");
 
 exports.getWatchListService = async function (_id) {
-  let watchlist = await CustomerDataAccess.getWatchList(_id);
-  return { data: watchlist };
+  let watchlist = await WatcherDataAccess.getAllWatchersOfAClient(_id);
+  return { result: watchlist.length, data: watchlist };
 };
 
-exports.addProductToWatchListService = async function (_id, product_info) {
-  let watchlist = await CustomerDataAccess.addProductToWatchList(_id, product_info);
-  return { data: watchlist };
+exports.addWatcherOfAClientService = async function (_id, _watcher) {
+  await WatcherDataAccess.createAWatcher(_watcher);
+  return { data: _watcher };
 };
 
-exports.removeProductFromWatchListService = async function (_id, product_info) {
-  let watchlist = await CustomerDataAccess.removeProductFromWatchlist(_id, product_info);
-  return { data: watchlist };
+exports.removeWatcherOfAClientService = async function (_id) {
+  let watcher = await WatcherDataAccess.deleteAWatcher(_id);
+  return { data: watcher };
 };
 
 exports.getOneListService = async function (_id, customer) {

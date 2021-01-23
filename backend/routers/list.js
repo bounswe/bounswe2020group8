@@ -12,8 +12,8 @@ router.use(RegisterActivity.registerActivity);
 router
   .route("/watchlist")
   .get(ListController.getWatchListController, RequestHelper.returnResponse)
-  .post(ListController.addProductToWatchListController, RequestHelper.returnResponse)
-  .delete(ListController.removeProductFromWatchListController, RequestHelper.returnResponse);
+  .post(ListController.addWatcherOfAClientController, RequestHelper.returnResponse)
+  .delete(ListController.removeWatcherOfAClientController, RequestHelper.returnResponse);
 
 router.route("/").post(ListController.createOneListController, RequestHelper.returnResponse);
 router

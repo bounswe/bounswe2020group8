@@ -117,3 +117,13 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
 
   return {};
 };
+
+exports.getNotificationService = async function () {
+  let results = await ClientDataAccess.getNotifications(_id);
+  return { result: results.length, data: results };
+};
+
+exports.readNotificationService = async function (_id, notification_id) {
+  let result = await ClientDataAccess.readNotification(_id, notification_id);
+  return { data: result };
+};

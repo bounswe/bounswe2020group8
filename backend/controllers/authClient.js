@@ -170,13 +170,16 @@ exports.protectRoute = async (req, res, next) => {
 };
 
 exports.getNotificationController = BaseUtil.createController((req) => {
+  let _id = req.client._id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ClientService.getNotificationService());
+    .then(() => ClientService.getNotificationService(_id));
 });
 
 exports.readNotificationController = BaseUtil.createController((req) => {
+  let _id = req.client._id;
+  let notification_id = req.body.notification_id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ClientService.readNotificationService());
+    .then(() => ClientService.readNotificationService(_id, notification_id));
 });

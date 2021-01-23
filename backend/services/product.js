@@ -1,4 +1,5 @@
 const ProductDataAccess = require("../dataAccess/product");
+const WatcherDataAccess = require("../dataAccess/watcher");
 const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 const MainProduct = mongoose.model("MainProduct");
@@ -6,6 +7,7 @@ const APIFeatures = require("../util/apiFeatures");
 const { isNullOrEmpty } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Messages = require("../util/messages");
+const NotificationWare = require("../util/notification");
 
 exports.searchProductsService = async function ({ query, tags }) {
   let products = await ProductDataAccess.searchProducts(query, tags);
@@ -46,11 +48,41 @@ exports.deleteVendorFromProductService = async function ({ pid, vid }) {
 };
 
 exports.updateVendorInProductService = async function ({ pid, vid, vendorData }) {
-  /*
   let new_price = vendorData.price;
-  if (new_price !== undefined) {
+  let clients = WatcherDataAccess.getAllClientsOfAProductAndAVendor(pid, vid);
+  if ((new_price !== undefined) & (clients.length !== 0)) {
+    const product_before_state = await ProductDataAccess.getProductByProductIDAndVendorID(pid, vid);
+    let price = product_before_state.price;
+    ratio = (price - new_price) / price;
+    if ((ratio >= 0.1) & (ratio < 0.25)) {
+      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let notification = await NotificationWare.createNotification(
+        "PRICE_DOWN_BELOW_THRESHOLD",
+        hyperlink
+      );
+      for (let i = 0; i < clients.length; i++) {
+        await NotificationWare.registerNotification(clients[i], notification);
+      }
+    } else if ((ratio >= 0.25) & (ratio <= 0.5)) {
+      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let notification = await NotificationWare.createNotification(
+        "PRICE_STRICTLY_DOWN_BELOW_THRESHOLD",
+        hyperlink
+      );
+      for (let i = 0; i < clients.length; i++) {
+        await NotificationWare.registerNotification(clients[i], notification);
+      }
+    } else if (ratio >= 0.5) {
+      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let notification = await NotificationWare.createNotification(
+        "PRICE_HOLY_DOWN_BELOW_THRESHOLD",
+        hyperlink
+      );
+      for (let i = 0; i < clients.length; i++) {
+        await NotificationWare.registerNotification(clients[i], notification);
+      }
+    }
   }
-  */
   const updatedProduct = await ProductDataAccess.updateVendorInProductByVendorIdDB(
     pid,
     vid,

@@ -12,20 +12,19 @@ exports.getWatchListController = BaseUtil.createController((req) => {
     .then(() => ListService.getWatchListService(_id));
 });
 
-exports.addProductToWatchListController = BaseUtil.createController((req) => {
-  let _id = req.client._id;
-  let product_info = req.body;
+exports.addWatcherOfAClientController = BaseUtil.createController((req) => {
+  let watcher = req.body;
+  watcher.client_id = req.client._id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ListService.addProductToWatchListService(_id, product_info));
+    .then(() => ListService.addWatcherOfAClientService(_id, watcher));
 });
 
-exports.removeProductFromWatchListController = BaseUtil.createController((req) => {
-  let _id = req.client._id;
-  let product_info = req.body;
+exports.removeWatcherOfAClientController = BaseUtil.createController((req) => {
+  let watcher_id = req.body.watcher_id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ListService.removeProductFromWatchListService(_id, product_info));
+    .then(() => ListService.removeWatcherOfAClientService(watcher_id));
 });
 
 exports.getOneListController = BaseUtil.createController((req) => {

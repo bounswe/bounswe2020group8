@@ -49,7 +49,6 @@ var creditCard = {
 
 var customerSchema = new Schema(
   {
-    watchList: [product_info],
     shoppingLists: [shoppingList],
     shoppingCart: [shoppingCartItem],
     addresses: [address],
