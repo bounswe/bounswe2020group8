@@ -33,6 +33,11 @@ class DashboardActivity : AppCompatActivity() {
             "userInfo",
             Context.MODE_PRIVATE
         )
+
+        // Sometimes a bug arises about logout. These two lines are used when there is such an issue.
+        //ApplicationContext.instance.terminateAuthentication()
+        //prefs!!.edit().clear().apply()
+
         if (prefs.getBoolean("isAuthenticated", false)) {
             val type = prefs.getString("type", "GUEST")!!
             ApplicationContext.instance.authenticate(

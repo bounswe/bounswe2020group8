@@ -156,4 +156,12 @@ interface ApiInterface {
         @Body purchaseBody: PurchaseBody
     ): Call<ID>
 
+    @GET("/product/recommendations/{id}")
+    fun productRecommendations(
+        @Path("id") id: String
+    ):  Call<ResponseProductSearch>
+
+    @GET("/customer/me/recommendations")
+    fun customerMeRecommendations(
+    ) : Call<ResponseProductSearch>
 }
