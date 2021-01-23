@@ -3,7 +3,6 @@ import services from "../../../apis/services";
 import ProductCarousel from "../../../components/ProductList/ProductCarousel";
 
 const Recommendations = ({ productId }) => {
-  console.log(productId);
   const [products, setProducts] = useState(null);
   useEffect(async () => {
     const url = `/product/recommendations/${productId}`;

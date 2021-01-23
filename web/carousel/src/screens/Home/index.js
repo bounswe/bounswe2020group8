@@ -32,8 +32,12 @@ export default function Home() {
     };
 
     if (TOKEN) {
-      // resp = await services.get("/customer/me/recommendations", config);
-      // newProductList["recommendations"] = resp.data.data;
+      try {
+        resp = await services.get("/customer/me/recommendations", config);
+        newProductList["recommendations"] = resp.data.data;
+      } catch {
+        newProductList["recommendations"] = null;
+      }
     } else {
       newProductList["recommendations"] = null;
     }
