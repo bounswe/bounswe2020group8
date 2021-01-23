@@ -12,6 +12,7 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.map.SearchQuery
@@ -321,7 +322,11 @@ class SearchFragment : Fragment() {
         val url =
             resultUrl.toHttpUrlOrNull()
 
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort)
+        var tokenWithSchemaValue = ""
+        if (ApplicationContext.instance.isUserAuthenticated()) {
+            tokenWithSchemaValue = "Bearer " + ApplicationContext.instance.user?.token
+        }
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort, authHeader = tokenWithSchemaValue)
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
