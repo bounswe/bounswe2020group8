@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.*
@@ -42,6 +43,15 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        if(ApplicationContext.instance.isUserAuthenticated()) {
+            recommendations.visibility = View.VISIBLE
+            recommendations_title.visibility = View.VISIBLE
+        }
+        else {
+            recommendations.visibility = View.INVISIBLE
+            recommendations_title.visibility = View.INVISIBLE
+        }
 
         activity?.runOnUiThread {
             val productsDeals = ArrayList<Product>()
