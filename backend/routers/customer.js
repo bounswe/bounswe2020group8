@@ -64,7 +64,7 @@ router
   .post(OrderController.createOrderController, RequestHelper.returnResponse) //  Create order
   .patch(OrderController.updateOrderStatusCustomerController, RequestHelper.returnResponse); // Patch order status
 
-router.get(
+router.post(
   "/order/orderID",
   OrderController.getOrderByOrderIdController,
   RequestHelper.returnResponse

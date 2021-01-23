@@ -65,6 +65,6 @@ exports.getShoppingCartController = BaseUtil.createController((req) => {
 });
 
 exports.getGuestShoppingCartController = BaseUtil.createController((req) => {
-  let { _id } = req.body;
+  let { _id } = req.query;
   return BB.all([ShoppingCartService.getGuestShoppingCartService({ _id })]);
 });
