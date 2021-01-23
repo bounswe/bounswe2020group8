@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import SearchProduct from "../../components/ProductList/SearchProduct";
 import services from "../../apis/services";
+import HomepageProduct from "../../components/ProductList/HomepageProduct";
 
 const { Content } = Layout;
 
@@ -9,6 +10,7 @@ export class VendorPublicPage extends Component {
   state = {
     productList: [],
     vendor: {},
+    loading: false,
   };
 
   async componentDidMount() {
@@ -23,9 +25,10 @@ export class VendorPublicPage extends Component {
       const params = {
         vendors: path[2],
       };
-      const r = await services.post(productUrl, null, params);
+      const r = await services.post(productUrl, null, { params: params });
       if (r) {
         this.setState({ productList: r.data.data });
+        this.setState({ loading: true });
       }
     }
   }
@@ -126,12 +129,12 @@ export class VendorPublicPage extends Component {
           minHeight: "280px",
           display: "grid",
           gridGap: "25px",
-          gridTemplateColumns: "repeat(auto-fit, 350px)",
+          gridTemplateColumns: "repeat(auto-fit, 250px)",
           justifyContent: "center",
         }}
       >
         {this.state.productList.map((product) => {
-          return <SearchProduct product={product} />;
+          return <HomepageProduct product={product} />;
         })}
       </Content>
     ) : (
@@ -159,8 +162,14 @@ export class VendorPublicPage extends Component {
               className="site-layout-background"
               style={{ padding: "24px 0" }}
             >
-              {this.renderVendorInfo()}
-              {this.renderProducts()}
+              {this.state.loading ? (
+                <div>
+                  {this.renderVendorInfo()}
+                  {this.renderProducts()}
+                </div>
+              ) : (
+                <Spin size="large" />
+              )}
             </Layout>
           </Content>
         </Layout>
