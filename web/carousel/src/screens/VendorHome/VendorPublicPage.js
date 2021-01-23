@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Layout, Spin } from "antd";
 import services from "../../apis/services";
 import HomepageProduct from "../../components/ProductList/HomepageProduct";
+import MapComponent from "../../components/MapComponent/MapComponent";
 
 const { Content } = Layout;
 
@@ -108,11 +109,21 @@ export class VendorPublicPage extends Component {
               {this.state.vendor.companyDomainName ||
                 "Our website is under construction!"}
             </div>
+            <div>Our Store Address:</div>
             <div>
-              Our Store Address:{" "}
-              {this.state.vendor.location || "We will add soon!"}
+              <MapComponent
+                isMarkerShown
+                googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+                loadingElement={<div style={{ height: "100%" }} />}
+                containerElement={<div style={{ height: 300, width: 300 }} />}
+                mapElement={<div style={{ height: 300 }} />}
+                markerLocations={this.state.vendor.locations}
+              />
             </div>
-            <div>{this.state.vendor.aboutCompany || "Check our products"}</div>
+            <div>
+              About Our Company:{" "}
+              {this.state.vendor.aboutCompany || "Check our products"}
+            </div>
           </div>
         </div>
       </div>
