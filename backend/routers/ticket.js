@@ -5,13 +5,12 @@ const TicketController = require("../controllers/ticket");
 const RegisterActivity = require("../util/endpoint");
 const router = express.Router();
 
-router.get("/", TicketController.getAllTicketController, RequestHelper.returnResponse);
-router.post("/", TicketController.createOneTicketController, RequestHelper.returnResponse);
-
 // BELOW ARE PROTECTED
 router.use(authController.protectRoute);
 router.use(RegisterActivity.registerActivity);
 
+router.get("/", TicketController.getAllTicketController, RequestHelper.returnResponse);
+router.post("/", TicketController.createOneTicketController, RequestHelper.returnResponse);
 router.get("/all", TicketController.getAllActiveTicketController, RequestHelper.returnResponse);
 router.get(
   "/all/unassigned",
@@ -40,12 +39,12 @@ router.get(
 );
 router.get(
   "/admin/:aid/client/:cid",
-  TicketController.getAllTicketofClientandAdminController,
+  TicketController.getAllTicketofClientAndAdminController,
   RequestHelper.returnResponse
 );
 router.get(
   "/all/admin/:aid/client/:cid",
-  TicketController.getAllActiveTicketofClientandAdminController,
+  TicketController.getAllActiveTicketofClientAndAdminController,
   RequestHelper.returnResponse
 );
 
