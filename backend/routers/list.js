@@ -9,6 +9,12 @@ const router = express.Router();
 router.use(authController.protectRoute);
 router.use(RegisterActivity.registerActivity);
 
+router
+  .route("/watchlist")
+  .get(ListController.getWatchListController, RequestHelper.returnResponse)
+  .post(ListController.addProductToWatchListController, RequestHelper.returnResponse)
+  .delete(ListController.removeProductFromWatchListController, RequestHelper.returnResponse);
+
 router.route("/").post(ListController.createOneListController, RequestHelper.returnResponse);
 router
   .route("/all/export")

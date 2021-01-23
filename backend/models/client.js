@@ -11,6 +11,14 @@ var Message = {
   time: { type: Date },
 };
 
+var notification = {
+  type: { type: String },
+  description: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  isRead: { type: Boolean, default: false },
+  hyperLink: { type: String },
+};
+
 var clientSchema = new Schema(
   {
     email: { type: String },
@@ -26,6 +34,7 @@ var clientSchema = new Schema(
     resetPasswordToken: { type: String },
     isVerified: { type: Boolean },
     currentConversations: [Message],
+    notifications: [notification],
   },
   {
     discriminatorKey: "__type",

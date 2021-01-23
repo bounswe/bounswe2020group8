@@ -13,14 +13,14 @@ var address = {
   phone: { type: String },
 };
 
+var product_info = {
+  productId: { type: Schema.Types.ObjectId, ref: "Product" },
+  vendorId: { type: Schema.Types.ObjectId, ref: "Vendor" },
+};
+
 var shoppingList = {
   title: { type: String },
-  wishedProducts: [
-    {
-      productId: { type: Schema.Types.ObjectId, ref: "Product" },
-      vendorId: { type: Schema.Types.ObjectId, ref: "Vendor" },
-    },
-  ],
+  wishedProducts: [product_info],
 };
 
 var searchHistory = {
@@ -49,6 +49,7 @@ var creditCard = {
 
 var customerSchema = new Schema(
   {
+    watchList: [product_info],
     shoppingLists: [shoppingList],
     shoppingCart: [shoppingCartItem],
     addresses: [address],

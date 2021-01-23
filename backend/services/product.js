@@ -46,6 +46,11 @@ exports.deleteVendorFromProductService = async function ({ pid, vid }) {
 };
 
 exports.updateVendorInProductService = async function ({ pid, vid, vendorData }) {
+  /*
+  let new_price = vendorData.price;
+  if (new_price !== undefined) {
+  }
+  */
   const updatedProduct = await ProductDataAccess.updateVendorInProductByVendorIdDB(
     pid,
     vid,

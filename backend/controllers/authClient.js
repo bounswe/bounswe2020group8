@@ -168,3 +168,15 @@ exports.protectRoute = async (req, res, next) => {
   req.tokenCode = tokenCode;
   next();
 };
+
+exports.getNotificationController = BaseUtil.createController((req) => {
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ClientService.getNotificationService());
+});
+
+exports.readNotificationController = BaseUtil.createController((req) => {
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ClientService.readNotificationService());
+});
