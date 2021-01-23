@@ -139,6 +139,7 @@ class HomeFragment : Fragment() {
             intent.putExtra("product",product)
             startActivity(intent)
         }
+
     }
     companion object {
         /**
