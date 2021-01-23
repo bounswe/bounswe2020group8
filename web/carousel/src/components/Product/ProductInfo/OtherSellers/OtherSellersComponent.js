@@ -16,6 +16,7 @@ class OtherSellersComponent extends React.Component {
   }
 
   async componentWillMount() {
+    otherOptions = [];
     if (otherOptions.length == 0) {
       var i = 0;
       for (i; i < this.props.product.vendorSpecifics.length; i++) {

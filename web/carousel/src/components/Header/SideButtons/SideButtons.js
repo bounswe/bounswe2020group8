@@ -22,7 +22,7 @@ import { useGoogleLogout } from "react-google-login";
 import UserInfo from "../../Context/UserInfo";
 import services from "../../../apis/services";
 
-function SideButtons(props) {
+export function SideButtons(props) {
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);

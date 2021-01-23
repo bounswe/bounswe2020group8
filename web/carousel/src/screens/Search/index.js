@@ -19,7 +19,7 @@ class Search extends Component {
     productList: [],
     error: null,
     priceInterval: [],
-    sort: "brand",
+    sort: null,
   };
 
   componentDidMount() {
@@ -50,8 +50,6 @@ class Search extends Component {
 
     params["minPrice[gte]"] = this.state.priceInterval[0];
     params["minPrice[lte]"] = this.state.priceInterval[1];
-    //TODO Check whether they are working fine
-
     params["sort"] = this.state.sort;
 
     services
@@ -68,7 +66,7 @@ class Search extends Component {
 
   onSortChange(e) {
     if (e === "default") {
-      this.setState({ sort: "brand" });
+      this.setState({ sort: null });
     } else if (e === "ascendingPrice") {
       this.setState({ sort: "minPrice" });
     } else if (e === "decreasingPrice") {
@@ -208,7 +206,7 @@ class Search extends Component {
 
         {Array.isArray(vendors) && vendors.length
           ? this.renderMultiCheckbox({
-              name: "vendor",
+              name: "vendors",
               values: vendors.map((e) => e.companyName),
               ids: vendors.map((e) => e._id),
             })

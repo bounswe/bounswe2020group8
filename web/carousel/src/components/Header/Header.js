@@ -8,7 +8,7 @@ import logo from "../../assets/images/carousel_logo.jpg";
 import qs from "qs";
 import userInfo from "../Context/UserInfo";
 
-class Header extends Component {
+export class Header extends Component {
   state = {
     searchValue: "",
     placeholderSearchString: "Search for something...",
