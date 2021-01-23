@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Layout, Spin } from "antd";
-import SearchProduct from "../../components/ProductList/SearchProduct";
 import services from "../../apis/services";
 import HomepageProduct from "../../components/ProductList/HomepageProduct";
 
@@ -17,13 +16,13 @@ export class VendorPublicPage extends Component {
     const { location } = this.props;
     const path = location.pathname.split("/");
 
-    const profileUrl = "/vendor/public/" + path?.[2];
+    const profileUrl = "/vendor/public/" + path?.[3];
     const response = await services.get(profileUrl);
     if (response) {
       this.setState({ vendor: response.data.data });
       const productUrl = "/product/search";
       const params = {
-        vendors: path[2],
+        vendors: path[3],
       };
       const r = await services.post(productUrl, null, { params: params });
       if (r) {
@@ -64,7 +63,7 @@ export class VendorPublicPage extends Component {
             fontWeight: "bold",
           }}
         >
-          {this.state.vendor.companyName}
+          {this.state.vendor.companyName.toUpperCase()}
         </div>
         <div
           style={{
@@ -101,9 +100,13 @@ export class VendorPublicPage extends Component {
           >
             <div>Company Name: {this.state.vendor.companyName}</div>
             <div>
-              Contact Info:{" "}
-              {(this.state.vendor.phoneNumber,
-              this.state.vendor.companyDomainName) || "We will add soon!"}
+              Contact Info:
+              {this.state.vendor.phoneNumber || "We will add soon!"}
+            </div>
+            <div>
+              Our website:
+              {this.state.vendor.companyDomainName ||
+                "Our website is under construction!"}
             </div>
             <div>
               Our Store Address:{" "}

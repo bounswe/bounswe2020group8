@@ -57,7 +57,7 @@ const ProductActions = ({
           <p
             style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
-            onClick={() => history.push("/v/" + sellerId)}
+            onClick={() => history.push("/v/public/" + sellerId)}
           >
             Seller: {seller} &gt;
           </p>

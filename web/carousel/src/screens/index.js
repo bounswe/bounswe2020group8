@@ -104,7 +104,7 @@ const App = () => {
     { path: "/forgot", exact: true, component: Forgot },
     { path: "/search", exact: true, component: Search },
     { path: "/product/:id", exact: true, component: Product },
-    { path: "/v/:vendorName", exact: true, component: VendorPublicPage },
+    { path: "/v/public/:id", exact: true, component: VendorPublicPage },
     {
       path: "/administration/login/admin",
       exact: true,
