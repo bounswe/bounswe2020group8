@@ -247,6 +247,9 @@ data class PostComment(
 )
 
 data class ResponseCart(
+    @Expose @SerializedName("data") val data: ArrayList<DataCart>,
+    )
+data class DataCart(
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
     @Expose @SerializedName("amount") val amount: Int,
@@ -259,7 +262,6 @@ data class ResponseCart(
     )
 
 data class UpdateCart(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("amount") val amount: Int,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
