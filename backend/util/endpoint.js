@@ -54,6 +54,5 @@ exports.registerActivity = async (req, res, next) => {
     object,
   };
   await ActivityDataAccess.createActivityDB(newActivity);
-  console.log(newActivity);
   next();
 };

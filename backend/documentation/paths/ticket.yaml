@@ -1,0 +1,227 @@
+/ticket/:
+  post:
+    tags:
+      - ticket
+    description: "Create a ticket and register it into database."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: topic
+        description: "Topic of the ticket."
+        required: true
+        type: string
+      - in: body
+        name: message
+        description: "Detailed explanation of the problem."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PostTicket"
+      "400":
+        description: Authorization error
+  get:
+    tags:
+      - ticket
+    description: "Get all ticket."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/{tid}":
+  get:
+    tags:
+      - ticket
+    description: "Get a ticket."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PostTicket"
+      "400":
+        description: Authorization error
+  post:
+    tags:
+      - ticket
+    description: "Reply a ticket and register it into database."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: new_message
+        description: "New message of the ticket."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PostTicket"
+      "400":
+        description: Authorization error
+  patch:
+    tags:
+      - ticket
+    description: "Forward or activate a ticket."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: admin_id
+        description: "New admin id of the ticket."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PostTicket"
+      "400":
+        description: Authorization error
+  delete:
+    tags:
+      - ticket
+    description: "Close a ticket."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/PostTicket"
+      "400":
+        description: Authorization error
+/ticket/all:
+  get:
+    tags:
+      - ticket
+    description: "Get all active ticket."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/admin/{aid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all tickets of an admin."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/all/admin/{aid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all active tickets of an admin."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/client/{cid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all tickets of a client."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/all/client/{cid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all active tickets of a client."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/admin/{aid}/client/{cid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all tickets of between a client and an admin."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error
+"/ticket/all/admin/{aid}/client/{cid}":
+  get:
+    tags:
+      - ticket
+    description: "Get all active tickets between a client and an admin."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/GetAllTicket"
+      "400":
+        description: Authorization error

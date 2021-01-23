@@ -7,6 +7,12 @@ PostComment:
 PatchComment:
   $ref: "./comment.yaml#/PatchComment"
 
+PostTicket:
+  $ref: "./ticket.yaml#/PostTicket"
+
+PostTicketMessage:
+  $ref: "./ticket.yaml#/PostTicketMessage"
+
 PostShoppingList:
   $ref: "./shoppingList.yaml#/PostShoppingList"
 
