@@ -12,6 +12,7 @@ import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.map.SearchQuery
@@ -314,14 +315,18 @@ class SearchFragment : Fragment() {
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
 
-        var resultUrl = "http://54.165.207.44:8888/product/search?"
+        var resultUrl = "http://54.165.207.44:8080/product/search?"
         resultUrl += queryBrand + "&" + category + "&" + vendors + "&" + queryMaxPrice + "&" + queryMinPrice
         resultUrl += "&" + queryRating + "&" + queryColor + "&" + querySize + "&" + queryCategory //+ "&" + queryVendors
 
         val url =
             resultUrl.toHttpUrlOrNull()
 
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort)
+        var tokenWithSchemaValue = ""
+        if (ApplicationContext.instance.isUserAuthenticated()) {
+            tokenWithSchemaValue = "Bearer " + ApplicationContext.instance.user?.token
+        }
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort, authHeader = tokenWithSchemaValue)
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
@@ -399,7 +404,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
-        val adapter = ProductsAdapter(products)
+        val adapter = ProductsAdapter(products, requireActivity())
         recyclerId.apply {
             layoutManager = GridLayoutManager(this.context, 2)
             setAdapter(adapter)
