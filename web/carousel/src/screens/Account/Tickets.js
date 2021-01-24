@@ -23,6 +23,13 @@ const Tickets = (props) => {
     setTickets(resp.data.data);
   }, []);
 
+  const isActiveColumn = {
+    title: "Is Active?",
+    key: "isActive",
+    dataIndex: "isActive",
+    render: (text, record) => (record.isActive ? "Open" : "Closed"),
+  };
+
   return (
     <div>
       {focusTicket ? (
@@ -35,6 +42,7 @@ const Tickets = (props) => {
           tickets={tickets}
           setFocusTicket={setFocusTicket}
           setTickets={setTickets}
+          extraTableColumns={[isActiveColumn]}
         />
       )}
     </div>
