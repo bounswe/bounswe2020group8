@@ -14,15 +14,15 @@ const Activities = (props) => {
     const resp = await services.get("/admin/activity", config);
     const activities = resp.data.data;
     setActivities(
-      activities.slice(Math.max(activities.length - 20, 0), activities.length)
+      activities
+        .slice(Math.max(activities.length - 20, 0), activities.length)
+        .reverse()
     );
   };
 
   useEffect(async () => {
     getLastActivities();
   }, []);
-
-  setInterval(getLastActivities, 5000);
 
   return (
     <div>
