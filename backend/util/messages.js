@@ -180,6 +180,12 @@ const returnMessages = {
       en: "Order status is invalid",
     },
   },
+  ERR_SEND_ORDER_EMAIL_FAILED: {
+    code: 29,
+    messages: {
+      en: "Order email could not be sent",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

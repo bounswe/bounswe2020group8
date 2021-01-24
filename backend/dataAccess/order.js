@@ -36,21 +36,20 @@ exports.getOrderByVendorIdDB = function (vendorID) {
   ]);
 };
 
-// exports.getVendorBalanceDB = function (_id) {
-//   return Order.findOne({ $match: { "orders.vendorId": mongoose.Types.ObjectId(_id) } }).select({
-//     orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
-//   });
-// };
-
 exports.getVendorBalanceDB = function (_id) {
   return Order.aggregate([
     { $match: { "orders.vendorId": mongoose.Types.ObjectId(_id) } },
     { $unwind: "$orders" },
-    { $match: { "orders.vendorId": mongoose.Types.ObjectId(_id) } },
+    {
+      $match: {
+        "orders.vendorId": mongoose.Types.ObjectId(_id),
+        "orders.status": { $in: ["being prepared", "on the way"] },
+      },
+    },
     {
       $group: {
         _id: null,
-        balance: { $sum: "$orders.price" },
+        balance: { $sum: { $multiply: ["$orders.price", "$orders.amount"] } },
       },
     },
     { $project: { _id: 0, balance: 1 } },
@@ -61,6 +60,10 @@ exports.getOrderByOrderIdDB = function (mainOrderID, orderID) {
   return Order.findOne({ _id: mainOrderID }).select({
     orders: { $elemMatch: { _id: mongoose.Types.ObjectId(orderID) } },
   });
+};
+
+exports.getOrderByMainOrderIdDB = function (mainOrderID) {
+  return Order.findOne({ _id: mainOrderID });
 };
 
 exports.updateOrderStatusCustomerDB = function (clientID, mainOrderID, orderID, status) {

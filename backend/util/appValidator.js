@@ -18,7 +18,16 @@ exports.validatePassword = function (param, errObj) {
 
 exports.validateOrderStatus = function (param, errObj) {
   return new BB((resolve, reject) => {
-    if (["being prepared", "on the way", "delivered", "cancelled by the customer", "returned"].includes(param)) {
+    if (
+      [
+        "being prepared",
+        "on the way",
+        "delivered",
+        "cancelled by the customer",
+        "cancelled by the vendor",
+        "returned",
+      ].includes(param)
+    ) {
       resolve();
     } else {
       reject(new AppError(errObj));

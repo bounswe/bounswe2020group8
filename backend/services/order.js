@@ -29,6 +29,11 @@ exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
   return { data: order };
 };
 
+exports.getOrderByMainOrderIdService = async function ({ mainOrderID }) {
+  const order = await OrderDataAccess.getOrderByMainOrderIdDB(mainOrderID);
+  return { data: order };
+};
+
 exports.updateOrderStatusCustomerService = async function ({ _id, mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusCustomerDB(
     _id,
@@ -36,16 +41,35 @@ exports.updateOrderStatusCustomerService = async function ({ _id, mainOrderID, o
     orderID,
     status
   );
+  if (["cancelled by the customer", "returned"].includes(status)) {
+    updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
+      order["orders"][0]["productId"],
+      order["orders"][0]["vendorId"],
+      order["orders"][0]["amount"]
+    );
+  }
   return { data: order };
 };
 
 exports.updateOrderStatusVendorService = async function ({ _id, mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusVendorDB(_id, mainOrderID, orderID, status);
+  if (status === "cancelled  by the vendor") {
+    updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
+      order["orders"][0]["productId"],
+      order["orders"][0]["vendorId"],
+      order["orders"][0]["amount"]
+    );
+  }
   return { data: order };
 };
 
 exports.updateOrderStatusGuestService = async function ({ mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusGuestDB(mainOrderID, orderID, status);
+  updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
+    order["orders"][0]["productId"],
+    order["orders"][0]["vendorId"],
+    order["orders"][0]["amount"]
+  );
   return { data: order };
 };
 
