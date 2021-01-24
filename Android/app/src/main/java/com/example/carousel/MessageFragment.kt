@@ -2,13 +2,16 @@ package com.example.carousel
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.example.carousel.customer.RegisterInfoActivity
+import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.fragment_message.*
+import kotlinx.android.synthetic.main.fragment_message.topAppBar
+
+//import kotlinx.android.synthetic.main.fragment_message.item_count
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,10 +34,47 @@ class MessageFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        val intent = Intent(this.requireContext(), MessageActivity::class.java)
-        startActivity(intent)
+        //val intent = Intent(this.requireContext(), MessageActivity::class.java)
+        //startActivity(intent)
+        //val fragment = LatestMessagesFragment()
+        //activity?.supportFragmentManager?.beginTransaction()
+            //?.replace(R.id.fragment_message, fragment)
+            //?.commit()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        order_count.text = "My Orders (3)"
+        ticket_count.text = "My Tickets (4)"
+
+        topAppBar.setNavigationOnClickListener{
+            val fragment = MemberAccountPageFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_account_page, fragment)
+                ?.commit()
+        }
+
+        orders.setOnClickListener {
+            tickets.visibility = View.GONE
+            orders.visibility = View.GONE
+            val fragment = LatestMessagesFragment()
+            val bundle = Bundle()
+            bundle.putBoolean("isOrders", true)
+            fragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_message, fragment, "tag")?.commit()
+        }
+        tickets.setOnClickListener {
+            tickets.visibility = View.GONE
+            orders.visibility = View.GONE
+            val fragment = LatestMessagesFragment()
+            val bundle = Bundle()
+            bundle.putBoolean("isOrders", false)
+            fragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_message, fragment)?.commit()
+        }
+
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,11 +94,10 @@ class MessageFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Boolean) =
             MessageFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putBoolean("isOrders", param1)
                 }
             }
     }

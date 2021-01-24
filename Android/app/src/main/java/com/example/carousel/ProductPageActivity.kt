@@ -2,23 +2,24 @@ package com.example.carousel
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.*
+import com.example.carousel.pojo.DataCustomerMe
+import com.example.carousel.pojo.PostComment
+import com.example.carousel.pojo.ResponseGetComments
+import com.example.carousel.pojo.UpdateCart
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_product_page.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class ProductPageActivity : AppCompatActivity() {
@@ -36,11 +37,14 @@ class ProductPageActivity : AppCompatActivity() {
 
         var commentList: ArrayList<Comment> = ArrayList<Comment>()
         this.product = intent?.getSerializableExtra("product") as Product
-        //image.setImageResource(product!!.photoUrl)
-        val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
-        Glide.with(image)
-            .load(imgUri)
-            .into(image)
+        //val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
+        //Glide.with(image)
+            //.load(imgUri)
+            //.into(image)
+        carouselView.pageCount = product!!.photos.size
+        val imageListener =
+            ImageListener { position, imageView -> Glide.with(imageView).load(product!!.photos[position]).into(imageView) }
+        carouselView.setImageListener(imageListener)
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
@@ -50,7 +54,7 @@ class ProductPageActivity : AppCompatActivity() {
        this.runOnUiThread {
 
             val apiCallerGetComments: ApiCaller<ResponseGetComments> = ApiCaller(this)
-            apiCallerGetComments.Caller = ApiClient.getClient.getComments(product!!.mainProductId,)
+            apiCallerGetComments.Caller = ApiClient.getClient.getComments(product!!.mainProductId)
             apiCallerGetComments.Success = { it ->
                 if (it != null) {
                     commentList = it.data
@@ -81,9 +85,12 @@ class ProductPageActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
-            if(requestCode == 12 && data.getBooleanExtra("isCreated",false)){
-                this.product?.let { com.example.carousel.ShoppingListFragment.addToList(ShoppingListFragment.lists.lastIndex, it) }
-                android.widget.Toast.makeText(this,"Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
+            if(requestCode == 12 && data.getBooleanExtra("isCreated", false)){
+                this.product?.let { com.example.carousel.ShoppingListFragment.addToList(
+                    ShoppingListFragment.lists.lastIndex,
+                    it
+                ) }
+                android.widget.Toast.makeText(this, "Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -151,7 +158,7 @@ class ProductPageActivity : AppCompatActivity() {
                 }
                 else{
                     this.product?.let { com.example.carousel.ShoppingListFragment.addToList(checkedItem, it) }
-                    android.widget.Toast.makeText(this,"Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(this, "Product Added to List", android.widget.Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -176,11 +183,19 @@ class ProductPageActivity : AppCompatActivity() {
 
                 val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(this)
                 apiCallerAddToCart.Button = cart_button
-                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(UpdateCart(count, product!!._id, product!!.vendorId))
+
+                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(
+                    UpdateCart(
+                        LoginActivity.user.id,
+                        count,
+                        product!!._id,
+                        product!!.vendorId
+                    )
+                )
                 apiCallerAddToCart.Success = { it ->
                     if (it != null) {
                         this.product?.let { CartFragment.addToCart(it, count) }
-                        Toast.makeText(this,"Product Added to Cart", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_SHORT).show()
 
                     }
                 }
