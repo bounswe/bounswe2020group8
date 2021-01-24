@@ -265,38 +265,6 @@ exports.deleteAllShoppingListsDB = function (cid) {
   );
 };
 
-exports.getWatchList = function (_id) {
-  return Customer.findById(_id, { watchList: 1, _id: 0 });
-};
-
-exports.addProductToWatchList = function (_id, product_info) {
-  return Customer.updateOne(
-    _id,
-    {
-      $push: {
-        watchList: product_info,
-      },
-    },
-    {
-      new: true,
-    }
-  );
-};
-
-exports.removeProductFromWatchlist = function (_id, product_info) {
-  return Customer.updateOne(
-    _id,
-    {
-      $pull: {
-        watchList: product_info,
-      },
-    },
-    {
-      new: true,
-    }
-  );
-};
-
 exports.pushSearchEntryToDB = function (_id, obj) {
   return Customer.findOneAndUpdate(
     { _id: _id },
