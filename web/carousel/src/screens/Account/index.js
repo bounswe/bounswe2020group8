@@ -12,6 +12,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
 import Address from "./Address";
 import Recommendation from "./Recommendation";
+import Notifications from "./Notifications";
 import ActiveOrder from "./ActiveOrder";
 import InactiveOrder from "./InactiveOrder";
 import List from "./List";
@@ -21,12 +22,30 @@ import Rate from "./Rate";
 import PaymentInfo from "./PaymentInfo";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
+import services from "../../apis/services";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class Account extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notificationCount: 0,
+    };
+  }
   static contextType = UserInfo;
+
+  async componentDidMount() {
+    // const TOKEN = localStorage.getItem("token");
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
+    // const resp = await services.get(url, config);
+    // console.log(resp);
+    // this.setState({});
+  }
 
   renderCustomerSideBar() {
     const { location } = this.props;
@@ -92,8 +111,13 @@ class Account extends Component {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item icon={<NotificationOutlined />} key="recommendation">
-            <Link to="/account/recommendation">New Recommendations</Link>
+          <Menu.Item icon={<NotificationOutlined />} key="notifications">
+            <Link to="/account/notifications">
+              Notifications
+              {this.state.notificationCount
+                ? ` (${this.state.notificationCount})`
+                : ""}
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -122,6 +146,11 @@ class Account extends Component {
             path="/account/recommendation"
             exact
             component={Recommendation}
+          />
+          <Route
+            path="/account/notifications"
+            exact
+            component={Notifications}
           />
         </Switch>
       </Content>

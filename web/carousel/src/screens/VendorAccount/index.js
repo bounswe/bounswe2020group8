@@ -5,6 +5,7 @@ import {
   ShoppingOutlined,
   CommentOutlined,
   GiftOutlined,
+  NotificationOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -18,12 +19,29 @@ import Products from "./Products";
 import AddProduct from "./AddProduct";
 import ProductRequests from "./ProductsRequests";
 import VendorPublicPage from "../VendorHome/VendorPublicPage";
+import Notifications from "../Account/Notifications";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
 class VendorAccount extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notificationCount: 0,
+    };
+  }
   static contextType = UserInfo;
+  async componentDidMount() {
+    // const TOKEN = localStorage.getItem("token");
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
+    // const resp = await services.get(url, config);
+    // console.log(resp);
+    // this.setState({});
+  }
 
   renderSideBar() {
     const { location } = this.props;
@@ -98,6 +116,15 @@ class VendorAccount extends Component {
               <Link to="/vendor/account/rate">Rates</Link>
             </Menu.Item>
           </SubMenu>
+
+          <Menu.Item icon={<NotificationOutlined />} key="notifications">
+            <Link to="/account/notifications">
+              Notifications
+              {this.state.notificationCount
+                ? ` (${this.state.notificationCount})`
+                : ""}
+            </Link>
+          </Menu.Item>
         </Menu>
       </Sider>
     );
@@ -137,6 +164,11 @@ class VendorAccount extends Component {
           />
           <Route path="/vendor/account/comments" exact component={Comments} />
           <Route path="/vendor/account/rate" exact component={Rate} />
+          <Route
+            path="/account/notifications"
+            exact
+            component={Notifications}
+          />
         </Switch>
       </Content>
     );

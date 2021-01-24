@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
@@ -26,6 +26,19 @@ export function SideButtons(props) {
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);
+
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    // const TOKEN = localStorage.getItem("token");
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const url = `/${user.userType.toLowerCase()}/notification/unread`;
+    // const resp = await services.get(url, config);
+    // console.log(resp);
+    // this.setState({});
+  }, []);
 
   const onLogoutSuccess = (res) => {
     let url = "";
@@ -70,6 +83,10 @@ export function SideButtons(props) {
     onFailure,
   });
 
+  const notificationMessage = notificationCount
+    ? ` (${notificationCount})`
+    : "";
+
   const profileMenu = (
     <Menu>
       {user.userType === "Customer" ? (
@@ -92,10 +109,10 @@ export function SideButtons(props) {
               My Feedbacks
             </Link>
           </Menu.Item>
-          <Menu.Item>
-            <Link to="/account/recommendation">
+          <Menu.Item key="notifications">
+            <Link to="/account/notifications">
               <NotificationOutlined />
-              New Recommendations
+              Notifications{notificationMessage}
             </Link>
           </Menu.Item>
         </>
@@ -125,6 +142,12 @@ export function SideButtons(props) {
               My Feedbacks
             </Link>
           </Menu.Item>
+          <Menu.Item key="notifications">
+            <Link to="/vendor/account/notifications">
+              <NotificationOutlined />
+              Notifications{notificationMessage}
+            </Link>
+          </Menu.Item>
         </>
       )}
 
@@ -147,7 +170,7 @@ export function SideButtons(props) {
     <div className={classes.SideButtons}>
       {localStorage.getItem("login") === "true" ? (
         <DropdownContainer
-          title={"ACCOUNT"}
+          title={"ACCOUNT" + notificationMessage}
           icon={<UserOutlined />}
           list={profileMenu}
         />
