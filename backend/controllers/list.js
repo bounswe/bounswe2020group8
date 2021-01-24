@@ -5,6 +5,28 @@ const Messages = require("../util/messages");
 const BB = require("bluebird");
 const Customer = require("../models/customer");
 
+exports.getWatchListController = BaseUtil.createController((req) => {
+  let _id = req.client._id;
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ListService.getWatchListService(_id));
+});
+
+exports.addWatcherOfAClientController = BaseUtil.createController((req) => {
+  let watcher = req.body;
+  watcher.client_id = req.client._id;
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ListService.addWatcherOfAClientService(_id, watcher));
+});
+
+exports.removeWatcherOfAClientController = BaseUtil.createController((req) => {
+  let watcher_id = req.body.watcher_id;
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ListService.removeWatcherOfAClientService(watcher_id));
+});
+
 exports.getOneListController = BaseUtil.createController((req) => {
   let _id = req.params.lid;
   let customer = req.client;

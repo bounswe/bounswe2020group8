@@ -1,6 +1,22 @@
 const CustomerDataAccess = require("../dataAccess/customer");
 const ShoppingCartService = require("../services/shoppingCart");
+const WatcherDataAccess = require("../dataAccess/watcher");
 const mongoose = require("mongoose");
+
+exports.getWatchListService = async function (_id) {
+  let watchlist = await WatcherDataAccess.getAllWatchersOfAClient(_id);
+  return { result: watchlist.length, data: watchlist };
+};
+
+exports.addWatcherOfAClientService = async function (_id, _watcher) {
+  await WatcherDataAccess.createAWatcher(_watcher);
+  return { data: _watcher };
+};
+
+exports.removeWatcherOfAClientService = async function (_id) {
+  let watcher = await WatcherDataAccess.deleteAWatcher(_id);
+  return { data: watcher };
+};
 
 exports.getOneListService = async function (_id, customer) {
   let result = null;
