@@ -9,6 +9,8 @@ import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
+  const [vendor, setvendor] = useState({});
+
   const { _id, brand, photos, shipmentPrice, vendorSpecifics } = product;
 
   useEffect(() => {
@@ -22,6 +24,12 @@ const ProductBox = (props) => {
     if (response.data) {
       const data = response.data.data;
       setproduct(data);
+    }
+    const U = "/vendor/public/" + vendorId;
+    const r = await services.get(U);
+    if (r.data) {
+      const data = r.data.data;
+      setvendor(data);
     }
   };
 
@@ -48,7 +56,7 @@ const ProductBox = (props) => {
           <div>
             <div style={{ fontSize: 16 }}>{brand}</div>
             <div style={{ fontWeight: "normal", fontSize: 12 }}>
-              Vendor: {vendorSpecifics[0]._id}
+              Vendor: {vendor.companyName}
             </div>
           </div>
 
@@ -94,6 +102,36 @@ const ProductBox = (props) => {
                 title="Add review"
                 style={{ width: 120, height: 50, fontSize: 18 }}
               />
+            </>
+          ) : null}
+          {props.orderDetail ? (
+            <>
+              <div style={{ fontSize: 16 }}>Amount: {props.product.amount}</div>
+              <div>
+                <div>${props.product.price * props.product.amount}</div>
+              </div>
+              <div>
+                <div>Arrive after {props.product.arrivesIn} days</div>
+              </div>
+              {[
+                "cancelled by the customer",
+                "cancelled by the vendor",
+                "returned",
+              ].includes(props.status) ? (
+                props.status
+              ) : (
+                <ButtonSecondary
+                  title={
+                    props.status === "delievered"
+                      ? "Return Product"
+                      : "Cancel Product"
+                  }
+                  style={{ width: 150, height: 50, fontSize: 16 }}
+                  onClick={() =>
+                    props.handleReturnClicked("cancelled by the customer")
+                  }
+                />
+              )}
             </>
           ) : null}
           {props.list ? (

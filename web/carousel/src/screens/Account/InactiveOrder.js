@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Divider, Steps } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
-import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import { useHistory, withRouter } from "react-router-dom";
 import ProductBox from "../../components/Product/ProductBox";
 import services from "../../apis/services";
@@ -138,6 +137,9 @@ const InactiveOrder = () => {
                         height: 40,
                         fontSize: 16,
                       }}
+                      onClick={() =>
+                        history.push("/account/inactive-order/" + order._id)
+                      }
                     />
                   </div>
                 </div>
