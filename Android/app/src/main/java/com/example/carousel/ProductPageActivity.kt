@@ -3,20 +3,20 @@ package com.example.carousel
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.DataCustomerMe
-import com.example.carousel.pojo.PostComment
-import com.example.carousel.pojo.ResponseGetComments
-import com.example.carousel.pojo.UpdateCart
+import com.example.carousel.pojo.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.activity_product_page.*
@@ -36,15 +36,16 @@ class ProductPageActivity : AppCompatActivity() {
         this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         var commentList: ArrayList<Comment> = ArrayList<Comment>()
+        val recommendedProducts = ArrayList<Product>()
         this.product = intent?.getSerializableExtra("product") as Product
         //val imgUri = if (product!!.photos.isNullOrEmpty())  R.mipmap.ic_no_image else product!!.photos[0]
         //Glide.with(image)
             //.load(imgUri)
             //.into(image)
-        carouselView.pageCount = product!!.photos.size
         val imageListener =
             ImageListener { position, imageView -> Glide.with(imageView).load(product!!.photos[position]).into(imageView) }
         carouselView.setImageListener(imageListener)
+        carouselView.pageCount = product!!.photos.size
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
@@ -65,6 +66,32 @@ class ProductPageActivity : AppCompatActivity() {
             }
             apiCallerGetComments.run()
             apiCallerGetComments.Failure = { }
+
+           val apiCallerRecommendations: ApiCaller<ResponseProductSearch> = ApiCaller(this)
+           apiCallerRecommendations.Caller = ApiClient.getClient.productRecommendations(product!!._id)
+           apiCallerRecommendations.Success = { it ->
+               if (it != null) {
+                   for(product in it.data) {
+                       recommendedProducts.add(
+                           responseToProductSearch(
+                               product,
+                               product.mainProduct[0]
+                           )
+                       )
+                   }
+                   if(it.data.isEmpty()) {
+                       recommendations_title.visibility = View.INVISIBLE
+                       recommendations.visibility = View.INVISIBLE
+                   }
+                   else {
+                       recommendations_title.visibility = View.VISIBLE
+                       recommendations.visibility = View.VISIBLE
+                   }
+                   createProductList(recommendedProducts, recommendations)
+               }
+           }
+           apiCallerRecommendations.run()
+           apiCallerRecommendations.Failure = { }
         }
         rating.setOnTouchListener { v, event ->
             when (event?.action) {
@@ -212,6 +239,19 @@ class ProductPageActivity : AppCompatActivity() {
         if(count>0) {
             count--
             counter.setText(count.toString())
+        }
+    }
+
+    private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
+        val adapter = ProductsAdapter(products, this)
+        recyclerId.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL ,false)
+            setAdapter(adapter)
+        }
+        adapter.onItemClick = { product ->
+            val intent = Intent(this, ProductPageActivity::class.java)
+            intent.putExtra("product",product)
+            startActivity(intent)
         }
     }
 
