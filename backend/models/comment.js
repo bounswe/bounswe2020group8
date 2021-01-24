@@ -8,6 +8,8 @@ var commentSchema = new Schema(
     customerId: { type: String },
     text: { type: String },
     rate: { type: Number },
+    name: { type: String },
+    lastName: { type: String },
     postedAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },

@@ -11,7 +11,14 @@ exports.getAlCommentsService = async function (mainProductId) {
   return { results: comments.length, data: comments };
 };
 
-exports.createOneCommentService = async function (mainProductId, customerId, text, rate) {
+exports.createOneCommentService = async function (
+  mainProductId,
+  customerId,
+  text,
+  rate,
+  name,
+  lastName
+) {
   if (rate != undefined) {
     const mainProduct = MainProductDataAccess.getMainProductByIdDB(mainProductId);
     const prevNumber = mainProduct.numberOfRating;
@@ -28,6 +35,8 @@ exports.createOneCommentService = async function (mainProductId, customerId, tex
         customerId,
         text,
         rate,
+        name,
+        lastName,
       })
     ).toObject();
     return { results: 1, data: newComment };
@@ -38,6 +47,8 @@ exports.createOneCommentService = async function (mainProductId, customerId, tex
         customerId,
         text,
         rate: null,
+        name,
+        lastName,
       })
     ).toObject();
     return { results: 1, data: newComment };

@@ -16,9 +16,11 @@ exports.getAllCommentsController = BaseUtil.createController((req) => {
 exports.createOneCommentController = BaseUtil.createController((req) => {
   let mainProductId = req.params.pid;
   let customerId = req.client._id;
+  let name = req.client.name;
+  let lastName = req.client.lastName;
   let { text, rate } = req.body;
   return BB.all([AppValidator.isValidRange(0, 10, rate).reflect()]).then(() =>
-    CommentService.createOneCommentService(mainProductId, customerId, text, rate)
+    CommentService.createOneCommentService(mainProductId, customerId, text, rate, name, lastName)
   );
 });
 
