@@ -63,7 +63,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
     let price = product_before_state.price;
     ratio = (price - new_price) / price;
     if ((ratio >= 0.1) & (ratio < 0.25)) {
-      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let hyperlink = `/product/${product_before_state.parentProduct}`;
       let notification = await NotificationWare.createNotification(
         "PRICE_DOWN_BELOW_THRESHOLD",
         hyperlink
@@ -72,7 +72,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
         await NotificationWare.registerNotification(clients[i], notification);
       }
     } else if ((ratio >= 0.25) & (ratio <= 0.5)) {
-      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let hyperlink = `/product/${product_before_state.parentProduct}`;
       let notification = await NotificationWare.createNotification(
         "PRICE_STRICTLY_DOWN_BELOW_THRESHOLD",
         hyperlink
@@ -81,7 +81,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
         await NotificationWare.registerNotification(clients[i], notification);
       }
     } else if (ratio >= 0.5) {
-      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/product/${product_before_state.parentProduct}`;
+      let hyperlink = `/product/${product_before_state.parentProduct}`;
       let notification = await NotificationWare.createNotification(
         "PRICE_HOLY_DOWN_BELOW_THRESHOLD",
         hyperlink
