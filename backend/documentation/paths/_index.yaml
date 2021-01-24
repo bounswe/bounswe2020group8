@@ -4,6 +4,18 @@
 "/category/{id}":
   $ref: "./category.yaml#/~1category~1{id}"
 
+/orderMessage/:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1"
+
+/orderMessage/all:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1all"
+
+/orderMessage/create:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1create"
+
+"/orderMessage/{oid}":
+  $ref: "./orderMessage.yaml#/~1orderMessage~1{oid}"
+
 /ticket/:
   $ref: "./ticket.yaml#/~1ticket~1"
 
@@ -45,6 +57,9 @@
 
 "/shoppingList/{lid}/export":
   $ref: "./shoppingList.yaml#/~1shoppingList~1{lid}~1export"
+
+/shoppingList/watchlist:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1watchlist"
 
 /customer/signup:
   $ref: "./customer.yaml#/~1customer~1signup"

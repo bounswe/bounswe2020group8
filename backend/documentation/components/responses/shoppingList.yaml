@@ -16,3 +16,10 @@ ShoppingLists:
           type: array
           items:
             $ref: "../schemas/_index.yaml#/ShoppingLists"
+WatchList:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/WatchList"
