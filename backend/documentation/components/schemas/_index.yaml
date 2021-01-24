@@ -1,6 +1,9 @@
 Rate:
   $ref: "./rating.yaml#/Rate"
 
+Notification:
+  $ref: "./notification.yaml#/Notification"
+
 PostComment:
   $ref: "./comment.yaml#/PostComment"
 
@@ -13,6 +16,12 @@ PostTicket:
 PostTicketMessage:
   $ref: "./ticket.yaml#/PostTicketMessage"
 
+OrderMessage:
+  $ref: "./orderMessage.yaml#/OrderMessage"
+
+OrderMessageMessage:
+  $ref: "./orderMessage.yaml#/OrderMessageMessage"
+
 PostShoppingList:
   $ref: "./shoppingList.yaml#/PostShoppingList"
 
@@ -21,6 +30,9 @@ PatchShoppingList:
 
 ShoppingLists:
   $ref: "./shoppingList.yaml#/ShoppingLists"
+
+WatchList:
+  $ref: "./shoppingList.yaml#/WatchList"
 
 Customer:
   $ref: "./customer.yaml#/Customer"

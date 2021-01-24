@@ -52,3 +52,8 @@ exports.getOneActivityService = async function (_id) {
   activity.actor.client = client;
   return activity;
 };
+
+exports.getAllAdminInfoService = async function () {
+  let admins = await AdminDataAccess.getAllAdmin();
+  return { result: admins.length, data: admins };
+};

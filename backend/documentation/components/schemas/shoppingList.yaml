@@ -14,3 +14,5 @@ PatchShoppingList:
       type: array
 ShoppingLists:
   type: array
+WatchList:
+  type: array

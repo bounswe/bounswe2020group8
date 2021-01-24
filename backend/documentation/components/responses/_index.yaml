@@ -13,6 +13,18 @@ Category:
 CategoryList:
   $ref: "./category.yaml#/CategoryList"
 
+OrderMessage:
+  $ref: "./orderMessage.yaml#/OrderMessage"
+
+AllOrderMessages:
+  $ref: "./orderMessage.yaml#/AllOrderMessages"
+
+Notification:
+  $ref: "./notification.yaml#/Notification"
+
+Notifications:
+  $ref: "./notification.yaml#/Notifications"
+
 PostTicket:
   $ref: "./ticket.yaml#/PostTicket"
 
@@ -24,6 +36,9 @@ ShoppingList:
 
 ShoppingLists:
   $ref: "./shoppingList.yaml#/ShoppingLists"
+
+WatchList:
+  $ref: "./shoppingList.yaml#/WatchList"
 
 CustomerList:
   $ref: "./customer.yaml#/CustomerList"
