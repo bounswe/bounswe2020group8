@@ -174,6 +174,12 @@ const returnMessages = {
       en: "Something went wrong!",
     },
   },
+  ERR_ORDER_STATUS_IS_INVALID: {
+    code: 28,
+    messages: {
+      en: "Order status is invalid",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

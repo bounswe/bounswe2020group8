@@ -16,6 +16,16 @@ exports.validatePassword = function (param, errObj) {
   });
 };
 
+exports.validateOrderStatus = function (param, errObj) {
+  return new BB((resolve, reject) => {
+    if (["being prepared", "on the way", "delivered", "canceled by the customer", "returned"].includes(param)) {
+      resolve();
+    } else {
+      reject(new AppError(errObj));
+    }
+  });
+};
+
 exports.validatePasswords = function (newPassword, newPasswordCheck, errObj) {
   return new BB((resolve, reject) => {
     if (newPassword === newPasswordCheck) {
