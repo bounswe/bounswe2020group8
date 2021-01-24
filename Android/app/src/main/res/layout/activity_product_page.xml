@@ -290,7 +290,7 @@
             android:id="@+id/recommendations_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIMILAR PRODUCTS"
+            android:text="YOU MAY ALSO LIKE"
             android:textColor="#202020"
             app:layout_constraintTop_toBottomOf="@id/relativeLayout" />
         <androidx.recyclerview.widget.RecyclerView

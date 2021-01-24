@@ -42,10 +42,10 @@ class ProductPageActivity : AppCompatActivity() {
         //Glide.with(image)
             //.load(imgUri)
             //.into(image)
-        carouselView.pageCount = product!!.photos.size
         val imageListener =
             ImageListener { position, imageView -> Glide.with(imageView).load(product!!.photos[position]).into(imageView) }
         carouselView.setImageListener(imageListener)
+        carouselView.pageCount = product!!.photos.size
         header.text = product!!.title
         price.text = "\$${product!!.price}"
         description.text = product!!.description
@@ -68,12 +68,9 @@ class ProductPageActivity : AppCompatActivity() {
             apiCallerGetComments.Failure = { }
 
            val apiCallerRecommendations: ApiCaller<ResponseProductSearch> = ApiCaller(this)
-           Log.d("PRODUCT REC ID", product!!.mainProductId)
            apiCallerRecommendations.Caller = ApiClient.getClient.productRecommendations(product!!._id)
            apiCallerRecommendations.Success = { it ->
-               Log.d("PRODUCT REC SUCCESS", "NULL")
                if (it != null) {
-                   Log.d("PRODUCT REC SUCCESS", "")
                    for(product in it.data) {
                        recommendedProducts.add(
                            responseToProductSearch(
@@ -82,12 +79,19 @@ class ProductPageActivity : AppCompatActivity() {
                            )
                        )
                    }
+                   if(it.data.isEmpty()) {
+                       recommendations_title.visibility = View.INVISIBLE
+                       recommendations.visibility = View.INVISIBLE
+                   }
+                   else {
+                       recommendations_title.visibility = View.VISIBLE
+                       recommendations.visibility = View.VISIBLE
+                   }
                    createProductList(recommendedProducts, recommendations)
                }
            }
            apiCallerRecommendations.run()
-           apiCallerRecommendations.Failure = {
-               Log.d("PRODUCT REC FAILURE", "") }
+           apiCallerRecommendations.Failure = { }
         }
         rating.setOnTouchListener { v, event ->
             when (event?.action) {
@@ -241,7 +245,7 @@ class ProductPageActivity : AppCompatActivity() {
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
         val adapter = ProductsAdapter(products, this)
         recyclerId.apply {
-            layoutManager = GridLayoutManager(this.context, 2)
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL ,false)
             setAdapter(adapter)
         }
         adapter.onItemClick = { product ->
