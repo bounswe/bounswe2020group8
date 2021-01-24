@@ -1,17 +1,14 @@
-const MainProductDataAccess = require("../dataAccess/mainProduct");
+const VendorDataAccess = require("../dataAccess/vendor");
 const mongoose = require("mongoose");
 
-exports.patchRatingProductService = async function (_id, _newRating) {
-  let currentMainProduct = await MainProductDataAccess.getMainProductByIdDB(_id);
-  let currentRateSum = currentMainProduct.numberOfRating * currentMainProduct.rating;
-  let newNumberOfRating = currentMainProduct.numberOfRating + 1;
-  let newRating = (currentRateSum + _newRating) / newNumberOfRating;
-  newRating = newRating.toFixed(2);
-  const updatedMainProduct = (
-    await MainProductDataAccess.updateMainProductDB(_id, {
-      rating: newRating,
-      numberOfRating: newNumberOfRating,
-    })
-  ).toObject();
-  return updatedMainProduct;
+exports.patchRatingVendorService = async function (_id, _newRating) {
+  const prevVendor = VendorDataAccess.getVendorByIdDB(_id);
+  const prevRate = prevVendor.rating;
+  const prevNumber = prevVendor.numberOfRating;
+  let newRate = (prevRate * prevNumber + _newRating) / prevNumber + 1;
+  let result = VendorDataAccess.updateVendorDB(_id, {
+    rate: newRate,
+    numberOfRating: prevNumber + 1,
+  });
+  return { data: result };
 };
