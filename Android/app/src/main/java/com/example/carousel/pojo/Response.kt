@@ -332,7 +332,6 @@ data class DataProductSearchFilters(
 )
 
 data class PurchaseBody(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("shippingAddressId") val shippingAddressId: String,
     @Expose @SerializedName("billingAddressId") val billingAddressId: String,
     @Expose @SerializedName("creditCardId") val creditCardId: String,
