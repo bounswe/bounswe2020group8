@@ -8,6 +8,7 @@ import {
   UsergroupDeleteOutlined,
   FileSearchOutlined,
   FolderOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -16,6 +17,7 @@ import Categories from "./Categories";
 import PendingProducts from "./PendingProducts";
 import UserAccounts from "./UserAccounts";
 import MainProducts from "../../components/Admin/MainProducts/MainProducts";
+import Activities from "./Activities";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -62,6 +64,10 @@ export default class AdminAccount extends Component {
           <Menu.Item icon={<UsergroupDeleteOutlined />} key="accounts">
             <Link to="/admin/accounts">User Accounts</Link>
           </Menu.Item>
+
+          <Menu.Item icon={<TeamOutlined />} key="activities">
+            <Link to="/admin/activities">Activities</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
     );
@@ -82,6 +88,7 @@ export default class AdminAccount extends Component {
           <Route path="/admin/products" exact component={SearchProducts} />
           <Route path="/admin/main-products" exact component={MainProducts} />
           <Route path="/admin/accounts" exact component={UserAccounts} />
+          <Route path="/admin/activities" exact component={Activities} />
         </Switch>
       </Content>
     );
