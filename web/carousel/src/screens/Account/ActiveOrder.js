@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Steps } from "antd";
+import { Layout, Divider } from "antd";
 import { useHistory, withRouter } from "react-router-dom";
 import services from "../../apis/services";
 import ProductBox from "../../components/Product/ProductBox";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 
 const { Content } = Layout;
-const { Step } = Steps;
 let amount = 0;
 let totalPrice = 0;
 
@@ -39,9 +38,8 @@ const ActiveOrder = () => {
             .map((orderItem) => {
               let newOrder = orderItem;
 
-              const filteredProducts = orderItem.orders.filter(
-                (product) =>
-                  product.status === ("being prepared" || "on the way")
+              const filteredProducts = orderItem.orders.filter((product) =>
+                ["being prepared", "on the way"].includes(product.status)
               );
               if (filteredProducts.length) {
                 newOrder.orders = filteredProducts;
@@ -78,23 +76,6 @@ const ActiveOrder = () => {
                   backgroundColor: "white",
                 }}
               >
-                <div style={{ padding: "15px 20px" }}>
-                  <Steps size="small">
-                    <Step
-                      title="Finished"
-                      description="This is a description."
-                    />
-                    <Step
-                      title="In Progress"
-                      subTitle="Left 00:00:08"
-                      description="This is a description."
-                    />
-                    <Step
-                      title="Waiting"
-                      description="This is a description."
-                    />
-                  </Steps>
-                </div>
                 <div>
                   <div style={{ padding: 20 }}>
                     {order.orders.map(

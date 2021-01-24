@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { Divider } from "antd";
+import { Divider, Steps } from "antd";
 import services from "../../apis/services";
 import ProductBox from "../../components/Product/ProductBox";
 import Cards from "react-credit-cards";
 import { withRouter } from "react-router-dom";
+
+const { Step } = Steps;
+
 class OrderDetail extends Component {
   state = {
     id: "",
@@ -12,6 +15,13 @@ class OrderDetail extends Component {
     payment: null,
     shipmentPrice: 0,
     totalPrice: 0,
+  };
+  stepStatus = {
+    "being prepared": 1,
+    "on the way": 2,
+    delievered: 3,
+    "cancelled by the customer": 0,
+    "cancelled by the vendor": 0,
   };
 
   async componentDidMount() {
@@ -101,7 +111,6 @@ class OrderDetail extends Component {
               </div>
             </div>
             <div>Phone Number: +90 {this.state.address.phone}</div>
-            {/* <div> Change Address</div> */}
           </div>
         </div>
       );
@@ -267,14 +276,29 @@ class OrderDetail extends Component {
             }}
           >
             {this.state.order.map((product, index) => (
-              <ProductBox
-                product={product}
-                orderDetail
-                status={product.status}
-                handleReturnClicked={(status) =>
-                  this.handleReturnClicked(product._id, status)
-                }
-              />
+              <>
+                <div style={{ padding: "15px 20px" }}>
+                  <Steps
+                    current={this.stepStatus[product.status]}
+                    status={
+                      this.stepStatus[product.status] ? "process" : "error"
+                    }
+                  >
+                    <Step title="Order Received" />
+                    <Step title="Being Prepared" />
+                    <Step title="On the Way" />
+                    <Step title="Delievered" />
+                  </Steps>
+                </div>
+                <ProductBox
+                  product={product}
+                  orderDetail
+                  status={product.status}
+                  handleReturnClicked={(status) =>
+                    this.handleReturnClicked(product._id, status)
+                  }
+                />
+              </>
             ))}
           </div>
         </div>
