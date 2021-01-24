@@ -3,14 +3,6 @@ const Constants = require("../util/constants");
 
 const Schema = mongoose.Schema;
 
-var Message = {
-  sender: { type: String },
-  receiver: { type: String },
-  message: { type: String },
-  isRead: { type: Boolean },
-  time: { type: Date },
-};
-
 var notification = {
   type: { type: String },
   description: { type: String },
@@ -33,7 +25,6 @@ var clientSchema = new Schema(
     verifyEmailToken: { type: String },
     resetPasswordToken: { type: String },
     isVerified: { type: Boolean },
-    currentConversations: [Message],
     notifications: [notification],
   },
   {
