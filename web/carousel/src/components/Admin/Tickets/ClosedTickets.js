@@ -26,6 +26,12 @@ const Tickets = (props) => {
     );
   }, [focusTicket]);
 
+  const customerIdColumn = {
+    title: "Client ID",
+    key: "cid",
+    dataIndex: "client_id",
+  };
+
   return (
     <div>
       {focusTicket ? (
@@ -39,6 +45,7 @@ const Tickets = (props) => {
           tickets={tickets}
           setFocusTicket={setFocusTicket}
           admin={true}
+          extraTableColumns={[customerIdColumn]}
         />
       )}
     </div>

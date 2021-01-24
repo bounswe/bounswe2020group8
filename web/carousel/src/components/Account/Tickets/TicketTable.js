@@ -28,6 +28,7 @@ const TicketTable = ({
     },
     ...extraTableColumns,
   ];
+  console.log(tickets);
   return (
     <div>
       {modal.visible ? (

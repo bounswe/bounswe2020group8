@@ -20,6 +20,12 @@ const Tickets = (props) => {
     setTickets(resp.data.data);
   }, [focusTicket]);
 
+  const customerIdColumn = {
+    title: "Client ID",
+    key: "cid",
+    dataIndex: "client_id",
+  };
+
   return (
     <div>
       {focusTicket ? (
@@ -33,6 +39,7 @@ const Tickets = (props) => {
           tickets={tickets}
           setFocusTicket={setFocusTicket}
           admin={true}
+          extraTableColumns={[customerIdColumn]}
         />
       )}
     </div>

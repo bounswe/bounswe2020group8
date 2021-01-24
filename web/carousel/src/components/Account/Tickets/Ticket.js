@@ -4,6 +4,7 @@ import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import { useEffect, useState } from "react";
 import services from "../../../apis/services";
+import { white } from "material-ui/styles/colors";
 // import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 
 const { TextArea } = Input;
@@ -57,6 +58,35 @@ const Ticket = ({ ticket, clearFocustTicket, admin }) => {
           onClick={clearFocustTicket}
         />
       </span>
+
+      <div
+        style={{
+          alignSelf: "center",
+          width: "1000px",
+          height: "80px",
+          backgroundColor: "white",
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: "10px",
+          justifyContent: "space-around",
+          overflow: "hidden",
+        }}
+      >
+        <span style={{ alignSelf: "center", fontSize: "30px" }}>
+          {myTicket && myTicket.topic}
+        </span>
+        {myTicket && admin && (
+          <span
+            style={{
+              alignSelf: "center",
+              borderRadius: "5px",
+            }}
+          >
+            Client ID: {myTicket.client_id}
+          </span>
+        )}
+      </div>
+
       {myTicket &&
         myTicket.conversation.map((message) => {
           let style = {};
