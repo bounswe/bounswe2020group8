@@ -1,5 +1,4 @@
 import classes from "./SearchProduct.module.css";
-import ButtonPrimary from "../UI/ButtonPrimary/ButtonPrimary";
 import Image from "react-image-resizer";
 import FixedDiv from "../UI/FixedDiv/FixedDiv";
 import services from "../../apis/services";
@@ -22,25 +21,15 @@ const SearchProduct = (props) => {
     if (!TOKEN || TOKEN === "") {
       props.history.push("/login");
     }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
-
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
-      _id: ID,
       productId: productId,
       vendorId: vendorId,
       amount: 1,
     };
-    const URL = "/customer/shoppingCart/update";
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -54,7 +43,6 @@ const SearchProduct = (props) => {
   const handleClick = () => {
     props.history.push(`/product/${mainProduct[0]._id}`);
   };
-  console.log(product);
   return (
     <div className={classes.SearchProduct}>
       <FixedDiv width={350} height={15} margin={"10px 0px"}>

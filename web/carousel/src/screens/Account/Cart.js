@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Spin } from "antd";
+import { Layout, Divider, Spin, message } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import { useHistory, withRouter } from "react-router-dom";
@@ -33,20 +33,12 @@ const Cart = () => {
     const config = {
       headers: { Authorization: "Bearer " + TOKEN },
     };
-    const response = await services.get("/customer/me", config);
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
-    const URL = "/customer/shoppingCart/get";
-    const payload = {
-      _id: ID,
-    };
+    const URL = "/customer/shoppingCart/main";
     services
-      .post(URL, payload, config)
+      .get(URL, config)
       .then((response) => {
         if (response.data) {
-          const newList = response.data;
+          const newList = response.data[0].data;
           setproductList(newList);
           setloading(false);
         }
@@ -64,12 +56,9 @@ const Cart = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    const payload = {
-      _id: ID,
-    };
     const URL = "/customer/shoppingCart/reset";
     services
-      .post(URL, payload, config)
+      .post(URL, null, config)
       .then((response) => {
         getCarts();
       })
@@ -88,7 +77,6 @@ const Cart = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
-      _id: ID,
       productId: productId,
       vendorId: vendorId,
     };
@@ -108,12 +96,11 @@ const Cart = () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
     const payload = {
-      _id: ID,
       productId: productId,
       vendorId: vendorId,
       amount: value,
     };
-    const URL = "/customer/shoppingCart/update";
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -148,16 +135,16 @@ const Cart = () => {
           services
             .post(URL, payload, config)
             .then((response) => {
-              alert("Purchase is successful!");
+              message.success("Purchase is successful!");
               onEmptyClicked();
               history.push("/account/active-order");
             })
             .catch((err) => console.log(err));
         } else {
-          alert("Please enter an address and payment method!");
+          message.warning("Please enter an address and payment method!");
         }
       } else {
-        alert("Please read the sales agreement and accept it");
+        message.warning("Please read the sales agreement and accept it");
       }
     }
   };
@@ -183,7 +170,7 @@ const Cart = () => {
             >
               <Spin size="large" />
             </div>
-          ) : (
+          ) : productList.length ? (
             productList.map((product, index) => {
               return (
                 (totalPrice = totalPrice + product.price),
@@ -199,7 +186,7 @@ const Cart = () => {
                 )
               );
             })
-          )}
+          ) : null}
         </div>
       )
     );

@@ -22,7 +22,7 @@ import { useGoogleLogout } from "react-google-login";
 import UserInfo from "../../Context/UserInfo";
 import services from "../../../apis/services";
 
-function SideButtons(props) {
+export function SideButtons(props) {
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);
@@ -52,6 +52,7 @@ function SideButtons(props) {
         localStorage.setItem("token", "");
         localStorage.setItem("login", "false");
         localStorage.removeItem("token");
+        localStorage.removeItem("id");
         user.setUserType("");
         props.history.push("/");
       })
@@ -135,7 +136,7 @@ function SideButtons(props) {
   );
 
   const handleUrlClick = (path) => {
-    if (localStorage.getItem("login") === "true") {
+    if (localStorage.getItem("login") === "true" || path === "cart") {
       props.history.push("/account/" + path);
     } else {
       props.history.push("/login");

@@ -5,7 +5,6 @@ import services from "../../apis/services";
 import ProductBox from "../../components/Product/ProductBox";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 
-let ID = "";
 const { Content } = Layout;
 const { Step } = Steps;
 let amount = 0;
@@ -28,15 +27,31 @@ const ActiveOrder = () => {
     const response = await services.get("/customer/me", config);
     if (response) {
       const data = response.data.data;
-      ID = data._id;
       setUser({ name: data.name, lastName: data.lastName });
     }
-    const URL = "/customer/order/getByCustomerID";
+    const URL = "/customer/order/main";
     services
-      .post(URL, { customerID: ID }, config)
+      .get(URL, config)
       .then((response) => {
         if (response.data) {
-          const newList = response.data;
+          let newList = response.data.data;
+          newList = newList
+            .map((orderItem) => {
+              let newOrder = orderItem;
+
+              const filteredProducts = orderItem.orders.filter(
+                (product) =>
+                  product.status === ("being prepared" || "on the way")
+              );
+              if (filteredProducts.length) {
+                newOrder.orders = filteredProducts;
+              } else {
+                newOrder.orders = null;
+              }
+
+              return newOrder.orders?.length ? newOrder : null;
+            })
+            .filter((e) => e !== null);
           setOrders(newList);
         }
       })
@@ -85,7 +100,8 @@ const ActiveOrder = () => {
                     {order.orders.map(
                       (product, index) => (
                         (amount = amount + product.amount),
-                        (totalPrice = totalPrice + product.price),
+                        (totalPrice =
+                          totalPrice + product.price * product.amount),
                         (
                           <ProductBox
                             product={product}

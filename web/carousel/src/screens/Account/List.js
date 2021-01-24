@@ -28,11 +28,6 @@ const List = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    const response = await services.get("/customer/me", config);
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
     const URL = "/shoppingList/all";
     services
       .get(URL, config)
@@ -71,6 +66,7 @@ const List = () => {
   }
 
   const handleEmptyListClicked = (id) => {
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -85,6 +81,7 @@ const List = () => {
   };
 
   const handleEmptyAllListClicked = () => {
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -106,12 +103,11 @@ const List = () => {
         headers: { Authorization: `Bearer ${TOKEN}` },
       };
       const payload = {
-        _id: ID,
         productId: productId,
         vendorId: vendorId,
         amount: 1,
       };
-      const URL = "/customer/shoppingCart/update";
+      const URL = "/customer/shoppingCart/main";
       services
         .post(URL, payload, config)
         .then((response) => {
@@ -191,6 +187,7 @@ const List = () => {
           }}
         >
           {productList ? ProductContent() : <div>You do not have a list!</div>}
+
           <ButtonSecondary
             title="Go back to Shopping"
             onClick={() => handleShopClicked()}
