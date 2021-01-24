@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, message } from "antd";
 import {
   UserOutlined,
   ShoppingOutlined,
@@ -17,6 +17,7 @@ import UserInfo from "../../components/Context/UserInfo";
 import Products from "./Products";
 import AddProduct from "./AddProduct";
 import ProductRequests from "./ProductsRequests";
+import VendorPublicPage from "../VendorHome/VendorPublicPage";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -27,9 +28,17 @@ class VendorAccount extends Component {
   renderSideBar() {
     const { location } = this.props;
     const path = location.pathname.split("/");
+    const id = localStorage.getItem("id");
+    if (!id) {
+      message.error(
+        "Somethings went wrong please check out the profile page first"
+      );
+      return;
+    }
 
     const submenukeys = {
       profile: "/profile",
+      public: "/profile",
       products: "/products",
       productRequests: "/products",
       addProduct: "/products",
@@ -50,6 +59,9 @@ class VendorAccount extends Component {
           <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
             <Menu.Item key="profile">
               <Link to="/vendor/account/profile">Profile Info</Link>
+            </Menu.Item>
+            <Menu.Item key="public">
+              <Link to={`/v/public/${id}`}>Public Page</Link>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="/products" icon={<GiftOutlined />} title="My Products">
@@ -97,6 +109,11 @@ class VendorAccount extends Component {
         <Switch>
           <Route path="/vendor/account" exact component={Profile} />
           <Route path="/vendor/account/profile" exact component={Profile} />
+          <Route
+            path="/v/public/:vendorName"
+            exact
+            component={VendorPublicPage}
+          />
           <Route path="/vendor/account/products" exact component={Products} />
           <Route
             path="/vendor/account/productRequests"

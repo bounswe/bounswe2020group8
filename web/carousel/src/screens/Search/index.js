@@ -14,6 +14,7 @@ const { Content, Sider } = Layout;
 class Search extends Component {
   state = {
     filters: {},
+    results: 0,
     selectedFilters: [],
     productList: [],
     error: null,
@@ -56,7 +57,7 @@ class Search extends Component {
       .then((response) => {
         const results = response.data.results;
         const data = response.data.data;
-        this.setState({ productList: data });
+        this.setState({ results: results, productList: data });
       })
       .catch((err, response) => {
         console.log(err);
@@ -252,9 +253,8 @@ class Search extends Component {
           }}
         >
           <div>
-            We've found {this.state.productList.length} result
-            {this.state.productList.length > 0 ? "s" : ""} related to "
-            {this.state.query}"
+            We've found {this.state.results} result
+            {this.state.results > 1 ? "s" : ""} related to "{this.state.query}"
           </div>
           <div>
             Sort According To:{" "}
@@ -282,11 +282,7 @@ class Search extends Component {
           }}
         >
           {this.state.productList.map((product) => {
-            return (
-              <span>
-                <SearchProduct product={product} />;
-              </span>
-            );
+            return <SearchProduct product={product} />;
           })}
         </Content>
       </div>

@@ -52,6 +52,7 @@ export function SideButtons(props) {
         localStorage.setItem("token", "");
         localStorage.setItem("login", "false");
         localStorage.removeItem("token");
+        localStorage.removeItem("id");
         user.setUserType("");
         props.history.push("/");
       })
