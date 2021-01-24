@@ -35,14 +35,14 @@ exports.replyATicketService = async function (_id, payload, _isSentByAdmin) {
   if (_isSentByAdmin === true) {
     let client = await ClientDataAccess.getClientByIdDB(ticket.client_id);
     if (client.__type === "Customer") {
-      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/account/tickets`;
+      let hyperlink = `/account/tickets`;
       let notification = await NotificationWare.createNotification(
         "TICKET_REPLIED_BY_ADMIN",
         hyperlink
       );
       await NotificationWare.registerNotification(client._id, notification);
     } else if (client.__type === "Vendor") {
-      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/vendor/account/tickets`;
+      let hyperlink = `/vendor/account/tickets`;
       let notification = await NotificationWare.createNotification(
         "TICKET_REPLIED_BY_ADMIN",
         hyperlink

@@ -28,14 +28,14 @@ exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, _i
   let orderMessage = await OrderMessageDataAccess.replyAConversation(_id, message);
   let client = await ClientDataAccess.getClientByIdDB(orderMessage.client_id);
   if (_isSentByVendor === false) {
-    let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/account/messages`;
+    let hyperlink = `/account/messages`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_CUSTOMER",
       hyperlink
     );
     await NotificationWare.registerNotification(client._id, notification);
   } else {
-    let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/vendor/account/messages`;
+    let hyperlink = `/vendor/account/messages`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_VENDOR",
       hyperlink
