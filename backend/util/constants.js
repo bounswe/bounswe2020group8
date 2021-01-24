@@ -279,6 +279,8 @@ const constants = {
     PRODUCT_AMOUNT_BELOW_10: "Number of the specified product is below 10.",
     PRODUCT_AMOUNT_BELOW_5: "Number of the specified product is below 5.",
     TICKET_REPLIED_BY_ADMIN: "One of your tickets has been replied by an admin.",
+    ORDER_MESSAGE_REPLIED_BY_VENDOR: "One of your order messages has been replied by a vendor.",
+    ORDER_MESSAGE_REPLIED_BY_CUSTOMER: "One of your order messages has been replied by a customer.",
   },
 };
 

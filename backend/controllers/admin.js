@@ -1,6 +1,7 @@
 const BaseUtil = require("../util/baseUtil");
 const BB = require("bluebird");
 const AdminService = require("../services/admin");
+const AppValidator = require("../util/appValidator");
 
 exports.loginController = BaseUtil.createController((req) => {
   let { email, password } = req.query;
@@ -33,4 +34,11 @@ exports.getOneActivityController = BaseUtil.createController((req) => {
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() => AdminService.getOneActivityService(_id));
+});
+
+exports.getAllAdminInfoController = BaseUtil.createController((req) => {
+  let client = req.client;
+  return BB.all([AppValidator.ValidateAdminStatus(client).reflect()])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => AdminService.getAllAdminInfoService());
 });

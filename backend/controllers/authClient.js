@@ -176,6 +176,13 @@ exports.getNotificationController = BaseUtil.createController((req) => {
     .then(() => ClientService.getNotificationService(_id));
 });
 
+exports.getAllUnreadNotificationController = BaseUtil.createController((req) => {
+  let _id = req.client._id;
+  return BB.all([])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => ClientService.getActiveNotificationService(_id));
+});
+
 exports.readNotificationController = BaseUtil.createController((req) => {
   let _id = req.client._id;
   let notification_id = req.body.notification_id;

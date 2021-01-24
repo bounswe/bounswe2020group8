@@ -174,6 +174,12 @@ const returnMessages = {
       en: "Something went wrong!",
     },
   },
+  ERR_INSUFFICIENT_ADMIN_TOKEN: {
+    code: 28,
+    messages: {
+      en: "You do not possess admin status.",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

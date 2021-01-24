@@ -8,7 +8,7 @@ var notification = {
   description: { type: String },
   createdAt: { type: Date, default: Date.now },
   isRead: { type: Boolean, default: false },
-  hyperLink: { type: String },
+  hyperlink: { type: String },
 };
 
 var clientSchema = new Schema(
