@@ -79,7 +79,7 @@ class VendorAccount extends Component {
           </SubMenu>
           <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
             <Menu.Item key="active-order">
-              <Link to="/vendor/account/active">Active Orders</Link>
+              <Link to="/vendor/account/active-order">Active Orders</Link>
             </Menu.Item>
             <Menu.Item key="inactive-order">
               <Link to="/vendor/account/inactive-order">Inactive Orders</Link>
