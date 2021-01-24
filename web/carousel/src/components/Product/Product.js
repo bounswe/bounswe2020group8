@@ -5,6 +5,7 @@ import ProductHeader from "./ProductHeader/ProductHeader";
 import ProductActions from "./ProductActions/ProductActions";
 import scrollIntoView from "scroll-into-view-if-needed";
 import ProductPhotoCarousel from "./ProductPhotoCarousel/ProductPhotoCarousel";
+import Recommendations from "./Recommendations/Recommendations";
 import "react-alice-carousel/lib/alice-carousel.css";
 import services from "../../apis/services";
 import { useParams, withRouter } from "react-router-dom";
@@ -80,14 +81,6 @@ const Product = (props) => {
     if (!TOKEN || TOKEN === "") {
       props.history.push("/login");
     }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -96,7 +89,7 @@ const Product = (props) => {
       vendorId: vendorId,
       amount: 1,
     };
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -129,6 +122,7 @@ const Product = (props) => {
           />
           <ProductActions
             seller={productInfo.companyName} //TODO
+            sellerId={productInfo.vendorID}
             defaultProduct={product.option}
             productList={allProducts}
             onProductChange={handleOnProductChange}
@@ -141,6 +135,10 @@ const Product = (props) => {
             clickSellers={() => scrollToInfo("sellers")}
           />
         </div>
+      </div>
+      <div style={{ height: "40px" }} />
+      <div className={classes.Recommendation}>
+        <Recommendations productId={product._id} />
       </div>
       <div style={{ height: "40px" }} />
       <div className={classes.ProductInfo} ref={sectionRef}>

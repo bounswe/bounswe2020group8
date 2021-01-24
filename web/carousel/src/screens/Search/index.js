@@ -14,11 +14,12 @@ const { Content, Sider } = Layout;
 class Search extends Component {
   state = {
     filters: {},
+    results: 0,
     selectedFilters: [],
     productList: [],
     error: null,
     priceInterval: [],
-    sort: "brand",
+    sort: null,
   };
 
   componentDidMount() {
@@ -49,16 +50,23 @@ class Search extends Component {
 
     params["minPrice[gte]"] = this.state.priceInterval[0];
     params["minPrice[lte]"] = this.state.priceInterval[1];
-    //TODO Check whether they are working fine
-
     params["sort"] = this.state.sort;
 
+    const TOKEN = localStorage.getItem("token");
+    let config = { params: params };
+
+    if (TOKEN) {
+      config = { ...config, headers: { Authorization: `Bearer ${TOKEN}` } };
+    }
+
+    console.log(config, payload);
+
     services
-      .post("/product/search", payload, { params: params })
+      .post("/product/search", payload, config)
       .then((response) => {
         const results = response.data.results;
         const data = response.data.data;
-        this.setState({ productList: data });
+        this.setState({ results: results, productList: data });
       })
       .catch((err, response) => {
         console.log(err);
@@ -67,7 +75,7 @@ class Search extends Component {
 
   onSortChange(e) {
     if (e === "default") {
-      this.setState({ sort: "brand" });
+      this.setState({ sort: null });
     } else if (e === "ascendingPrice") {
       this.setState({ sort: "minPrice" });
     } else if (e === "decreasingPrice") {
@@ -207,7 +215,7 @@ class Search extends Component {
 
         {Array.isArray(vendors) && vendors.length
           ? this.renderMultiCheckbox({
-              name: "vendor",
+              name: "vendors",
               values: vendors.map((e) => e.companyName),
               ids: vendors.map((e) => e._id),
             })
@@ -254,9 +262,8 @@ class Search extends Component {
           }}
         >
           <div>
-            We've found {this.state.productList.length} result
-            {this.state.productList.length > 0 ? "s" : ""} related to "
-            {this.state.query}"
+            We've found {this.state.results} result
+            {this.state.results > 1 ? "s" : ""} related to "{this.state.query}"
           </div>
           <div>
             Sort According To:{" "}
@@ -284,11 +291,7 @@ class Search extends Component {
           }}
         >
           {this.state.productList.map((product) => {
-            return (
-              <span>
-                <SearchProduct product={product} />;
-              </span>
-            );
+            return <SearchProduct product={product} />;
           })}
         </Content>
       </div>

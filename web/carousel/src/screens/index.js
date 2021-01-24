@@ -19,6 +19,7 @@ import Product from "../components/Product/Product";
 import Search from "./Search";
 import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
+import VendorPublicPage from "./VendorHome/VendorPublicPage";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -103,6 +104,7 @@ const App = () => {
     { path: "/forgot", exact: true, component: Forgot },
     { path: "/search", exact: true, component: Search },
     { path: "/product/:id", exact: true, component: Product },
+    { path: "/v/public/:id", exact: true, component: VendorPublicPage },
     {
       path: "/administration/login/admin",
       exact: true,

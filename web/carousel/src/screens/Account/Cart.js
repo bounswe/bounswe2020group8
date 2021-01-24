@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, InputNumber } from "antd";
+import { Layout, Divider, Spin, message } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
-import Image from "react-image-resizer";
-import { DeleteOutlined } from "@ant-design/icons";
 import { useHistory, withRouter } from "react-router-dom";
 import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
 import services from "../../apis/services";
+import ProductBox from "../../components/Product/ProductBox";
 
 const { Content, Sider } = Layout;
 
-const productPrice = 123.43;
-const shipmentPrice = 25.5;
+let totalPrice = 0;
+let shipmentPrice = 0;
 let ID = "";
 
 const Cart = () => {
@@ -22,6 +21,7 @@ const Cart = () => {
   const [orderAddress, setOrderAddress] = useState("null");
   const [orderCreditCard, setOrderCreditCard] = useState("null");
   const [consentGiven, setConsentGiven] = useState(false);
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     getCarts();
@@ -33,18 +33,14 @@ const Cart = () => {
     const config = {
       headers: { Authorization: "Bearer " + TOKEN },
     };
-    const response = await services.get("/customer/me", config);
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
-    const URL = "/customer/shoppingCart/get?_id=" + ID;
+    const URL = "/customer/shoppingCart/main";
     services
-      .post(URL, null, config)
+      .get(URL, config)
       .then((response) => {
         if (response.data) {
-          const newList = response.data;
+          const newList = response.data[0].data;
           setproductList(newList);
+          setloading(false);
         }
       })
       .catch((err) => console.log(err));
@@ -60,8 +56,7 @@ const Cart = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-
-    const URL = "/customer/shoppingCart/reset?_id=" + ID;
+    const URL = "/customer/shoppingCart/reset";
     services
       .post(URL, null, config)
       .then((response) => {
@@ -75,6 +70,7 @@ const Cart = () => {
   };
 
   const handleDeleteClicked = ({ productId, vendorId }) => {
+    setloading(true);
     const TOKEN = localStorage.getItem("token");
 
     const config = {
@@ -84,7 +80,7 @@ const Cart = () => {
       productId: productId,
       vendorId: vendorId,
     };
-    const URL = "/customer/shoppingCart/delete?_id=" + ID;
+    const URL = "/customer/shoppingCart/delete";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -104,7 +100,7 @@ const Cart = () => {
       vendorId: vendorId,
       amount: value,
     };
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -124,7 +120,10 @@ const Cart = () => {
           headers: { Authorization: `Bearer ${TOKEN}` },
         };
 
-        if (orderAddress._id !== undefined && orderCreditCard._id !== undefined) {
+        if (
+          orderAddress._id !== undefined &&
+          orderCreditCard._id !== undefined
+        ) {
           const payload = {
             _id: ID,
             shippingAddressId: orderAddress._id,
@@ -136,84 +135,60 @@ const Cart = () => {
           services
             .post(URL, payload, config)
             .then((response) => {
-              alert("Purchase is successful! Checkout the active order page");
+              message.success("Purchase is successful!");
+              onEmptyClicked();
+              history.push("/account/active-order");
             })
             .catch((err) => console.log(err));
         } else {
-          alert("Please enter an address and payment method!")
+          message.warning("Please enter an address and payment method!");
         }
-
       } else {
-        alert("Please read the sales agreement and accept it");
+        message.warning("Please read the sales agreement and accept it");
       }
     }
   };
 
-  function ProductContent(productList = []) {
+  function ProductContent() {
     return (
-      <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
-        My Cart
-        {productList.map((product) => (
-          <>
+      (totalPrice = 0),
+      (shipmentPrice = 0),
+      (
+        <div style={{ fontSize: 24, fontWeight: "bold", color: "#d33a09" }}>
+          My Cart
+          <Divider />
+          {loading ? (
             <div
               style={{
+                padding: "0 24px",
+                minHeight: "140",
                 display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                flexDirection: "column",
+                justifyContent: "center",
                 alignItems: "center",
-                padding: 20,
-                height: 100,
-                borderColor: "gray",
-                border: "1px solid",
-                color: "navy",
               }}
             >
-              <div>
-                <Image height={70} width={70} src={product.imageUrl} />
-              </div>
-              <div
-                style={{
-                  fontWeight: "normal",
-                  marginRight: "auto",
-                  padding: 20,
-                }}
-              >
-                <div style={{ fontSize: 16 }}>{product.productId}</div>
-                <div style={{ fontSize: 12 }}>Vendor: {product.vendorId}</div>
-              </div>
-              <div
-                style={{
-                  marginLeft: "auto",
-                  padding: 20,
-                  display: "flex",
-                  flexDirection: "row",
-                  textAlign: "center",
-                }}
-              >
-                <InputNumber
-                  min={1}
-                  onChange={(value) => onAmountChange(value, product)}
-                  defaultValue={product.amount}
-                />
-                <div
-                  style={{
-                    width: 150,
-                  }}
-                >
-                  {product.price}$
-                </div>
-              </div>
-              <div>
-                <DeleteOutlined
-                  style={{ fontSize: 20 }}
-                  onClick={() => handleDeleteClicked(product)}
-                />
-              </div>
+              <Spin size="large" />
             </div>
-            <Divider />
-          </>
-        ))}
-      </div>
+          ) : productList.length ? (
+            productList.map((product, index) => {
+              return (
+                (totalPrice = totalPrice + product.price),
+                (shipmentPrice = shipmentPrice + product.shipmentPrice),
+                (
+                  <ProductBox
+                    product={product}
+                    cart
+                    handleDeleteClicked={() => handleDeleteClicked(product)}
+                    onAmountChange={(value) => onAmountChange(value, product)}
+                    isLastItem={productList.length - 1 === index}
+                  />
+                )
+              );
+            })
+          ) : null}
+        </div>
+      )
     );
   }
 
@@ -246,17 +221,17 @@ const Cart = () => {
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Product price</div>
-                <div style={{ fontSize: 16 }}>{productPrice}</div>
+                <div style={{ fontSize: 16 }}>${totalPrice}</div>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Shipment price</div>
-                <div style={{ fontSize: 16 }}>{shipmentPrice}</div>
+                <div style={{ fontSize: 16 }}>${shipmentPrice}</div>
               </div>
               <Divider style={{ width: 220 }} />
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div style={{ fontSize: 16 }}>Total price</div>
                 <div style={{ fontSize: 16 }}>
-                  {productPrice + shipmentPrice}
+                  ${totalPrice + shipmentPrice}
                 </div>
               </div>
             </div>
@@ -293,7 +268,7 @@ const Cart = () => {
         >
           {currentPage === "cart" ? (
             <>
-              {ProductContent(productList)}
+              {ProductContent()}
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <ButtonSecondary
                   title="Go back to Shopping"

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
@@ -23,10 +23,23 @@ import { useGoogleLogout } from "react-google-login";
 import UserInfo from "../../Context/UserInfo";
 import services from "../../../apis/services";
 
-function SideButtons(props) {
+export function SideButtons(props) {
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);
+
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  useEffect(() => {
+    // const TOKEN = localStorage.getItem("token");
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const url = `/${user.userType.toLowerCase()}/notification/unread`;
+    // const resp = await services.get(url, config);
+    // console.log(resp);
+    // this.setState({});
+  }, []);
 
   const onLogoutSuccess = (res) => {
     let url = "";
@@ -53,6 +66,7 @@ function SideButtons(props) {
         localStorage.setItem("token", "");
         localStorage.setItem("login", "false");
         localStorage.removeItem("token");
+        localStorage.removeItem("id");
         user.setUserType("");
         props.history.push("/");
       })
@@ -69,6 +83,10 @@ function SideButtons(props) {
     onLogoutSuccess,
     onFailure,
   });
+
+  const notificationMessage = notificationCount
+    ? ` (${notificationCount})`
+    : "";
 
   const profileMenu = (
     <Menu>
@@ -98,11 +116,10 @@ function SideButtons(props) {
               My Tickets
             </Link>
           </Menu.Item>
-
-          <Menu.Item>
-            <Link to="/account/recommendation">
+          <Menu.Item key="notifications">
+            <Link to="/account/notifications">
               <NotificationOutlined />
-              New Recommendations
+              Notifications{notificationMessage}
             </Link>
           </Menu.Item>
         </>
@@ -138,6 +155,13 @@ function SideButtons(props) {
               My Tickets
             </Link>
           </Menu.Item>
+
+          <Menu.Item key="notifications">
+            <Link to="/vendor/account/notifications">
+              <NotificationOutlined />
+              Notifications{notificationMessage}
+            </Link>
+          </Menu.Item>
         </>
       )}
 
@@ -149,20 +173,18 @@ function SideButtons(props) {
   );
 
   const handleUrlClick = (path) => {
-    if (props.isSignedIn) {
+    if (localStorage.getItem("login") === "true" || path === "cart") {
       props.history.push("/account/" + path);
     } else {
       props.history.push("/login");
     }
   };
 
-  // let userType = localStorage.getItem("userType");
-  // let loggedIn = localStorage.getItem("login");
   return (
     <div className={classes.SideButtons}>
       {localStorage.getItem("login") === "true" ? (
         <DropdownContainer
-          title={"ACCOUNT"}
+          title={"ACCOUNT" + notificationMessage}
           icon={<UserOutlined />}
           list={profileMenu}
         />

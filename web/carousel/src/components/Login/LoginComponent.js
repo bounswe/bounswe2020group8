@@ -9,7 +9,7 @@ import LoginContainer from "./LoginContainer/LoginContainer";
 import SignupContainer from "./SignupContainer/SignupContainer";
 import services from "../../apis/services";
 
-class LoginComponent extends Component {
+export class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {

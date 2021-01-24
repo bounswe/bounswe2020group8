@@ -15,15 +15,6 @@ const HomepageProduct = (props) => {
     if (!TOKEN || TOKEN === "") {
       props.history.push("/login");
     }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
-
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -32,7 +23,7 @@ const HomepageProduct = (props) => {
       vendorId: vendorId,
       amount: 1,
     };
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
+    const URL = "/customer/shoppingCart/main";
     services
       .post(URL, payload, config)
       .then((response) => {
@@ -46,6 +37,7 @@ const HomepageProduct = (props) => {
       <div
         onClick={() => {
           props.history.push(`/product/${mainProduct[0]._id}`);
+          window.location.reload();
         }}
       >
         <FixedDiv width={250} height={35}>
