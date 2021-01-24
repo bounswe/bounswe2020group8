@@ -70,7 +70,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
 
     fun responseToProductSearch(product: DataProductSearch, main: MainProduct): Product{
         return Product(
-            _id = main._id,
+            _id = product.product._id,
             title = main.title,
             price = product.minPrice.toDouble(),
             minPrice = product.minPrice.toInt(),
@@ -80,6 +80,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
             photos = product.product.photos,
             brand = product.brand,
             category = product.category,
+            mainProductId = main._id,
         )
     }
 
