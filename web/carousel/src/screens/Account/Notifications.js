@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
 import Table from "antd/lib/table";
-
+import { WindowsFilled, LinkOutlined } from "@ant-design/icons";
 const Notifications = (props) => {
   const [notifications, setNotifications] = useState([]);
 
@@ -14,8 +14,7 @@ const Notifications = (props) => {
     };
     const url = `/${user.userType.toLowerCase()}/notification`;
     const resp = await services.get(url, config);
-    console.log(resp);
-    // setNotifications(resp.data.data.reverse());
+    setNotifications(resp.data.data.reverse());
   };
 
   const handleMarkRead = async (notification) => {
@@ -26,9 +25,9 @@ const Notifications = (props) => {
 
     const url = `/${user.userType.toLowerCase()}/notification`;
     const payload = { notification_id: notification._id };
-    await services.post(url, payload, config);
-
-    refreshNotifications();
+    const resp = await services.post(url, payload, config);
+    setNotifications(resp.data.data.reverse());
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -52,8 +51,8 @@ const Notifications = (props) => {
     },
     {
       title: "Link",
-      dataIndex: "hyperLink",
-      key: "hyperLink",
+      dataIndex: "hyperlink",
+      key: "hyperlink",
       render: (text, record) => {
         return (
           <a
@@ -62,16 +61,20 @@ const Notifications = (props) => {
               props.history.push(text);
             }}
           >
-            Link
+            <LinkOutlined />
           </a>
         );
       },
     },
     {
-      title: "",
+      title: "Action",
       key: "markRead",
       render: (text, record) => {
-        return <a onClick={() => handleMarkRead(record)}>Mark as Read</a>;
+        return record.isRead ? (
+          "Read"
+        ) : (
+          <a onClick={() => handleMarkRead(record)}>Mark as Read</a>
+        );
       },
     },
   ];

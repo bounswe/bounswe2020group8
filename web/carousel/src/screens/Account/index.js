@@ -39,14 +39,13 @@ class Account extends Component {
   static contextType = UserInfo;
 
   async componentDidMount() {
-    // const TOKEN = localStorage.getItem("token");
-    // const config = {
-    //   headers: { Authorization: `Bearer ${TOKEN}` },
-    // };
-    // const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
-    // const resp = await services.get(url, config);
-    // console.log(resp);
-    // this.setState({});
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
+    const resp = await services.get(url, config);
+    this.setState({ notificationCount: resp.data.data.length });
   }
 
   renderCustomerSideBar() {
