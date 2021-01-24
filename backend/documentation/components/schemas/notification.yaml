@@ -1,0 +1,13 @@
+Notification:
+  type: object
+  properties:
+    type:
+      type: string
+    description:
+      type: string
+    createdAt:
+      type: date
+    isRead:
+      type: boolean
+    hyperLink:
+      type: string

@@ -23,7 +23,13 @@ router.post(
 
 router
   .route("/:oid")
-  .post(TicketController.replyAnOrderMessageOfASuborderController, RequestHelper.returnResponse)
-  .delete(TicketController.closeAnOrderMessageOfASuborderController, RequestHelper.returnResponse);
+  .post(
+    OrderMessageController.replyAnOrderMessageOfASuborderController,
+    RequestHelper.returnResponse
+  )
+  .delete(
+    OrderMessageController.closeAnOrderMessageOfASuborderController,
+    RequestHelper.returnResponse
+  );
 
 module.exports = router;

@@ -1,0 +1,31 @@
+OrderMessage:
+  type: object
+  properties:
+    order_id:
+      type: string
+    suborder_id:
+      type: string
+    client_id:
+      type: string
+    vendor_id:
+      type: string
+    isActive:
+      type: boolean
+    startedAt:
+      type: date
+    updatedAt:
+      type: date
+    conversation:
+      type: array
+      items:
+        $ref: "./_index.yaml#/OrderMessageMessage"
+
+OrderMessageMessage:
+  type: object
+  properties:
+    payload:
+      type: string
+    isSentByVendor:
+      type: boolean
+    sendAt:
+      type: date

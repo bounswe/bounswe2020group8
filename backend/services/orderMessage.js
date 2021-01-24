@@ -11,6 +11,11 @@ exports.getAllOrderMessagesService = async function (_id) {
 };
 
 exports.startAnOrderMessageOfASuborderService = async function (orderMessage) {
+  const message = {
+    payload: orderMessage.payload,
+  };
+  delete orderMessage.payload;
+  orderMessage.conversation = [message];
   let result = await OrderMessageDataAccess.startAConversation(orderMessage);
   return { data: result };
 };
@@ -24,7 +29,7 @@ exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, is
   return { data: ticket };
 };
 
-exports.closeAnOrderMessageOfASuborderController = async function (_id) {
+exports.closeAnOrderMessageOfASuborderService = async function (_id) {
   let result = await OrderMessageDataAccess.closeAConversation(_id);
   return { data: result };
 };

@@ -1,0 +1,118 @@
+/orderMessage/:
+  get:
+    tags:
+      - orderMessage
+    description: "Retrieve all order messages."
+    security:
+      - bearerAuth: []
+    parameters:
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/AllOrderMessages"
+      "400":
+        description: Authorization error
+/orderMessage/all:
+  post:
+    tags:
+      - orderMessage
+    description: "Get an order message with an order id and a suborder id."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: order_id
+        description: "Order id."
+        required: true
+        type: string
+      - in: body
+        name: suborder_id
+        description: "Suborder id."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/OrderMessage"
+      "400":
+        description: Authorization error
+/orderMessage/create:
+  post:
+    tags:
+      - orderMessage
+    description: "Create an order message."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: order_id
+        description: "Order id."
+        required: true
+        type: string
+      - in: body
+        name: suborder_id
+        description: "Suborder id."
+        required: true
+        type: string
+      - in: body
+        name: vendor_id
+        description: "Vendor id."
+        required: true
+        type: string
+      - in: body
+        name: payload
+        description: "Initial payload."
+        required: true
+        type: array
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/OrderMessage"
+      "400":
+        description: Authorization error
+"/orderMessage/{oid}":
+  post:
+    tags:
+      - orderMessage
+    description: "Reply an orderMessage and register it into database."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: payload
+        description: "New message of the order message."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/OrderMessage"
+      "400":
+        description: Authorization error
+  delete:
+    tags:
+      - orderMessage
+    description: "Close an orderMessage."
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/OrderMessage"
+      "400":
+        description: Authorization error
