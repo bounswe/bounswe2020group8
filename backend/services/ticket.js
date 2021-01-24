@@ -1,4 +1,4 @@
-const BaseUtil = require("../util/baseUtil");
+const NotificationWare = require("../util/notification");
 const TicketDataAccess = require("../dataAccess/ticket");
 
 exports.getAllTicketService = async function () {
@@ -25,11 +25,17 @@ exports.getOneTicketService = async function (_id) {
 };
 
 exports.replyATicketService = async function (_id, payload, _isSentByAdmin) {
+  if (_isSentByAdmin === true) {
+    let notification = await NotificationWare.createNotification(
+      "TICKET_REPLIED_BY_ADMIN",
+      hyperlink
+    );
+    await NotificationWare.registerNotification(notification);
+  }
   let message = {
     isSentByAdmin: _isSentByAdmin,
     payload,
   };
-  console.log(message);
   let ticket = await TicketDataAccess.replyATicketDB(_id, message);
   return { data: ticket };
 };

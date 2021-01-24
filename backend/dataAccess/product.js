@@ -12,6 +12,14 @@ exports.populateProductDB = function (obj, path = "product") {
   });
 };
 
+exports.getMainProductIDofAProduct = function (pid) {
+  let pidObj = mongoose.Types.ObjectId(pid);
+  return Product.aggregate([
+    { $match: { _id: pidObj } },
+    { $project: { parentProduct: 1, _id: 0 } },
+  ]);
+};
+
 exports.deleteProductsByIdDB = function (idlist) {
   return Product.deleteMany({ _id: { $in: idlist } }).lean();
 };
@@ -153,6 +161,32 @@ exports.getProductByVendorIdDB2 = function (pid, vid) {
     { _id: pid, vendorSpecifics: { $elemMatch: { vendorID: vid } } },
     { "vendorSpecifics.$": vid }
   );
+};
+
+exports.getProductByProductIDAndVendorID = function (pid, vid) {
+  let pidObj = mongoose.Types.ObjectId(pid);
+  let vidObj = mongoose.Types.ObjectId(vid);
+  return Product.aggregate([
+    {
+      $match: { _id: pidObj, "vendorSpecifics.vendorID": vidObj },
+    },
+    {
+      $set: {
+        vendorInfo: {
+          $reduce: {
+            input: "$vendorSpecifics",
+            initialValue: {},
+            in: {
+              $cond: [{ $eq: ["$$this.vendorID", vidObj] }, "$$this", "$$value"],
+            },
+          },
+        },
+      },
+    },
+    {
+      $project: { vendorInfo: 1, parentProduct: 1 },
+    },
+  ]);
 };
 
 exports.getProductByVendorIdDB = function (pid, vid) {
