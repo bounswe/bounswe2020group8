@@ -59,3 +59,98 @@
   transform: scale(1.2);
   cursor: pointer;
 }
+
+.OrderProcessFirst {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  border-radius: 50px;
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  background-color: white;
+  float: left;
+  margin-top: 8px;
+  z-index: 10;
+}
+.OrderProcessFirstDone {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  border-radius: 50px;
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  background-color: #d33a09;
+  margin-top: 8px;
+  z-index: 10;
+}
+.OrderProcessSecond {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  background-color: white;
+  float: left;
+  margin-top: 8px;
+  margin-left: -14px;
+  z-index: 10;
+}
+.OrderProcessSecondDone {
+  width: 200px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  background-color: #d33a09;
+  margin-top: 8px;
+  margin-left: -14px;
+  z-index: 10;
+}
+.OrderProcessThird {
+  width: 210px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  background-color: white;
+  border-radius: 50px;
+  float: left;
+  margin-top: 8px;
+  margin-left: -14px;
+  z-index: 10;
+}
+.OrderProcessThirdDone {
+  width: 210px;
+  height: 20px;
+  border: 1px solid #d33a09;
+  border-radius: 50px;
+  background-color: #d33a09;
+  margin-top: 8px;
+  margin-left: -14px;
+  z-index: 10;
+}
+
+.OrderStep {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border: 1px solid #d33a09;
+  border-radius: 50px;
+  margin-bottom: -24px;
+  margin-left: -10px;
+  float: left;
+  text-align: center;
+  font-size: 20px;
+  align-items: center;
+  z-index: 20;
+}
+.OrderStepDone {
+  width: 40px;
+  height: 40px;
+  background-color: #D54C1F;
+  border: 1px solid white;
+  border-radius: 50px;
+  margin-bottom: -24px;
+  margin-left: -10px;
+  float: left;
+  text-align: center;
+  font-size: 20px;
+  align-items: center;
+  z-index: 20;
+  color: white;
+  font-weight: bold;
+}
