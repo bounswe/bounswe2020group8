@@ -44,4 +44,11 @@ router
     RequestHelper.returnResponse
   );
 
+router.get(
+  "/notification/unread",
+  authController.protectRoute,
+  ClientController.getAllUnreadNotificationController,
+  RequestHelper.returnResponse
+);
+
 module.exports = router;

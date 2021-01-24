@@ -118,12 +118,26 @@ exports.resetPasswordService = async function ({ resetPasswordToken, newPassword
   return {};
 };
 
-exports.getNotificationService = async function () {
+exports.getNotificationService = async function (_id) {
   let results = await ClientDataAccess.getNotifications(_id);
-  return { result: results.length, data: results };
+  return { result: results.notifications.length, data: results.notifications };
+};
+
+// Add router, controller
+exports.getActiveNotificationService = async function (_id) {
+  let results = await ClientDataAccess.getNotifications(_id);
+  let active_notifications = new Array();
+  let notifications = results.notifications;
+  for (let i = 0; i < notifications.length; i++) {
+    if (notifications[i].isRead === false) {
+      active_notifications.push(notifications[i]);
+    }
+  }
+  return { result: active_notifications.length, data: active_notifications };
 };
 
 exports.readNotificationService = async function (_id, notification_id) {
-  let result = await ClientDataAccess.readNotification(_id, notification_id);
-  return { data: result };
+  let results = await ClientDataAccess.readNotification(_id, notification_id);
+  results = results.notifications;
+  return { result: results.length, data: results };
 };

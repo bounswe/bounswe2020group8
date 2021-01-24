@@ -12,7 +12,7 @@ var orderMessageSchema = new Schema(
     order_id: { type: mongoose.Schema.ObjectId, ref: "Order" },
     suborder_id: { type: mongoose.Schema.ObjectId },
     client_id: { type: mongoose.Schema.ObjectId, ref: "Client" },
-    vendor_id: { type: mongoose.Schema.ObjectId, ref: "Admin", default: null },
+    vendor_id: { type: mongoose.Schema.ObjectId, ref: "Vendor" },
     startedAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
     conversation: [message],

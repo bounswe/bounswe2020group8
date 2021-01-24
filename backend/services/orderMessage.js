@@ -20,12 +20,29 @@ exports.startAnOrderMessageOfASuborderService = async function (orderMessage) {
   return { data: result };
 };
 
-exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, isSentByVendor) {
+exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, _isSentByVendor) {
   let message = {
-    isSentByAdmin: _isSentByAdmin,
+    isSentByVendor: _isSentByVendor,
     payload,
   };
-  let ticket = await OrderMessageDataAccess.replyAConversation(_id, message);
+  let orderMessage = await OrderMessageDataAccess.replyAConversation(_id, message);
+  let client = await ClientDataAccess.getClientByIdDB(orderMessage.client_id);
+  if (_isSentByVendor === false) {
+    let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/account/messages`;
+    let notification = await NotificationWare.createNotification(
+      "ORDER_MESSAGE_REPLIED_BY_CUSTOMER",
+      hyperlink
+    );
+    await NotificationWare.registerNotification(client._id, notification);
+  } else {
+    let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/vendor/account/messages`;
+    let notification = await NotificationWare.createNotification(
+      "ORDER_MESSAGE_REPLIED_BY_VENDOR",
+      hyperlink
+    );
+    await NotificationWare.registerNotification(client._id, notification);
+  }
+
   return { data: ticket };
 };
 

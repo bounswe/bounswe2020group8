@@ -1,5 +1,7 @@
 const NotificationWare = require("../util/notification");
 const TicketDataAccess = require("../dataAccess/ticket");
+const ClientDataAccess = require("../dataAccess/client");
+const Config = require("../config");
 
 exports.getAllTicketService = async function () {
   let tickets = await TicketDataAccess.getAllTicketDB();
@@ -25,18 +27,29 @@ exports.getOneTicketService = async function (_id) {
 };
 
 exports.replyATicketService = async function (_id, payload, _isSentByAdmin) {
-  if (_isSentByAdmin === true) {
-    let notification = await NotificationWare.createNotification(
-      "TICKET_REPLIED_BY_ADMIN",
-      hyperlink
-    );
-    await NotificationWare.registerNotification(notification);
-  }
   let message = {
     isSentByAdmin: _isSentByAdmin,
     payload,
   };
   let ticket = await TicketDataAccess.replyATicketDB(_id, message);
+  if (_isSentByAdmin === true) {
+    let client = await ClientDataAccess.getClientByIdDB(ticket.client_id);
+    if (client.__type === "Customer") {
+      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/account/tickets`;
+      let notification = await NotificationWare.createNotification(
+        "TICKET_REPLIED_BY_ADMIN",
+        hyperlink
+      );
+      await NotificationWare.registerNotification(client._id, notification);
+    } else if (client.__type === "Vendor") {
+      let hyperlink = `http://${Config.frontendAddr}:${Config.frontendPort}/vendor/account/tickets`;
+      let notification = await NotificationWare.createNotification(
+        "TICKET_REPLIED_BY_ADMIN",
+        hyperlink
+      );
+      await NotificationWare.registerNotification(client._id, notification);
+    }
+  }
   return { data: ticket };
 };
 

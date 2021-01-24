@@ -79,11 +79,11 @@ exports.updateClientDB = function (_id, fields) {
 };
 
 exports.getNotifications = function (_id) {
-  return Customer.findById(_id, { notifications: 1, _id: 0 });
+  return Client.findById(_id, { notifications: 1, _id: 0 });
 };
 
 exports.populateNotification = function (_id, notification) {
-  return Customer.updateOne(
+  return Client.findByIdAndUpdate(
     _id,
     {
       $push: {
@@ -97,14 +97,13 @@ exports.populateNotification = function (_id, notification) {
 };
 
 exports.readNotification = function (_id, notification_id) {
-  let nid = mongoose.Types.ObjectId(notification_id);
-  return Customer.updateOne(
-    { _id, "notifications._id": nid },
+  return Client.findByIdAndUpdate(
+    { _id, "notifications._id": notification_id },
     {
       $set: {
         "notifications.$[element].isRead": true,
       },
     },
-    { arrayFilters: [{ "element._id": nid }] }
+    { arrayFilters: [{ "element._id": notification_id }] }
   );
 };

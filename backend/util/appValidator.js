@@ -205,3 +205,13 @@ exports.isValidRange = function (start, end, value, errorMessage) {
     }
   });
 };
+
+exports.ValidateAdminStatus = function (client) {
+  return new BB((resolve, reject) => {
+    if (client.__type === "Admin") {
+      resolve();
+    } else {
+      reject(new AppError(erroeMessage || Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN));
+    }
+  });
+};
