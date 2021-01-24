@@ -17,7 +17,12 @@ import kotlinx.android.synthetic.main.fragment_add_address.view.address_name as 
 class AddAddressFragment : Fragment() {
 
     var type = "GUEST"
+    var isFromOrder = false
 
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        arguments?.let { isFromOrder = it.getBoolean("isFromOrder") }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         type = ApplicationContext.instance.whoAmI().toString()
@@ -29,9 +34,9 @@ class AddAddressFragment : Fragment() {
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         view.back_button.setOnClickListener{
-            val fragment = Settings()
+            val fragment = when(isFromOrder){ true -> OrderFragment() false -> Settings()}
             activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_add_adress, fragment)
+                ?.replace(R.id.activity_main_nav_host_fragment, fragment)
                 ?.commit()
         }
         view.save_button.setOnClickListener{
@@ -114,9 +119,9 @@ class AddAddressFragment : Fragment() {
                         apiCallerPatch.Success = { it ->
                             if (it != null) {
                                 activity?.runOnUiThread(Runnable { //Handle UI here
-                                    val fragment = Settings()
+                                    val fragment = when(isFromOrder){ true -> OrderFragment() false -> Settings()}
                                     activity?.supportFragmentManager?.beginTransaction()
-                                        ?.replace(R.id.fragment_account_page, fragment)
+                                        ?.replace(R.id.activity_main_nav_host_fragment, fragment)
                                         ?.commit()
                                 })
                             }

@@ -58,7 +58,7 @@ class ProductsAdapter (    private var productList: ArrayList<Product> , private
         holder.addToCartButton.setOnClickListener{
             val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(activity)
             //apiCallerAddToCart.Button = addToCartButton
-            apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(UpdateCart(LoginActivity.user.id, 1, productList[position]._id, productList[position].vendorId))
+            apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(UpdateCart( 1, productList[position]._id, productList[position].vendorId))
             apiCallerAddToCart.Success = { it ->
                 if (it != null) {
                     this.productList[position].let { CartFragment.addToCart(it, 1) }
