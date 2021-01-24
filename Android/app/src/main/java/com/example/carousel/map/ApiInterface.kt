@@ -162,4 +162,20 @@ interface ApiInterface {
     @GET("/customer/me/recommendations")
     fun customerMeRecommendations(
     ) : Call<ResponseProductSearch>
+
+    @GET("/ticket/client/{id}")
+    fun getAllTickets(
+        @Path("id") id: String
+    ) : Call<ResponseAllTickets>
+
+    @POST("/ticket/{tid}")
+    fun replyToTicket(
+        @Path("tid") tid: String,
+        @Body replyTicket: ReplyTicket
+    ) : Call<ResponseTicket>
+
+    @POST("/ticket")
+    fun createTicket(
+        @Body postTicket: PostTicket
+    ) : Call<ResponseTicket>
 }
