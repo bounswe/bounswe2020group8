@@ -13,12 +13,17 @@ exports.createOne = function (comment) {
   return Comment.create(comment);
 };
 
-exports.findByIdAndUpdate = function (_id, text) {
+exports.getACommentByID = function (_id) {
+  return Comment.find({ _id }).lean();
+};
+
+exports.findByIdAndUpdate = function (_id, text, rate) {
   return Comment.findByIdAndUpdate(
     _id,
     {
       $set: {
         text: text,
+        rate: rate,
         updatedAt: Date.now,
       },
     },

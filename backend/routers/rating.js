@@ -10,7 +10,7 @@ router.use(authController.protectRoute);
 router.use(RegisterActivity.registerActivity);
 
 router
-  .route("/:pid")
-  .patch(RatingController.patchRatingProductController, RequestHelper.returnResponse);
+  .route("/:vid")
+  .patch(RatingController.patchRatingVendorController, RequestHelper.returnResponse);
 
 module.exports = router;
