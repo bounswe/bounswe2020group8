@@ -28,9 +28,15 @@ router
   .route("/order/main")
   .patch(OrderController.updateOrderStatusGuestController, RequestHelper.returnResponse); // Patch order status
 
-router.get(
+router.post(
   "/order/orderID",
   OrderController.getOrderByOrderIdController,
+  RequestHelper.returnResponse
+);
+
+router.post(
+  "/order/mainOrderID",
+  OrderController.getOrderByMainOrderIdController,
   RequestHelper.returnResponse
 );
 

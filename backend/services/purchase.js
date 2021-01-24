@@ -10,16 +10,18 @@ const { isNull } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
+const Messages = require("../util/messages");
+const sendEmail = require("../util/emailer");
 
 exports.purchaseService = async function ({
   _id,
   shippingAddressId,
   billingAddressId,
   creditCardId,
+  email,
 }) {
   var items = await OrderService.createOrderService({ _id });
   items = items["data"];
-  console.log(items);
   var f_items = [];
   var i;
   for (i = 0; i < items.length; i++) {
@@ -72,12 +74,23 @@ exports.purchaseService = async function ({
     current["_id"] = orderId;
     delete current["enoughLeft"];
     current["status"] = "being prepared";
+    var arrivesIn = Math.floor(Math.random() * 10) + 1;
+    current["arrivesIn"] = arrivesIn;
     f_items.push(current);
   }
   var mainOrderId = mongoose.Types.ObjectId();
   date = Date.now();
   data = { _id: mainOrderId, orders: f_items, customerID: _id, createdAt: date };
   newOrder = await OrderDataAccess.populateOrderDB(data);
+  try {
+    await sendEmail({
+      email,
+      subject: "Your carousel order information",
+      message: `Thank you for buying from Carousel! You can view your order with this tracking number: ${mainOrderId}`,
+    });
+  } catch (error) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_ORDER_EMAIL_FAILED);
+  }
   return newOrder;
 };
 
@@ -86,6 +99,7 @@ exports.purchaseGuestService = async function ({
   shippingAddress,
   billingAddress,
   creditCard,
+  email,
 }) {
   var items = await OrderService.createGuestOrderService({ _id });
   items = items["data"];
@@ -108,11 +122,22 @@ exports.purchaseGuestService = async function ({
     current["_id"] = orderId;
     delete current["enoughLeft"];
     current["status"] = "being prepared";
+    var arrivesIn = Math.floor(Math.random() * 10) + 1;
+    current["arrivesIn"] = arrivesIn;
     f_items.push(current);
   }
   var mainOrderId = mongoose.Types.ObjectId();
   date = Date.now();
   data = { _id: mainOrderId, orders: f_items, customerID: _id, createdAt: date };
   newOrder = await OrderDataAccess.populateOrderDB(data);
+  try {
+    await sendEmail({
+      email,
+      subject: "Your carousel order information",
+      message: `Thank you for buying from Carousel! You can view your order with this tracking number: ${mainOrderId}`,
+    });
+  } catch (error) {
+    throw new AppError(Messages.RETURN_MESSAGES.ERR_SEND_ORDER_EMAIL_FAILED);
+  }
   return newOrder;
 };

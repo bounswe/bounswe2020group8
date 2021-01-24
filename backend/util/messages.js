@@ -174,8 +174,20 @@ const returnMessages = {
       en: "Something went wrong!",
     },
   },
-  ERR_INSUFFICIENT_ADMIN_TOKEN: {
+  ERR_ORDER_STATUS_IS_INVALID: {
     code: 28,
+    messages: {
+      en: "Order status is invalid",
+    },
+  },
+  ERR_SEND_ORDER_EMAIL_FAILED: {
+    code: 29,
+    messages: {
+      en: "Order email could not be sent",
+    },
+  },
+  ERR_INSUFFICIENT_ADMIN_TOKEN: {
+    code: 30,
     messages: {
       en: "You do not possess admin status.",
     },

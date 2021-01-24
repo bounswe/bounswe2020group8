@@ -29,6 +29,7 @@ var subOrder = {
   billingAddress: { type: address },
   creditCard: { type: creditCard },
   status: { type: String },
+  arrivesIn: { type: Number },
 };
 
 var orderSchema = new Schema(
