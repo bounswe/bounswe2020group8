@@ -1,6 +1,9 @@
 Rate:
   $ref: "./rating.yaml#/Rate"
 
+Notification:
+  $ref: "./notification.yaml#/Notification"
+
 PostComment:
   $ref: "./comment.yaml#/PostComment"
 

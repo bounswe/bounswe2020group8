@@ -16,6 +16,12 @@
 "/orderMessage/{oid}":
   $ref: "./orderMessage.yaml#/~1orderMessage~1{oid}"
 
+/customer/notification:
+  $ref: "./notification.yaml#/~1customer~1notification"
+
+/vendor/notification:
+  $ref: "./notification.yaml#/~1vendor~1notification"
+
 /ticket/:
   $ref: "./ticket.yaml#/~1ticket~1"
 

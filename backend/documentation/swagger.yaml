@@ -245,6 +245,76 @@ paths:
                 $ref: '#/components/responses/OrderMessage'
         '400':
           description: Authorization error
+  /customer/notification:
+    get:
+      tag:
+        - notification
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notifications'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - notification
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: notification_id
+          description: Notification id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notification'
+        '400':
+          description: Authorization error
+  /vendor/notification:
+    get:
+      tag:
+        - notification
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notifications'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - notification
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: notification_id
+          description: Notification id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notification'
+        '400':
+          description: Authorization error
   /ticket/:
     post:
       tags:
@@ -2063,6 +2133,24 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OrderMessage'
+    Notification:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Notification'
+    Notifications:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            result:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Notification'
     PostTicket:
       allOf:
         - $ref: '#/components/responses/ApiResponse'
@@ -2335,6 +2423,19 @@ components:
           type: number
           minimum: 0
           maximum: 5
+    Notification:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: date
+        isRead:
+          type: boolean
+        hyperLink:
+          type: string
     PostComment:
       type: object
       properties:

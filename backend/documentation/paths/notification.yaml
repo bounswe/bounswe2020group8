@@ -1,0 +1,70 @@
+/customer/notification:
+  get:
+    tag:
+      - notification
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Notifications"
+      "400":
+        description: Authorization error
+  post:
+    tags:
+      - notification
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: notification_id
+        description: "Notification id"
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Notification"
+      "400":
+        description: Authorization error
+/vendor/notification:
+  get:
+    tag:
+      - notification
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Notifications"
+      "400":
+        description: Authorization error
+  post:
+    tags:
+      - notification
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: notification_id
+        description: "Notification id"
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Notification"
+      "400":
+        description: Authorization error
