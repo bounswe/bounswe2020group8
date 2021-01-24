@@ -19,6 +19,11 @@ exports.getOrderByVendorIdService = async function ({ _id }) {
   return { data: order };
 };
 
+exports.getVendorBalanceService = async function ({ _id }) {
+  const balance = await OrderDataAccess.getVendorBalanceDB(_id);
+  return { data: balance };
+};
+
 exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
   const order = await OrderDataAccess.getOrderByOrderIdDB(mainOrderID, orderID);
   return { data: order };

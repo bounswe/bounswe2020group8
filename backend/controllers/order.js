@@ -74,6 +74,14 @@ exports.getOrderByVendorIdController = BaseUtil.createController((req) => {
     .then(() => OrderService.getOrderByVendorIdService({ _id }));
 });
 
+exports.getVendorBalanceController = BaseUtil.createController((req) => {
+  let { _id } = req.client;
+  _id = _id.toString();
+  return BB.all([AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED)])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() => OrderService.getVendorBalanceService({ _id }));
+});
+
 exports.getOrderByOrderIdController = BaseUtil.createController((req) => {
   let { mainOrderID, orderID } = req.body;
   return BB.all([

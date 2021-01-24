@@ -89,4 +89,6 @@ router
   .get(OrderController.getOrderByVendorIdController, RequestHelper.returnResponse)
   .patch(OrderController.updateOrderStatusVendorController, RequestHelper.returnResponse); //  Patch order status
 
+router.get("/order/balance", OrderController.getVendorBalanceController, RequestHelper.returnResponse);
+
 module.exports = router;
