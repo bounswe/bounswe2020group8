@@ -186,7 +186,6 @@ class ProductPageActivity : AppCompatActivity() {
 
                 apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(
                     UpdateCart(
-                        LoginActivity.user.id,
                         count,
                         product!!._id,
                         product!!.vendorId
