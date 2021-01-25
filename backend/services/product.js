@@ -58,11 +58,11 @@ exports.deleteVendorFromProductService = async function ({ pid, vid }) {
 exports.updateVendorInProductService = async function ({ pid, vid, vendorData }) {
   let new_price = vendorData.price;
   let clients = WatcherDataAccess.getAllClientsOfAProductAndAVendor(pid, vid);
-  if ((new_price !== undefined) & (clients.length !== 0)) {
+  if (new_price !== undefined && clients.length !== 0) {
     const product_before_state = await ProductDataAccess.getProductByProductIDAndVendorID(pid, vid);
     let price = product_before_state.price;
     ratio = (price - new_price) / price;
-    if ((ratio >= 0.1) & (ratio < 0.25)) {
+    if (ratio >= 0.1 && ratio < 0.25) {
       let hyperlink = `/product/${product_before_state.parentProduct}`;
       let notification = await NotificationWare.createNotification(
         "PRICE_DOWN_BELOW_THRESHOLD",
@@ -71,7 +71,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
       for (let i = 0; i < clients.length; i++) {
         await NotificationWare.registerNotification(clients[i], notification);
       }
-    } else if ((ratio >= 0.25) & (ratio <= 0.5)) {
+    } else if (ratio >= 0.25 && ratio <= 0.5) {
       let hyperlink = `/product/${product_before_state.parentProduct}`;
       let notification = await NotificationWare.createNotification(
         "PRICE_STRICTLY_DOWN_BELOW_THRESHOLD",

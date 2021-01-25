@@ -96,7 +96,8 @@ exports.createOrderService = async function ({ _id }) {
       temp["cargoCompany"] = current_product["vendorSpecifics"][0]["cargoCompany"];
       if (current_product["vendorSpecifics"][0]["amountLeft"] > current["amount"]) {
         temp["enoughLeft"] = true;
-        temp["amountLeft"] = current_product["vendorSpecifics"][0]["amountLeft"];
+        temp["amountLeft"] =
+          current_product["vendorSpecifics"][0]["amountLeft"] - current["amount"];
         temp["mainProduct_id"] = current_product_parent_product_id;
       } else {
         temp["enoughLeft"] = false;
