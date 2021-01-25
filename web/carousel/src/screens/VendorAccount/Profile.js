@@ -10,7 +10,10 @@ import MapComponent from "../../components/MapComponent/MapComponent";
 const { Option } = Select;
 
 export default class Profile extends Component {
-  state = { visible: false };
+  state = {
+    visible: false,
+    totalEarnings: 0,
+  };
   static contextType = UserInfo;
 
   prefixSelector = () => {
@@ -41,6 +44,15 @@ export default class Profile extends Component {
         this.context.setIBAN(data.IBAN);
       } else {
         message.error("Couldn't get the profile information!");
+      }
+
+      const resp = await services.get("/vendor/order/balance", {
+        headers: { Authorization: "Bearer " + token },
+      });
+
+      if (resp.data.data !== null) {
+        console.log(resp);
+        this.setState({totalEarnings: resp.data.data[0].balance});
       }
     }
   }
@@ -261,8 +273,11 @@ export default class Profile extends Component {
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
-
           <Col span={12}>{this.renderPasswordChangeForm()}</Col>
+          <div style={{marginLeft:"100px", marginTop:"-400px", fontSize:"16px"}}>
+            Total earnings: <strong>{this.state.totalEarnings} $</strong>
+          </div>
+
         </Row>
       </div>
     );
