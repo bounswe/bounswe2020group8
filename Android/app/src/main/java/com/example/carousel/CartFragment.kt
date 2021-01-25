@@ -194,6 +194,16 @@ class CartFragment : Fragment(){
             }
             cart.add(Pair(product, num))
         }
+        fun updateCart(product: Product, num: Int) {
+            for(item in cart){
+                if(item.first._id == product._id) {
+                    val newPair = item.copy(second = num)
+                    cart[cart.indexOf(item)] = newPair
+                    return
+                }
+            }
+            cart.add(Pair(product, num))
+        }
 
         fun removeFromCart(productIndex: Int) {
             if (cart.isNotEmpty())
