@@ -26,14 +26,21 @@ export default function Home() {
     let newProductList = {};
     newProductList["hotsellers"] = resp.data.data;
 
-    resp = await services.post(
-      "/product/search",
-      {
-        query: "recommendations",
-      },
-      {}
-    );
-    newProductList["recommendations"] = resp.data.data;
+    const TOKEN = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+
+    if (TOKEN) {
+      try {
+        resp = await services.get("/customer/me/recommendations", config);
+        newProductList["recommendations"] = resp.data.data;
+      } catch {
+        newProductList["recommendations"] = null;
+      }
+    } else {
+      newProductList["recommendations"] = null;
+    }
 
     resp = await services.post(
       "/product/search",
@@ -69,25 +76,26 @@ export default function Home() {
             </Carousel>
           </div>
         </div>
-
-        {productList.hotsellers && (
-          <ProductCarousel
-            title={"Hotsellers"}
-            productList={productList.hotsellers}
-          />
-        )}
-        {productList.recommendations && (
-          <ProductCarousel
-            title={"Recommendations"}
-            productList={productList.recommendations}
-          />
-        )}
-        {productList.trendings && (
-          <ProductCarousel
-            title={"Trendings"}
-            productList={productList.trendings}
-          />
-        )}
+        <div style={{ paddingLeft: "100px" }}>
+          {productList.hotsellers && (
+            <ProductCarousel
+              title={"Hotsellers"}
+              productList={productList.hotsellers}
+            />
+          )}
+          {productList.recommendations && (
+            <ProductCarousel
+              title={"Recommendations"}
+              productList={productList.recommendations}
+            />
+          )}
+          {productList.trendings && (
+            <ProductCarousel
+              title={"Trendings"}
+              productList={productList.trendings}
+            />
+          )}
+        </div>
       </header>
     </div>
   );

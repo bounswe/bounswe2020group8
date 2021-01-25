@@ -52,8 +52,17 @@ class Search extends Component {
     params["minPrice[lte]"] = this.state.priceInterval[1];
     params["sort"] = this.state.sort;
 
+    const TOKEN = localStorage.getItem("token");
+    let config = { params: params };
+
+    if (TOKEN) {
+      config = { ...config, headers: { Authorization: `Bearer ${TOKEN}` } };
+    }
+
+    console.log(config, payload);
+
     services
-      .post("/product/search", payload, { params: params })
+      .post("/product/search", payload, config)
       .then((response) => {
         const results = response.data.results;
         const data = response.data.data;
