@@ -247,9 +247,6 @@ data class PostComment(
 )
 
 data class ResponseCart(
-    @Expose @SerializedName("data") val data: ArrayList<DataCart>,
-    )
-data class DataCart(
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
     @Expose @SerializedName("amount") val amount: Int,
@@ -262,6 +259,7 @@ data class DataCart(
     )
 
 data class UpdateCart(
+    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("amount") val amount: Int,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
@@ -332,6 +330,7 @@ data class DataProductSearchFilters(
 )
 
 data class PurchaseBody(
+    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("shippingAddressId") val shippingAddressId: String,
     @Expose @SerializedName("billingAddressId") val billingAddressId: String,
     @Expose @SerializedName("creditCardId") val creditCardId: String,

@@ -124,10 +124,12 @@ interface ApiInterface {
         @Path("pid") pid: String = "",
         @Body body: PostComment): Call<PostComment>
 
-    @GET("/customer/shoppingCart/main")
-    fun getCart(): Call<ArrayList<ResponseCart>>
+    @POST("/customer/shoppingCart/get")
+    fun getCart(
+        @Body id: ID
+    ): Call<ArrayList<ResponseCart>>
 
-    @POST("/customer/shoppingCart/main")
+    @POST("/customer/shoppingCart/update")
     fun updateCart(
         @Body data: UpdateCart): Call<DataCustomerMe>
 
