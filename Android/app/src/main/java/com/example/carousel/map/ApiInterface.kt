@@ -124,12 +124,10 @@ interface ApiInterface {
         @Path("pid") pid: String = "",
         @Body body: PostComment): Call<PostComment>
 
-    @POST("/customer/shoppingCart/get")
-    fun getCart(
-        @Body id: ID
-    ): Call<ArrayList<ResponseCart>>
+    @GET("/customer/shoppingCart/main")
+    fun getCart(): Call<ArrayList<ResponseCart>>
 
-    @POST("/customer/shoppingCart/update")
+    @POST("/customer/shoppingCart/main")
     fun updateCart(
         @Body data: UpdateCart): Call<DataCustomerMe>
 
@@ -164,4 +162,20 @@ interface ApiInterface {
     @GET("/customer/me/recommendations")
     fun customerMeRecommendations(
     ) : Call<ResponseProductSearch>
+
+    @GET("/ticket/client/{id}")
+    fun getAllTickets(
+        @Path("id") id: String
+    ) : Call<ResponseAllTickets>
+
+    @POST("/ticket/{tid}")
+    fun replyToTicket(
+        @Path("tid") tid: String,
+        @Body replyTicket: ReplyTicket
+    ) : Call<ResponseTicket>
+
+    @POST("/ticket")
+    fun createTicket(
+        @Body postTicket: PostTicket
+    ) : Call<ResponseTicket>
 }

@@ -41,10 +41,10 @@ class CartFragment : Fragment(){
         super.onActivityCreated(savedInstanceState)
         activity?.runOnUiThread {
             val apiCallerGetCart: ApiCaller<ArrayList<ResponseCart>> = ApiCaller(activity)
-            apiCallerGetCart.Caller = ApiClient.getClient.getCart(ID(LoginActivity.user.id))
+            apiCallerGetCart.Caller = ApiClient.getClient.getCart()
             apiCallerGetCart.Success = { it ->
                 if (it != null) {
-                    for (product in it) {
+                    for (product in it[0].data) {
                         val newProduct = Product(
                             _id = product.productId,
                             vendorId = product.vendorId,

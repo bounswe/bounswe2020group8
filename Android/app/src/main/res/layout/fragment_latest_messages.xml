@@ -17,10 +17,10 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                style="@style/ToolbarTheme"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:menu="@menu/top_nav_menu"
+                app:menu="@menu/top_nav_menu_ticket"
                 app:navigationIcon="@drawable/ic_back_24px"
                 app:navigationIconColor="@color/colorWhite"
                 app:title="My Tickets"

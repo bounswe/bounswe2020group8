@@ -247,6 +247,9 @@ data class PostComment(
 )
 
 data class ResponseCart(
+    @Expose @SerializedName("data") val data: ArrayList<DataCart>,
+    )
+data class DataCart(
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
     @Expose @SerializedName("amount") val amount: Int,
@@ -259,7 +262,6 @@ data class ResponseCart(
     )
 
 data class UpdateCart(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("amount") val amount: Int,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
@@ -330,8 +332,42 @@ data class DataProductSearchFilters(
 )
 
 data class PurchaseBody(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("shippingAddressId") val shippingAddressId: String,
     @Expose @SerializedName("billingAddressId") val billingAddressId: String,
     @Expose @SerializedName("creditCardId") val creditCardId: String,
     )
+
+data class PostTicket(
+    @Expose @SerializedName("message") val message: String,
+    @Expose @SerializedName("topic") val topic: String,
+) : Serializable
+
+data class ResponseTicket(
+    @Expose @SerializedName("data") val data: DataTicket,
+) : Serializable
+
+data class ResponseAllTickets(
+    @Expose @SerializedName("data") val data: ArrayList<DataTicket>,
+) : Serializable
+
+data class DataTicket(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("topic") val topic: String,
+    @Expose @SerializedName("adminId") val adminId: String,
+    @Expose @SerializedName("clientId") val clientId: String,
+    @Expose @SerializedName("isActive") val isActive: Boolean,
+    @Expose @SerializedName("isAssigned") val isAssigned: Boolean,
+    @Expose @SerializedName("startedAt") val startedAt: Date,
+    @Expose @SerializedName("updatedAt") val updatedAt: Date,
+    @Expose @SerializedName("conversation") val conversation: ArrayList<DataConversation>,
+    ): Serializable
+
+data class DataConversation(
+    @Expose @SerializedName("payload") val payload: String,
+    @Expose @SerializedName("isSentByAdmin") val isSentByAdmin: Boolean,
+    @Expose @SerializedName("sendAt") val sendAt: Date,
+): Serializable
+
+data class ReplyTicket(
+    @Expose @SerializedName("new_message") val new_message: String,
+) : Serializable

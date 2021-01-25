@@ -4,27 +4,33 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.carousel.pojo.VendorSpecifics
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.*
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.activity_message.view.*
+import kotlinx.android.synthetic.main.fragment_new_ticket.*
 import kotlinx.android.synthetic.main.other_chat_item.view.*
 import kotlinx.android.synthetic.main.product_view.view.*
 
 class MessageActivity : AppCompatActivity() {
     lateinit var groupieAdapter: GroupieAdapter
+    lateinit var conversation: ArrayList<DataConversation>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
         topAppBar.setNavigationOnClickListener{
             finish()
         }
-        topAppBar.title = (intent.getSerializableExtra("conversation") as LatestMessagesFragment.User).name
+        conversation = (intent.getSerializableExtra("conversation") as DataTicket).conversation
+        topAppBar.title = (intent.getSerializableExtra("conversation") as DataTicket).topic
 
         message_text.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -41,10 +47,19 @@ class MessageActivity : AppCompatActivity() {
         )
         groupieAdapter = GroupieAdapter()
 
-        groupieAdapter.add(MessageFromItem(Message("Hello friend how are you doing in this blessed day?")))
-        groupieAdapter.add(MessageToItem(Message("Hi")))
-        groupieAdapter.add(MessageFromItem(Message("Bye")))
-        groupieAdapter.add(MessageToItem(Message("Bye!")))
+        //groupieAdapter.add(MessageFromItem(Message("Hello friend how are you doing in this blessed day?")))
+        //groupieAdapter.add(MessageToItem(Message("Hi")))
+        //groupieAdapter.add(MessageFromItem(Message("Bye")))
+        //groupieAdapter.add(MessageToItem(Message("Bye!")))
+        for(message in conversation) {
+           if(!message.payload.isNullOrEmpty()) {
+               when (message.isSentByAdmin) {
+                   true -> groupieAdapter.add(MessageFromItem(Message(message.payload)))
+                   false -> groupieAdapter.add(MessageToItem(Message(message.payload)))
+               }
+           }
+            //Select view according to whose message it is
+        }
 
         message_view.apply{
             layoutManager = LinearLayoutManager(this@MessageActivity, LinearLayoutManager.VERTICAL, false)
@@ -53,8 +68,18 @@ class MessageActivity : AppCompatActivity() {
 
     }
     fun sendMessage(view: View){
-        groupieAdapter.add(MessageToItem(Message(message_layout.editText?.text.toString())))
-        message_text.setText("")
+        val apiCallerReply: ApiCaller<ResponseTicket> = ApiCaller(this)
+        apiCallerReply.Caller = ApiClient.getClient.replyToTicket(
+            (intent.getSerializableExtra("conversation") as DataTicket)._id,
+            ReplyTicket(message_layout.editText?.text.toString())
+        )
+        apiCallerReply.Success = {
+            groupieAdapter.add(MessageToItem(Message(message_layout.editText?.text.toString())))
+            message_text.setText("")
+        }
+        apiCallerReply.Failure = {}
+        apiCallerReply.run()
+
     }
 }
 

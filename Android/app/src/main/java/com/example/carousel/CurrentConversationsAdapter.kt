@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.pojo.DataTicket
 
 
-class CurrentConversationsAdapter (private var userList: ArrayList<LatestMessagesFragment.User> ) : RecyclerView.Adapter<CurrentConversationsAdapter.ViewHolder>(){
-    var onItemClick: ((LatestMessagesFragment.User) -> Unit)? = null
+class CurrentConversationsAdapter (private var userList: ArrayList<DataTicket> ) : RecyclerView.Adapter<CurrentConversationsAdapter.ViewHolder>(){
+    var onItemClick: ((DataTicket) -> Unit)? = null
 
     override fun getItemCount(): Int {
         return userList.size
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val name: TextView = itemView.findViewById(R.id.sender)
+        val title: TextView = itemView.findViewById(R.id.title)
 
         init {
             itemView.setOnClickListener {
@@ -34,8 +35,7 @@ class CurrentConversationsAdapter (private var userList: ArrayList<LatestMessage
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = userList[position].name
-
+        holder.title.text = userList[position].topic
     }
 }
 

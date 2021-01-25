@@ -210,9 +210,9 @@ class ProductPageActivity : AppCompatActivity() {
 
                 val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(this)
                 apiCallerAddToCart.Button = cart_button
+
                 apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(
                     UpdateCart(
-                        LoginActivity.user.id,
                         count,
                         product!!._id,
                         product!!.vendorId
@@ -241,6 +241,7 @@ class ProductPageActivity : AppCompatActivity() {
             counter.setText(count.toString())
         }
     }
+
 
     private fun createProductList(products: ArrayList<Product>, recyclerId: RecyclerView){
         val adapter = ProductsAdapter(products, this)
