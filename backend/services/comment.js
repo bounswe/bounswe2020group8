@@ -25,7 +25,6 @@ exports.createOneCommentService = async function (
     const prevRate = mainProduct.rating;
     let newRate = (prevNumber * prevRate + rate) / (prevNumber + 1);
     newRate = newRate.toFixed(2);
-    console.log(newRate);
     await MainProductDataAccess.updateMainProductDB(mainProductId, {
       rating: newRate,
       numberOfRating: prevNumber + 1,
