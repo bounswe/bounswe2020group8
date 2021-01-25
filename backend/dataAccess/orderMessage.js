@@ -5,8 +5,12 @@ exports.getOrderMessage = async function (order_id, suborder_id) {
   return OrderMessage.find({ order_id, suborder_id }).lean();
 };
 
-exports.getAllOrderMessages = async function (_id) {
+exports.getAllOrderMessagesCustomer = async function (_id) {
   return OrderMessage.find({ client_id: _id }).lean();
+};
+
+exports.getAllOrderMessagesVendor = async function (_id) {
+  return OrderMessage.find({ vendor_id: _id }).lean();
 };
 
 exports.startAConversation = async function (orderMessage) {

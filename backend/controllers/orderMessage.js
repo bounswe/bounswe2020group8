@@ -10,10 +10,9 @@ exports.getAnOrderMessageOfASuborderController = BaseUtil.createController((req)
 });
 
 exports.getAllOrderMessagesController = BaseUtil.createController((req) => {
-  let _id = req.client._id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => OrderMessageService.getAllOrderMessagesService(_id));
+    .then(() => OrderMessageService.getAllOrderMessagesService(req.client));
 });
 
 exports.startAnOrderMessageOfASuborderController = BaseUtil.createController((req) => {
