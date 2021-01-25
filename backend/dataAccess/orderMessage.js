@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-const OrderMessage = mongoose.model("Ticket");
+const OrderMessage = mongoose.model("OrderMessage");
 
 exports.getOrderMessage = async function (order_id, suborder_id) {
   return OrderMessage.find({ order_id, suborder_id }).lean();
 };
 
 exports.getAllOrderMessages = async function (_id) {
-  return OrderMessage.find([{ $match: { client_id: _id } }, { $match: { vendor_id: _id } }]).lean();
+  return OrderMessage.find({ client_id: _id }).lean();
 };
 
 exports.startAConversation = async function (orderMessage) {
