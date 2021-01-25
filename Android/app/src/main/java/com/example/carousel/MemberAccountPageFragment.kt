@@ -243,11 +243,11 @@ class MemberAccountPageFragment : Fragment() {
                         username.text = name
                         mAdapter = CustomAdapter(context as Context)
                         mAdapter.addSectionHeaderItem("Account")
-                        mAdapter.addItem("Company Information", drawable.ic_person)
-                        mAdapter.addItem("Empty for Now", drawable.ic_list)
+                        mAdapter.addItem("Company Information", drawable.ic_person)//Working correctly
+                        mAdapter.addItem("Google Locations", drawable.ic_list)
                         mAdapter.addItem("Messages", drawable.ic_message_24px)
                         mAdapter.addItem("Change Password", drawable.ic_key) //working correct
-                        mAdapter.addItem("Settings", drawable.ic_settings)
+                        mAdapter.addItem("My Address", drawable.ic_settings)
                         mAdapter.addItem("Logout", drawable.ic_exit) //working correct
                         mAdapter.addSectionHeaderItem("Carousel")
                         mAdapter.addItem("About", drawable.ic_info) //working correct
