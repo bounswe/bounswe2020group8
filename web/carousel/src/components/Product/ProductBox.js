@@ -106,11 +106,11 @@ const ProductBox = (props) => {
           ) : null}
           {props.orderDetail ? (
             <>
-              <div style={{ fontSize: 16 }}>Amount: {props.product.amount}</div>
-              <div>
+              <div style={{ fontSize: 13 }}>
+                <div>Amount: {props.product.amount}</div>
                 <div>${props.product.price * props.product.amount}</div>
               </div>
-              <div>
+              <div style={{ fontSize: 13 }}>
                 <div>Arrive after {props.product.arrivesIn} days</div>
               </div>
               {[
