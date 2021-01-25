@@ -125,6 +125,23 @@ class CartFragment : Fragment(){
         purchase_cart_button.setOnClickListener{
             purchase()
         }
+
+        clear_cart.setOnClickListener {
+            val apiCallerResetCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
+            apiCallerResetCart.Caller = ApiClient.getClient.resetCart(ResetCart(LoginActivity.user.id))
+            apiCallerResetCart.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread {
+                        adapter.reset()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+            apiCallerResetCart.run()
+            apiCallerResetCart.Failure = { Log.d("CLEAR", "FAILED") }
+
+        }
+
         /*
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)

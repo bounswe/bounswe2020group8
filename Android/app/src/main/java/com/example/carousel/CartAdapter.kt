@@ -109,5 +109,8 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
             //ShoppingListFragment.lists[0].add(productList[position])
         }
     }
+    fun reset() {
+        productList.clear()
+    }
 }
 
