@@ -8,5 +8,5 @@ exports.patchRatingVendorController = BaseUtil.createController((req) => {
   let { rate } = req.body;
   return BB.all([AppValidator.isValidRange(0, 10, rate).reflect()])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => RatingService.patchRatingProductService(_id, rate));
+    .then(() => RatingService.patchRatingVendorService(_id, rate));
 });

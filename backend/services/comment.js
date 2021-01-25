@@ -20,13 +20,14 @@ exports.createOneCommentService = async function (
   lastName
 ) {
   if (rate !== undefined) {
-    const mainProduct = MainProductDataAccess.getMainProductByIdDB(mainProductId);
+    const mainProduct = await MainProductDataAccess.getMainProductByIdDB(mainProductId);
     const prevNumber = mainProduct.numberOfRating;
     const prevRate = mainProduct.rating;
     let newRate = (prevNumber * prevRate + rate) / (prevNumber + 1);
     newRate = newRate.toFixed(2);
+    console.log(newRate);
     await MainProductDataAccess.updateMainProductDB(mainProductId, {
-      rate: newRate,
+      rating: newRate,
       numberOfRating: prevNumber + 1,
     });
     const newComment = (
