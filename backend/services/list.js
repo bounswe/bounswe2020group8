@@ -67,12 +67,28 @@ exports.deleteOneListService = async function (_id, customer) {
 
 exports.getAllListsService = async function (customer) {
   let allLists = customer.shoppingLists;
-  return { result: allLists.length, data: allLists };
+  let allListsPopulated = new Array();
+  for (let i = 0; i < allLists.length; i++) {
+    let populatedList = await CustomerDataAccess.getOneShoppingListByIdDB(
+      customer._id,
+      allLists[i]._id
+    );
+    populatedList = populatedList[0].data;
+    for (let j = 0; j < populatedList.length; j++) {
+      populatedList[j].parentProduct = populatedList[j].parentProduct[0];
+    }
+    allListsPopulated.push({
+      _id: allLists[i]._id,
+      title: allLists[i].title,
+      wishedProducts: populatedList,
+    });
+  }
+  return { result: allListsPopulated.length, data: allListsPopulated };
 };
 
 exports.deleteAllListsService = async function (customer) {
   let dbResults = await CustomerDataAccess.deleteAllShoppingListsDB(customer._id);
-  return {};
+  return { data: dbResults };
 };
 
 exports.exportOneListService = async function (_id, customer) {
