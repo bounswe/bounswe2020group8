@@ -38,8 +38,8 @@ exports.addWatcherOfAClientService = async function (_watcher) {
 };
 
 exports.removeWatcherOfAClientService = async function (_id) {
-  let watcher = await WatcherDataAccess.deleteAWatcher(_id);
-  return { data: watcher };
+  await WatcherDataAccess.deleteAWatcher(_id);
+  return { data: {} };
 };
 
 exports.getOneListService = async function (_id, customer) {
@@ -108,6 +108,11 @@ exports.getAllListsService = async function (customer) {
     });
   }
   return { result: allListsPopulated.length, data: allListsPopulated };
+};
+
+exports.getAllListsServiceJustIDs = async function (customer) {
+  let allLists = customer.shoppingLists;
+  return { result: allLists.length, data: allLists };
 };
 
 exports.deleteAllListsService = async function (customer) {

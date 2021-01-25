@@ -59,6 +59,11 @@ exports.getAllListsController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => ListService.getAllListsService(customer));
 });
 
+exports.getAllListsJustIDsController = BaseUtil.createController((req) => {
+  let customer = req.client;
+  return BB.all([]).then(() => ListService.getAllListsServiceJustIDs(customer));
+});
+
 exports.deleteAllListsController = BaseUtil.createController((req) => {
   let customer = req.client;
   return BB.all([]).then(() => ListService.deleteAllListsService(customer));
