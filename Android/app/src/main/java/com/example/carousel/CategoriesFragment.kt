@@ -43,20 +43,20 @@ class CategoriesFragment : Fragment() {
                     val categories = ArrayList<Category>()
                     for(item in it.data) {
                         if(item.name != null) {
-                            if(item.name == "Electronics") {
-                                categories.add(Category(item._id, item.name, R.drawable.electronics))
+                            if(item.name == "electronics") {
+                                categories.add(Category(item._id, "Electronics", R.drawable.electronics))
                             }
                             else if(item.name == "Women's Fashion") {
-                                categories.add(Category(item._id, item.name, R.drawable.fashion))
+                                categories.add(Category(item._id, "Fashion", R.drawable.fashion))
                             }
                             else if(item.name == "Men's Fashion") {
-
+                                categories.add(Category(item._id, item.name, R.drawable.fashion))
                             }
                             else if(item.name == "Home") {
                                 categories.add(Category(item._id, item.name, R.drawable.home))
                             }
                             else if(item.name == "Baby") {
-
+                                categories.add(Category(item._id, item.name, R.drawable.fashion))
                             }
                             else if(item.name == "Beauty and Personal Care") {
                                 categories.add(Category(item._id, item.name, R.drawable.beauty))
@@ -86,12 +86,14 @@ class CategoriesFragment : Fragment() {
         }
         adapter.onItemClick = { category ->
             // search for category
-            searchCall(mapOf("category" to category.title))
+            val query = category.title
+            val fragment = SearchFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.activity_main_nav_host_fragment, fragment)
+                ?.runOnCommit { fragment.searchCall(query) }
+                ?.commit()
         }
     }
 
-    private fun searchCall(query: Map<String, Any>) {
-
-    }
 
 }

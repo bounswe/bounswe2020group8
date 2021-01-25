@@ -433,7 +433,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun searchCall(limit: Int = 1000, page: Int = 1, fields: String = "", category: String = "", vendors: String = "") {
+    private fun searchCall(query: String = lastQuery, limit: Int = 1000, page: Int = 1, fields: String = "", category: String = "", vendors: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
         //apiCallerLogin.Button = login_button
@@ -449,7 +449,7 @@ class SearchFragment : Fragment() {
         if (ApplicationContext.instance.isUserAuthenticated()) {
             tokenWithSchemaValue = "Bearer " + ApplicationContext.instance.user?.token
         }
-        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(lastQuery), lastSort, authHeader = tokenWithSchemaValue)
+        apiCallerProductSearch.Caller = ApiClient.getClient.productSearch(url, SearchQuery(query), lastSort, authHeader = tokenWithSchemaValue)
         apiCallerProductSearch.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
