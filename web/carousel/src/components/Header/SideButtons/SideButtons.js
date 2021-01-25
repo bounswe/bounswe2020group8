@@ -31,13 +31,15 @@ export function SideButtons(props) {
   const [notificationCount, setNotificationCount] = useState(0);
 
   const getNotificationCount = async () => {
-    const TOKEN = localStorage.getItem("token");
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const url = `/${user.userType.toLowerCase()}/notification/unread`;
-    const resp = await services.get(url, config);
-    setNotificationCount(resp.data.data.length);
+    if (user.userType === "Vendor" || user.userType === "Customer") {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const url = `/${user.userType.toLowerCase()}/notification/unread`;
+      const resp = await services.get(url, config);
+      setNotificationCount(resp.data.data.length);
+    }
   };
 
   useEffect(async () => {
