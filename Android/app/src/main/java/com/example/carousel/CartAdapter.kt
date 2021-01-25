@@ -90,6 +90,21 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
             }
 
         }
+        holder.inc_count.setOnClickListener {
+            val apiCallerUpdate: ApiCaller<DataCustomerMe> = ApiCaller(activity)
+            apiCallerUpdate.Button = holder.inc_count
+            apiCallerUpdate.Caller = ApiClient.getClient.updateCart(UpdateCart(productList[position].second + 1, productList[position].first._id, productList[position].first.vendorId))
+            apiCallerUpdate.Success = { it ->
+
+                if (it != null) {
+                    CartFragment.ShoppingCart.updateCart(productList[position].first, productList[position].second + 1)
+                    this.notifyDataSetChanged()
+                }
+            }
+            apiCallerUpdate.run()
+            apiCallerUpdate.Failure = { }
+
+        }
         holder.addFavorite.setOnClickListener{
             //ShoppingListFragment.lists[0].add(productList[position])
         }
