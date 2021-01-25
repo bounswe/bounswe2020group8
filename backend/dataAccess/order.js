@@ -107,7 +107,6 @@ exports.updateOrderStatusGuestDB = function (mainOrderID, orderID, status) {
   });
 };
 exports.getProductTagsInLastOrders = function (customerID) {
-  console.log(customerID);
   return Order.aggregate([
     { $match: { customerID } },
     { $sort: { createdAt: -1 } },
@@ -143,7 +142,6 @@ exports.getProductTagsInLastOrders = function (customerID) {
 };
 
 exports.getProductsInLastOrders = function (customerID) {
-  console.log(customerID);
   return Order.aggregate([
     { $match: { customerID } },
     { $sort: { createdAt: -1 } },
