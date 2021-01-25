@@ -74,6 +74,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
 const ProductActions = ({
   clickSellers,
   seller,
+  sellerId,
   defaultProduct,
   onProductChange,
   productList,
@@ -250,7 +251,7 @@ const ProductActions = ({
           <p
             style={{ marginLeft: "0px", fontSize: "12px", cursor: "pointer" }}
             className={classes.ProductHeader_name}
-            onClick={() => message.info("Looking for this vendor's products!")}
+            onClick={() => history.push("/v/public/" + sellerId)}
           >
             Seller: {seller} &gt;
           </p>

@@ -1,0 +1,15 @@
+.TableActionsSuspend{
+  color: #FF9100;
+}
+
+.TableActionsSuspend:hover {
+  color: #FF6D00;
+}
+
+.TableActionsCurrent {
+  color: #ff3100;
+}
+
+.Deliver {
+  color: green;
+}

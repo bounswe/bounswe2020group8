@@ -56,6 +56,7 @@ const HomepageProduct = (props) => {
       <div
         onClick={() => {
           props.history.push(`/product/${mainProduct[0]._id}`);
+          window.location.reload();
         }}
       >
         <FixedDiv width={250} height={35}>
