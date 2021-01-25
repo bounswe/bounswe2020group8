@@ -135,7 +135,8 @@ export function SideButtons(props) {
 
   const profileMenu = (
     <Menu>
-      {user.userType === "Customer" ? (
+      {localStorage.getItem("login") !== "false" ? null : user.userType ===
+        "Customer" ? (
         <>
           <Menu.Item>
             <Link to="/account/profile">
