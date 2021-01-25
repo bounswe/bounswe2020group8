@@ -58,7 +58,7 @@ exports.createOneCommentService = async function (
 
 exports.updateOneCommentService = async function (_id, text, rate) {
   let prevComment = await CommentDataAccess.getACommentByID(_id);
-  if ((prevComment.rate != null) & (rate != null)) {
+  if (prevComment.rate != null && rate != null) {
     const prevMainProduct = MainProductDataAccess.getMainProductByIdDB(prevComment.mainProductId);
     const prevNumber = prevMainProduct.numberOfRating;
     const prevRate = prevMainProduct.rating;
