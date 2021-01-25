@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Watcher = mongoose.model("Watcher");
 
 exports.getAllClientsOfAProductAndAVendor = function (pid, vid) {
-  let pidObj = mongoose.Types.ObjectId(pid);
-  let vidObj = mongoose.Types.ObjectId(vid);
-  return Watcher.find({ product_id: pidObj, vendor_id: vidObj }).lean();
+  // let pidObj = mongoose.Types.ObjectId(pid);
+  // let vidObj = mongoose.Types.ObjectId(vid);
+  return Watcher.find({ product_id: pid, vendor_id: vid }).lean();
 };
 
 exports.getAllWatchersOfAClient = function (cid) {
