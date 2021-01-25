@@ -57,10 +57,11 @@ exports.deleteVendorFromProductService = async function ({ pid, vid }) {
 
 exports.updateVendorInProductService = async function ({ pid, vid, vendorData }) {
   let new_price = vendorData.price;
-  let clients = WatcherDataAccess.getAllClientsOfAProductAndAVendor(pid, vid);
+  let clients = await WatcherDataAccess.getAllClientsOfAProductAndAVendor(pid, vid);
   if (new_price !== undefined && clients.length !== 0) {
-    const product_before_state = await ProductDataAccess.getProductByProductIDAndVendorID(pid, vid);
-    let price = product_before_state.price;
+    let product_before_state = await ProductDataAccess.getProductByProductIDAndVendorID(pid, vid);
+    product_before_state = product_before_state[0];
+    let price = product_before_state.vendorInfo.price;
     ratio = (price - new_price) / price;
     if (ratio >= 0.1 && ratio < 0.25) {
       let hyperlink = `/product/${product_before_state.parentProduct}`;
@@ -69,7 +70,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
         hyperlink
       );
       for (let i = 0; i < clients.length; i++) {
-        await NotificationWare.registerNotification(clients[i], notification);
+        await NotificationWare.registerNotification(clients[i].client_id, notification);
       }
     } else if (ratio >= 0.25 && ratio <= 0.5) {
       let hyperlink = `/product/${product_before_state.parentProduct}`;
@@ -78,7 +79,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
         hyperlink
       );
       for (let i = 0; i < clients.length; i++) {
-        await NotificationWare.registerNotification(clients[i], notification);
+        await NotificationWare.registerNotification(clients[i].client_id, notification);
       }
     } else if (ratio >= 0.5) {
       let hyperlink = `/product/${product_before_state.parentProduct}`;
@@ -87,7 +88,7 @@ exports.updateVendorInProductService = async function ({ pid, vid, vendorData })
         hyperlink
       );
       for (let i = 0; i < clients.length; i++) {
-        await NotificationWare.registerNotification(clients[i], notification);
+        await NotificationWare.registerNotification(clients[i].client_id, notification);
       }
     }
   }

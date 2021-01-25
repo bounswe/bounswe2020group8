@@ -113,6 +113,7 @@ exports.updateVendorInProductByVendorIdDB = function (pid, vid, vendorData) {
       throw err;
     }
     index = doc.vendorSpecifics.findIndex((vendor) => vendor.vendorID == vid);
+    vendorData._id = doc.vendorSpecifics[index]._id;
     doc.vendorSpecifics.set(index, vendorData);
     if (vendorData.vendorID == doc.default.vendorID && vendorData.price > doc.default.price) {
       minPrice = doc.vendorSpecifics.reduce((min, current) =>
