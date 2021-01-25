@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.LinearLayout
-import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,12 +66,23 @@ class SearchFragment : Fragment() {
             rating_radio_group.clearCheck()
         })*/
 
+        initClearButton()
+
         initApplyButton()
 
         initSearchView()
 
         //noResultText.visibility = View.INVISIBLE
         noResultImage.visibility = View.INVISIBLE
+
+        /*for(i in 0..10) {
+            val titleText = TextView(context)
+            titleText.setBackgroundResource(R.drawable.product_background)
+            titleText.setPadding(10, 10, 10, 10)
+            titleText.setText("deneme")
+            filterBoxes.addView(titleText)
+        }*/
+
     }
 
     override fun onCreateView(
@@ -83,7 +93,43 @@ class SearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
+    private fun initClearButton() {
+        clear_button.setOnClickListener{
+            clearFilters()
+            min_price.setText("")
+            max_price.setText("")
+            rating_radio_group.clearCheck()
+            for(i in 0..(color_container.childCount-1)) {
+                val view = color_container.getChildAt(i) as CheckBox
+                view.isChecked = false
+            }
+            for(i in 0..(brand_container.childCount-1)) {
+                val view = brand_container.getChildAt(i) as CheckBox
+                view.isChecked = false
+            }
+            for(i in 0..(size_container.childCount-1)) {
+                val view = size_container.getChildAt(i) as CheckBox
+                view.isChecked = false
+            }
+            for(i in 0..(category_container.childCount-1)) {
+                val view = category_container.getChildAt(i) as CheckBox
+                view.isChecked = false
+            }
+            searchCall()
 
+        }
+    }
+
+    private fun clearFilters() {
+        queryMinPrice = ""
+        queryMaxPrice = ""
+        queryRating = ""
+        queryColor = ""
+        queryBrand = ""
+        querySize = ""
+        queryCategory = ""
+        queryVendors = ""
+    }
 
     private fun initSortSpinner() {
 
@@ -274,6 +320,7 @@ class SearchFragment : Fragment() {
 
     private fun determineQueryCategory() {
         var category_first = true
+        queryCategory = ""
         for(i in 0..(category_container.childCount-1)) {
             val view = category_container.getChildAt(i) as CheckBox
             if(view.isChecked) {
@@ -290,6 +337,7 @@ class SearchFragment : Fragment() {
 
     private fun determineQuerySize() {
         var size_first = true
+        querySize = ""
         for(i in 0..(size_container.childCount-1)) {
             val view = size_container.getChildAt(i) as CheckBox
             if(view.isChecked) {
@@ -306,6 +354,7 @@ class SearchFragment : Fragment() {
 
     private fun determineQueryBrand() {
         var brand_first = true
+        queryBrand = ""
         for(i in 0..(brand_container.childCount-1)) {
             val view = brand_container.getChildAt(i) as CheckBox
             if(view.isChecked) {
@@ -322,6 +371,7 @@ class SearchFragment : Fragment() {
 
     private fun determineQueryColor() {
         var color_first = true
+        queryColor = ""
         for(i in 0..(color_container.childCount-1)) {
             val view = color_container.getChildAt(i) as CheckBox
             if(view.isChecked) {
@@ -337,6 +387,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun determineQueryRating() {
+        queryRating = ""
         if(rating_radio_group.getCheckedRadioButtonId() != -1) {
             val selectedId = rating_radio_group.getCheckedRadioButtonId()
             val selectedRadioButton = resources.getResourceEntryName(selectedId)
@@ -448,14 +499,14 @@ class SearchFragment : Fragment() {
                             brand_container.addView(newItem)
                         }
 
-                        for (catg in it.data.categories) {
+                        /*for (catg in it.data.categories) {
                             for (i in 0..(category_container.childCount - 1)) {
                                 val view = category_container.getChildAt(i) as CheckBox
                                 if (view.text == catg) {
                                     view.isChecked = true
                                 }
                             }
-                        }
+                        }*/
 
                         for (param in it.data.parameters) {
                             var myContainer: LinearLayout
@@ -505,7 +556,7 @@ class SearchFragment : Fragment() {
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
                     for (item in it.data) {
-                        if (item.name != null) {
+                        if (item.name != "") {
                             val newItem = CheckBox(requireContext())
                             newItem.text = item.name
                             newItem.layoutParams = LinearLayout.LayoutParams(
