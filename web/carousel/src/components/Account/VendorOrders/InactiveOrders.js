@@ -100,7 +100,12 @@ export class InactiveOrders extends Component {
             }
 
             // list only inactive orders
-            if(orderProduct.status === "returned" || orderProduct.status === "cancelled by the customer" || orderProduct.status === "delivered")
+            if (
+              orderProduct.status === "returned"
+              || orderProduct.status === "cancelled by the customer"
+              || orderProduct.status === "delivered"
+              || orderProduct.status === "cancelled by the vendor"
+            )
               this.setState({
                 orders: [...this.state.orders, orderProduct],
               });
