@@ -36,9 +36,9 @@ exports.getOneActivityController = BaseUtil.createController((req) => {
     .then(() => AdminService.getOneActivityService(_id));
 });
 
-exports.getAllAdminInfoController = BaseUtil.createController((req) => {
+exports.getAdminInfoController = BaseUtil.createController((req) => {
   let client = req.client;
   return BB.all([AppValidator.ValidateAdminStatus(client).reflect()])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => AdminService.getAllAdminInfoService());
+    .then(() => AdminService.getAdminInfoService(client));
 });
