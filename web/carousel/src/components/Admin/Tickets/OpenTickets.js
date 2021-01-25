@@ -12,8 +12,11 @@ const Tickets = (props) => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
+    const adminInfo = await (await services.get("/admin/adminInfo", config))
+      .data.data;
+    const admin_id = adminInfo._id;
 
-    const admin_id = "5fd7c73a644d7079ea8f61ef";
+    console.log(admin_id);
 
     const resp = await services.get(`/ticket/all/admin/${admin_id}`, config);
 

@@ -131,11 +131,13 @@ const Ticket = ({ ticket, clearFocustTicket, admin }) => {
           </span>
         )}
         <span>
-          <ButtonPrimary
-            title={"Submit New Message"}
-            style={{ width: 200 }}
-            onClick={() => handleSubmit(reply)}
-          />
+          {myTicket && myTicket.isActive && (
+            <ButtonPrimary
+              title={"Submit New Message"}
+              style={{ width: 200 }}
+              onClick={() => handleSubmit(reply)}
+            />
+          )}
         </span>
       </div>
     </div>
