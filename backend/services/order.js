@@ -98,7 +98,7 @@ exports.createOrderService = async function ({ _id }) {
         temp["enoughLeft"] = true;
         temp["amountLeft"] =
           current_product["vendorSpecifics"][0]["amountLeft"] - current["amount"];
-        temp["mainProduct_id"] = current_product_parent_product_id;
+        temp["mainProduct_id"] = current_product_parent_product_id[0].parentProduct;
       } else {
         temp["enoughLeft"] = false;
       }
