@@ -24,6 +24,7 @@ import PaymentInfo from "./PaymentInfo";
 import Tickets from "./Tickets";
 import { withRouter } from "react-router";
 import UserInfo from "../../components/Context/UserInfo";
+import OrderDetail from "./OrderDetail";
 import services from "../../apis/services";
 
 const { SubMenu } = Menu;
@@ -139,9 +140,19 @@ class Account extends Component {
           <Route path="/account/payment" exact component={PaymentInfo} />
           <Route path="/account/active-order" exact component={ActiveOrder} />
           <Route
+            path="/account/active-order/:id"
+            exact
+            component={OrderDetail}
+          />
+          <Route
             path="/account/inactive-order"
             exact
             component={InactiveOrder}
+          />
+          <Route
+            path="/account/inactive-order/:id"
+            exact
+            component={OrderDetail}
           />
           <Route path="/account/list" exact component={List} />
           <Route path="/account/cart" exact component={Cart} />
