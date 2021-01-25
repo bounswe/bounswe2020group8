@@ -102,7 +102,12 @@ export class Orders extends Component {
             console.log(orderProduct);
 
             // list only active products
-            if(orderProduct.status !== "returned" && orderProduct.status !== "cancelled by the customer" && orderProduct.status !== "delivered")
+            if (
+              orderProduct.status !== "returned"
+              && orderProduct.status !== "cancelled by the customer"
+              && orderProduct.status !== "delivered"
+              && orderProduct.status !== "cancelled by the vendor"
+            )
             this.setState({
               orders: [...this.state.orders, orderProduct],
             });
@@ -122,6 +127,7 @@ export class Orders extends Component {
     if (statusNumber === 1) status = "being prepared";
     else if (statusNumber === 2) status = "on the way";
     else if (statusNumber === 3) status = "delivered";
+    else if (statusNumber === 4) status = "cancelled by the vendor";
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
@@ -150,6 +156,7 @@ export class Orders extends Component {
         title: "Product Name",
         dataIndex: "title",
         key: "title",
+        fixed: "left"
       },
       {
         title: "Customer ID",
@@ -212,6 +219,7 @@ export class Orders extends Component {
             </a>
             <a
               className={classes.TableActionsSuspend}
+              style={{fontWeight: "bold"}}
               onClick={() => {
                 id.status === "delivered" ?
                   alert("Order is already delivered!")
@@ -220,6 +228,14 @@ export class Orders extends Component {
               }}
             >
               DELIVER
+            </a>
+            <a
+              style={{color: "red", fontWeight: "bold"}}
+              onClick={() => {
+                this.changeStatusHandler(record, 4);
+              }}
+            >
+              CANCEL
             </a>
             <br />
           </Space>
@@ -234,6 +250,7 @@ export class Orders extends Component {
           dataSource={data}
           columns={columns}
           loading={this.state.loading}
+          scroll={{ x: 1300 }}
         />
       </div>
     );
