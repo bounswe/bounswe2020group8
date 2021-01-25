@@ -35,7 +35,6 @@ class DashboardActivity : AppCompatActivity() {
         )
 
         // Sometimes a bug arises about logout. These two lines are used when there is such an issue.
-        //ApplicationContext.instance.terminateAuthentication()
         //prefs!!.edit().clear().apply()
 
         if (prefs.getBoolean("isAuthenticated", false)) {
