@@ -8,6 +8,9 @@ import { withRouter } from "react-router-dom";
 const { Step } = Steps;
 
 class OrderDetail extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     id: "",
     order: null,
@@ -25,39 +28,41 @@ class OrderDetail extends Component {
   };
 
   async componentDidMount() {
-    const { location } = this.props;
-    const path = location.pathname.split("/");
+    if (!this.props.guest) {
+      const { location } = this.props;
+      const path = location.pathname.split("/");
 
-    const TOKEN = localStorage.getItem("token");
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const URL = "/customer/order/main";
-    const id = path[3];
-    const response = await services.get(URL, config);
-    if (response) {
-      let order = response.data.data;
-      if (order) {
-        order = order.filter((item) => item._id === id);
-        order = order[0].orders;
-        let shipmentPrice = 0;
-        let price = 0;
-        order.map(
-          (product) => (
-            (shipmentPrice += product.shipmentPrice),
-            (price += product.price * product.amount)
-          )
-        );
-        this.setState({
-          id: id,
-          order: order,
-          address: order[0].shippingAddress,
-          payment: order[0].creditCard,
-          price: price,
-          shipmentPrice: shipmentPrice,
-          totalPrice: price + shipmentPrice,
-          status: order[0].status,
-        });
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const URL = "/customer/order/main";
+      const id = path[3];
+      const response = await services.get(URL, config);
+      if (response) {
+        let order = response.data.data;
+        if (order) {
+          order = order.filter((item) => item._id === id);
+          order = order[0].orders;
+          let shipmentPrice = 0;
+          let price = 0;
+          order.map(
+            (product) => (
+              (shipmentPrice += product.shipmentPrice),
+              (price += product.price * product.amount)
+            )
+          );
+          this.setState({
+            id: id,
+            order: order,
+            address: order[0].shippingAddress,
+            payment: order[0].creditCard,
+            price: price,
+            shipmentPrice: shipmentPrice,
+            totalPrice: price + shipmentPrice,
+            status: order[0].status,
+          });
+        }
       }
     }
   }
@@ -230,23 +235,40 @@ class OrderDetail extends Component {
   }
 
   handleReturnClicked(_id, status) {
-    const TOKEN = localStorage.getItem("token");
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
+    if (this.props.guest) {
+      const payload = {
+        mainOrderID: this.props.guestOrder._id,
+        orderID: _id,
+        status: status,
+      };
+      const URL = "/guest/order/main";
+      services
+        .patch(URL, payload)
+        .then((response) => {
+          console.log(response);
+          alert("Order is cancelled successfully!");
+          this.props.history.push("/");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
 
-    const payload = {
-      mainOrderID: this.state.id,
-      orderID: _id,
-      status: status,
-    };
-    const URL = "/customer/order/main/";
-    services
-      .patch(URL, payload, config)
-      .then((response) => {
-        this.props.history.push("/account/inactive-order");
-      })
-      .catch((err) => console.log(err));
+      const payload = {
+        mainOrderID: this.state.id,
+        orderID: _id,
+        status: status,
+      };
+      const URL = "/customer/order/main/";
+      services
+        .patch(URL, payload, config)
+        .then((response) => {
+          this.props.history.push("/account/inactive-order");
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   renderDetails() {
@@ -303,6 +325,60 @@ class OrderDetail extends Component {
           </div>
         </div>
       );
+    } else if (this.props.guest) {
+      return (
+        <div>
+          <div
+            style={{
+              borderRadius: 3,
+              backgroundColor: "#fff8f0",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              padding: "0 20px 0 15px",
+              height: 60,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "#d33a09",
+            }}
+          >
+            <div>Details</div>
+          </div>
+          <div
+            style={{
+              padding: "20px 20px 0 20px",
+              minHeight: 200,
+            }}
+          >
+            {console.log(this.props.guestOrder)}
+            {this.props.guestOrder.orders.map((product, index) => (
+              <>
+                <div style={{ padding: "15px 20px" }}>
+                  <Steps
+                    current={this.stepStatus[product.status]}
+                    status={
+                      this.stepStatus[product.status] ? "process" : "error"
+                    }
+                  >
+                    <Step title="Order Received" />
+                    <Step title="Being Prepared" />
+                    <Step title="On the Way" />
+                    <Step title="Delievered" />
+                  </Steps>
+                </div>
+                <ProductBox
+                  product={product}
+                  orderDetail
+                  status={product.status}
+                  handleReturnClicked={(status) =>
+                    this.handleReturnClicked(product._id, status)
+                  }
+                />
+              </>
+            ))}
+          </div>
+        </div>
+      );
     }
   }
 
@@ -313,16 +389,18 @@ class OrderDetail extends Component {
           Order Details
         </div>
         <Divider />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          {this.renderAddressBox()}
-          {this.renderPaymentBox()}
-        </div>
+        {!this.props.guest ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            {this.renderAddressBox()}
+            {this.renderPaymentBox()}
+          </div>
+        ) : null}
         <div
           style={{
             marginTop: 15,
