@@ -256,13 +256,13 @@ exports.deleteOneShoppingListByIdDB = function (lid, cid) {
 };
 
 exports.deleteAllShoppingListsDB = function (cid) {
-  return Customer.updateOne(
+  return Customer.findOneAndUpdate(
     { _id: cid },
     {
       $set: { shoppingLists: [] },
     },
-    {}
-  );
+    { new: true }
+  ).lean();
 };
 
 exports.pushSearchEntryToDB = function (_id, obj) {

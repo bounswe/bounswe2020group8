@@ -192,6 +192,12 @@ const returnMessages = {
       en: "You do not possess admin status.",
     },
   },
+  ERR_WATCHER_ALREADY_EXISTS: {
+    code: 31,
+    messages: {
+      en: "You've already been tracking this product.",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

@@ -28,8 +28,8 @@ exports.createOneCommentController = BaseUtil.createController((req) => {
 });
 
 exports.updateOneCommentController = BaseUtil.createController((req) => {
-  let { _id, text } = req.body;
-  return BB.all([]).then(() => CommentService.updateOneCommentService(_id, text));
+  let { _id, text, rate } = req.body;
+  return BB.all([]).then(() => CommentService.updateOneCommentService(_id, text, rate));
 });
 
 exports.deleteOneCommentController = BaseUtil.createController((req) => {

@@ -1,16 +1,40 @@
 const CustomerDataAccess = require("../dataAccess/customer");
 const ShoppingCartService = require("../services/shoppingCart");
 const WatcherDataAccess = require("../dataAccess/watcher");
+const ProductDataAccess = require("../dataAccess/product");
+const Messages = require("../util/messages");
 const mongoose = require("mongoose");
 
 exports.getWatchListService = async function (_id) {
   let watchlist = await WatcherDataAccess.getAllWatchersOfAClient(_id);
-  return { result: watchlist.length, data: watchlist };
+  let watchlistPopulated = new Array();
+  for (let i = 0; i < watchlist.length; i++) {
+    let watcherPopulated = await ProductDataAccess.getProductByProductIDAndVendorID2(
+      watchlist[i].product_id,
+      watchlist[i].vendor_id
+    );
+    watcherPopulated = watcherPopulated[0];
+    watcherPopulated.parentProduct = watcherPopulated.parentProduct[0];
+    watcherPopulated.default = watcherPopulated.vendorInfo;
+    delete watcherPopulated.vendorInfo;
+    watchlistPopulated.push({ _id: watchlist[i]._id, data: watcherPopulated });
+  }
+  return { result: watchlistPopulated.length, data: watchlistPopulated };
 };
 
-exports.addWatcherOfAClientService = async function (_id, _watcher) {
-  await WatcherDataAccess.createAWatcher(_watcher);
-  return { data: _watcher };
+exports.addWatcherOfAClientService = async function (_watcher) {
+  let initialCheck = await WatcherDataAccess.getAllWatchersOfAClient(_watcher.client_id);
+  for (let i = 0; i < initialCheck.length; i++) {
+    let current_watcher = initialCheck[i];
+    if (
+      current_watcher.product_id === _watcher.product_id &&
+      current_watcher.vendor_id === _watcher.vendor_id
+    ) {
+      throw new AppError(Messages.RETURN_MESSAGES.ERR_WATCHER_ALREADY_EXISTS);
+    }
+  }
+  let result = await WatcherDataAccess.createAWatcher(_watcher);
+  return { data: result };
 };
 
 exports.removeWatcherOfAClientService = async function (_id) {
@@ -67,12 +91,28 @@ exports.deleteOneListService = async function (_id, customer) {
 
 exports.getAllListsService = async function (customer) {
   let allLists = customer.shoppingLists;
-  return { result: allLists.length, data: allLists };
+  let allListsPopulated = new Array();
+  for (let i = 0; i < allLists.length; i++) {
+    let populatedList = await CustomerDataAccess.getOneShoppingListByIdDB(
+      customer._id,
+      allLists[i]._id
+    );
+    populatedList = populatedList[0].data;
+    for (let j = 0; j < populatedList.length; j++) {
+      populatedList[j].parentProduct = populatedList[j].parentProduct[0];
+    }
+    allListsPopulated.push({
+      _id: allLists[i]._id,
+      title: allLists[i].title,
+      wishedProducts: populatedList,
+    });
+  }
+  return { result: allListsPopulated.length, data: allListsPopulated };
 };
 
 exports.deleteAllListsService = async function (customer) {
   let dbResults = await CustomerDataAccess.deleteAllShoppingListsDB(customer._id);
-  return {};
+  return { data: dbResults };
 };
 
 exports.exportOneListService = async function (_id, customer) {

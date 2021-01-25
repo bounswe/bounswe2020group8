@@ -17,7 +17,7 @@ exports.addWatcherOfAClientController = BaseUtil.createController((req) => {
   watcher.client_id = req.client._id;
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => ListService.addWatcherOfAClientService(_id, watcher));
+    .then(() => ListService.addWatcherOfAClientService(watcher));
 });
 
 exports.removeWatcherOfAClientController = BaseUtil.createController((req) => {

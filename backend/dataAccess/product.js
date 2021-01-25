@@ -189,6 +189,40 @@ exports.getProductByProductIDAndVendorID = function (pid, vid) {
   ]);
 };
 
+exports.getProductByProductIDAndVendorID2 = function (pid, vid) {
+  let pidObj = mongoose.Types.ObjectId(pid);
+  let vidObj = mongoose.Types.ObjectId(vid);
+  return Product.aggregate([
+    {
+      $match: { _id: pidObj, "vendorSpecifics.vendorID": vidObj },
+    },
+    {
+      $set: {
+        vendorInfo: {
+          $reduce: {
+            input: "$vendorSpecifics",
+            initialValue: {},
+            in: {
+              $cond: [{ $eq: ["$$this.vendorID", vidObj] }, "$$this", "$$value"],
+            },
+          },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "MainProducts",
+        localField: "parentProduct",
+        foreignField: "_id",
+        as: "parentProduct",
+      },
+    },
+    {
+      $project: { vendorSpecifics: 0, default: 0 },
+    },
+  ]);
+};
+
 exports.getProductByVendorIdDB = function (pid, vid) {
   let pidObj = mongoose.Types.ObjectId(pid);
 
