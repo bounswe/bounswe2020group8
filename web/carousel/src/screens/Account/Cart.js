@@ -36,28 +36,27 @@ const Cart = () => {
 
   const getCarts = async () => {
     const loggedIn = localStorage.getItem("login");
-    if (loggedIn === "false") {
+    if (loggedIn !== "true") {
       const URL = "/guest/shoppingCart/main";
       const id = localStorage.getItem("guestID");
       const config = {
         params: {
           _id: id,
-        }
-      }
+        },
+      };
       services
         .get(URL, config)
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             const newList = response.data[0].data;
             setproductList(newList);
             setloading(false);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-    }
-    else {
+    } else {
       const TOKEN = localStorage.getItem("token");
       const config = {
         headers: { Authorization: "Bearer " + TOKEN },
@@ -82,16 +81,16 @@ const Cart = () => {
 
   const onEmptyClicked = () => {
     const loggedIn = localStorage.getItem("login");
-    if (loggedIn === "false") {
+    if (loggedIn !== "true") {
       const id = localStorage.getItem("guestID");
       const config = {
         body: {
           _id: id,
-        }
+        },
       };
       const data = {
-        _id: id
-      }
+        _id: id,
+      };
       const URL = "/guest/shoppingCart/reset";
       console.log(id);
       services
@@ -124,7 +123,7 @@ const Cart = () => {
     setloading(true);
 
     const loggedIn = localStorage.getItem("login");
-    if (loggedIn === "false") {
+    if (loggedIn !== "true") {
       const URL = "/guest/shoppingCart/delete";
       const id = localStorage.getItem("guestID");
       const payload = {
@@ -134,12 +133,12 @@ const Cart = () => {
       };
       services
         .post(URL, payload)
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             getCarts();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     } else {
@@ -187,9 +186,11 @@ const Cart = () => {
     } else {
       if (consentGiven) {
         const loggedIn = localStorage.getItem("login");
-        if (loggedIn === "false") {
+        if (loggedIn !== "true") {
           if (guestPurchaseProcess < 3) {
-            message.warning("Please first submit the necessary information for your purchase!");
+            message.warning(
+              "Please first submit the necessary information for your purchase!"
+            );
           } else {
             const id = localStorage.getItem("guestID");
             const URL = "/guest/purchase";
@@ -202,7 +203,7 @@ const Cart = () => {
             };
             services
               .post(URL, payload)
-              .then(response => {
+              .then((response) => {
                 if (response.data) {
                   message.success("Purchase is successful!");
                   setGuestOrderInfo(response.data._id);
@@ -211,10 +212,9 @@ const Cart = () => {
                   onEmptyClicked();
                 }
               })
-              .catch(error => {
+              .catch((error) => {
                 console.log(error);
               });
-
           }
         } else {
           const TOKEN = localStorage.getItem("token");
@@ -257,7 +257,7 @@ const Cart = () => {
     const email = values.email;
     setGuestEmail(email);
     setGuestPurchaseProcess(1);
-  }
+  };
 
   const getGuestAddressValues = (values) => {
     const address = {
@@ -268,10 +268,10 @@ const Cart = () => {
       state: values.state,
       zipCode: values.zipCode,
       phone: values.phone,
-    }
+    };
     setGuestAddress(address);
     setGuestPurchaseProcess(2);
-  }
+  };
 
   const getGuestCreditCartValues = (values) => {
     const paymentInfo = {
@@ -279,10 +279,10 @@ const Cart = () => {
       creditCardNumber: values.creditCardNumber,
       creditCardData: values.creditCardData,
       creditCardName: values.creditCardName,
-    }
+    };
     setGuestCreditCart(paymentInfo);
     setGuestPurchaseProcess(3);
-  }
+  };
 
   function ProductContent() {
     return (
@@ -356,16 +356,22 @@ const Cart = () => {
               >
                 PRICE
                 <Divider style={{ width: 220 }} />
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <div style={{ fontSize: 16 }}>Product price</div>
                   <div style={{ fontSize: 16 }}>${totalPrice}</div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <div style={{ fontSize: 16 }}>Shipment price</div>
                   <div style={{ fontSize: 16 }}>${shipmentPrice}</div>
                 </div>
                 <Divider style={{ width: 220 }} />
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <div style={{ fontSize: 16 }}>Total price</div>
                   <div style={{ fontSize: 16 }}>
                     ${totalPrice + shipmentPrice}
@@ -418,26 +424,20 @@ const Cart = () => {
                 />
               </div>
             </>
-          ) :
-          (
-            localStorage.getItem("login") === "false" ?
-              (
-                <OrderGuest
-                  process={guestPurchaseProcess}
-                  setGuestEmail={getGuestEmailValue}
-                  setGuestAddress={getGuestAddressValues}
-                  setGuestCreditCart={getGuestCreditCartValues}
-                  orderInformation={guestOrderInfo}
-                />
-              ) :
-              (
-                <Order
-                  setOrderAddress={setOrderAddress}
-                  setOrderCreditCard={setOrderCreditCard}
-                />
-              )
-          )
-          }
+          ) : localStorage.getItem("login") !== "true" ? (
+            <OrderGuest
+              process={guestPurchaseProcess}
+              setGuestEmail={getGuestEmailValue}
+              setGuestAddress={getGuestAddressValues}
+              setGuestCreditCart={getGuestCreditCartValues}
+              orderInformation={guestOrderInfo}
+            />
+          ) : (
+            <Order
+              setOrderAddress={setOrderAddress}
+              setOrderCreditCard={setOrderCreditCard}
+            />
+          )}
         </Content>
         {PriceSider()}
       </Layout>

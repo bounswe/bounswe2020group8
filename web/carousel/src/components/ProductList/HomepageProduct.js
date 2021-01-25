@@ -14,7 +14,7 @@ const HomepageProduct = (props) => {
     const TOKEN = localStorage.getItem("token");
     const loggedIn = localStorage.getItem("login");
 
-    if (loggedIn === "false") {
+    if (loggedIn !== "true") {
       const URL = "/guest/shoppingCart/main";
       const payload = {
         productId: productId,
@@ -25,14 +25,13 @@ const HomepageProduct = (props) => {
       console.log(payload);
       services
         .post(URL, payload)
-        .then(response => {
+        .then((response) => {
           props.history.push("/account/cart");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-        })
-    }
-    else {
+        });
+    } else {
       const config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
       };

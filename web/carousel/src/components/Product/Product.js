@@ -77,7 +77,7 @@ const Product = (props) => {
 
   const handleCartClicked = async ({ productId, vendorId }) => {
     const loggedIn = localStorage.getItem("login");
-    if (loggedIn === "false") {
+    if (loggedIn !== "true") {
       const id = localStorage.getItem("guestID");
       const URL = "/guest/shoppingCart/main";
       const payload = {
@@ -89,12 +89,10 @@ const Product = (props) => {
       console.log(payload);
       services
         .post(URL, payload)
-        .then(response => {
-
-        })
-        .catch(error => {
+        .then((response) => {})
+        .catch((error) => {
           console.log(error);
-        })
+        });
     } else {
       const TOKEN = localStorage.getItem("token");
       const config = {
@@ -113,7 +111,6 @@ const Product = (props) => {
         })
         .catch((err) => console.log(err));
     }
-
 
     // if (!TOKEN || TOKEN === "") {
     //   props.history.push("/login");
