@@ -28,7 +28,7 @@ const List = () => {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    const URL = "/shoppingList/all";
+    const URL = "/shoppingList/all/idonly";
     services
       .get(URL, config)
       .then((response) => {
@@ -162,9 +162,9 @@ const List = () => {
                           handleDeleteProductClicked={(_id) =>
                             handleDeleteProductClicked(list, _id)
                           }
-                          handleCartClicked={(productId, vendorId) =>
-                            handleCartClicked(productId, vendorId)
-                          }
+                          // handleCartClicked={(productId, vendorId) =>
+                          //   handleCartClicked(productId, vendorId)
+                          // }
                         />
                       ))
                     : null}

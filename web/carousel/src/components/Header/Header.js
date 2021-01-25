@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import Categories from "./Categories/Categories";
 import SearchBar from "./SearchBar/SearchBar";
 import SideButtons from "./SideButtons/SideButtons";
+import OrderTrack from "./OrderTrack/OrderTrack";
 import classes from "./Header.module.css";
 import logo from "../../assets/images/carousel_logo.jpg";
 import qs from "qs";
@@ -60,6 +61,17 @@ export class Header extends Component {
     return (
       <>
         <header className={classes.Header}>
+          <div
+            className={classes.Toolbar}
+            style={{ height: "20px", borderBottom: "none" }}
+          >
+            <a
+              className={classes.Track}
+              onClick={() => this.props.history.push("/order-track")}
+            >
+              Track your order
+            </a>
+          </div>
           <div className={classes.Toolbar}>
             <img
               src={logo}

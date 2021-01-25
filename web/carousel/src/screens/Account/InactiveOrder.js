@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider, Steps } from "antd";
+import { Layout, Divider } from "antd";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
-import ButtonSecondary from "../../components/UI/ButtonSecondary/ButtonSecondary";
 import { useHistory, withRouter } from "react-router-dom";
 import ProductBox from "../../components/Product/ProductBox";
 import services from "../../apis/services";
@@ -10,7 +9,6 @@ import { Form, Input } from "antd";
 import { Rate } from "antd";
 
 const { Content } = Layout;
-const { Step } = Steps;
 let amount = 0;
 let totalPrice = 0;
 
@@ -190,7 +188,7 @@ const InactiveOrder = () => {
 
               const filteredProducts = orderItem.orders.filter(
                 (product) =>
-                  product.status !== ("being prepared" || "on the way")
+                  !["being prepared", "on the way"].includes(product.status)
               );
               if (filteredProducts.length) {
                 newOrder.orders = filteredProducts;
@@ -225,23 +223,6 @@ const InactiveOrder = () => {
                   backgroundColor: "white",
                 }}
               >
-                <div style={{ padding: "15px 20px" }}>
-                  <Steps size="small">
-                    <Step
-                      title="Finished"
-                      description="This is a description."
-                    />
-                    <Step
-                      title="In Progress"
-                      subTitle="Left 00:00:08"
-                      description="This is a description."
-                    />
-                    <Step
-                      title="Waiting"
-                      description="This is a description."
-                    />
-                  </Steps>
-                </div>
                 <div>
                   <div style={{ padding: 20 }}>
                     {order.orders.map(
@@ -265,6 +246,9 @@ const InactiveOrder = () => {
                               )
                             }
                             isLastItem={order.orders.length - 1 === index}
+                            orderId={order._id}
+                            subOrderId={product._id}
+                            vendorId={product.vendorId}
                           />
                         )
                       )
@@ -313,6 +297,9 @@ const InactiveOrder = () => {
                         height: 40,
                         fontSize: 16,
                       }}
+                      onClick={() =>
+                        history.push("/account/inactive-order/" + order._id)
+                      }
                     />
                   </div>
                 </div>
