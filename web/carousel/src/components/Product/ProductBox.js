@@ -12,8 +12,15 @@ const ProductBox = (props) => {
   const [product, setproduct] = useState({});
   const [vendor, setvendor] = useState({});
 
-  const { _id, brand, photos, shipmentPrice, vendorSpecifics } = product;
   const { orderId, subOrderId, vendorId } = props;
+  const {
+    _id,
+    brand,
+    photos,
+    shipmentPrice,
+    vendorSpecifics,
+    parentProduct,
+  } = product;
 
   useEffect(() => {
     getProduct();
@@ -111,6 +118,13 @@ const ProductBox = (props) => {
               <ButtonSecondary
                 title="Add review"
                 style={{ width: 120, height: 50, fontSize: 18 }}
+                onClick={() =>
+                  props.handleReviewClicked(
+                    _id,
+                    vendorSpecifics[0].vendorID,
+                    parentProduct
+                  )
+                }
               />
             </>
           ) : null}

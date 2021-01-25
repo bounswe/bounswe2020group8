@@ -148,12 +148,12 @@ export function SideButtons(props) {
               My Order
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          {/* <Menu.Item>
             <Link to="/account/comments">
               <CommentOutlined />
               My Feedbacks
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item>
             <Link to="/account/tickets">
               <FormOutlined />
