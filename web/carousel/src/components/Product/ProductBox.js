@@ -9,7 +9,14 @@ import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
-  const { _id, brand, photos, shipmentPrice, vendorSpecifics } = product;
+  const {
+    _id,
+    brand,
+    photos,
+    shipmentPrice,
+    vendorSpecifics,
+    parentProduct,
+  } = product;
 
   useEffect(() => {
     getProduct();
@@ -93,6 +100,13 @@ const ProductBox = (props) => {
               <ButtonSecondary
                 title="Add review"
                 style={{ width: 120, height: 50, fontSize: 18 }}
+                onClick={() =>
+                  props.handleReviewClicked(
+                    _id,
+                    vendorSpecifics[0]._id,
+                    parentProduct
+                  )
+                }
               />
             </>
           ) : null}
