@@ -275,7 +275,7 @@ const constants = {
   NOTIFICATION_TYPES: {
     PRICE_DOWN_BELOW_THRESHOLD: "Product price is down below to its 90%.",
     PRICE_STRICTLY_DOWN_BELOW_THRESHOLD: "Product price is down below to its 75%.",
-    PRICE_HOLY_DOWN_BELOW_THRESHOLD: "Product prive is down below to its 50%.",
+    PRICE_HOLY_DOWN_BELOW_THRESHOLD: "Product price is down below to its 50%.",
     PRODUCT_AMOUNT_BELOW_10: "Number of the specified product is below 10.",
     PRODUCT_AMOUNT_BELOW_5: "Number of the specified product is below 5.",
     TICKET_REPLIED_BY_ADMIN: "One of your tickets has been replied by an admin.",
