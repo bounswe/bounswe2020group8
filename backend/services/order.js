@@ -94,7 +94,7 @@ exports.createOrderService = async function ({ _id }) {
       temp["price"] = current_product["vendorSpecifics"][0]["price"];
       temp["shipmentPrice"] = current_product["vendorSpecifics"][0]["shipmentPrice"];
       temp["cargoCompany"] = current_product["vendorSpecifics"][0]["cargoCompany"];
-      if (current_product["vendorSpecifics"][0]["amountLeft"] > current["amount"]) {
+      if (current_product["vendorSpecifics"][0]["amountLeft"] >= current["amount"]) {
         temp["enoughLeft"] = true;
         temp["amountLeft"] =
           current_product["vendorSpecifics"][0]["amountLeft"] - current["amount"];
@@ -126,7 +126,7 @@ exports.createGuestOrderService = async function ({ _id }) {
       temp["price"] = current_product["vendorSpecifics"][0]["price"];
       temp["shipmentPrice"] = current_product["vendorSpecifics"][0]["shipmentPrice"];
       temp["cargoCompany"] = current_product["vendorSpecifics"][0]["cargoCompany"];
-      if (current_product["vendorSpecifics"][0]["amountLeft"] > current["amount"]) {
+      if (current_product["vendorSpecifics"][0]["amountLeft"] >= current["amount"]) {
         temp["enoughLeft"] = true;
       } else {
         temp["enoughLeft"] = false;

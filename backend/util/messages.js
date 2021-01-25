@@ -198,6 +198,12 @@ const returnMessages = {
       en: "You've already been tracking this product.",
     },
   },
+  ERR_NOT_ENOUGH_PRODUCT: {
+    code: 32,
+    messages: {
+      en: "None of the items in shopping cart has sufficient stock.",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {
