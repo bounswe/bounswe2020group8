@@ -19,7 +19,7 @@ exports.createOneCommentService = async function (
   name,
   lastName
 ) {
-  if (rate != undefined) {
+  if (rate !== undefined) {
     const mainProduct = MainProductDataAccess.getMainProductByIdDB(mainProductId);
     const prevNumber = mainProduct.numberOfRating;
     const prevRate = mainProduct.rating;
