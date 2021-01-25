@@ -198,6 +198,7 @@ const Cart = () => {
               shippingAddressId: guestAddress,
               billingAddressId: guestAddress,
               creditCardId: guestCreditCart,
+              email: guestEmail,
             };
             services
               .post(URL, payload)
