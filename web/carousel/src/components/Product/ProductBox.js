@@ -6,6 +6,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { HeartOutlined } from "@ant-design/icons";
 import services from "../../apis/services";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
+import { withRouter } from "react-router-dom";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
@@ -145,15 +146,6 @@ const ProductBox = (props) => {
                   onClick={() => props.handleDeleteProductClicked(_id)}
                 />
               </div>
-              <div>
-                <ButtonPrimary
-                  title="Add to Cart"
-                  style={{ width: 120, height: 50, fontSize: 16 }}
-                  onClick={() =>
-                    props.handleCartClicked(_id, vendorSpecifics[0]._id)
-                  }
-                />
-              </div>
             </>
           ) : null}
         </div>
@@ -169,4 +161,4 @@ const ProductBox = (props) => {
   );
 };
 
-export default ProductBox;
+export default withRouter(ProductBox);
