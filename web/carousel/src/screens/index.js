@@ -20,6 +20,7 @@ import Search from "./Search";
 import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
 import VendorPublicPage from "./VendorHome/VendorPublicPage";
+import Footer from "../components/Footer/Footer";
 import OrderTrackPage from "./OrderTrack";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
@@ -205,6 +206,7 @@ const App = () => {
           </Switch>
         </Router>
       </UserInfo.Provider>
+      <Footer />
     </div>
   );
 };
