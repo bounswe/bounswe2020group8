@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import classes from "./SideButtons.module.css";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
@@ -13,6 +13,7 @@ import {
   NotificationOutlined,
   LogoutOutlined,
   GiftOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import { Link, withRouter } from "react-router-dom";
@@ -23,9 +24,67 @@ import UserInfo from "../../Context/UserInfo";
 import services from "../../../apis/services";
 
 export function SideButtons(props) {
+  useEffect(() => {
+    let guestID;
+    const loggedIn = localStorage.getItem("login");
+    if (loggedIn !== "true") {
+      const validateGuestID = localStorage.getItem("guestID");
+      if (validateGuestID !== null) {
+        const params = {
+          _id: validateGuestID,
+        };
+        services
+          .get("/guest/shoppingCart/main", { params: { _id: validateGuestID } })
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error);
+            getGuestUserID();
+          });
+      } else {
+        getGuestUserID();
+      }
+    }
+  }, []);
+
+  const getGuestUserID = () => {
+    services
+      .get("/guest/id")
+      .then((response) => {
+        const id = response.data.data._id;
+        localStorage.setItem("guestID", id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);
+
+  const [notificationCount, setNotificationCount] = useState(0);
+
+  const getNotificationCount = async () => {
+    const loggedIn = localStorage.getItem("login");
+    if (
+      loggedIn === "true" &&
+      (user.userType === "Vendor" || user.userType === "Customer")
+    ) {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const url = `/${user.userType.toLowerCase()}/notification/unread`;
+      const resp = await services.get(url, config);
+      setNotificationCount(resp.data.data.length);
+    }
+  };
+
+  useEffect(async () => {
+    getNotificationCount();
+  }, []);
+
+  setInterval(() => getNotificationCount(), 10000);
 
   const onLogoutSuccess = (res) => {
     let url = "";
@@ -70,9 +129,14 @@ export function SideButtons(props) {
     onFailure,
   });
 
+  const notificationMessage = notificationCount
+    ? ` (${notificationCount})`
+    : "";
+
   const profileMenu = (
     <Menu>
-      {user.userType === "Customer" ? (
+      {localStorage.getItem("login") !== "false" ? null : user.userType ===
+        "Customer" ? (
         <>
           <Menu.Item>
             <Link to="/account/profile">
@@ -93,9 +157,15 @@ export function SideButtons(props) {
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/account/recommendation">
+            <Link to="/account/tickets">
+              <FormOutlined />
+              My Tickets
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="notifications">
+            <Link to="/account/notifications">
               <NotificationOutlined />
-              New Recommendations
+              Notifications{notificationMessage}
             </Link>
           </Menu.Item>
         </>
@@ -125,6 +195,19 @@ export function SideButtons(props) {
               My Feedbacks
             </Link>
           </Menu.Item>
+          <Menu.Item>
+            <Link to="/vendor/account/tickets">
+              <FormOutlined />
+              My Tickets
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="notifications">
+            <Link to="/vendor/account/notifications">
+              <NotificationOutlined />
+              Notifications{notificationMessage}
+            </Link>
+          </Menu.Item>
         </>
       )}
 
@@ -147,7 +230,7 @@ export function SideButtons(props) {
     <div className={classes.SideButtons}>
       {localStorage.getItem("login") === "true" ? (
         <DropdownContainer
-          title={"ACCOUNT"}
+          title={"ACCOUNT" + notificationMessage}
           icon={<UserOutlined />}
           list={profileMenu}
         />

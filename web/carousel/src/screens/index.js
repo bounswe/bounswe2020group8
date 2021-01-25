@@ -21,6 +21,7 @@ import VendorAccount from "./VendorAccount";
 import VendorHome from "./VendorHome";
 import VendorPublicPage from "./VendorHome/VendorPublicPage";
 import Footer from "../components/Footer/Footer";
+import OrderTrackPage from "./OrderTrack";
 
 function PrivateRoute({ component: Component, authed, ...rest }) {
   return (
@@ -104,6 +105,7 @@ const App = () => {
     { path: "/reset", exact: true, component: Reset },
     { path: "/forgot", exact: true, component: Forgot },
     { path: "/search", exact: true, component: Search },
+    { path: "/order-track", exact: true, component: OrderTrackPage },
     { path: "/product/:id", exact: true, component: Product },
     { path: "/v/public/:id", exact: true, component: VendorPublicPage },
     {

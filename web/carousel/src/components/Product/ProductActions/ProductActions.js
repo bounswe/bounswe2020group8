@@ -349,7 +349,7 @@ const ProductActions = ({
           icon={<ShoppingCartOutlined style={{ fontSize: "26px" }} />}
           style={buttonStyle}
           title={added ? "Added to Cart!" : "Add to Cart"}
-          onClick={handleAddToCart}
+          onClick={() => {handleAddToCart(); setAdded(true);}}
         />
         <div>
           Estimated delivery: <strong>3 Jan - 7 Jan</strong>
