@@ -273,6 +273,10 @@ data class DeleteCart(
     @Expose @SerializedName("vendorId") val vendorId: String,
 )
 
+data class ResetCart(
+    @Expose @SerializedName("_id") val _id: String,
+)
+
 data class ID(
     @Expose @SerializedName("_id") val _id: String,
 )
