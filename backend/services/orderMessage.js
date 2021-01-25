@@ -34,14 +34,14 @@ exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, _i
   let orderMessage = await OrderMessageDataAccess.replyAConversation(_id, message);
   let client = await ClientDataAccess.getClientByIdDB(orderMessage.client_id);
   if (_isSentByVendor === false) {
-    let hyperlink = `/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
+    let hyperlink = `/vendor/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_CUSTOMER",
       hyperlink
     );
     await NotificationWare.registerNotification(orderMessage.vendor_id, notification);
   } else {
-    let hyperlink = `/vendor/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
+    let hyperlink = `/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_VENDOR",
       hyperlink
