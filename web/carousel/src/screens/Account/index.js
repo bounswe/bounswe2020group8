@@ -8,12 +8,15 @@ import {
   NotificationOutlined,
   CommentOutlined,
   FormOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
 import Address from "./Address";
 import Recommendation from "./Recommendation";
 import Notifications from "./Notifications";
+import Messages from "./Messages";
+import Message from "../../components/Account/Message/Message";
 import ActiveOrder from "./ActiveOrder";
 import InactiveOrder from "./InactiveOrder";
 import List from "./List";
@@ -133,6 +136,10 @@ class Account extends Component {
               <Link to="/account/tickets">My Tickets</Link>
             </Menu.Item>
 
+            <Menu.Item icon={<MessageOutlined />} key="messages">
+              <Link to="/account/messages">My Messages</Link>
+            </Menu.Item>
+
             <Menu.Item icon={<NotificationOutlined />} key="notifications">
               <Link to="/account/notifications">
                 Notifications
@@ -176,6 +183,13 @@ class Account extends Component {
           <Route path="/account/comments" exact component={Comments} />
           <Route path="/account/rate" exact component={Rate} />
           <Route path="/account/tickets" exact component={Tickets} />
+          <Route path="/account/messages" exact component={Messages} />
+          <Route
+            path="/account/messages/:orderId/:subOrderId/:vendorId"
+            exact
+            component={Message}
+          />
+
           <Route
             path="/account/recommendation"
             exact

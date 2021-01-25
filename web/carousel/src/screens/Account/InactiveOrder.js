@@ -92,6 +92,9 @@ const InactiveOrder = () => {
                               handleReviewClicked(productId, vendorId)
                             }
                             isLastItem={order.orders.length - 1 === index}
+                            orderId={order._id}
+                            subOrderId={product._id}
+                            vendorId={product.vendorId}
                           />
                         )
                       )

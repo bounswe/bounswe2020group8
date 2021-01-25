@@ -18,6 +18,7 @@ class OrderDetail extends Component {
     payment: null,
     shipmentPrice: 0,
     totalPrice: 0,
+    orderId: "",
   };
   stepStatus = {
     "being prepared": 1,
@@ -43,6 +44,7 @@ class OrderDetail extends Component {
         let order = response.data.data;
         if (order) {
           order = order.filter((item) => item._id === id);
+          const orderId = order[0]._id;
           order = order[0].orders;
           let shipmentPrice = 0;
           let price = 0;
@@ -54,6 +56,7 @@ class OrderDetail extends Component {
           );
           this.setState({
             id: id,
+            orderId: orderId,
             order: order,
             address: order[0].shippingAddress,
             payment: order[0].creditCard,
@@ -319,6 +322,9 @@ class OrderDetail extends Component {
                   handleReturnClicked={(status) =>
                     this.handleReturnClicked(product._id, status)
                   }
+                  orderId={this.state.orderId}
+                  subOrderId={product._id}
+                  vendorId={product.vendorId}
                 />
               </>
             ))}

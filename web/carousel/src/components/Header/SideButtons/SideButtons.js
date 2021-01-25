@@ -82,9 +82,8 @@ export function SideButtons(props) {
 
   useEffect(async () => {
     getNotificationCount();
+    setInterval(() => getNotificationCount(), 10000);
   }, []);
-
-  setInterval(() => getNotificationCount(), 10000);
 
   const onLogoutSuccess = (res) => {
     let url = "";

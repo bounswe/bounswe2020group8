@@ -64,6 +64,7 @@ const ActiveOrder = () => {
         My Active Orders
         <Divider />
         {orders.map((order) => {
+          console.log(order);
           return (
             (amount = 0),
             (totalPrice = 0),
@@ -91,6 +92,9 @@ const ActiveOrder = () => {
                               handleReviewClicked(productId, vendorId)
                             }
                             isLastItem={order.orders.length - 1 === index}
+                            orderId={order._id}
+                            subOrderId={product._id}
+                            vendorId={product.vendorId}
                           />
                         )
                       )
