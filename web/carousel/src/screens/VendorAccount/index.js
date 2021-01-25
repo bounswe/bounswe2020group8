@@ -74,7 +74,7 @@ class VendorAccount extends Component {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu
+          {/* <SubMenu
             key="/comments"
             icon={<CommentOutlined />}
             title="My Feedbacks"
@@ -85,7 +85,7 @@ class VendorAccount extends Component {
             <Menu.Item key="rate">
               <Link to="/vendor/account/rate">Rates</Link>
             </Menu.Item>
-          </SubMenu>
+          </SubMenu> */}
         </Menu>
       </Sider>
     );

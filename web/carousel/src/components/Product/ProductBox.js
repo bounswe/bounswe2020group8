@@ -55,7 +55,7 @@ const ProductBox = (props) => {
           <div>
             <div style={{ fontSize: 16 }}>{brand}</div>
             <div style={{ fontWeight: "normal", fontSize: 12 }}>
-              Vendor: {vendorSpecifics[0]._id}
+              Vendor: {vendorSpecifics[0].vendorID}
             </div>
           </div>
 
@@ -103,7 +103,7 @@ const ProductBox = (props) => {
                 onClick={() =>
                   props.handleReviewClicked(
                     _id,
-                    vendorSpecifics[0]._id,
+                    vendorSpecifics[0].vendorID,
                     parentProduct
                   )
                 }
@@ -126,7 +126,7 @@ const ProductBox = (props) => {
                   title="Add to Cart"
                   style={{ width: 120, height: 50, fontSize: 16 }}
                   onClick={() =>
-                    props.handleCartClicked(_id, vendorSpecifics[0]._id)
+                    props.handleCartClicked(_id, vendorSpecifics[0].vendorID)
                   }
                 />
               </div>

@@ -79,7 +79,7 @@ class Account extends Component {
             <Link to="/account/cart">My Cart</Link>
           </Menu.Item>
 
-          <SubMenu
+          {/* <SubMenu
             key="/comments"
             icon={<CommentOutlined />}
             title="My Feedbacks"
@@ -91,7 +91,7 @@ class Account extends Component {
               <Link to="/account/rate">Rates</Link>
             </Menu.Item>
           </SubMenu>
-
+ */}
           <Menu.Item icon={<NotificationOutlined />} key="recommendation">
             <Link to="/account/recommendation">New Recommendations</Link>
           </Menu.Item>

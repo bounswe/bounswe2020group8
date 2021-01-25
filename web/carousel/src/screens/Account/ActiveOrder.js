@@ -137,6 +137,11 @@ const ActiveOrder = () => {
         setSubmitting(false);
         setErrMessageReview("Something Went Wrong");
       });
+    const patchUrl = `/rating/${vendorIdReview}`;
+    const patchData = {
+      rate: rateValueVendor,
+    };
+    services.patch(patchUrl, patchData, config);
   };
 
   const handleCancel = () => {
