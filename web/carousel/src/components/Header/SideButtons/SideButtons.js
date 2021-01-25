@@ -24,6 +24,40 @@ import UserInfo from "../../Context/UserInfo";
 import services from "../../../apis/services";
 
 export function SideButtons(props) {
+  useEffect(() => {
+    let guestID;
+    const loggedIn = localStorage.getItem("login");
+    if (loggedIn !== "true") {
+      const validateGuestID = localStorage.getItem("guestID");
+      if (validateGuestID !== null) {
+        const params = {
+          _id: validateGuestID,
+        };
+        services
+          .get("/guest/shoppingCart/main", { params: { _id: validateGuestID } })
+          .then((response) => {})
+          .catch((error) => {
+            console.log(error);
+            getGuestUserID();
+          });
+      } else {
+        getGuestUserID();
+      }
+    }
+  }, []);
+
+  const getGuestUserID = () => {
+    services
+      .get("/guest/id")
+      .then((response) => {
+        const id = response.data.data._id;
+        localStorage.setItem("guestID", id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const clientId =
     "1005866627235-pkltkjsfn593b70jaeqs8bo841dgtob3.apps.googleusercontent.com";
   const user = useContext(UserInfo);

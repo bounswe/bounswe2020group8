@@ -76,26 +76,60 @@ const Product = (props) => {
   };
 
   const handleCartClicked = async ({ productId, vendorId }) => {
-    const TOKEN = localStorage.getItem("token");
-
-    if (!TOKEN || TOKEN === "") {
-      props.history.push("/login");
+    const loggedIn = localStorage.getItem("login");
+    if (loggedIn !== "true") {
+      const id = localStorage.getItem("guestID");
+      const URL = "/guest/shoppingCart/main";
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+        _id: id,
+      };
+      console.log(payload);
+      services
+        .post(URL, payload)
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+      };
+      const URL = "/customer/shoppingCart/main";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          props.history.push("/account/cart");
+        })
+        .catch((err) => console.log(err));
     }
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const payload = {
-      productId: productId,
-      vendorId: vendorId,
-      amount: 1,
-    };
-    const URL = "/customer/shoppingCart/main";
-    services
-      .post(URL, payload, config)
-      .then((response) => {
-        props.history.push("/account/cart");
-      })
-      .catch((err) => console.log(err));
+
+    // if (!TOKEN || TOKEN === "") {
+    //   props.history.push("/login");
+    // }
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const payload = {
+    //   productId: productId,
+    //   vendorId: vendorId,
+    //   amount: 1,
+    // };
+    // const URL = "/customer/shoppingCart/main";
+    // services
+    //   .post(URL, payload, config)
+    //   .then((response) => {
+    //     props.history.push("/account/cart");
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   return productInfo ? (
