@@ -1,6 +1,7 @@
 const BaseUtil = require("../util/baseUtil");
 const BB = require("bluebird");
 const TicketService = require("../services/ticket");
+const AppValidator = require("../util/appValidator");
 
 exports.getAllTicketController = BaseUtil.createController((req) => {
   return BB.all([])
@@ -41,7 +42,8 @@ exports.replyATicketController = BaseUtil.createController((req) => {
 exports.forwardATicketController = BaseUtil.createController((req) => {
   let _id = req.params.tid;
   let admin_id = req.body.admin_id;
-  return BB.all([])
+  let client = req.client;
+  return BB.all([AppValidator.ValidateAdminStatus(client).reflect()])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() => TicketService.forwardATicketService(_id, admin_id));
 });
