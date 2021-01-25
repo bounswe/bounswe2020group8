@@ -368,5 +368,5 @@ data class DataConversation(
 ): Serializable
 
 data class ReplyTicket(
-    @Expose @SerializedName("new_message") val new_message: String,
+    @Expose @SerializedName("payload") val payload: String,
 ) : Serializable
