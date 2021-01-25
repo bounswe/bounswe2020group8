@@ -1,10 +1,7 @@
-import React from "react";
-import Orders from "../../components/Account/VendorOrders/Orders";
+import React, { Component } from "react";
 
-export default function ActiveOrder() {
-  return (
-    <div>
-      <Orders />
-    </div>
-    );
+export default class ActiveOrder extends Component {
+  render() {
+    return <div>ActiveOrder</div>;
+  }
 }

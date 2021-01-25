@@ -3,10 +3,9 @@ import { Divider, Badge, InputNumber } from "antd";
 import ButtonPrimary from "../UI/ButtonPrimary/ButtonPrimary";
 import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
-import { HeartOutlined, MessageOutlined } from "@ant-design/icons";
+import { HeartOutlined } from "@ant-design/icons";
 import services from "../../apis/services";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
-import { withRouter } from "react-router-dom";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
@@ -18,9 +17,6 @@ const ProductBox = (props) => {
     vendorSpecifics,
     parentProduct,
   } = product;
-  const [vendor, setvendor] = useState({});
-
-  const { orderId, subOrderId, vendorId } = props;
 
   useEffect(() => {
     getProduct();
@@ -33,12 +29,6 @@ const ProductBox = (props) => {
     if (response.data) {
       const data = response.data.data;
       setproduct(data);
-    }
-    const U = "/vendor/public/" + vendorId;
-    const r = await services.get(U);
-    if (r.data) {
-      const data = r.data.data;
-      setvendor(data);
     }
   };
 
@@ -65,15 +55,7 @@ const ProductBox = (props) => {
           <div>
             <div style={{ fontSize: 16 }}>{brand}</div>
             <div style={{ fontWeight: "normal", fontSize: 12 }}>
-              Vendor: {vendor.companyName}{" "}
-              <MessageOutlined
-                style={{ fontSize: "20px", cursor: "pointer" }}
-                onClick={() => {
-                  props.history.push(
-                    `/account/messages/${orderId}/${subOrderId}/${vendorId}`
-                  );
-                }}
-              />
+              Vendor: {vendorSpecifics[0].vendorID}
             </div>
           </div>
 
@@ -128,37 +110,6 @@ const ProductBox = (props) => {
               />
             </>
           ) : null}
-          {props.orderDetail ? (
-            <>
-              <div style={{ fontSize: 13 }}>
-                <div>Amount: {props.product.amount}</div>
-                <div>${props.product.price * props.product.amount}</div>
-              </div>
-              <div style={{ fontSize: 13 }}>
-                <div>Arrive after {props.product.arrivesIn} days</div>
-              </div>
-
-              {[
-                "cancelled by the customer",
-                "cancelled by the vendor",
-                "returned",
-              ].includes(props.status) ? (
-                props.status
-              ) : (
-                <ButtonSecondary
-                  title={
-                    props.status === "delievered"
-                      ? "Return Product"
-                      : "Cancel Product"
-                  }
-                  style={{ width: 150, height: 50, fontSize: 16 }}
-                  onClick={() =>
-                    props.handleReturnClicked("cancelled by the customer")
-                  }
-                />
-              )}
-            </>
-          ) : null}
           {props.list ? (
             <>
               <div style={{ fontSize: 18 }}>
@@ -168,6 +119,15 @@ const ProductBox = (props) => {
                 <DeleteOutlined
                   style={{ fontSize: 20 }}
                   onClick={() => props.handleDeleteProductClicked(_id)}
+                />
+              </div>
+              <div>
+                <ButtonPrimary
+                  title="Add to Cart"
+                  style={{ width: 120, height: 50, fontSize: 16 }}
+                  onClick={() =>
+                    props.handleCartClicked(_id, vendorSpecifics[0].vendorID)
+                  }
                 />
               </div>
             </>
@@ -185,4 +145,4 @@ const ProductBox = (props) => {
   );
 };
 
-export default withRouter(ProductBox);
+export default ProductBox;

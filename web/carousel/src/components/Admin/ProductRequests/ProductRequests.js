@@ -199,13 +199,6 @@ class ProductRequests extends Component {
     services
       .patch("/productRequest/" + product.id, payload, config)
       .then((response) => {
-        const vendorId = response.data.data.vendorID;
-        console.log(response.data.data);
-        services.patch(
-          `/product/${response.data.data.oldValue}/vendor/${vendorId}`,
-          response.data.data.newValue.vendorSpecifics,
-          config
-        );
         if (payload.status === "ACCEPTED") {
           if (product.type === "Existing Product") {
             this.publishVendorToExistingProduct(product, response.data.data);
@@ -219,8 +212,6 @@ class ProductRequests extends Component {
       .catch((error) => {
         console.log(error);
       });
-
-    console.log(product, payload);
   };
 
   publishProduct = (product, vendorData) => {

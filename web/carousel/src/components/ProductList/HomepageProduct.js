@@ -12,42 +12,24 @@ const HomepageProduct = (props) => {
 
   const handleCartClicked = async ({ productId, vendorId }) => {
     const TOKEN = localStorage.getItem("token");
-    const loggedIn = localStorage.getItem("login");
-
-    if (loggedIn !== "true") {
-      const URL = "/guest/shoppingCart/main";
-      const payload = {
-        productId: productId,
-        vendorId: vendorId,
-        amount: 1,
-        _id: localStorage.getItem("guestID"),
-      };
-      console.log(payload);
-      services
-        .post(URL, payload)
-        .then((response) => {
-          props.history.push("/account/cart");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      const config = {
-        headers: { Authorization: `Bearer ${TOKEN}` },
-      };
-      const payload = {
-        productId: productId,
-        vendorId: vendorId,
-        amount: 1,
-      };
-      const URL = "/customer/shoppingCart/main";
-      services
-        .post(URL, payload, config)
-        .then((response) => {
-          props.history.push("/account/cart");
-        })
-        .catch((err) => console.log(err));
+    if (!TOKEN || TOKEN === "") {
+      props.history.push("/login");
     }
+    const config = {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    };
+    const payload = {
+      productId: productId,
+      vendorId: vendorId,
+      amount: 1,
+    };
+    const URL = "/customer/shoppingCart/main";
+    services
+      .post(URL, payload, config)
+      .then((response) => {
+        props.history.push("/account/cart");
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -55,7 +37,6 @@ const HomepageProduct = (props) => {
       <div
         onClick={() => {
           props.history.push(`/product/${mainProduct[0]._id}`);
-          window.location.reload();
         }}
       >
         <FixedDiv width={250} height={35}>

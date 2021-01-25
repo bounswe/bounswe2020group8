@@ -12,7 +12,7 @@ const productCarousel = (props) => {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: props.items ? props.items : 5,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },

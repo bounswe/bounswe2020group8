@@ -1,10 +1,7 @@
-import React from "react";
-import InactiveOrders from "../../components/Account/VendorOrders/InactiveOrders";
+import React, { Component } from "react";
 
-export default function InactiveOrder() {
-  return (
-    <div>
-      <InactiveOrders />
-    </div>
-  );
+export default class InactiveOrder extends Component {
+  render() {
+    return <div>InactiveOrder</div>;
+  }
 }

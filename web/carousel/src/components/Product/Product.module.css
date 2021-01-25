@@ -74,14 +74,6 @@
   height: 1000px;
 }
 
-.Recommendation {
-  margin: auto;
-  text-align: center;
-  align-items: center;
-  border: black solid 1px;
-  width: 900px;
-}
-
 .SectionToggle {
   border-bottom: black solid 1px;
   height: 60px;
