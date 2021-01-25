@@ -35,14 +35,23 @@ class VendorAccount extends Component {
     };
   }
   static contextType = UserInfo;
+
   async componentDidMount() {
-    const TOKEN = localStorage.getItem("token");
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
-    const resp = await services.get(url, config);
-    this.setState({ notificationCount: resp.data.data.length });
+    const loggedIn = localStorage.getItem("login");
+
+    if (
+      (this.context.userType === "Vendor" ||
+        this.context.userType === "Customer") &&
+      loggedIn === "true"
+    ) {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
+      const resp = await services.get(url, config);
+      this.setState({ notificationCount: resp.data.data.length });
+    }
   }
 
   renderSideBar() {

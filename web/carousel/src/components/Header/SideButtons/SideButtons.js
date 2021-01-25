@@ -65,7 +65,11 @@ export function SideButtons(props) {
   const [notificationCount, setNotificationCount] = useState(0);
 
   const getNotificationCount = async () => {
-    if (user.userType === "Vendor" || user.userType === "Customer") {
+    const loggedIn = localStorage.getItem("login");
+    if (
+      loggedIn === "true" &&
+      (user.userType === "Vendor" || user.userType === "Customer")
+    ) {
       const TOKEN = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
@@ -131,7 +135,8 @@ export function SideButtons(props) {
 
   const profileMenu = (
     <Menu>
-      {user.userType === "Customer" ? (
+      {localStorage.getItem("login") !== "false" ? null : user.userType ===
+        "Customer" ? (
         <>
           <Menu.Item>
             <Link to="/account/profile">

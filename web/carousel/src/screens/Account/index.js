@@ -40,13 +40,21 @@ class Account extends Component {
   static contextType = UserInfo;
 
   async componentDidMount() {
-    const TOKEN = localStorage.getItem("token");
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
-    const resp = await services.get(url, config);
-    this.setState({ notificationCount: resp.data.data.length });
+    const loggedIn = localStorage.getItem("login");
+
+    if (
+      (this.context.userType === "Vendor" ||
+        this.context.userType === "Customer") &&
+      loggedIn === "true"
+    ) {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const url = `/${this.context.userType.toLowerCase()}/notification/unread`;
+      const resp = await services.get(url, config);
+      this.setState({ notificationCount: resp.data.data.length });
+    }
   }
 
   renderCustomerSideBar() {
@@ -65,67 +73,76 @@ class Account extends Component {
 
     return (
       <Sider className="site-layout-background" width={250}>
-        <Menu
-          mode="inline"
-          selectedKeys={[path[2]]}
-          defaultOpenKeys={[submenukeys[path[2]]]}
-          style={{ height: "100%" }}
-        >
-          <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
-            <Menu.Item key="profile">
-              <Link to="/account/profile">Profile Info</Link>
-            </Menu.Item>
-            <Menu.Item key="address">
-              <Link to="/account/address">Address Info</Link>
-            </Menu.Item>
-            <Menu.Item key="payment">
-              <Link to="/account/payment">Payment Info</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
-            <Menu.Item key="active-order">
-              <Link to="/account/active-order">Active Orders</Link>
-            </Menu.Item>
-            <Menu.Item key="inactive-order">
-              <Link to="/account/inactive-order">Inactive Orders</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <Menu.Item icon={<HeartOutlined />} key="list">
-            <Link to="/account/list">My List</Link>
-          </Menu.Item>
-
-          <Menu.Item icon={<ShoppingCartOutlined />} key="cart">
-            <Link to="/account/cart">My Cart</Link>
-          </Menu.Item>
-
-          <SubMenu
-            key="/comments"
-            icon={<CommentOutlined />}
-            title="My Feedbacks"
+        {localStorage.getItem("login") !== "true" ? (
+          <Menu
+            mode="inline"
+            selectedKeys={[path[2]]}
+            defaultOpenKeys={[submenukeys[path[2]]]}
+            style={{ height: "100%" }}
+          />
+        ) : (
+          <Menu
+            mode="inline"
+            selectedKeys={[path[2]]}
+            defaultOpenKeys={[submenukeys[path[2]]]}
+            style={{ height: "100%" }}
           >
-            <Menu.Item key="comments">
-              <Link to="/account/comments">Comments</Link>
-            </Menu.Item>
-            <Menu.Item key="rate">
-              <Link to="/account/rate">Rates</Link>
-            </Menu.Item>
-          </SubMenu>
+            <SubMenu key="/profile" icon={<UserOutlined />} title="My Profile">
+              <Menu.Item key="profile">
+                <Link to="/account/profile">Profile Info</Link>
+              </Menu.Item>
+              <Menu.Item key="address">
+                <Link to="/account/address">Address Info</Link>
+              </Menu.Item>
+              <Menu.Item key="payment">
+                <Link to="/account/payment">Payment Info</Link>
+              </Menu.Item>
+            </SubMenu>
 
-          <Menu.Item icon={<FormOutlined />} key="ticket">
-            <Link to="/account/tickets">My Tickets</Link>
-          </Menu.Item>
+            <SubMenu key="/order" icon={<ShoppingOutlined />} title="My Order">
+              <Menu.Item key="active-order">
+                <Link to="/account/active-order">Active Orders</Link>
+              </Menu.Item>
+              <Menu.Item key="inactive-order">
+                <Link to="/account/inactive-order">Inactive Orders</Link>
+              </Menu.Item>
+            </SubMenu>
 
-          <Menu.Item icon={<NotificationOutlined />} key="notifications">
-            <Link to="/account/notifications">
-              Notifications
-              {this.state.notificationCount
-                ? ` (${this.state.notificationCount})`
-                : ""}
-            </Link>
-          </Menu.Item>
-        </Menu>
+            <Menu.Item icon={<HeartOutlined />} key="list">
+              <Link to="/account/list">My List</Link>
+            </Menu.Item>
+
+            <Menu.Item icon={<ShoppingCartOutlined />} key="cart">
+              <Link to="/account/cart">My Cart</Link>
+            </Menu.Item>
+
+            <SubMenu
+              key="/comments"
+              icon={<CommentOutlined />}
+              title="My Feedbacks"
+            >
+              <Menu.Item key="comments">
+                <Link to="/account/comments">Comments</Link>
+              </Menu.Item>
+              <Menu.Item key="rate">
+                <Link to="/account/rate">Rates</Link>
+              </Menu.Item>
+            </SubMenu>
+
+            <Menu.Item icon={<FormOutlined />} key="ticket">
+              <Link to="/account/tickets">My Tickets</Link>
+            </Menu.Item>
+
+            <Menu.Item icon={<NotificationOutlined />} key="notifications">
+              <Link to="/account/notifications">
+                Notifications
+                {this.state.notificationCount
+                  ? ` (${this.state.notificationCount})`
+                  : ""}
+              </Link>
+            </Menu.Item>
+          </Menu>
+        )}
       </Sider>
     );
   }
