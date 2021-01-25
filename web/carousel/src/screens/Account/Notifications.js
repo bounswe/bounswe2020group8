@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import UserInfo from "../../components/Context/UserInfo";
 import services from "../../apis/services";
 import Table from "antd/lib/table";
-import { WindowsFilled, LinkOutlined } from "@ant-design/icons";
+import { IssuesCloseOutlined, LinkOutlined } from "@ant-design/icons";
 const Notifications = (props) => {
   const [notifications, setNotifications] = useState([]);
 
@@ -67,11 +67,11 @@ const Notifications = (props) => {
       },
     },
     {
-      title: "Action",
+      title: "",
       key: "markRead",
       render: (text, record) => {
         return record.isRead ? (
-          "Read"
+          <IssuesCloseOutlined />
         ) : (
           <a onClick={() => handleMarkRead(record)}>Mark as Read</a>
         );
