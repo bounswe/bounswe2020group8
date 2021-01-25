@@ -10,7 +10,7 @@ router.post("/loginAdmin", AdminController.loginController, RequestHelper.return
 router.use(authController.protectRoute);
 
 router.get("/activity", AdminController.getAllActivitiesController, RequestHelper.returnResponse);
-router.get("/adminInfo", AdminController.getAllAdminInfoController, RequestHelper.returnResponse);
+router.get("/adminInfo", AdminController.getAdminInfoController, RequestHelper.returnResponse);
 router.get(
   "/activity/:aid",
   AdminController.getOneActivityController,

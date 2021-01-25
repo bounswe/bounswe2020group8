@@ -53,7 +53,6 @@ exports.getOneActivityService = async function (_id) {
   return activity;
 };
 
-exports.getAllAdminInfoService = async function () {
-  let admins = await AdminDataAccess.getAllAdmin();
-  return { result: admins.length, data: admins };
+exports.getAdminInfoService = async function (admin) {
+  return { data: admin };
 };
