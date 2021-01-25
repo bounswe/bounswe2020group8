@@ -7,12 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:windowBackground"
-    android:orientation="vertical"
-    tools:context=".MessageFragment">
+    android:clickable="true"
+    android:orientation="vertical" tools:context=".MessageFragment">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_alignParentTop="true">
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -32,69 +32,69 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
                   android:gravity="center_vertical"
                   android:orientation="vertical"
-                  android:layout_centerInParent="true"
     >
-    <LinearLayout
-        android:id="@+id/orders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="?android:attr/selectableItemBackground">
-        <TextView android:id="@+id/order_count"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textSize="24sp"
-                  android:clickable="false"
-                  android:duplicateParentState="true"
-        />
-        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/arrow1"
-            android:layout_width="32dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="false"
-            android:duplicateParentState="true"
-            app:srcCompat="@drawable/ic_arrow_right_24px"/>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/orders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/order_count"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:clickable="false"
+                      android:duplicateParentState="true"
+                      android:textSize="24sp"
+            />
+            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/arrow1"
+                android:layout_width="32dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                app:srcCompat="@drawable/ic_arrow_right_24px"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/tickets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_marginTop="64dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:backgroundTint="@color/colorPrimaryDark">
-    <TextView android:id="@+id/ticket_count"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="24sp"
-              android:clickable="false"
-              android:duplicateParentState="true"
-    />
-        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
-        <ImageView
-            android:id="@+id/arrow2"
-            android:layout_width="32dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="false"
-            android:duplicateParentState="true"
-            app:srcCompat="@drawable/ic_arrow_right_24px"
-        />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="64dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/ticket_count"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:clickable="false"
+                      android:duplicateParentState="true"
+                      android:textSize="24sp"
+            />
+            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+            <ImageView
+                android:id="@+id/arrow2"
+                android:layout_width="32dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                app:srcCompat="@drawable/ic_arrow_right_24px"
+            />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

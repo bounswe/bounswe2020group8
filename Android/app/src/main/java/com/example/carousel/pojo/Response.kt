@@ -4,6 +4,7 @@ import com.example.carousel.*
 import com.example.carousel.Address
 import com.example.carousel.Card
 import com.example.carousel.Product
+import com.example.carousel.vendor.Location
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -80,18 +81,18 @@ data class DataCustomerMe2(
 
 
 data class DataVendorMe(
-    @Expose @SerializedName("id") val id: String,
-    @Expose @SerializedName("name")val name: String,
-    @Expose @SerializedName("lastName")val lastName: String,
+    @Expose @SerializedName("_id") val id: String,
+    @Expose @SerializedName("name")val name: String?,
+    @Expose @SerializedName("lastName")val lastName: String?,
     @Expose @SerializedName("email")val email: String,
     @Expose @SerializedName("isSuspended")val isSuspended: Boolean,
     @Expose @SerializedName("isActive")val isActive: Boolean,
-    @Expose @SerializedName("companyName")val companyName: String,
-    @Expose @SerializedName("companyDomainName")val companyDomainName: String,
-    @Expose @SerializedName("aboutCompany")val aboutCompany: String,
-    @Expose @SerializedName("IBAN")val IBAN: String,
-    @Expose @SerializedName("address")val address: String,
-    @Expose @SerializedName("locations")val locations: ArrayList<ExampleObject>,
+    @Expose @SerializedName("companyName")val companyName: String?,
+    @Expose @SerializedName("companyDomainName")val companyDomainName: String?,
+    @Expose @SerializedName("aboutCompany")val aboutCompany: String?,
+    @Expose @SerializedName("IBAN")val IBAN: String?,
+    @Expose @SerializedName("address")var address: Address?,
+    @Expose @SerializedName("locations")val locations: ArrayList<Location>?,
 )
 
 data class ExampleObject(

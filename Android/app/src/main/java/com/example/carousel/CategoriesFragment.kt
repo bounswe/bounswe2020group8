@@ -30,8 +30,8 @@ class CategoriesFragment : Fragment() {
         val password = login_password.text.toString()
         val type: String
         when (findViewById<RadioButton>(R.id.radio_button_customer).isChecked) {
-            true -> type = "CLIENT";
-            false -> type = "VENDOR"
+        true -> type = "CLIENT";
+        false -> type = "VENDOR"
         }**/
 
         val apiCallerGetCategories: ApiCaller<ResponseGetCategories> = ApiCaller(activity)

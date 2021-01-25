@@ -146,7 +146,6 @@ class SearchFragment : Fragment() {
             }
             else {
                 vendors_container.visibility = View.GONE
-
             }
         }*/
     }

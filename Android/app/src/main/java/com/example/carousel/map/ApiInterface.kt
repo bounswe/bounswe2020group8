@@ -72,6 +72,9 @@ interface ApiInterface {
     @PATCH("/customer/me")
     fun customerUpdate(@Body data: DataCustomerMe): Call<ResponseCustomerMe>
 
+    @PATCH("/vendor/me")
+    fun vendorUpdate(@Body data: DataVendorMe): Call<ResponseVendorMe>
+
     @PATCH("/customer/me")
     fun customerUpdate2(@Body data: DataCustomerMe2): Call<ResponseCustomerMe2>
 
