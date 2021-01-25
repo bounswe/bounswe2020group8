@@ -25,6 +25,12 @@ router
   .get(ListController.getAllListsController, RequestHelper.returnResponse)
   .delete(ListController.deleteAllListsController, RequestHelper.returnResponse);
 
+router.get(
+  "/all/idonly",
+  ListController.getAllListsJustIDsController,
+  RequestHelper.returnResponse
+);
+
 router
   .route("/:lid")
   .get(ListController.getOneListController, RequestHelper.returnResponse)

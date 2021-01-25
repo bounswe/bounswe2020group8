@@ -110,6 +110,11 @@ exports.getAllListsService = async function (customer) {
   return { result: allListsPopulated.length, data: allListsPopulated };
 };
 
+exports.getAllListsServiceJustIDs = async function (customer) {
+  let allLists = customer.shoppingLists;
+  return { result: allLists.length, data: allLists };
+};
+
 exports.deleteAllListsService = async function (customer) {
   let dbResults = await CustomerDataAccess.deleteAllShoppingListsDB(customer._id);
   return { data: dbResults };
