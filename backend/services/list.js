@@ -38,8 +38,8 @@ exports.addWatcherOfAClientService = async function (_watcher) {
 };
 
 exports.removeWatcherOfAClientService = async function (_id) {
-  let watcher = await WatcherDataAccess.deleteAWatcher(_id);
-  return { data: watcher };
+  await WatcherDataAccess.deleteAWatcher(_id);
+  return { data: {} };
 };
 
 exports.getOneListService = async function (_id, customer) {

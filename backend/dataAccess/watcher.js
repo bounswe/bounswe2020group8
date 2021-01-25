@@ -17,5 +17,5 @@ exports.createAWatcher = function (watcher) {
 };
 
 exports.deleteAWatcher = function (_id) {
-  return Watcher.remove({ $match: { _id } });
+  return Watcher.deleteOne({ _id });
 };
