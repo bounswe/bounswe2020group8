@@ -9,6 +9,7 @@ import {
   FileSearchOutlined,
   FolderOutlined,
   FormOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -20,6 +21,8 @@ import MainProducts from "../../components/Admin/MainProducts/MainProducts";
 import OpenTickets from "../../components/Admin/Tickets/OpenTickets";
 import ClosedTickets from "../../components/Admin/Tickets/ClosedTickets";
 import UnassignedTickets from "../../components/Admin/Tickets/UnassignedTickets";
+import Activities from "./Activities";
+
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
@@ -77,6 +80,9 @@ export default class AdminAccount extends Component {
               <Link to="/admin/closed-tickets">Closed Tickets</Link>
             </Menu.Item>
           </SubMenu>
+          <Menu.Item icon={<TeamOutlined />} key="activities">
+            <Link to="/admin/activities">Activities</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
     );
@@ -104,6 +110,7 @@ export default class AdminAccount extends Component {
             exact
             component={UnassignedTickets}
           />
+          <Route path="/admin/activities" exact component={Activities} />
         </Switch>
       </Content>
     );
