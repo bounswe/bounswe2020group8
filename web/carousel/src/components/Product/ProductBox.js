@@ -3,15 +3,17 @@ import { Divider, Badge, InputNumber } from "antd";
 import ButtonPrimary from "../UI/ButtonPrimary/ButtonPrimary";
 import Image from "react-image-resizer";
 import { DeleteOutlined } from "@ant-design/icons";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined, MessageOutlined } from "@ant-design/icons";
 import services from "../../apis/services";
 import ButtonSecondary from "../UI/ButtonSecondary/ButtonSecondary";
+import { withRouter } from "react-router-dom";
 
 const ProductBox = (props) => {
   const [product, setproduct] = useState({});
   const [vendor, setvendor] = useState({});
 
   const { _id, brand, photos, shipmentPrice, vendorSpecifics } = product;
+  const { orderId, subOrderId, vendorId } = props;
 
   useEffect(() => {
     getProduct();
@@ -56,7 +58,15 @@ const ProductBox = (props) => {
           <div>
             <div style={{ fontSize: 16 }}>{brand}</div>
             <div style={{ fontWeight: "normal", fontSize: 12 }}>
-              Vendor: {vendor.companyName}
+              Vendor: {vendor.companyName}{" "}
+              <MessageOutlined
+                style={{ fontSize: "20px", cursor: "pointer" }}
+                onClick={() => {
+                  props.history.push(
+                    `/account/messages/${orderId}/${subOrderId}/${vendorId}`
+                  );
+                }}
+              />
             </div>
           </div>
 
@@ -113,6 +123,7 @@ const ProductBox = (props) => {
               <div style={{ fontSize: 13 }}>
                 <div>Arrive after {props.product.arrivesIn} days</div>
               </div>
+
               {[
                 "cancelled by the customer",
                 "cancelled by the vendor",
@@ -169,4 +180,4 @@ const ProductBox = (props) => {
   );
 };
 
-export default ProductBox;
+export default withRouter(ProductBox);

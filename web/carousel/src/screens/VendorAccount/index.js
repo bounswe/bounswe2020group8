@@ -7,6 +7,7 @@ import {
   GiftOutlined,
   FormOutlined,
   NotificationOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import { Link, Route, Switch } from "react-router-dom";
 import Profile from "./Profile";
@@ -23,6 +24,8 @@ import Tickets from "../Account/Tickets";
 import VendorPublicPage from "../VendorHome/VendorPublicPage";
 import Notifications from "../Account/Notifications";
 import services from "../../apis/services";
+import Messages from "../Account/Messages";
+import Message from "../../components/Account/Message/Message";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -132,9 +135,12 @@ class VendorAccount extends Component {
               <Link to="/vendor/account/rate">Rates</Link>
             </Menu.Item>
           </SubMenu>
+          <Menu.Item icon={<MessageOutlined />} key="messages">
+            <Link to="/vendor/account/messages">My Messages</Link>
+          </Menu.Item>
 
           <Menu.Item icon={<NotificationOutlined />} key="notifications">
-            <Link to="/account/notifications">
+            <Link to="/vendor/account/notifications">
               Notifications
               {this.state.notificationCount
                 ? ` (${this.state.notificationCount})`
@@ -181,8 +187,14 @@ class VendorAccount extends Component {
           <Route path="/vendor/account/tickets" exact component={Tickets} />
           <Route path="/vendor/account/comments" exact component={Comments} />
           <Route path="/vendor/account/rate" exact component={Rate} />
+          <Route path="/vendor/account/messages" exact component={Messages} />
           <Route
-            path="/account/notifications"
+            path="/vendor/account/messages/:orderId/:subOrderId/:vendorId"
+            exact
+            component={Message}
+          />
+          <Route
+            path="/vendor/account/notifications"
             exact
             component={Notifications}
           />
