@@ -7,6 +7,8 @@ import Order from "../../components/Order/Order";
 import { Checkbox } from "antd";
 import services from "../../apis/services";
 import ProductBox from "../../components/Product/ProductBox";
+import PrivacyPolicy from "../../components/Agreements/PrivacyPolicy";
+import Terms from "../../components/Agreements/Terms";
 
 const { Content, Sider } = Layout;
 
@@ -22,6 +24,7 @@ const Cart = () => {
   const [orderCreditCard, setOrderCreditCard] = useState("null");
   const [consentGiven, setConsentGiven] = useState(false);
   const [loading, setloading] = useState(false);
+  const [agreementVisible, setAgreementVisible] = useState(false);
 
   useEffect(() => {
     getCarts();
@@ -149,6 +152,10 @@ const Cart = () => {
     }
   };
 
+  const openAgreement = (open) => {
+    setAgreementVisible(open);
+  }
+
   function ProductContent() {
     return (
       (totalPrice = 0),
@@ -239,8 +246,9 @@ const Cart = () => {
             {currentPage === "order" && (
               <div style={{ fontWeight: "bold" }}>
                 <Checkbox onChange={onCheckBoxChange}>
-                  I've read the <a>sales agreement</a> and I accept it.
+                  I've read the sales agreement and I accept it.
                 </Checkbox>
+                <a onClick={() => openAgreement(true)}>Click here to read our sales agreement.</a>
                 <Divider style={{ width: 220 }} />
               </div>
             )}
@@ -259,6 +267,17 @@ const Cart = () => {
 
   return (
     <Layout>
+      {
+        agreementVisible ?
+          <div>
+            <Terms
+              visible={true}
+              setModal={() => openAgreement(false)}
+            />
+          </div>
+          :
+          null
+      }
       <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
         <Content
           style={{
