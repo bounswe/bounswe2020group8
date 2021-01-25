@@ -156,15 +156,6 @@ const ProductBox = (props) => {
                   onClick={() => props.handleDeleteProductClicked(_id)}
                 />
               </div>
-              <div>
-                <ButtonPrimary
-                  title="Add to Cart"
-                  style={{ width: 120, height: 50, fontSize: 16 }}
-                  onClick={() =>
-                    props.handleCartClicked(_id, vendorSpecifics[0]._id)
-                  }
-                />
-              </div>
             </>
           ) : null}
         </div>

@@ -6,6 +6,8 @@ import {
   HeartOutlined,
   HeartFilled,
   ShoppingCartOutlined,
+  BellOutlined,
+  BellFilled,
 } from "@ant-design/icons";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import { Select, Modal, Button, Form, Input, message, Popconfirm } from "antd";
@@ -82,10 +84,13 @@ const ProductActions = ({
 }) => {
   const [rating, setRating] = useState(4.6);
   const [liked, setLiked] = useState(false);
+  const [watched, setWatched] = useState(false);
+  const [watchlistId, setWatchedlistId] = useState("");
   const [added, setAdded] = useState(false);
   const [buttonStyle, setButtonStyle] = useState(regularCart);
   const [isLikedModalVisible, setIsLikedModalVisible] = useState(false);
   const [isUnlikedModalVisible, setIsUnlikedModalVisible] = useState(false);
+  const [isWatchedModalVisible, setIsWatchedModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [lists, setLists] = useState([]);
   const history = useHistory();
@@ -105,12 +110,12 @@ const ProductActions = ({
   }, []);
 
   const getLists = async () => {
-    const { _id } = productList[0];
+    const { _id, vendorSpecifics, parentProduct } = productList[0];
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    const URL = "/shoppingList/all";
+    const URL = "/shoppingList/all/idonly";
     services
       .get(URL, config)
       .then((response) => {
@@ -124,9 +129,24 @@ const ProductActions = ({
         }
       })
       .catch((err) => console.log(err));
+    const U = "/shoppingList/watchlist";
+    services
+      .get(U, config)
+      .then((response) => {
+        if (response.data) {
+          let watchlist = response.data.data;
+          const l = watchlist.some(
+            (r) => r.data.parentProduct._id === parentProduct
+          );
+          const f = watchlist.filter((r) => r.data._id === _id);
+          setWatchedlistId(f[0]._id);
+          setWatched(l);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleCreateNewList = async () => {
+  const handleCreateNewList = () => {
     setVisible(true);
   };
 
@@ -144,7 +164,7 @@ const ProductActions = ({
           ...list.wishedProducts,
           {
             productId: _id,
-            vendorId: _id,
+            vendorId: vendorSpecifics[0].vendorID._id,
           },
         ],
       };
@@ -222,6 +242,43 @@ const ProductActions = ({
     }
   };
 
+  const handleWatchedClicked = async () => {
+    if (localStorage.getItem("login") === "true") {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const URL = "/shoppingList/watchlist";
+      const { _id, vendorSpecifics } = productList[0];
+      if (!watched) {
+        const payload = {
+          product_id: _id,
+          vendor_id: vendorSpecifics[0].vendorID._id,
+        };
+        const response = await services.post(URL, payload, config);
+        if (response) {
+          message.success("This product added to your watchlist");
+          setWatched(true);
+        } else {
+          message.error("This item cannot be added to your watchlist");
+        }
+      } else {
+        const payload = {
+          watcher_id: watchlistId,
+        };
+        const response = await services.delete(URL, { ...config, ...payload });
+        if (response) {
+          message.success("This product removed from your watchlist");
+          setWatched(false);
+        } else {
+          message.error("This item cannot be removed from your watchlist");
+        }
+      }
+    } else {
+      history.push("/");
+    }
+  };
+
   const onCreate = (values) => {
     const { _id, vendorSpecifics } = productList[0];
     if (values && _id && vendorSpecifics) {
@@ -291,6 +348,19 @@ const ProductActions = ({
             /> */}
           </div>
         </div>
+        <div style={{}}>
+          <ButtonSecondary
+            icon={
+              watched ? (
+                <BellFilled style={{ fontSize: "26px" }} />
+              ) : (
+                <BellOutlined style={{ fontSize: "26px" }} />
+              )
+            }
+            style={{ marginTop: "-6px" }}
+            onClick={() => handleWatchedClicked()}
+          />
+        </div>
         <div style={{ position: "absolute", right: "0" }}>
           <ButtonSecondary
             icon={
@@ -349,7 +419,10 @@ const ProductActions = ({
           icon={<ShoppingCartOutlined style={{ fontSize: "26px" }} />}
           style={buttonStyle}
           title={added ? "Added to Cart!" : "Add to Cart"}
-          onClick={() => {handleAddToCart(); setAdded(true);}}
+          onClick={() => {
+            handleAddToCart();
+            setAdded(true);
+          }}
         />
         <div>
           Estimated delivery: <strong>3 Jan - 7 Jan</strong>
