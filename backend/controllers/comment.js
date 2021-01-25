@@ -20,9 +20,11 @@ exports.createOneCommentController = BaseUtil.createController((req) => {
   let name = req.client.name;
   let lastName = req.client.lastName;
   let { text, rate } = req.body;
-  return BB.all([AppValidator.isValidRange(0, 5, rate).reflect()]).then(() =>
-    CommentService.createOneCommentService(mainProductId, customerId, text, rate, name, lastName)
-  );
+  return BB.all([AppValidator.isValidRange(0, 5, rate).reflect()])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      CommentService.createOneCommentService(mainProductId, customerId, text, rate, name, lastName)
+    );
 });
 
 exports.updateOneCommentController = BaseUtil.createController((req) => {

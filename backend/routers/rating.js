@@ -5,10 +5,6 @@ const authController = require("../controllers/authClient");
 const RegisterActivity = require("../util/endpoint");
 const router = express.Router();
 
-// BELOW ARE PROTECTED ROUTES
-router.use(authController.protectRoute);
-router.use(RegisterActivity.registerActivity);
-
 router
   .route("/:vid")
   .patch(RatingController.patchRatingVendorController, RequestHelper.returnResponse);
