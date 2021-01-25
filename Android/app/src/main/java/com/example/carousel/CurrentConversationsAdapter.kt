@@ -20,6 +20,7 @@ class CurrentConversationsAdapter (private var userList: ArrayList<DataTicket> )
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val title: TextView = itemView.findViewById(R.id.title)
+        val lastMessage: TextView = itemView.findViewById(R.id.body)
 
         init {
             itemView.setOnClickListener {
@@ -36,6 +37,7 @@ class CurrentConversationsAdapter (private var userList: ArrayList<DataTicket> )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = userList[position].topic
+        holder.lastMessage.text = userList[position].conversation[userList[position].conversation.size-1].payload
     }
 }
 
