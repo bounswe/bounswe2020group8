@@ -57,7 +57,7 @@ const Notifications = (props) => {
         return (
           <a
             onClick={() => {
-              // handleMarkRead(record);
+              handleMarkRead(record);
               props.history.push(text);
             }}
           >
