@@ -6,7 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:layout_alignParentRight="true" android:background="#FFFFFF" android:clickable="true"
-android:id="@+id/fragment_settings"
+android:id="@+id/fragment_google_locations"
 tools:context=".DashboardActivity">
     <Button
         android:id="@+id/update"
@@ -36,4 +36,11 @@ tools:context=".DashboardActivity">
         android:layout_marginBottom="13dp"
         android:focusable="false" android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@+id/update"/>
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp" android:text="BACK"
+        app:layout_constraintBottom_toTopOf="@+id/update" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

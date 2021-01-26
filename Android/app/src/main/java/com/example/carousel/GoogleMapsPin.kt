@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_add_address.view.*
+import kotlinx.android.synthetic.main.fragment_google_locations.view.*
 
 
 class GoogleMapsPin : Fragment() {
@@ -35,11 +37,11 @@ class GoogleMapsPin : Fragment() {
     val COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
     val LOCATION_PERMISSION_REQUEST_CODE = 1234
     var locations: ArrayList<Location>? = null
-    var selectedLatitude: Double? = null
-    var selectedLongitude: Double? = null
+    var selectedLatitude: Double? = 41.015137
+    var selectedLongitude: Double? = 28.979530
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        pageRender()
+        pageRender(null)
         getLocationPermission()
         updateLocationUI()
         val rootView: View = inflater.inflate(R.layout.fragment_google_locations, container, false)
@@ -53,11 +55,11 @@ class GoogleMapsPin : Fragment() {
         }
         mMapView!!.getMapAsync(OnMapReadyCallback { mMap ->
             googleMap = mMap
-            val googleMapVal = googleMap
+//            val googleMapVal = googleMap
 //            googleMapVal?.setMyLocationEnabled(true)
 //            googleMap!!.addMarker(MarkerOptions().position(istanbul).title("Marker in Istanbul"))
-            val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
-            googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+//            val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
+//            googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
             googleMap?.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                 override fun onMapClick(p0: LatLng?) {
                     selectedLongitude = p0?.longitude
@@ -82,10 +84,17 @@ class GoogleMapsPin : Fragment() {
         var spinner = view.findViewById<Spinner>(R.id.spinner)
         var delete = view.findViewById<Button>(R.id.delete)
         var update = view.findViewById<Button>(R.id.update)
-        var map = view.findViewById<View>(R.id.map)
+        var back = view.findViewById<Button>(R.id.back)
 
-
-
+        view.back.setOnClickListener{
+            delete.visibility = View.INVISIBLE
+            update.visibility = View.INVISIBLE
+            back.visibility = View.INVISIBLE
+            val fragment = MemberAccountPageFragment()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_google_locations, fragment)
+                ?.commit()
+        }
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -96,15 +105,22 @@ class GoogleMapsPin : Fragment() {
                         delete.visibility = View.INVISIBLE
                     }
                     update.text = "ADD LOCATION"
+                    googleMap!!.clear()
+                    val googleMapVal = googleMap
+                    googleMapVal?.setMyLocationEnabled(true)
+                    googleMap!!.addMarker(MarkerOptions().position(istanbul).title("New Location"))
+                    val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
+                    googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
                     update.setOnClickListener{
                         locationCRUD(null, selectedLongitude, selectedLatitude, 0)
                     }
                 }else{
-                    println(position)
                     if(delete.visibility == View.INVISIBLE) {
                         delete.visibility = View.VISIBLE
                     }
                     update.text = "UPDATE"
+                    mapRender(position);
+
                     delete.setOnClickListener{
                         locationCRUD(position, null, null, 1)
                     }
@@ -117,6 +133,7 @@ class GoogleMapsPin : Fragment() {
             }
         }
     }
+
 
 
     private fun getLocationPermission() {
@@ -138,7 +155,6 @@ class GoogleMapsPin : Fragment() {
             if (locationPermission) {
                 googleMap?.isMyLocationEnabled = true
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
-                println("1111111111111111111111111111111111111111111111111")
             } else {
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
@@ -165,7 +181,7 @@ class GoogleMapsPin : Fragment() {
             }
         }
     }
-    private fun pageRender() {
+    private fun pageRender(position: Int?) {
         val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
         apiCaller.Caller = ApiClient.getClient.vendorMe()
         apiCaller.Success = { it ->
@@ -187,6 +203,8 @@ class GoogleMapsPin : Fragment() {
                     }
                     val adapter = ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_dropdown_item, items)
                     dropdown!!.adapter = adapter
+
+
                 })
             }
         }
@@ -273,7 +291,13 @@ class GoogleMapsPin : Fragment() {
                     apiCallerPatch.Success = { it ->
                         if (it != null) {
                             activity?.runOnUiThread(Runnable { //Handle UI here
-                                pageRender()
+                                if (operation == 0) {//Add location operation || It returns to Location 1 after addition. It would be good to stay at the recent added Location.
+                                    pageRender(locations!!.size-1)
+                                } else if (operation == 1) {//delete location operation
+                                    pageRender(null)
+                                } else if (operation == 2) {//update location operation
+                                    mapRender(position!!)
+                                }
                             })
                         }
                     }
@@ -286,4 +310,27 @@ class GoogleMapsPin : Fragment() {
         apiCaller.Failure = {}
         apiCaller.run()
     }
+    private fun mapRender(position: Int) {
+        var locations: ArrayList<Location>?
+        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+        apiCaller.Caller = ApiClient.getClient.vendorMe()
+        apiCaller.Success = { it ->
+            if (it != null) {
+                activity?.runOnUiThread(Runnable { //Handle UI here
+                    locations = it.data.locations
+                    var tempLocation = locations?.get(position)
+                    val location = LatLng(tempLocation?.latitude!!, tempLocation.longitude)
+                    googleMap!!.clear()
+                    val googleMapVal = googleMap
+                    googleMapVal?.setMyLocationEnabled(true)
+                    googleMap!!.addMarker(MarkerOptions().position(location).title("Location " + (position+1)))
+                    val cameraPosition = CameraPosition.Builder().target(location).zoom(12f).build()
+                    googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                })
+            }
+        }
+        apiCaller.Failure = {}
+        apiCaller.run()
+    }
+
 }

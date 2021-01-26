@@ -4,7 +4,7 @@
                 android:id="@+id/fragment_account_page"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite" android:clickable="true">
+                android:background="#FFFFFF" android:clickable="true">
     <ImageView
         android:id="@+id/logo"
         android:layout_width="159dp"
