@@ -22,6 +22,7 @@ data class VendorProduct(
     val rating: Double = 3.0,
     val numberOfRatings: Int = 0,
     val photoUrl: Int = 0,
+    val comments: ArrayList<Comment> = ArrayList<Comment>(),
     val tags: ArrayList<String> = ArrayList<String>() ,
     val brand: String = "",
     val shipmentPrice: Double = 0.0,
