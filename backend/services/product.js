@@ -15,32 +15,35 @@ const got = require("got");
 Searchs for products related to tags, it queries the semantic search API of datamuse to gather
 other related words with the tags. Then it queries the database for related products.
 */
+async function getRelatedTags(tags) {
+  tags_string = tags.join("+");
+  let response_body = (
+    await got(`https://api.datamuse.com/words?ml=${tags_string}`, {
+      json: true,
+    })
+  ).body;
+  new_tags = response_body
+    .filter((el) => {
+      if (el.tags) {
+        return el.tags.indexOf("v") == -1;
+      } else {
+        return true;
+      }
+    })
+    .splice(0, 10)
+    .map((el) => {
+      return el.word;
+    });
+  return new_tags;
+}
+
 exports.searchProductsService = async function ({ query, tags }) {
   if (!isNullOrEmpty(tags)) {
     tags = tags.filter((el) => {
       return Constants.BASIC_COLORS.indexOf(el) == -1;
     });
-
-    tags_string = tags.join("+");
-    let response_body = (
-      await got(`https://api.datamuse.com/words?ml=${tags_string}`, {
-        json: true,
-      })
-    ).body;
-    new_tags = response_body
-      .filter((el) => {
-        if (el.tags) {
-          return el.tags.indexOf("v") == -1;
-        } else {
-          return true;
-        }
-      })
-      .splice(0, 10)
-      .map((el) => {
-        return el.word;
-      });
+    new_tags = await getRelatedTags(tags);
     tags = tags.concat(new_tags);
-    console.log(tags);
   }
 
   let products = await ProductDataAccess.searchProducts(query, tags);
@@ -61,6 +64,9 @@ exports.getProductRecommendationService = async function ({ pid }) {
       return Constants.BASIC_COLORS.indexOf(el) == -1;
     });
   }
+  new_tags = await getRelatedTags(tags);
+  tags = tags.concat(new_tags);
+
   recIndex = tags.indexOf("hotsellers");
   if (recIndex != 1) {
     tags.splice(recIndex, 1);
