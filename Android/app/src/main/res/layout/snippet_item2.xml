@@ -9,12 +9,13 @@
         android:id="@+id/textSeparator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:fontFamily="@font/ubuntu_bold"
 
+        android:gravity="center_horizontal|center_vertical"
         android:padding="8dp"
         android:text=""
-        android:textAllCaps="true"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2" android:textColor="#FFF" android:visibility="visible"/>
+        android:textAllCaps="true" android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#FFF" android:visibility="visible"/>
 
 </LinearLayout>
