@@ -64,12 +64,9 @@ export function SideButtons(props) {
 
   const [notificationCount, setNotificationCount] = useState(0);
 
-  const getNotificationCount = async () => {
+  const getNotificationCount = async (c) => {
     const loggedIn = localStorage.getItem("login");
-    if (
-      loggedIn === "true" &&
-      (user.userType === "Vendor" || user.userType === "Customer")
-    ) {
+    if (loggedIn === "true" && (c === "Vendor" || c === "Customer")) {
       const TOKEN = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${TOKEN}` },
@@ -81,9 +78,11 @@ export function SideButtons(props) {
   };
 
   useEffect(async () => {
-    getNotificationCount();
-    setInterval(() => getNotificationCount(), 10000);
-  }, []);
+    if (user.userType) {
+      getNotificationCount(user.userType);
+      setInterval(() => getNotificationCount(user.userType), 5000);
+    }
+  }, [user]);
 
   const onLogoutSuccess = (res) => {
     let url = "";
