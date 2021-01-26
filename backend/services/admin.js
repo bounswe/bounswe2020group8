@@ -40,10 +40,10 @@ exports.logoutService = async function ({ tokenCode }) {
   return {};
 };
 
-exports.getAllActivitiesService = async function () {
-  let results = await ActivityDataAccess.getAllActivityDB();
-  return { result: results.length, data: results };
-};
+// exports.getAllActivitiesService = async function (query) {
+//   let results = await ActivityDataAccess.getAllActivityDB();
+//   return { result: results.length, data: results };
+// };
 
 exports.getOneActivityService = async function (_id) {
   let activity = await ActivityDataAccess.getActivityByIdDB(_id);

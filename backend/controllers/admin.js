@@ -2,6 +2,8 @@ const BaseUtil = require("../util/baseUtil");
 const BB = require("bluebird");
 const AdminService = require("../services/admin");
 const AppValidator = require("../util/appValidator");
+const Factory = require("../services/crudFactory");
+const Activity = require("../models/activity");
 
 exports.loginController = BaseUtil.createController((req) => {
   let { email, password } = req.query;
@@ -26,7 +28,7 @@ exports.logoutController = BaseUtil.createController((req) => {
 exports.getAllActivitiesController = BaseUtil.createController((req) => {
   return BB.all([])
     .then((results) => BaseUtil.decideErrorExist(results))
-    .then(() => AdminService.getAllActivitiesService());
+    .then(() => Factory.getAll(Activity)(req));
 });
 
 exports.getOneActivityController = BaseUtil.createController((req) => {
