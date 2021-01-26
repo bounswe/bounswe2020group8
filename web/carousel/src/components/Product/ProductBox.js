@@ -66,14 +66,16 @@ const ProductBox = (props) => {
             <div style={{ fontSize: 16 }}>{brand}</div>
             <div style={{ fontWeight: "normal", fontSize: 12 }}>
               Vendor: {vendor.companyName}{" "}
-              <MessageOutlined
-                style={{ fontSize: "20px", cursor: "pointer" }}
-                onClick={() => {
-                  props.history.push(
-                    `/account/messages/${orderId}/${subOrderId}/${vendorId}`
-                  );
-                }}
-              />
+              {props.order ? (
+                <MessageOutlined
+                  style={{ fontSize: "20px", cursor: "pointer" }}
+                  onClick={() => {
+                    props.history.push(
+                      `/account/messages/${orderId}/${subOrderId}/${vendorId}`
+                    );
+                  }}
+                />
+              ) : null}
             </div>
           </div>
 
