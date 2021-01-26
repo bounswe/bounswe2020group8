@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.example.carousel.vendor.Location
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 
@@ -31,7 +35,8 @@ class GoogleMapsPin : Fragment() {
     val COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
     val LOCATION_PERMISSION_REQUEST_CODE = 1234
     var locations: ArrayList<Location>? = null
-    var x: Int = 0
+    var selectedLatitude: Double? = null
+    var selectedLongitude: Double? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         pageRender()
@@ -49,20 +54,38 @@ class GoogleMapsPin : Fragment() {
         mMapView!!.getMapAsync(OnMapReadyCallback { mMap ->
             googleMap = mMap
             val googleMapVal = googleMap
-            googleMapVal?.setMyLocationEnabled(true)
-            googleMap!!.addMarker(MarkerOptions().position(istanbul).title("Marker in Istanbul"))
+//            googleMapVal?.setMyLocationEnabled(true)
+//            googleMap!!.addMarker(MarkerOptions().position(istanbul).title("Marker in Istanbul"))
             val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
             googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            googleMap?.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                override fun onMapClick(p0: LatLng?) {
+                    selectedLongitude = p0?.longitude
+                    selectedLatitude = p0?.latitude
+                    val markerOptions = MarkerOptions()
+                    markerOptions.position(p0!!)
+                    var spinner = view?.findViewById<Spinner>(R.id.spinner)
+                    markerOptions.title(spinner?.selectedItem.toString());
+                    googleMap!!.clear()
+                    googleMap!!.animateCamera(CameraUpdateFactory.newLatLng(p0));
+
+                    googleMap!!.addMarker(markerOptions)
+                    println(selectedLatitude.toString() + selectedLongitude.toString())
+                }
+            })
+
         })
-
         return rootView
-
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var spinner = view.findViewById<Spinner>(R.id.spinner)
         var delete = view.findViewById<Button>(R.id.delete)
         var update = view.findViewById<Button>(R.id.update)
+        var map = view.findViewById<View>(R.id.map)
+
+
+
 
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -74,9 +97,7 @@ class GoogleMapsPin : Fragment() {
                     }
                     update.text = "ADD LOCATION"
                     update.setOnClickListener{
-                        val latitude: Int = 0
-                        val longitude: Int = 0
-                        locationCRUD(null,longitude, latitude,0)
+                        locationCRUD(null, selectedLongitude, selectedLatitude, 0)
                     }
                 }else{
                     println(position)
@@ -85,12 +106,12 @@ class GoogleMapsPin : Fragment() {
                     }
                     update.text = "UPDATE"
                     delete.setOnClickListener{
-                        locationCRUD(position,null,null,1)
+                        locationCRUD(position, null, null, 1)
                     }
                     update.setOnClickListener{
                         val latitude: Int = 10
                         val longitude: Int = 10
-                        locationCRUD(position,longitude,latitude,2)
+                        locationCRUD(position, selectedLongitude, selectedLatitude, 2)
                     }
                 }
             }
@@ -105,7 +126,8 @@ class GoogleMapsPin : Fragment() {
             }
         }else {
             ActivityCompat.requestPermissions(
-                activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQUEST_CODE)
+                activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE
+            )
         }
     }
     private fun updateLocationUI() {
@@ -116,6 +138,7 @@ class GoogleMapsPin : Fragment() {
             if (locationPermission) {
                 googleMap?.isMyLocationEnabled = true
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
+                println("1111111111111111111111111111111111111111111111111")
             } else {
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
@@ -130,9 +153,9 @@ class GoogleMapsPin : Fragment() {
 
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty()){
-                    for(item: Int in grantResults){
-                        if(item != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty()) {
+                    for (item: Int in grantResults) {
+                        if (item != PackageManager.PERMISSION_GRANTED) {
                             locationPermission = false
                             return
                         }
@@ -155,14 +178,14 @@ class GoogleMapsPin : Fragment() {
                         items = Array(locations!!.size + 1) { i ->
                             if (i != locations!!.size) {
                                 ("Location " + (i + 1)).toString()
-                            }else {
+                            } else {
                                 "New Location"
                             }
                         }
                     } else {
                         items = Array(1) { "New Location" }
                     }
-                    val adapter = ArrayAdapter<String>(activity!!,android.R.layout.simple_spinner_dropdown_item,items)
+                    val adapter = ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_dropdown_item, items)
                     dropdown!!.adapter = adapter
                 })
             }
@@ -171,156 +194,7 @@ class GoogleMapsPin : Fragment() {
         apiCaller.run()
     }
 
-//    private fun addNewLocation(longitude: Int, latitude: Int) {
-//        var id: String
-//        var name: String?
-//        var lastName: String?
-//        var email: String
-//        var isSuspended: Boolean
-//        var isActive: Boolean
-//        var companyName: String?
-//        var companyDomainName: String?
-//        var aboutCompany: String?
-//        var IBAN: String?
-//        var address: Address?
-//        var locations: ArrayList<Location>?
-//
-//        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//        apiCaller.Caller = ApiClient.getClient.vendorMe()
-//        apiCaller.Success = { it ->
-//            if (it != null) {
-//                activity?.runOnUiThread(Runnable { //Handle UI here
-//
-//                    id = it.data.id
-//                    name = it.data.name
-//                    lastName = it.data.lastName
-//                    email = it.data.email
-//                    isSuspended = it.data.isSuspended
-//                    isActive = it.data.isActive
-//                    companyName = it.data.companyName
-//                    companyDomainName = it.data.companyDomainName
-//                    aboutCompany = it.data.aboutCompany
-//                    IBAN = it.data.IBAN
-//                    address = it.data.address
-//
-//                    locations = it.data.locations
-//                    val newLocation = Location(longitude, latitude)
-//
-//                    if(locations?.isNotEmpty() == true) {
-//                        locations!!.add(newLocation)
-//                    }else{
-//                        val tempLocations = arrayListOf(newLocation)
-//                        locations = tempLocations
-//                    }
-//
-//                    var newData = DataVendorMe(
-//                        id,
-//                        name,
-//                        lastName,
-//                        email,
-//                        isSuspended,
-//                        isActive,
-//                        companyName,
-//                        companyDomainName,
-//                        aboutCompany,
-//                        IBAN,
-//                        address,
-//                        locations,
-//                    )
-//
-//                    val apiCallerPatch: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//                    apiCallerPatch.Caller = ApiClient.getClient.vendorUpdate(newData)
-//                    apiCallerPatch.Success = { it ->
-//                        if (it != null) {
-//                            activity?.runOnUiThread(Runnable { //Handle UI here
-//                                pageRender()
-//                            })
-//                        }
-//                    }
-//                    apiCallerPatch.Failure = {}
-//                    apiCallerPatch.run()
-//
-//                })
-//            }
-//        }
-//        apiCaller.Failure = {}
-//        apiCaller.run()
-//
-//    }
-//    private fun deleteLocation(position: Int) {
-//        var id: String
-//        var name: String?
-//        var lastName: String?
-//        var email: String
-//        var isSuspended: Boolean
-//        var isActive: Boolean
-//        var companyName: String?
-//        var companyDomainName: String?
-//        var aboutCompany: String?
-//        var IBAN: String?
-//        var address: Address?
-//        var locations: ArrayList<Location>?
-//
-//        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//        apiCaller.Caller = ApiClient.getClient.vendorMe()
-//        apiCaller.Success = { it ->
-//            if (it != null) {
-//                activity?.runOnUiThread(Runnable { //Handle UI here
-//
-//                    id = it.data.id
-//                    name = it.data.name
-//                    lastName = it.data.lastName
-//                    email = it.data.email
-//                    isSuspended = it.data.isSuspended
-//                    isActive = it.data.isActive
-//                    companyName = it.data.companyName
-//                    companyDomainName = it.data.companyDomainName
-//                    aboutCompany = it.data.aboutCompany
-//                    IBAN = it.data.IBAN
-//                    address = it.data.address
-//
-//                    locations = it.data.locations
-//
-//                    var tempLocations = locations
-//                    tempLocations!!.removeAt(position)
-//                    locations = tempLocations
-//
-//
-//                    var newData = DataVendorMe(
-//                        id,
-//                        name,
-//                        lastName,
-//                        email,
-//                        isSuspended,
-//                        isActive,
-//                        companyName,
-//                        companyDomainName,
-//                        aboutCompany,
-//                        IBAN,
-//                        address,
-//                        locations,
-//                    )
-//
-//                    val apiCallerPatch: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-//                    apiCallerPatch.Caller = ApiClient.getClient.vendorUpdate(newData)
-//                    apiCallerPatch.Success = { it ->
-//                        if (it != null) {
-//                            activity?.runOnUiThread(Runnable { //Handle UI here
-//                                pageRender()
-//                            })
-//                        }
-//                    }
-//                    apiCallerPatch.Failure = {}
-//                    apiCallerPatch.run()
-//
-//                })
-//            }
-//        }
-//        apiCaller.Failure = {}
-//        apiCaller.run()
-//
-//    }
-    private fun locationCRUD(position: Int?, longitude: Int?, latitude: Int?, operation: Int) {
+    private fun locationCRUD(position: Int?, longitude: Double?, latitude: Double?, operation: Int) {
         var id: String
         var name: String?
         var lastName: String?
@@ -354,28 +228,28 @@ class GoogleMapsPin : Fragment() {
 
                     locations = it.data.locations
 
-                    if(operation==0){//Add location operation
+                    if (operation == 0) {//Add location operation
 
                         val newLocation = Location(longitude!!, latitude!!)
-                        if(locations?.isNotEmpty() == true) {
+                        if (locations?.isNotEmpty() == true) {
                             locations!!.add(newLocation)
-                        }else{
+                        } else {
                             val tempLocations = arrayListOf(newLocation)
                             locations = tempLocations
                         }
 
-                    }else if(operation == 1) {//delete location operation
+                    } else if (operation == 1) {//delete location operation
 
                         var tempLocations = locations
                         tempLocations!!.removeAt(position!!)
                         locations = tempLocations
 
-                    }else if(operation == 2) {//update location operation
+                    } else if (operation == 2) {//update location operation
 
                         val newLocation = Location(longitude!!, latitude!!)
                         var tempLocations = locations
                         tempLocations!!.removeAt(position!!)
-                        tempLocations.add(position,newLocation)
+                        tempLocations.add(position, newLocation)
                         locations = tempLocations
 
                     }
