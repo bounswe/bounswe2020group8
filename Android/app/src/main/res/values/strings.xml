@@ -503,11 +503,8 @@
     <string name="contacts">
         corouselapp@gmail.com\n
         github.com/bounswe/bounswe2020group8\n
-
-        <string name="vendor_home_title">Shop</string>
-
-
     </string>
+    <string name="vendor_home_title">Shop</string>
     <string name="product">Product</string>
     <string name="amount_left">Stock</string>
     <string name="update">Update</string>
