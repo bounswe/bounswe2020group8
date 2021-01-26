@@ -131,18 +131,19 @@ interface ApiInterface {
         @Path("pid") pid: String = "",
         @Body body: PostComment): Call<PostComment>
 
-    @POST("/customer/shoppingCart/get")
-    fun getCart(
-        @Body id: ID
-    ): Call<ArrayList<ResponseCart>>
+    @GET("/customer/shoppingCart/main")
+    fun getCart(): Call<ArrayList<ResponseCart>>
 
-    @POST("/customer/shoppingCart/update")
+    @POST("/customer/shoppingCart/main")
     fun updateCart(
         @Body data: UpdateCart): Call<DataCustomerMe>
 
     @POST("/customer/shoppingCart/delete")
     fun deleteCart(
         @Body data: DeleteCart): Call<ArrayList<DataCustomerMe>>
+    @POST("/customer/shoppingCart/reset")
+    fun resetCart(
+        @Body data: ResetCart): Call<ArrayList<DataCustomerMe>>
 
     @POST
     fun productSearch(
@@ -151,7 +152,8 @@ interface ApiInterface {
         @Query("sort") sort: String = "",
         @Query("limit") limit: Int = 1000,
         @Query("page") page: Int = 1,
-        @Query("fields") fields: String = "", ): Call<ResponseProductSearch>
+        @Query("fields") fields: String = "",
+        @Header("Authorization") authHeader: String, ): Call<ResponseProductSearch>
 
     @POST("/product/searchFilters")
     fun productSearchFilters(
@@ -162,4 +164,28 @@ interface ApiInterface {
         @Body purchaseBody: PurchaseBody
     ): Call<ID>
 
+    @GET("/product/recommendations/{id}")
+    fun productRecommendations(
+        @Path("id") id: String
+    ):  Call<ResponseProductSearch>
+
+    @GET("/customer/me/recommendations")
+    fun customerMeRecommendations(
+    ) : Call<ResponseProductSearch>
+
+    @GET("/ticket/client/{id}")
+    fun getAllTickets(
+        @Path("id") id: String
+    ) : Call<ResponseAllTickets>
+
+    @POST("/ticket/{tid}")
+    fun replyToTicket(
+        @Path("tid") tid: String,
+        @Body replyTicket: ReplyTicket
+    ) : Call<ResponseTicket>
+
+    @POST("/ticket")
+    fun createTicket(
+        @Body postTicket: PostTicket
+    ) : Call<ResponseTicket>
 }

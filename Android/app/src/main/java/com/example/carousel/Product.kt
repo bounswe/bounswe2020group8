@@ -61,6 +61,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
         shipmentPrice = product.default.shipmentPrice,
         cargoCompany = product.default.cargoCompany,
         rating = main.rating,
+        numberOfRatings = main.numberOfRating,
         photos = product.photos,
         tags = product.tags,
         mainProductId = main._id,
@@ -70,16 +71,18 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
 
     fun responseToProductSearch(product: DataProductSearch, main: MainProduct): Product{
         return Product(
-            _id = main._id,
+            _id = product.product._id,
             title = main.title,
             price = product.minPrice.toDouble(),
-            minPrice = product.minPrice,
-            maxPrice = product.maxPrice,
+            minPrice = product.minPrice.toInt(),
+            maxPrice = product.maxPrice.toInt(),
             rating = main.rating.toDouble(),
             numberOfRatings = main.numberOfRating,
             photos = product.product.photos,
             brand = product.brand,
             category = product.category,
+            mainProductId = main._id,
+            vendorId = product.vendors[0]._id,
         )
     }
 

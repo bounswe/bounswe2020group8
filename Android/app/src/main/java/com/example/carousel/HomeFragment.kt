@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ResponseAllProducts
-import com.example.carousel.pojo.ResponseCustomerMe
-import com.example.carousel.pojo.ResponseMainProduct
-import com.example.carousel.pojo.ResponseProduct
+import com.example.carousel.pojo.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -46,12 +44,52 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        if(ApplicationContext.instance.isUserAuthenticated()) {
+            recommendations.visibility = View.VISIBLE
+            recommendations_title.visibility = View.VISIBLE
+        }
+        else {
+            recommendations.visibility = View.INVISIBLE
+            recommendations_title.visibility = View.INVISIBLE
+        }
+
         activity?.runOnUiThread {
             val productsDeals = ArrayList<Product>()
+            val recommendedProducts = ArrayList<Product>()
 
+            val apiCallerGetRecommendation: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
+            apiCallerGetRecommendation.Caller = ApiClient.getClient.customerMeRecommendations()
+            apiCallerGetRecommendation.Success = { firstResponse ->
+                if (firstResponse != null) {
+                    activity?.runOnUiThread {
+                        for(product in firstResponse.data) {
+                            recommendedProducts.add(
+                                responseToProductSearch(
+                                    product,
+                                    product.mainProduct[0]
+                                )
+                            )
+                            /*val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
+                            apiCallerGetMainProduct.Caller = ApiClient.getClient.getMainProduct(product.parentProduct)
+                            apiCallerGetMainProduct.Success = { it ->
+                                if (it!= null) {
+                                    Log.d("SECONDRESPONSE", it.toString())
+                                    recommendedProducts.add(responseToProduct(product, it.data))
+                                    if(recommendations != null)
+                                        createProductListLinear(recommendedProducts, recommendations)*/
 
-            //val apiCallerGetProduct: ApiCaller<ResponseProduct> = ApiCaller(activity)
-            //apiCallerGetProduct.Caller = ApiClient.getClient.getProduct("5fe757b3d28edecdb6f1e5ce")
+                        }
+                        Log.d("PRODs ", recommendedProducts[0].title)
+                        createProductListLinear(recommendedProducts, recommendations)
+                    }
+//                            apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+//                            apiCallerGetMainProduct.run()
+//                        }
+//                    }
+                }
+            }
+            apiCallerGetRecommendation.Failure = {Log.d("GETTING CUST REC", "FAILED")}
+            apiCallerGetRecommendation.run()
 
 
             val apiCallerGetProduct: ApiCaller<ResponseAllProducts> = ApiCaller(activity)
@@ -60,17 +98,16 @@ class HomeFragment : Fragment() {
                 if (firstResponse != null) {
                     activity?.runOnUiThread {
                         Log.d("FIRSTRESPONSE", firstResponse.toString())
-                        for (product in firstResponse.data) {
-                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> =
-                                ApiCaller(activity)
+                        for(product in firstResponse.data) {
+                            val apiCallerGetMainProduct: ApiCaller<ResponseMainProduct> = ApiCaller(activity)
                             apiCallerGetMainProduct.Caller =
                                 ApiClient.getClient.getMainProduct(product.parentProduct)
                             apiCallerGetMainProduct.Success = { it ->
-                                if (it != null) {
+                                if (it!= null) {
                                     Log.d("SECONDRESPONSE", it.toString())
                                     productsDeals.add(responseToProduct(product, it.data))
-                                    if (deals != null)
-                                        createProductList(productsDeals, deals)
+                                    if(deals != null)
+                                        createProductListGrid(productsDeals, deals)
                                 }
                             }
                             apiCallerGetMainProduct.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
@@ -79,10 +116,11 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-            apiCallerGetProduct.Failure = { Log.d("FIRSTRESPONSE", "FAILED") }
+            apiCallerGetProduct.Failure = {Log.d("FIRSTRESPONSE", "FAILED")}
             apiCallerGetProduct.run()
 
         }
+
 
 
         /*
@@ -120,7 +158,6 @@ class HomeFragment : Fragment() {
          */
 
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -128,8 +165,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
-
-    private fun createProductList(products: ArrayList<Product>, productCategory: RecyclerView) {
+    private fun createProductListGrid(products: ArrayList<Product>, productCategory: RecyclerView ){
         val adapter = ProductsAdapter(products, requireActivity())
         productCategory.apply {
             layoutManager = GridLayoutManager(this.context, 2)
@@ -138,7 +174,21 @@ class HomeFragment : Fragment() {
         adapter.onItemClick = { product ->
             Log.d("PRODUCT:", product.toString())
             val intent = Intent(this.context, ProductPageActivity::class.java)
-            intent.putExtra("product", product)
+            intent.putExtra("product",product)
+            startActivity(intent)
+        }
+
+    }
+    private fun createProductListLinear(products: ArrayList<Product>, productCategory: RecyclerView ){
+        val adapter = ProductsAdapter(products, requireActivity())
+        productCategory.apply {
+            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL ,false)
+            setAdapter(adapter)
+        }
+        adapter.onItemClick = { product ->
+            Log.d("PRODUCT:", product.toString())
+            val intent = Intent(this.context, ProductPageActivity::class.java)
+            intent.putExtra("product",product)
             startActivity(intent)
         }
     }

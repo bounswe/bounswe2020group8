@@ -4,6 +4,7 @@ import com.example.carousel.*
 import com.example.carousel.Address
 import com.example.carousel.Card
 import com.example.carousel.Product
+import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -217,6 +218,7 @@ data class MainProductData(
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
     @Expose @SerializedName("description") val description: String? = "",
     @Expose @SerializedName("rating") val rating: Double,
+    @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("soldAmount") val soldAmount: Int,
     @Expose @SerializedName("category") val category: String,
@@ -285,10 +287,14 @@ data class ResponseGetComments(
 )
 
 data class PostComment(
-    @Expose @SerializedName("text") val text: String
+    @Expose @SerializedName("text") val text: String,
+    @Expose @SerializedName("rate") val rate: Int
 )
 
 data class ResponseCart(
+    @Expose @SerializedName("data") val data: ArrayList<DataCart>,
+    )
+data class DataCart(
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
     @Expose @SerializedName("amount") val amount: Int,
@@ -301,7 +307,6 @@ data class ResponseCart(
 )
 
 data class UpdateCart(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("amount") val amount: Int,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
@@ -311,6 +316,10 @@ data class DeleteCart(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
+)
+
+data class ResetCart(
+    @Expose @SerializedName("_id") val _id: String,
 )
 
 data class ID(
@@ -326,8 +335,8 @@ data class ResponseProductSearch(
 
 data class DataProductSearch(
     @Expose @SerializedName("matches") val matches: Int,
-    @Expose @SerializedName("maxPrice") val maxPrice: Int,
-    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("maxPrice") val maxPrice: Double,
+    @Expose @SerializedName("minPrice") val minPrice: Double,
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("mainProduct") val mainProduct: ArrayList<MainProduct>,
     @Expose @SerializedName("product") val product: ProductDataSearch,
@@ -344,7 +353,7 @@ data class ProductDataSearch(
 data class MainProduct(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("title") val title: String,
-    @Expose @SerializedName("rating") val rating: Int,
+    @Expose @SerializedName("rating") val rating: Double,
     @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
 )
 
@@ -363,8 +372,8 @@ data class ResponseVendorMeProduct(
 data class DataProductSearchFilters(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
-    @Expose @SerializedName("maxPrice") val maxPrice: Int,
-    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("maxPrice") val maxPrice: Double,
+    @Expose @SerializedName("minPrice") val minPrice: Double,
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("brands") val brands: List<String>,
     @Expose @SerializedName("categories") val categories: List<String>,
@@ -372,8 +381,42 @@ data class DataProductSearchFilters(
     )
 
 data class PurchaseBody(
-    @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("shippingAddressId") val shippingAddressId: String,
     @Expose @SerializedName("billingAddressId") val billingAddressId: String,
     @Expose @SerializedName("creditCardId") val creditCardId: String,
-)
+    )
+
+data class PostTicket(
+    @Expose @SerializedName("message") val message: String,
+    @Expose @SerializedName("topic") val topic: String,
+) : Serializable
+
+data class ResponseTicket(
+    @Expose @SerializedName("data") val data: DataTicket,
+) : Serializable
+
+data class ResponseAllTickets(
+    @Expose @SerializedName("data") val data: ArrayList<DataTicket>,
+) : Serializable
+
+data class DataTicket(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("topic") val topic: String,
+    @Expose @SerializedName("adminId") val adminId: String,
+    @Expose @SerializedName("clientId") val clientId: String,
+    @Expose @SerializedName("isActive") val isActive: Boolean,
+    @Expose @SerializedName("isAssigned") val isAssigned: Boolean,
+    @Expose @SerializedName("startedAt") val startedAt: Date,
+    @Expose @SerializedName("updatedAt") val updatedAt: Date,
+    @Expose @SerializedName("conversation") val conversation: ArrayList<DataConversation>,
+    ): Serializable
+
+data class DataConversation(
+    @Expose @SerializedName("payload") val payload: String,
+    @Expose @SerializedName("isSentByAdmin") val isSentByAdmin: Boolean,
+    @Expose @SerializedName("sendAt") val sendAt: Date,
+): Serializable
+
+data class ReplyTicket(
+    @Expose @SerializedName("payload") val payload: String,
+) : Serializable
