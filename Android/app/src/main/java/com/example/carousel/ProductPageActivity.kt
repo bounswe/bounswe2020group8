@@ -162,8 +162,8 @@ class ProductPageActivity : AppCompatActivity() {
     }
     private fun updateReviews(){
         textInputEditText.setText("")
-        val newRating = adapter.getRating()
-        overallRating.rating = newRating.toFloat()
+        val newRating = product?.rating
+        overallRating.rating = newRating?.toFloat()!!
         reviewsTitle.text = "Reviews (${adapter.commentList.size})"
     }
     fun addToList(view: View){

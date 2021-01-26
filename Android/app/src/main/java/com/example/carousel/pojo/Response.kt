@@ -177,6 +177,7 @@ data class MainProductData(
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
     @Expose @SerializedName("description") val description: String? = "",
     @Expose @SerializedName("rating") val rating: Double,
+    @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("soldAmount") val soldAmount: Int,
     @Expose @SerializedName("category") val category: String,
@@ -310,7 +311,7 @@ data class ProductDataSearch(
 data class MainProduct(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("title") val title: String,
-    @Expose @SerializedName("rating") val rating: Int,
+    @Expose @SerializedName("rating") val rating: Double,
     @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
 )
 
@@ -329,8 +330,8 @@ data class ResponseVendorMeProduct(
 data class DataProductSearchFilters(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
-    @Expose @SerializedName("maxPrice") val maxPrice: Int,
-    @Expose @SerializedName("minPrice") val minPrice: Int,
+    @Expose @SerializedName("maxPrice") val maxPrice: Double,
+    @Expose @SerializedName("minPrice") val minPrice: Double,
     @Expose @SerializedName("vendors") val vendors: List<VendorID>,
     @Expose @SerializedName("brands") val brands: List<String>,
     @Expose @SerializedName("categories") val categories: List<String>,
