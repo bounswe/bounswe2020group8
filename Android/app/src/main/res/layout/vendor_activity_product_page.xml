@@ -39,22 +39,7 @@
                 android:paddingBottom="5dp"
                 android:textColor="#202020"
                 android:textSize="32sp"/>
-            <RatingBar
-                android:id="@+id/overallRating"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:background="@color/colorWhite"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:rating="5"
-                android:layout_gravity="center_horizontal"
-                android:stepSize="0.1" app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/comments"
-                app:layout_constraintVertical_bias="1.0"/>
+
             <TextView
                 android:id="@+id/price"
                 android:layout_width="match_parent"
@@ -86,62 +71,14 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
-            >
-
-                <com.google.android.material.button.MaterialButton
-                    app:icon="@drawable/ic_add_shopping_cart"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-
-                    android:id="@+id/cart_button"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:gravity="center_horizontal"
-                    android:onClick="addToCart"
-                    android:text="@string/addToCart"/>
-                <com.google.android.material.button.MaterialButton
-                    app:icon="@drawable/ic_add"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:id="@+id/list_button"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:gravity="center_horizontal"
-                    android:onClick="addToList"
-                    android:text="@string/addToList"/>
-
-            </LinearLayout>
+            />
             <LinearLayout android:id="@+id/counter_view"
                             android:layout_width="match_parent" android:layout_height="wrap_content"
                           app:layout_constraintEnd_toEndOf="parent"
                           app:layout_constraintStart_toStartOf="parent"
                           app:layout_constraintTop_toBottomOf="@+id/product_frame"
                           android:orientation="horizontal"
-                          android:gravity="center">
-                <Button
-                    android:id="@+id/dec_count"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="32dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    app:icon="@drawable/ic_remove_circle_24px"
-                    android:onClick="decCount"
-                />
-                <EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:inputType="number" android:text="0" android:id="@+id/counter" android:layout_marginLeft="8dp"/>
-
-
-                <Button
-                    android:id="@+id/inc_count"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="32dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="center_vertical"
-                    app:icon="@drawable/ic_add_circle_24px"
-                    android:onClick="incCount"
-                />
-            </LinearLayout>
+                          android:gravity="center"/>
         </LinearLayout>
         <View android:id="@+id/underProduct"
               style="@style/Divider" android:layout_marginTop="32dp"
@@ -202,15 +139,6 @@
               app:layout_constraintEnd_toEndOf="parent"
               app:layout_constraintStart_toStartOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/comments"/>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Add a review"
-            android:imeOptions="actionSend"
-            app:layout_constraintTop_toBottomOf="@+id/underComments">
-
-        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
