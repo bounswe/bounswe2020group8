@@ -1,6 +1,7 @@
 package com.example.carousel
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ForgotPasswordJSON(
     @SerializedName("returnCode") val returnCode: Int,
@@ -52,4 +53,9 @@ data class CreditCardJSON(
     @SerializedName("creditCardName") val creditCardName: String,
 
     )
+data class LocationJSON(
+    @SerializedName("_id") val _id: String,
+    @SerializedName("longitude") val longitude: Int,
+    @SerializedName("latitude") val latitude: Int,
 
+    )
