@@ -105,12 +105,7 @@ class GoogleMapsPin : Fragment() {
                         delete.visibility = View.INVISIBLE
                     }
                     update.text = "ADD LOCATION"
-                    googleMap!!.clear()
-                    val googleMapVal = googleMap
-                    googleMapVal?.setMyLocationEnabled(true)
-                    googleMap!!.addMarker(MarkerOptions().position(istanbul).title("New Location"))
-                    val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
-                    googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                    mapRender(-1)
                     update.setOnClickListener{
                         locationCRUD(null, selectedLongitude, selectedLatitude, 0)
                     }
@@ -317,15 +312,24 @@ class GoogleMapsPin : Fragment() {
         apiCaller.Success = { it ->
             if (it != null) {
                 activity?.runOnUiThread(Runnable { //Handle UI here
-                    locations = it.data.locations
-                    var tempLocation = locations?.get(position)
-                    val location = LatLng(tempLocation?.latitude!!, tempLocation.longitude)
-                    googleMap!!.clear()
-                    val googleMapVal = googleMap
-                    googleMapVal?.setMyLocationEnabled(true)
-                    googleMap!!.addMarker(MarkerOptions().position(location).title("Location " + (position+1)))
-                    val cameraPosition = CameraPosition.Builder().target(location).zoom(12f).build()
-                    googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                    if(position==-1){
+                        googleMap!!.clear()
+                        val googleMapVal = googleMap
+                        googleMapVal?.setMyLocationEnabled(true)
+                        googleMap!!.addMarker(MarkerOptions().position(istanbul).title("New Location"))
+                        val cameraPosition = CameraPosition.Builder().target(istanbul).zoom(12f).build()
+                        googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                    }else {
+                        locations = it.data.locations
+                        var tempLocation = locations?.get(position)
+                        val location = LatLng(tempLocation?.latitude!!, tempLocation.longitude)
+                        googleMap!!.clear()
+                        val googleMapVal = googleMap
+                        googleMapVal?.setMyLocationEnabled(true)
+                        googleMap!!.addMarker(MarkerOptions().position(location).title("Location " + (position + 1)))
+                        val cameraPosition = CameraPosition.Builder().target(location).zoom(12f).build()
+                        googleMapVal?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                    }
                 })
             }
         }
