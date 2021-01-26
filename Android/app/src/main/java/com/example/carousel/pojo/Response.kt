@@ -176,6 +176,7 @@ data class MainProductData(
     @Expose @SerializedName("parameters") val parameters: List<Parameters>,
     @Expose @SerializedName("description") val description: String? = "",
     @Expose @SerializedName("rating") val rating: Double,
+    @Expose @SerializedName("numberOfRating") val numberOfRating: Int,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("soldAmount") val soldAmount: Int,
     @Expose @SerializedName("category") val category: String,
