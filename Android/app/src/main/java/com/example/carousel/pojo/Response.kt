@@ -243,7 +243,8 @@ data class ResponseGetComments(
 )
 
 data class PostComment(
-    @Expose @SerializedName("text") val text: String
+    @Expose @SerializedName("text") val text: String,
+    @Expose @SerializedName("rate") val rate: Int
 )
 
 data class ResponseCart(
@@ -271,6 +272,10 @@ data class DeleteCart(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("productId") val productId: String,
     @Expose @SerializedName("vendorId") val vendorId: String,
+)
+
+data class ResetCart(
+    @Expose @SerializedName("_id") val _id: String,
 )
 
 data class ID(

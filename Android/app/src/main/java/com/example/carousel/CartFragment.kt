@@ -125,6 +125,23 @@ class CartFragment : Fragment(){
         purchase_cart_button.setOnClickListener{
             purchase()
         }
+
+        clear_cart.setOnClickListener {
+            val apiCallerResetCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
+            apiCallerResetCart.Caller = ApiClient.getClient.resetCart(ResetCart(LoginActivity.user.id))
+            apiCallerResetCart.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread {
+                        adapter.reset()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+            apiCallerResetCart.run()
+            apiCallerResetCart.Failure = { Log.d("CLEAR", "FAILED") }
+
+        }
+
         /*
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
@@ -188,6 +205,16 @@ class CartFragment : Fragment(){
             for(item in cart){
                 if(item.first._id == product._id) {
                     val newPair = item.copy(second = item.second + num)
+                    cart[cart.indexOf(item)] = newPair
+                    return
+                }
+            }
+            cart.add(Pair(product, num))
+        }
+        fun updateCart(product: Product, num: Int) {
+            for(item in cart){
+                if(item.first._id == product._id) {
+                    val newPair = item.copy(second = num)
                     cart[cart.indexOf(item)] = newPair
                     return
                 }
