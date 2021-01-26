@@ -38,14 +38,16 @@ exports.replyAnOrderMessageOfASuborderService = async function (_id, payload, _i
     let hyperlink = `/vendor/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_CUSTOMER",
-      hyperlink
+      hyperlink,
+      `Customer name: ${client.name} ${client.lastName}`
     );
     await NotificationWare.registerNotification(orderMessage.vendor_id, notification);
   } else {
     let hyperlink = `/account/messages/${orderMessage.order_id}/${orderMessage.suborder_id}/${orderMessage.vendor_id}`;
     let notification = await NotificationWare.createNotification(
       "ORDER_MESSAGE_REPLIED_BY_VENDOR",
-      hyperlink
+      hyperlink,
+      `Customer name: ${client.name} ${client.lastName}`
     );
     await NotificationWare.registerNotification(client._id, notification);
   }

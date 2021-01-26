@@ -36,14 +36,16 @@ exports.purchaseService = async function ({
         let hyperlink = `/product/${current["mainProduct_id"]}`;
         let notification = await NotificationWare.createNotification(
           "PRODUCT_AMOUNT_BELOW_10",
-          hyperlink
+          hyperlink,
+          `Current amount: ${current["amountLeft"]}`
         );
         await NotificationWare.registerNotification(current["vendorId"], notification);
       } else if (current["amountLeft"] < 5) {
         let hyperlink = `/product/${current["mainProduct_id"]}`;
         let notification = await NotificationWare.createNotification(
           "PRODUCT_AMOUNT_BELOW_5",
-          hyperlink
+          hyperlink,
+          `Current amount: ${current["amountLeft"]}`
         );
         await NotificationWare.registerNotification(current["vendorId"], notification);
       }
