@@ -258,7 +258,7 @@ const Cart = () => {
 
   const openAgreement = (open) => {
     setAgreementVisible(open);
-  }
+  };
   const getGuestEmailValue = (values) => {
     const email = values.email;
     setGuestEmail(email);
@@ -314,7 +314,7 @@ const Cart = () => {
           ) : productList.length ? (
             productList.map((product, index) => {
               return (
-                (totalPrice = totalPrice + product.price),
+                (totalPrice = totalPrice + product.price * product.amount),
                 (shipmentPrice = shipmentPrice + product.shipmentPrice),
                 (
                   <ProductBox
@@ -390,7 +390,9 @@ const Cart = () => {
                   <Checkbox onChange={onCheckBoxChange}>
                     I've read the sales agreement and I accept it.
                   </Checkbox>
-                  <a onClick={() => openAgreement(true)}>Click here to read our sales agreement.</a>
+                  <a onClick={() => openAgreement(true)}>
+                    Click here to read our sales agreement.
+                  </a>
                   <Divider style={{ width: 220 }} />
                 </div>
               )}
@@ -410,17 +412,11 @@ const Cart = () => {
 
   return (
     <Layout>
-      {
-        agreementVisible ?
-          <div>
-            <Terms
-              visible={true}
-              setModal={() => openAgreement(false)}
-            />
-          </div>
-          :
-          null
-      }
+      {agreementVisible ? (
+        <div>
+          <Terms visible={true} setModal={() => openAgreement(false)} />
+        </div>
+      ) : null}
       <Layout className="site-layout-background" style={{ padding: "24px 0" }}>
         <Content
           style={{
