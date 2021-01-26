@@ -61,6 +61,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
         shipmentPrice = product.default.shipmentPrice,
         cargoCompany = product.default.cargoCompany,
         rating = main.rating,
+        numberOfRatings = main.numberOfRating,
         photos = product.photos,
         tags = product.tags,
         mainProductId = main._id,
