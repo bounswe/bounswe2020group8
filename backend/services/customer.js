@@ -10,6 +10,8 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
+const Constants = require("../util/constants");
+
 //
 
 exports.signupService = async function ({ email, password, name, lastName }) {
@@ -128,6 +130,11 @@ exports.getProductRecommendationService = async function ({ customer }) {
 
   allTags = orderTags.concat(searchTags);
   freqTable = listToFreqDict(allTags);
+  console.log(freqTable);
+  Constants.BASIC_COLORS.forEach((el) => {
+    delete freqTable[el];
+  });
+  console.log(freqTable);
 
   delete freqTable.hotsellers;
   delete freqTable.trendings;

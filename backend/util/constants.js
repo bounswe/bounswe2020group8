@@ -282,6 +282,7 @@ const constants = {
     ORDER_MESSAGE_REPLIED_BY_VENDOR: "One of your order messages has been replied by a vendor.",
     ORDER_MESSAGE_REPLIED_BY_CUSTOMER: "One of your order messages has been replied by a customer.",
   },
+  BASIC_COLORS: ["black", "blue", "red", "green", "orange", "violet", "white", "brown"],
 };
 
 module.exports = constants;

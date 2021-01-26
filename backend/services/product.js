@@ -8,8 +8,41 @@ const { isNullOrEmpty } = require("../util/coreUtil");
 const AppError = require("../util/appError");
 const Messages = require("../util/messages");
 const NotificationWare = require("../util/notification");
+const Constants = require("../util/constants");
+const got = require("got");
 
+/*
+Searchs for products related to tags, it queries the semantic search API of datamuse to gather
+other related words with the tags. Then it queries the database for related products.
+*/
 exports.searchProductsService = async function ({ query, tags }) {
+  if (!isNullOrEmpty(tags)) {
+    tags = tags.filter((el) => {
+      return Constants.BASIC_COLORS.indexOf(el) == -1;
+    });
+
+    tags_string = tags.join("+");
+    let response_body = (
+      await got(`https://api.datamuse.com/words?ml=${tags_string}`, {
+        json: true,
+      })
+    ).body;
+    new_tags = response_body
+      .filter((el) => {
+        if (el.tags) {
+          return el.tags.indexOf("v") == -1;
+        } else {
+          return true;
+        }
+      })
+      .splice(0, 10)
+      .map((el) => {
+        return el.word;
+      });
+    tags = tags.concat(new_tags);
+    console.log(tags);
+  }
+
   let products = await ProductDataAccess.searchProducts(query, tags);
   if (isNullOrEmpty(products)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
@@ -23,6 +56,11 @@ exports.getProductRecommendationService = async function ({ pid }) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
   }
   let { tags, parentProduct } = product;
+  if (!isNullOrEmpty(tags)) {
+    tags = tags.filter((el) => {
+      return Constants.BASIC_COLORS.indexOf(el) == -1;
+    });
+  }
   recIndex = tags.indexOf("hotsellers");
   if (recIndex != 1) {
     tags.splice(recIndex, 1);
