@@ -67,6 +67,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
 
+                <!--<androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/filterBoxes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/sort_spinner"
+                    app:layout_constraintStart_toStartOf="parent" />-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/results"
@@ -340,7 +346,15 @@
             android:orientation="vertical" />-->
 
         <Button
+            android:id="@+id/clear_button"
+            android:layout_width="match_parent"
+            android:backgroundTint="#CDDC39"
+            android:layout_height="wrap_content"
+            android:text="Clear" />
+
+        <Button
             android:id="@+id/apply_button"
+            android:backgroundTint="@color/successGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Apply" />
