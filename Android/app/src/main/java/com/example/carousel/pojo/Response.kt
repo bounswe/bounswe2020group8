@@ -46,6 +46,12 @@ data class ResponseError(
     @Expose @SerializedName("returnCode") val returnCode: Int
 )
 
+data class RequestSetStatus(
+    @Expose @SerializedName("mainOrderID") var mainOrderID: String,
+    @Expose @SerializedName("orderID") var orderID: String,
+    @Expose @SerializedName("status") var status: String,
+)
+
 data class DataCustomerMe(
     @Expose @SerializedName("_id") var id: String,
     @Expose @SerializedName("name")var name: String,
@@ -94,6 +100,41 @@ data class DataVendorMe(
     @Expose @SerializedName("locations")val locations: ArrayList<ExampleObject>,
 )
 
+
+data class ResponseVendorAllOrders(
+    @Expose @SerializedName("data") val data: ArrayList<VendorAllOrdersData>,
+    @Expose @SerializedName("returnCode") val returnCode: Int,
+    @Expose @SerializedName("returnMessage") val returnMessage: String
+)
+
+data class VendorAllOrdersData(
+    @Expose @SerializedName("_id") val _id: String,
+    @Expose @SerializedName("customerID") val customerID: String,
+    @Expose @SerializedName("orders") val orderData: ArrayList<VendorOrderData>,
+)
+
+data class VendorOrderData(
+
+    @Expose @SerializedName("_id") val id: String,
+    @Expose @SerializedName("productId") val productId: String,
+    @Expose @SerializedName("vendorId") val vendorId: String,
+    @Expose @SerializedName("amount") val amount: Int,
+    @Expose @SerializedName("price") val price: Double,
+    @Expose @SerializedName("shipmentPrice") val shipmentPrice: Int,
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String,
+    @Expose @SerializedName("shippingAddress") val shippingAddress: Address,
+    @Expose @SerializedName("billingAddress") val billingAddress: Address,
+    @Expose @SerializedName("creditCard") val creditCard: CreditCard,
+    @Expose @SerializedName("status") val status: String,
+)
+
+data class CreditCard(
+    @Expose @SerializedName("creditCardNumber") val creditCardNumber: String,
+    @Expose @SerializedName("creditCardCvc") val creditCardCvc: String,
+    @Expose @SerializedName("creditCardData") val creditCardData: String,
+    @Expose @SerializedName("creditCardName") val creditCardName: String,
+)
+
 data class ExampleObject(
     @Expose @SerializedName("id") val id: String,
 )
@@ -109,6 +150,7 @@ data class ResponseMainProduct(
     @Expose @SerializedName("returnCode") val returnCode: Int,
     @Expose @SerializedName("returnMessage") val returnMessage: String
 ) : Serializable
+
 data class ResponseProduct(
     @Expose @SerializedName("data") val data: ProductData,
     @Expose @SerializedName("returnCode") val returnCode: Int,
@@ -123,24 +165,22 @@ data class ResponseAllProducts(
 ) : Serializable
 
 data class VendorResponseAllProducts(
-    @Expose @SerializedName("results") val results: Int,
-    @Expose @SerializedName("data") val data: ArrayList<VendorProductData>,
+    @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int,
-    @Expose @SerializedName("returnMessage") val returnMessage: String
+    @Expose @SerializedName("results") val results: Int,
+    @Expose @SerializedName("data") val data: ArrayList<VendorProductData>
 )
 
 data class VendorProductData(
     @Expose @SerializedName("_id") val _id: String,
     @Expose @SerializedName("tags") val tags: ArrayList<String>,
-    @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("parameters") val parameters: ArrayList<Parameter>,
     @Expose @SerializedName("vendorSpecifics") val vendorSpecifics: VendorMeSpecifics,
+    @Expose @SerializedName("photos") val photos: ArrayList<String>,
     @Expose @SerializedName("parentProduct") val parentProduct: String,
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("category") val category: String,
-    @Expose @SerializedName("createdAt") val createdAt: Date,
-    @Expose @SerializedName("updatedAt") val updatedAt: Date,
-    @Expose @SerializedName("__v") val __v: Int,
+
 )
 
 data class ProductData(
@@ -156,6 +196,7 @@ data class ProductData(
     @Expose @SerializedName("createdAt") val createdAt: Date,
     @Expose @SerializedName("updatedAt") val updatedAt: Date,
 ) : Serializable
+
 data class AllProductData(
     @Expose @SerializedName("default") val default: VendorDefaults,
     @Expose @SerializedName("tags") val tags: ArrayList<String>,
@@ -169,6 +210,7 @@ data class AllProductData(
     @Expose @SerializedName("createdAt") val createdAt: Date,
     @Expose @SerializedName("updatedAt") val updatedAt: Date,
 ) : Serializable
+
 data class MainProductData(
     @Expose @SerializedName("tags") val tags: List<String>,
     @Expose @SerializedName("_id") val _id: String,
@@ -180,7 +222,7 @@ data class MainProductData(
     @Expose @SerializedName("brand") val brand: String,
     @Expose @SerializedName("soldAmount") val soldAmount: Int,
     @Expose @SerializedName("category") val category: String,
-    @Expose @SerializedName("isConfirmed") val isConfirmed : Boolean,
+    @Expose @SerializedName("isConfirmed") val isConfirmed: Boolean,
     @Expose @SerializedName("createdAt") val createdAt: Date,
     @Expose @SerializedName("updatedAt") val updatedAt: Date,
 ) : Serializable
@@ -189,6 +231,7 @@ data class Parameters(
     @Expose @SerializedName("values") val value: ArrayList<String>,
     @Expose @SerializedName("name") val name: String
 ) : Serializable
+
 data class Parameter(
     @Expose @SerializedName("value") val value: String,
     @Expose @SerializedName("name") val name: String
@@ -197,33 +240,33 @@ data class Parameter(
 
 data class VendorDefaults(
     @Expose @SerializedName("vendorID") val vendorID: String,
-    @Expose @SerializedName("price") val price:  Double,
+    @Expose @SerializedName("price") val price: Double,
     @Expose @SerializedName("amountLeft") val amountLeft: Int,
     @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
-    @Expose @SerializedName("cargoCompany")val cargoCompany: String
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String
 ) : Serializable
 
 data class VendorMeSpecifics(
     @Expose @SerializedName("_id") val _id: String,
-    @Expose @SerializedName("price") val price:  Double,
+    @Expose @SerializedName("price") val price: Double,
     @Expose @SerializedName("amountLeft") val amountLeft: Int,
     @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
-    @Expose @SerializedName("cargoCompany")val cargoCompany: String,
-    @Expose @SerializedName("vendorID")val vendorID: String
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String,
+    @Expose @SerializedName("vendorID") val vendorID: String
 )
 
 
 data class VendorSpecifics(
     @Expose @SerializedName("vendorID") val vendorID: VendorID?,
-    @Expose @SerializedName("price") val price:  Double,
+    @Expose @SerializedName("price") val price: Double,
     @Expose @SerializedName("amountLeft") val amountLeft: Int,
     @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
-    @Expose @SerializedName("cargoCompany")val cargoCompany: String
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String
 ) : Serializable
 
 data class VendorID(
     @Expose @SerializedName("_id") val _id: String,
-    @Expose @SerializedName ("companyName") val companyName: String
+    @Expose @SerializedName("companyName") val companyName: String
 ) : Serializable
 
 
@@ -261,7 +304,7 @@ data class DataCart(
     @Expose @SerializedName("title") val title: String,
     @Expose @SerializedName("vendorName") val vendorName: String,
     @Expose @SerializedName("photos") val photos: ArrayList<String>,
-    )
+)
 
 data class UpdateCart(
     @Expose @SerializedName("amount") val amount: Int,
@@ -335,7 +378,7 @@ data class DataProductSearchFilters(
     @Expose @SerializedName("brands") val brands: List<String>,
     @Expose @SerializedName("categories") val categories: List<String>,
 
-)
+    )
 
 data class PurchaseBody(
     @Expose @SerializedName("shippingAddressId") val shippingAddressId: String,

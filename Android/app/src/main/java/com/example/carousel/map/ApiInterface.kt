@@ -1,10 +1,7 @@
 package com.example.carousel.map
 
 import com.example.carousel.pojo.*
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import okhttp3.HttpUrl
-import okhttp3.ResponseBody
 
 import retrofit2.Call
 import retrofit2.http.*
@@ -63,6 +60,11 @@ interface ApiInterface {
         @Query("password") password: String,
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
 
+    @GET("/customer/{id}")
+    fun getCustomer(
+        @Path("id") id: String
+    ): Call<ResponseCustomerMe>
+
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
 
@@ -114,6 +116,11 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
+    @PATCH("/vendor/order/main")
+    fun setStatus(@Body data: RequestSetStatus): Call<VendorOrderData>
+
+    @GET("/vendor/order/main")
+    fun getVendorOrders(): Call<ResponseVendorAllOrders>
 
     @GET("/comment/{pid}/all")
     fun getComments(
