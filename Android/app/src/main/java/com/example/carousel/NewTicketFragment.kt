@@ -47,7 +47,7 @@ class NewTicketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         cancel_button.setOnClickListener {
-            val fragment = LatestMessagesFragment()
+            val fragment = LatestTicketsFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.activity_main_nav_host_fragment, fragment)
                 ?.commit()
@@ -61,7 +61,7 @@ class NewTicketFragment : Fragment() {
                 )
             )
             apiCallerTickets.Success = {
-                val fragment = LatestMessagesFragment()
+                val fragment = LatestTicketsFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.activity_main_nav_host_fragment, fragment)
                     ?.commit()
