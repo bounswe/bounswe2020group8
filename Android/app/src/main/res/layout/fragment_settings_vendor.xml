@@ -3,7 +3,7 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" layout_height="" layout_width=""
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent" tools:layout_editor_absoluteX="1dp"
     tools:layout_editor_absoluteY="1dp">
     <androidx.constraintlayout.widget.ConstraintLayout

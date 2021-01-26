@@ -83,6 +83,11 @@ class MemberAccountPageFragment : Fragment() {
                     activity?.supportFragmentManager?.beginTransaction()
                         ?.replace(R.id.fragment_account_page, fragment)
                         ?.commit()
+                }else if(type.equals("VENDOR")) {
+                    val fragment = GoogleMapsPin()
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.fragment_account_page, fragment)
+                        ?.commit()
                 }
             }
             else if(pos == 3){
@@ -242,12 +247,12 @@ class MemberAccountPageFragment : Fragment() {
                         name = it.data.companyName
                         username.text = name
                         mAdapter = CustomAdapter(context as Context)
-                        mAdapter.addSectionHeaderItem("Account")
+                        mAdapter.addSectionHeaderItem("Account", )
                         mAdapter.addItem("Company Information", drawable.ic_person)//Working correctly
                         mAdapter.addItem("Google Locations", drawable.ic_list)
                         mAdapter.addItem("Messages", drawable.ic_message_24px)
                         mAdapter.addItem("Change Password", drawable.ic_key) //working correct
-                        mAdapter.addItem("My Address", drawable.ic_settings)
+                        mAdapter.addItem("My Address", drawable.ic_settings)//working correctly
                         mAdapter.addItem("Logout", drawable.ic_exit) //working correct
                         mAdapter.addSectionHeaderItem("Carousel")
                         mAdapter.addItem("About", drawable.ic_info) //working correct

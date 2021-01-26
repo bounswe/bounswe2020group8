@@ -212,8 +212,6 @@ class Settings : Fragment() {
         var address: Address?
         var locations: ArrayList<Location>?
 
-//        var infoTemp = info
-
         val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
         apiCaller.Caller = ApiClient.getClient.vendorMe()
         apiCaller.Success = { it ->
