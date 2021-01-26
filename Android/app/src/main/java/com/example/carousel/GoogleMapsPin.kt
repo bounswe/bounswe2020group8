@@ -6,17 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStructure
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.DataVendorMe
-import com.example.carousel.pojo.ResponseCustomerMe2
 import com.example.carousel.pojo.ResponseVendorMe
 import com.example.carousel.vendor.Location
 import com.google.android.gms.maps.*
@@ -40,7 +36,7 @@ class GoogleMapsPin : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         pageRender()
         getLocationPermission()
-        updateLocation()
+        updateLocationUI()
         val rootView: View = inflater.inflate(R.layout.fragment_google_locations, container, false)
         mMapView = rootView.findViewById<View>(R.id.map) as MapView
         mMapView!!.onCreate(savedInstanceState)
@@ -80,7 +76,7 @@ class GoogleMapsPin : Fragment() {
                     update.setOnClickListener{
                         val latitude: Int = 0
                         val longitude: Int = 0
-                        addNewLocation(longitude, latitude)
+                        locationCRUD(null,longitude, latitude,0)
                     }
                 }else{
                     println(position)
@@ -89,13 +85,17 @@ class GoogleMapsPin : Fragment() {
                     }
                     update.text = "UPDATE"
                     delete.setOnClickListener{
-                        deleteLocation(position)
+                        locationCRUD(position,null,null,1)
+                    }
+                    update.setOnClickListener{
+                        val latitude: Int = 10
+                        val longitude: Int = 10
+                        locationCRUD(position,longitude,latitude,2)
                     }
                 }
             }
         }
     }
-
 
 
     private fun getLocationPermission() {
@@ -108,7 +108,7 @@ class GoogleMapsPin : Fragment() {
                 activity!!, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION_REQUEST_CODE)
         }
     }
-    private fun updateLocation() {
+    private fun updateLocationUI() {
         if (googleMap == null) {
             return
         }
@@ -171,7 +171,156 @@ class GoogleMapsPin : Fragment() {
         apiCaller.run()
     }
 
-    private fun addNewLocation(longitude: Int, latitude: Int) {
+//    private fun addNewLocation(longitude: Int, latitude: Int) {
+//        var id: String
+//        var name: String?
+//        var lastName: String?
+//        var email: String
+//        var isSuspended: Boolean
+//        var isActive: Boolean
+//        var companyName: String?
+//        var companyDomainName: String?
+//        var aboutCompany: String?
+//        var IBAN: String?
+//        var address: Address?
+//        var locations: ArrayList<Location>?
+//
+//        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+//        apiCaller.Caller = ApiClient.getClient.vendorMe()
+//        apiCaller.Success = { it ->
+//            if (it != null) {
+//                activity?.runOnUiThread(Runnable { //Handle UI here
+//
+//                    id = it.data.id
+//                    name = it.data.name
+//                    lastName = it.data.lastName
+//                    email = it.data.email
+//                    isSuspended = it.data.isSuspended
+//                    isActive = it.data.isActive
+//                    companyName = it.data.companyName
+//                    companyDomainName = it.data.companyDomainName
+//                    aboutCompany = it.data.aboutCompany
+//                    IBAN = it.data.IBAN
+//                    address = it.data.address
+//
+//                    locations = it.data.locations
+//                    val newLocation = Location(longitude, latitude)
+//
+//                    if(locations?.isNotEmpty() == true) {
+//                        locations!!.add(newLocation)
+//                    }else{
+//                        val tempLocations = arrayListOf(newLocation)
+//                        locations = tempLocations
+//                    }
+//
+//                    var newData = DataVendorMe(
+//                        id,
+//                        name,
+//                        lastName,
+//                        email,
+//                        isSuspended,
+//                        isActive,
+//                        companyName,
+//                        companyDomainName,
+//                        aboutCompany,
+//                        IBAN,
+//                        address,
+//                        locations,
+//                    )
+//
+//                    val apiCallerPatch: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+//                    apiCallerPatch.Caller = ApiClient.getClient.vendorUpdate(newData)
+//                    apiCallerPatch.Success = { it ->
+//                        if (it != null) {
+//                            activity?.runOnUiThread(Runnable { //Handle UI here
+//                                pageRender()
+//                            })
+//                        }
+//                    }
+//                    apiCallerPatch.Failure = {}
+//                    apiCallerPatch.run()
+//
+//                })
+//            }
+//        }
+//        apiCaller.Failure = {}
+//        apiCaller.run()
+//
+//    }
+//    private fun deleteLocation(position: Int) {
+//        var id: String
+//        var name: String?
+//        var lastName: String?
+//        var email: String
+//        var isSuspended: Boolean
+//        var isActive: Boolean
+//        var companyName: String?
+//        var companyDomainName: String?
+//        var aboutCompany: String?
+//        var IBAN: String?
+//        var address: Address?
+//        var locations: ArrayList<Location>?
+//
+//        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+//        apiCaller.Caller = ApiClient.getClient.vendorMe()
+//        apiCaller.Success = { it ->
+//            if (it != null) {
+//                activity?.runOnUiThread(Runnable { //Handle UI here
+//
+//                    id = it.data.id
+//                    name = it.data.name
+//                    lastName = it.data.lastName
+//                    email = it.data.email
+//                    isSuspended = it.data.isSuspended
+//                    isActive = it.data.isActive
+//                    companyName = it.data.companyName
+//                    companyDomainName = it.data.companyDomainName
+//                    aboutCompany = it.data.aboutCompany
+//                    IBAN = it.data.IBAN
+//                    address = it.data.address
+//
+//                    locations = it.data.locations
+//
+//                    var tempLocations = locations
+//                    tempLocations!!.removeAt(position)
+//                    locations = tempLocations
+//
+//
+//                    var newData = DataVendorMe(
+//                        id,
+//                        name,
+//                        lastName,
+//                        email,
+//                        isSuspended,
+//                        isActive,
+//                        companyName,
+//                        companyDomainName,
+//                        aboutCompany,
+//                        IBAN,
+//                        address,
+//                        locations,
+//                    )
+//
+//                    val apiCallerPatch: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
+//                    apiCallerPatch.Caller = ApiClient.getClient.vendorUpdate(newData)
+//                    apiCallerPatch.Success = { it ->
+//                        if (it != null) {
+//                            activity?.runOnUiThread(Runnable { //Handle UI here
+//                                pageRender()
+//                            })
+//                        }
+//                    }
+//                    apiCallerPatch.Failure = {}
+//                    apiCallerPatch.run()
+//
+//                })
+//            }
+//        }
+//        apiCaller.Failure = {}
+//        apiCaller.run()
+//
+//    }
+    private fun locationCRUD(position: Int?, longitude: Int?, latitude: Int?, operation: Int) {
         var id: String
         var name: String?
         var lastName: String?
@@ -203,15 +352,33 @@ class GoogleMapsPin : Fragment() {
                     IBAN = it.data.IBAN
                     address = it.data.address
 
-                    val newLocation = Location(longitude, latitude)
                     locations = it.data.locations
-                    if(locations?.isNotEmpty() == true) {
-                        locations!!.add(newLocation)
-                    }else{
-                        val tempLocations = arrayListOf(newLocation)
+
+                    if(operation==0){//Add location operation
+
+                        val newLocation = Location(longitude!!, latitude!!)
+                        if(locations?.isNotEmpty() == true) {
+                            locations!!.add(newLocation)
+                        }else{
+                            val tempLocations = arrayListOf(newLocation)
+                            locations = tempLocations
+                        }
+
+                    }else if(operation == 1) {//delete location operation
+
+                        var tempLocations = locations
+                        tempLocations!!.removeAt(position!!)
                         locations = tempLocations
-                    }
 
+                    }else if(operation == 2) {//update location operation
+
+                        val newLocation = Location(longitude!!, latitude!!)
+                        var tempLocations = locations
+                        tempLocations!!.removeAt(position!!)
+                        tempLocations.add(position,newLocation)
+                        locations = tempLocations
+
+                    }
                     var newData = DataVendorMe(
                         id,
                         name,
@@ -244,79 +411,5 @@ class GoogleMapsPin : Fragment() {
         }
         apiCaller.Failure = {}
         apiCaller.run()
-
-    }
-    private fun deleteLocation(position: Int) {//TODO test whether it deleting right location
-        var id: String
-        var name: String?
-        var lastName: String?
-        var email: String
-        var isSuspended: Boolean
-        var isActive: Boolean
-        var companyName: String?
-        var companyDomainName: String?
-        var aboutCompany: String?
-        var IBAN: String?
-        var address: Address?
-        var locations: ArrayList<Location>?
-
-        val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-        apiCaller.Caller = ApiClient.getClient.vendorMe()
-        apiCaller.Success = { it ->
-            if (it != null) {
-                activity?.runOnUiThread(Runnable { //Handle UI here
-
-                    id = it.data.id
-                    name = it.data.name
-                    lastName = it.data.lastName
-                    email = it.data.email
-                    isSuspended = it.data.isSuspended
-                    isActive = it.data.isActive
-                    companyName = it.data.companyName
-                    companyDomainName = it.data.companyDomainName
-                    aboutCompany = it.data.aboutCompany
-                    IBAN = it.data.IBAN
-                    address = it.data.address
-
-                    locations = it.data.locations
-
-                    var tempLocations = locations
-                    tempLocations!!.removeAt(position)
-                    locations = tempLocations
-
-
-                    var newData = DataVendorMe(
-                        id,
-                        name,
-                        lastName,
-                        email,
-                        isSuspended,
-                        isActive,
-                        companyName,
-                        companyDomainName,
-                        aboutCompany,
-                        IBAN,
-                        address,
-                        locations,
-                    )
-
-                    val apiCallerPatch: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
-                    apiCallerPatch.Caller = ApiClient.getClient.vendorUpdate(newData)
-                    apiCallerPatch.Success = { it ->
-                        if (it != null) {
-                            activity?.runOnUiThread(Runnable { //Handle UI here
-                                pageRender()
-                            })
-                        }
-                    }
-                    apiCallerPatch.Failure = {}
-                    apiCallerPatch.run()
-
-                })
-            }
-        }
-        apiCaller.Failure = {}
-        apiCaller.run()
-
     }
 }
