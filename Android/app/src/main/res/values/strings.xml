@@ -504,9 +504,25 @@
         corouselapp@gmail.com\n
         github.com/bounswe/bounswe2020group8\n
     </string>
+
     <string name="vendor_home_title">Shop</string>
+
+    <string-array name="Status">
+        <item>Being Prepared</item>
+        <item>On The Way</item>
+        <item>Delivered</item>
+    </string-array>
+
     <string name="product">Product</string>
-    <string name="amount_left">Stock</string>
+    <string name="stock_left">Stock</string>
     <string name="update">Update</string>
     <string name="orders">Orders</string>
+    <string name="amount_title">Amount</string>
+    <string name="status">Status</string>
+    <string name="customerTitle">Customer:</string>
+    <string name="productTitle">Product:</string>
+    <string name="orderIDTitle">OrderID:</string>
+    <string name="status_title">Status:</string>
+    <string name="orderDetails">Order Details</string>
+    <string name="shippingAddress">Shipping Address</string>
 </resources>

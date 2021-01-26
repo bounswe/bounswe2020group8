@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carousel.*
@@ -82,7 +83,7 @@ class VendorHomeFragment : Fragment() {
     }
 
     private fun createProductList(products: ArrayList<VendorProduct>, productCategory: RecyclerView){
-        val adapter = VendorProductsAdapter(products)
+        val adapter = VendorProductsAdapter(products, requireActivity())
         productCategory.apply {
             layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             setAdapter(adapter)

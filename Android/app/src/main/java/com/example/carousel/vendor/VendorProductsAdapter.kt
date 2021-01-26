@@ -1,6 +1,7 @@
 package com.example.carousel.vendor
 
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 
@@ -15,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.carousel.R
 
 
-class VendorProductsAdapter(private var productList: ArrayList<VendorProduct>) :
+class VendorProductsAdapter(private var productList: ArrayList<VendorProduct>, private val activity: Activity) :
     RecyclerView.Adapter<VendorProductsAdapter.ViewHolder>() {
     var onItemClick: ((VendorProduct) -> Unit)? = null
 
