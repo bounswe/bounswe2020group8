@@ -243,7 +243,8 @@ data class ResponseGetComments(
 )
 
 data class PostComment(
-    @Expose @SerializedName("text") val text: String
+    @Expose @SerializedName("text") val text: String,
+    @Expose @SerializedName("rate") val rate: Int
 )
 
 data class ResponseCart(

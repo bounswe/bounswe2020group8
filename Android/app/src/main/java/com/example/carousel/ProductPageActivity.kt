@@ -124,14 +124,14 @@ class ProductPageActivity : AppCompatActivity() {
     }
     fun addReview(view: View){
         val comment = textInputEditText.text.toString()
-        val rating = rating.rating.toDouble()
+        val rating = rating.rating.toInt()
         val user = "${LoginActivity.user.name} ${LoginActivity.user.lastName}"
         val id = LoginActivity.user.id
         //product!!.comments.add(Comment(comment, rating, user, id))
         this.runOnUiThread {
 
             val apiCallerPostComment: ApiCaller<PostComment> = ApiCaller(this)
-            apiCallerPostComment.Caller = ApiClient.getClient.addComment(product!!.mainProductId, PostComment(comment))
+            apiCallerPostComment.Caller = ApiClient.getClient.addComment(product!!.mainProductId, PostComment(comment, rating))
             apiCallerPostComment.Success = { it ->
                 if (it != null) {
                     this.runOnUiThread {
