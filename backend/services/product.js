@@ -82,6 +82,13 @@ exports.getProductRecommendationService = async function ({ pid }) {
 };
 
 exports.getSearchFiltersService = async function ({ query, tags }) {
+  if (!isNullOrEmpty(tags)) {
+    tags = tags.filter((el) => {
+      return Constants.BASIC_COLORS.indexOf(el) == -1;
+    });
+    new_tags = await getRelatedTags(tags);
+    tags = tags.concat(new_tags);
+  }
   let products = await ProductDataAccess.getSearchFilters(query, tags);
   if (isNullOrEmpty(products)) {
     throw new AppError(Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG);
