@@ -38,14 +38,16 @@ exports.replyATicketService = async function (_id, payload, _isSentByAdmin) {
       let hyperlink = `/account/tickets`;
       let notification = await NotificationWare.createNotification(
         "TICKET_REPLIED_BY_ADMIN",
-        hyperlink
+        hyperlink,
+        `Replied ticket topic: ${ticket.topic}`
       );
       await NotificationWare.registerNotification(client._id, notification);
     } else if (client.__type === "Vendor") {
       let hyperlink = `/vendor/account/tickets`;
       let notification = await NotificationWare.createNotification(
         "TICKET_REPLIED_BY_ADMIN",
-        hyperlink
+        hyperlink,
+        `Replied ticket topic: ${ticket.topic}`
       );
       await NotificationWare.registerNotification(client._id, notification);
     }
