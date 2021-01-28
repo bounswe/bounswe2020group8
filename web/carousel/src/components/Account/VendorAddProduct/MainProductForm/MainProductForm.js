@@ -112,7 +112,7 @@ class MainProductForm extends Component {
         {
           data.map((category, index) => {
             console.log(category);
-            if (index !== 0) return <Radio.Button
+            return <Radio.Button
               value={category.name}
               onChange={() => this.setCategory(category.name)}
               style={radioStyle}
