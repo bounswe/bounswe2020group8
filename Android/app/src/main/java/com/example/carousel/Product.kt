@@ -83,6 +83,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
             category = product.category,
             mainProductId = main._id,
             vendorId = product.vendors[0]._id,
+            companyName = product.vendors[0].companyName
         )
     }
 
