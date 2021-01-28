@@ -8,22 +8,30 @@ import classes from "./Header.module.css";
 import logo from "../../assets/images/carousel_logo.jpg";
 import qs from "qs";
 import userInfo from "../Context/UserInfo";
+import services from "../../apis/services";
 
 export class Header extends Component {
   state = {
     searchValue: "",
     placeholderSearchString: "Search for something...",
     searchOn: false,
+    categories: [],
   };
 
-  categories = [
-    "Fashion",
-    "Toys & Hobbies",
-    "Electronics",
-    "Furniture",
-    "Personal Care",
-  ];
   static contextType = userInfo;
+
+  componentDidMount() {
+    const URL = "/category";
+    services
+      .get(URL)
+      .then((response) => {
+        console.log(response);
+        this.setState({ categories: response.data.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   searchStringChangeHandler = (event, id) => {
     this.setState({ searchValue: "" });
@@ -92,7 +100,7 @@ export class Header extends Component {
 
             <SideButtons />
           </div>
-          <Categories categories={this.categories} />
+          <Categories categories={this.state.categories} />
         </header>
         <div className={classes.Filler} />
       </>

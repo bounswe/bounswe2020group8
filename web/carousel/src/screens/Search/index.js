@@ -20,20 +20,22 @@ class Search extends Component {
     error: null,
     priceInterval: [],
     sort: null,
+    category: null,
   };
 
   componentDidMount() {
-    const { query } = qs.parse(this.props.location.search, {
+    const { query, category } = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
     this.setState({ query });
-    this.getSearchedProducts(query);
-    this.getSearchFilters(query);
+    this.setState({ category: category });
+    this.getSearchedProducts(query, category);
+    this.getSearchFilters(query, category);
   }
 
-  getSearchedProducts(query) {
+  getSearchedProducts(query, category) {
     const payload = {
-      query: query,
+      query: query ? query : "",
     };
     const objectMap = (obj, fn) =>
       Object.fromEntries(
@@ -51,6 +53,10 @@ class Search extends Component {
     params["minPrice[gte]"] = this.state.priceInterval[0];
     params["minPrice[lte]"] = this.state.priceInterval[1];
     params["sort"] = this.state.sort;
+
+    if (category) {
+      params["category"] = category;
+    }
 
     const TOKEN = localStorage.getItem("token");
     let config = { params: params };
@@ -83,17 +89,31 @@ class Search extends Component {
     }
   }
 
-  getSearchFilters(query) {
+  getSearchFilters(query, category) {
     const payload = {
-      query: query,
+      query: query ? query : "",
     };
+    const config = { params: { category: category } };
+
     services
-      .post("/product/searchFilters", payload)
+      .post("/product/searchFilters", payload, config)
       .then((response) => {
         if (response.data.data) {
           const data = response.data.data;
-          this.setState({ filters: data });
-          this.setState({ priceInterval: [data.minPrice, data.maxPrice] });
+          console.log(data);
+          this.setState({
+            filters: {
+              ...data,
+              minPrice: Math.floor(data.minPrice),
+              maxPrice: Math.ceil(data.maxPrice),
+            },
+          });
+          this.setState({
+            priceInterval: [
+              Math.floor(data.minPrice),
+              Math.ceil(data.maxPrice),
+            ],
+          });
         } else {
           this.setState({ error: "No product" });
         }
@@ -109,19 +129,20 @@ class Search extends Component {
     });
     if (this.state.query !== query) {
       this.setState({ query });
-      this.getSearchedProducts(query);
-      this.getSearchFilters(query);
+      this.setState({ category: null });
+      this.getSearchedProducts(query, this.state.category);
+      this.getSearchFilters(query, this.state.category);
     }
 
     if (this.state.selectedFilters !== prevState.selectedFilters) {
-      this.getSearchedProducts(this.state.query);
+      this.getSearchedProducts(this.state.query, this.state.category);
     }
 
     if (this.state.priceInterval !== prevState.priceInterval) {
-      this.getSearchedProducts(this.state.query);
+      this.getSearchedProducts(this.state.query, this.state.category);
     }
     if (this.state.sort !== prevState.sort) {
-      this.getSearchedProducts(this.state.query);
+      this.getSearchedProducts(this.state.query, this.state.category);
     }
   }
 
