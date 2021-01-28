@@ -110,6 +110,9 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
         }
     }
     fun reset() {
+        for(i in productList) {
+            i.first.isInCart = false
+        }
         productList.clear()
     }
 }

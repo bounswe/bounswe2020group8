@@ -221,6 +221,7 @@ class ProductPageActivity : AppCompatActivity() {
                 apiCallerAddToCart.Success = { it ->
                     if (it != null) {
                         this.product?.let { CartFragment.addToCart(it, count) }
+                        this.product?.isInCart = true
                         Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_SHORT).show()
 
                     }

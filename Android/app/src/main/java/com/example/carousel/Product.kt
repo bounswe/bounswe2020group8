@@ -28,7 +28,8 @@ data class Product(
     val category: String = "",
     val photos: ArrayList<String> = ArrayList<String>(),
     val vendorSpecifics: ArrayList<VendorSpecifics> = ArrayList<VendorSpecifics>(),
-    val mainProductId: String = ""
+    val mainProductId: String = "",
+    var isInCart: Boolean = false,
     ) : Serializable
 
 
@@ -83,7 +84,8 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
             category = product.category,
             mainProductId = main._id,
             vendorId = product.vendors[0]._id,
-            companyName = product.vendors[0].companyName
+            companyName = product.vendors[0].companyName,
+            isInCart = CartFragment.isInCart(product.product._id)
         )
     }
 
