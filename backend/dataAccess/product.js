@@ -405,8 +405,16 @@ exports.searchProducts = function (query, tags) {
 };
 
 exports.getSearchFilters = function (query, tags) {
+  let filter = QueryHelper.filter(query);
+  let matched_statement;
+  if (!isNullOrEmpty(tags)) {
+    matched_statement = { $match: { tags: { $in: tags } } };
+  } else {
+    matched_statement = { $match: filter };
+    tags = [];
+  }
   return Product.aggregate([
-    { $match: { tags: { $in: tags } } },
+    matched_statement,
     {
       $set: {
         maxPrice: { $max: "$vendorSpecifics.price" },

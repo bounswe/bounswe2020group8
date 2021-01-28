@@ -31,10 +31,12 @@ exports.getProductRecommendationController = BaseUtil.createController((req) => 
 });
 
 exports.getSearchFiltersController = BaseUtil.createController((req) => {
-  let tags = req.body.query
-    .trim()
-    .toLowerCase()
-    .split(/[ \t\n]+/);
+  if (typeof req.body.query == "string") {
+    req.body.query = req.body.query.trim();
+  }
+  if (!isEmpty(req.body.query)) {
+    var tags = req.body.query.toLowerCase().split(/[ \t\n]+/);
+  }
   return BB.all([]).then(() =>
     ProductService.getSearchFiltersService({
       query: req.query,
