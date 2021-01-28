@@ -45,7 +45,8 @@ data class Product(
             rating = main.rating,
             photos = product.photos,
             tags = product.tags,
-            mainProductId = main._id
+            mainProductId = main._id,
+            isInCart = CartFragment.isInCart(product._id),
         )
     }
 
@@ -66,7 +67,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
         photos = product.photos,
         tags = product.tags,
         mainProductId = main._id,
-
+        isInCart = CartFragment.isInCart(product._id),
     )
 }
 
@@ -85,7 +86,7 @@ fun responseToProduct (product: AllProductData, main: MainProductData): Product 
             mainProductId = main._id,
             vendorId = product.vendors[0]._id,
             companyName = product.vendors[0].companyName,
-            isInCart = CartFragment.isInCart(product.product._id)
+            isInCart = CartFragment.isInCart(product.product._id),
         )
     }
 
