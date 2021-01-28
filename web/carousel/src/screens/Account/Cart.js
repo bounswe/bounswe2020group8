@@ -164,23 +164,45 @@ const Cart = () => {
   };
 
   function onAmountChange(value, { productId, vendorId }) {
-    const TOKEN = localStorage.getItem("token");
+    const loggedIn = localStorage.getItem("login");
+    if (loggedIn !== "true") {
+      const URL = "/guest/shoppingCart/main";
+      const id = localStorage.getItem("guestID");
+      const payload = {
+        _id: id,
+        productId: productId,
+        vendorId: vendorId,
+        amount: value,
+      };
+      services
+        .post(URL, payload)
+        .then((response) => {
+          if (response.data) {
+            getCarts();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const TOKEN = localStorage.getItem("token");
 
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const payload = {
-      productId: productId,
-      vendorId: vendorId,
-      amount: value,
-    };
-    const URL = "/customer/shoppingCart/main";
-    services
-      .post(URL, payload, config)
-      .then((response) => {
-        getCarts();
-      })
-      .catch((err) => console.log(err));
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: value,
+      };
+      const URL = "/customer/shoppingCart/main";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          getCarts();
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   const handleConfirmClicked = () => {
