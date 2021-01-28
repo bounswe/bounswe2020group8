@@ -1,12 +1,12 @@
 .Box {
-    width: auto;
-    margin: 0px 100px;
-    cursor: pointer;
-    font: inherit;
+  width: 150px;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
 }
 
 .Box:hover {
-    color: #FF6D00;
-    /* background-color: rgb(238, 238, 238); */
-    transition: all 0.3s ease-out;
+  color: #ff6d00;
+  /* background-color: rgb(238, 238, 238); */
+  transition: all 0.3s ease-out;
 }
