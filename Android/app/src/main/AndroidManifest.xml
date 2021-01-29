@@ -28,6 +28,7 @@
         <activity android:name=".vendor.VendorProductPageActivity" />
         <activity android:name=".CreateListActivity" />
         <activity android:name=".ProductPageActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".customer.RegisterInfoActivity">
             <intent-filter>
