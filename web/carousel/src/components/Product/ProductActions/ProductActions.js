@@ -424,9 +424,6 @@ const ProductActions = ({
             setAdded(true);
           }}
         />
-        <div>
-          Estimated delivery: <strong>3 Jan - 7 Jan</strong>
-        </div>
       </div>
       <div
         style={{
