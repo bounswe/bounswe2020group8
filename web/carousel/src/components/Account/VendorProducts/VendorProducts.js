@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Space } from "antd";
+import { message, Space } from "antd";
 import Table from "antd/lib/table";
 import services from "../../../apis/services";
 import classes from "../VendorAddProduct/AddProduct.module.css";
@@ -151,7 +151,7 @@ class VendorProducts extends Component {
     services
       .patch("/vendor/me/product/" + this.state.product.id, payload, config)
       .then((response) => {
-        alert("Edit request is sent!");
+        message.success("Edit request is sent!");
         this.setState({
           showProducts: true,
           showEditProductForm: false,
@@ -174,7 +174,7 @@ class VendorProducts extends Component {
     services
       .delete("/vendor/me/product/" + id, config)
       .then((response) => {
-        alert("Product deleted!");
+        message.success("Product deleted!");
       })
       .catch((error) => {
         console.log(error);

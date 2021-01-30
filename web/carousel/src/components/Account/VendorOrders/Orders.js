@@ -1,8 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Table from "antd/lib/table";
-
 import services from "../../../apis/services";
-import {Space} from "antd";
+import { message, Space } from "antd";
 import classes from "./Orders.module.css";
 import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 
@@ -17,25 +16,26 @@ export class Orders extends Component {
 
   // get orders on mount
   componentDidMount() {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     this.getMyOrders();
   }
 
   // get all orders
   getMyOrders = () => {
-    this.setState({orders: []});
+    this.setState({ orders: [] });
     const TOKEN = localStorage.getItem("token");
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    services.get("/vendor/order/main", config)
-      .then(response => {
+    services
+      .get("/vendor/order/main", config)
+      .then((response) => {
         this.sortOrders(response.data.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   // orders for each product are extracted
   sortOrders = (data) => {
@@ -46,10 +46,17 @@ export class Orders extends Component {
       for (let k = 0; k < data[i].orders.length; k++) {
         const order = data[i].orders[k];
         const orderID = order._id;
-        this.getOrderProduct(order.productId, order, i + "0000" + k, customer, mainOrderID, orderID);
+        this.getOrderProduct(
+          order.productId,
+          order,
+          i + "0000" + k,
+          customer,
+          mainOrderID,
+          orderID
+        );
       }
     }
-  }
+  };
 
   // get order specific product info
   getOrderProduct = (productID, order, key, customer, mainOrderID, orderID) => {
@@ -61,17 +68,20 @@ export class Orders extends Component {
     let data;
     let title;
     let parameters = [];
-    services.get("/vendor/me/product/" + productID, config)
-      .then(response => {
+    services
+      .get("/vendor/me/product/" + productID, config)
+      .then((response) => {
         data = response.data.data[0];
         // get parameter values
-        for (let i = 0; i < data.parameters.length; i++){
-          if (i !== data.parameters.length - 1) parameters.push(data.parameters[i].value + ", ");
+        for (let i = 0; i < data.parameters.length; i++) {
+          if (i !== data.parameters.length - 1)
+            parameters.push(data.parameters[i].value + ", ");
           else parameters.push(data.parameters[i].value);
         }
 
-        services.get("/mainProduct/" + data.parentProduct, config)
-          .then(res => {
+        services
+          .get("/mainProduct/" + data.parentProduct, config)
+          .then((res) => {
             title = res.data.data.title;
             let product;
             product = {
@@ -80,7 +90,7 @@ export class Orders extends Component {
               parameters: parameters,
             };
 
-            this.setState({loading: false});
+            this.setState({ loading: false });
             const orderProduct = {
               key: key,
               amount: order.amount,
@@ -97,30 +107,29 @@ export class Orders extends Component {
               parameters: parameters,
               mainOrderID: mainOrderID,
               orderID: orderID,
-            }
+            };
 
             console.log(orderProduct);
 
             // list only active products
             if (
-              orderProduct.status !== "returned"
-              && orderProduct.status !== "cancelled by the customer"
-              && orderProduct.status !== "delivered"
-              && orderProduct.status !== "cancelled by the vendor"
+              orderProduct.status !== "returned" &&
+              orderProduct.status !== "cancelled by the customer" &&
+              orderProduct.status !== "delivered" &&
+              orderProduct.status !== "cancelled by the vendor"
             )
-            this.setState({
-              orders: [...this.state.orders, orderProduct],
-            });
+              this.setState({
+                orders: [...this.state.orders, orderProduct],
+              });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
-          })
-
+          });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   changeStatusHandler = (order, statusNumber) => {
     let status;
@@ -136,33 +145,35 @@ export class Orders extends Component {
       mainOrderID: order.mainOrderID,
       orderID: order.orderID,
       status: status,
-    }
-    services.patch("/vendor/order/main", payload, config)
-      .then(response => {
-        if (statusNumber === 1) alert("Order is being prepared!");
-        else if (statusNumber === 2) alert("Order is now on the way to the customer!");
-        else if (statusNumber === 3) alert("Order is DELIVERED!");
+    };
+    services
+      .patch("/vendor/order/main", payload, config)
+      .then((response) => {
+        if (statusNumber === 1) message.info("Order is being prepared!");
+        else if (statusNumber === 2)
+          message.info("Order is now on the way to the customer!");
+        else if (statusNumber === 3) message.info("Order is DELIVERED!");
 
         this.getMyOrders();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
-      })
-  }
+      });
+  };
 
-  render(){
+  render() {
     const columns = [
       {
         title: "Product Name",
         dataIndex: "title",
         key: "title",
-        fixed: "left"
+        fixed: "left",
       },
       {
         title: "Customer ID",
         dataIndex: "customer",
         key: "customer",
-        defaultSortOrder: 'descend',
+        defaultSortOrder: "descend",
         sorter: (a, b) => a.customer - b.customer,
       },
       {
@@ -196,41 +207,46 @@ export class Orders extends Component {
         render: (id, record) => (
           <Space size="large">
             <a
-              className={id.status === "being prepared" ? classes.TableActionsCurrent : classes.TableActionsSuspend}
+              className={
+                id.status === "being prepared"
+                  ? classes.TableActionsCurrent
+                  : classes.TableActionsSuspend
+              }
               onClick={() => {
-                id.status === "being prepared" ?
-                  alert("Order is already being prepared!")
-                :
-                  this.changeStatusHandler(record, 1);
+                id.status === "being prepared"
+                  ? message.info("Order is already being prepared!")
+                  : this.changeStatusHandler(record, 1);
               }}
             >
               being prepared
             </a>
             <a
-              className={id.status === "on the way" ? classes.TableActionsCurrent : classes.TableActionsSuspend}
+              className={
+                id.status === "on the way"
+                  ? classes.TableActionsCurrent
+                  : classes.TableActionsSuspend
+              }
               onClick={() => {
-                id.status === "on the way" ?
-                  alert("Order is already on the way!")
-                  :
-                  this.changeStatusHandler(record, 2);
+                id.status === "on the way"
+                  ? message.info("Order is already on the way!")
+                  : this.changeStatusHandler(record, 2);
               }}
             >
               on the way
             </a>
             <a
               className={classes.TableActionsSuspend}
-              style={{fontWeight: "bold"}}
+              style={{ fontWeight: "bold" }}
               onClick={() => {
-                id.status === "delivered" ?
-                  alert("Order is already delivered!")
-                  :
-                  this.changeStatusHandler(record, 3);
+                id.status === "delivered"
+                  ? message.info("Order is already delivered!")
+                  : this.changeStatusHandler(record, 3);
               }}
             >
               DELIVER
             </a>
             <a
-              style={{color: "red", fontWeight: "bold"}}
+              style={{ color: "red", fontWeight: "bold" }}
               onClick={() => {
                 this.changeStatusHandler(record, 4);
               }}
