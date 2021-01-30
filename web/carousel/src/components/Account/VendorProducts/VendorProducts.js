@@ -174,7 +174,7 @@ class VendorProducts extends Component {
     services
       .delete("/vendor/me/product/" + id, config)
       .then((response) => {
-        message.success("Product deleted!");
+        message.success("Delete request sent!\nAfter we confirm the operation, the product will be deleted.");
       })
       .catch((error) => {
         console.log(error);
@@ -241,7 +241,7 @@ class VendorProducts extends Component {
               onClick={() => {
                 confirmPopup(
                   "Are you sure you want to delete this product?",
-                  this.deleteProductHandler(record)
+                  () => this.deleteProductHandler(record)
                 );
               }}
             >
