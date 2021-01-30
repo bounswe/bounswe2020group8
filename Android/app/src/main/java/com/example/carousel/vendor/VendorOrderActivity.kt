@@ -73,7 +73,7 @@ class VendorOrderActivity : AppCompatActivity(), AdapterView.OnItemSelectedListe
             status.text = statusArray[2]
         } else if (order!!.status == "cancelled by the customer") {
             statusSpinner.visibility = View.INVISIBLE
-            status.text = statusArray[3]
+            //status.text = statusArray[3]
         } else {
 
         }

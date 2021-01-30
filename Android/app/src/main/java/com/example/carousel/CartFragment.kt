@@ -202,6 +202,7 @@ class CartFragment : Fragment(){
             return false
         }
         fun addToCart(product: Product, num: Int) {
+            product.isInCart = true
             for(item in cart){
                 if(item.first._id == product._id) {
                     val newPair = item.copy(second = item.second + num)
@@ -223,8 +224,10 @@ class CartFragment : Fragment(){
         }
 
         fun removeFromCart(productIndex: Int) {
-            if (cart.isNotEmpty())
+            if (cart.isNotEmpty()) {
+                cart[productIndex].first.isInCart = false
                 cart.removeAt(productIndex)
+            }
         }
         fun totalCost(): Double{
             var sum : Double = 0.0

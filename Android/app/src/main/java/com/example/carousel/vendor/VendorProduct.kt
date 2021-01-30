@@ -45,7 +45,7 @@ fun responseToProduct (product: VendorProductData, main: MainProductData): Vendo
         price = product.vendorSpecifics.price,
         amountLeft = product.vendorSpecifics.amountLeft,
         shipmentPrice = product.vendorSpecifics.shipmentPrice,
-        cargoCompany = product.vendorSpecifics.cargoCompany,
+        //cargoCompany = product.vendorSpecifics.cargoCompany,
         rating = main.rating,
         photos = product.photos,
         tags = product.tags,
