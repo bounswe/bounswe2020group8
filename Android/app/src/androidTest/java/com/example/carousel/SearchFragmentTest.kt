@@ -1,14 +1,12 @@
 package com.example.carousel
 
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.FragmentContainerView
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
+import com.example.carousel.SearchFragment
 import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Before
