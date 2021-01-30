@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, withRouter } from "react-router-dom";
 import services from "../../../apis/services";
 import UserInfo from "../../Context/UserInfo";
-import { Input, Divider } from "antd";
+import { Input, Divider, message } from "antd";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import classes from "./Message.module.css";
@@ -19,11 +19,10 @@ const Message = (props) => {
 
   const handleSubmit = async (reply) => {
     if (!reply) {
-      alert("Please enter an input");
+      message.info("Please enter an input");
       return;
     }
     const TOKEN = localStorage.getItem("token");
-    console.log(TOKEN);
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
@@ -40,7 +39,6 @@ const Message = (props) => {
       setIsActive(true);
       setReply("");
       setMessage(resp.data.data);
-      console.log(resp);
     } else {
       const payload = {
         payload: reply,

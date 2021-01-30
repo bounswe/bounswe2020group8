@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Steps } from "antd";
+import { Divider, message, Steps } from "antd";
 import services from "../../apis/services";
 import ProductBox from "../../components/Product/ProductBox";
 import Cards from "react-credit-cards";
@@ -248,8 +248,7 @@ class OrderDetail extends Component {
       services
         .patch(URL, payload)
         .then((response) => {
-          console.log(response);
-          alert("Order is cancelled successfully!");
+          message.success("Order is cancelled successfully!");
           this.props.history.push("/");
         })
         .catch((err) => console.log(err));

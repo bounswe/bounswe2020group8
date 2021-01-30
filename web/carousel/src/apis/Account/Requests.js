@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { configConsumerProps } from "antd/lib/config-provider";
 import services from "../services";
 
@@ -33,7 +34,7 @@ const handleAddItem = (field, setState, currentList, newItem) => {
   patchField(field, newList, setState)
     .then()
     .catch((err) => {
-      alert("Failed to add");
+      message.error("Failed to add");
     });
 };
 
@@ -43,7 +44,7 @@ const handleRemoveItem = (field, setState, currentList, id) => {
   patchField(field, newList, setState)
     .then()
     .catch((err) => {
-      alert("Failed to remove");
+      message.error("Failed to remove");
       console.log(err);
     });
 };
@@ -60,7 +61,7 @@ const handleUpdateItem = (field, setState, currentList, updatedItem) => {
   patchField(field, newList, setState)
     .then()
     .catch((err) => {
-      alert("Failed to update");
+      message.error("Failed to update");
       console.log(err);
     });
 };

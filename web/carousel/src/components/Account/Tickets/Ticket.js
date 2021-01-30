@@ -1,11 +1,10 @@
 import classes from "./Ticket.module.css";
-import { Input, Divider } from "antd";
+import { Input, Divider, message } from "antd";
 import ButtonPrimary from "../../UI/ButtonPrimary/ButtonPrimary";
 import ButtonSecondary from "../../UI/ButtonSecondary/ButtonSecondary";
 import { useEffect, useState } from "react";
 import services from "../../../apis/services";
 import { white } from "material-ui/styles/colors";
-// import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 
 const { TextArea } = Input;
 
@@ -15,7 +14,7 @@ const Ticket = ({ ticket, clearFocustTicket, admin }) => {
 
   const handleSubmit = async (reply) => {
     if (!reply) {
-      alert("Please enter an input");
+      message.info("Please enter an input");
       return;
     }
     const TOKEN = localStorage.getItem("token");

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu, message } from "antd";
+import { Layout, Menu } from "antd";
 import {
   UserOutlined,
   ShoppingOutlined,
@@ -29,7 +29,6 @@ import Message from "../../components/Account/Message/Message";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
-
 class VendorAccount extends Component {
   constructor(props) {
     super(props);
@@ -61,12 +60,6 @@ class VendorAccount extends Component {
     const { location } = this.props;
     const path = location.pathname.split("/");
     const id = localStorage.getItem("id");
-    if (!id) {
-      message.error(
-        "Somethings went wrong please check out the profile page first"
-      );
-      return;
-    }
 
     const submenukeys = {
       profile: "/profile",
