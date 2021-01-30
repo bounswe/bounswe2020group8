@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Space } from "antd";
+import { message, Space } from "antd";
 import Table from "antd/lib/table";
 import classes from "./ProductRequests.module.css";
 import services from "../../../apis/services";
@@ -216,7 +216,7 @@ class ProductRequests extends Component {
             this.publishProduct(product, response.data.data);
           }
         } else {
-          alert("Product request declined!");
+          message.info("Product request declined!");
         }
       })
       .catch((error) => {
@@ -246,7 +246,7 @@ class ProductRequests extends Component {
     services
       .post("/product", payload, config)
       .then((response) => {
-        alert("New product added!!");
+        message.info("New product added!!");
         this.getProductRequests();
       })
       .catch((error) => {
@@ -265,7 +265,7 @@ class ProductRequests extends Component {
     services
       .post("/product/" + product.productID, payload, config)
       .then((response) => {
-        alert("Vendor added to product!!");
+        message.info("Vendor added to product!!");
         this.getProductRequests();
       })
       .catch((error) => {

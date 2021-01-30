@@ -50,9 +50,8 @@ export default class Profile extends Component {
         headers: { Authorization: "Bearer " + token },
       });
 
-      if (resp.data.data !== null) {
-        console.log(resp);
-        this.setState({totalEarnings: resp.data.data[0].balance});
+      if (resp.data.data !== null && resp.data.data.length) {
+        this.setState({ totalEarnings: resp.data.data[0].balance });
       }
     }
   }
@@ -274,10 +273,15 @@ export default class Profile extends Component {
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
           <Col span={12}>{this.renderPasswordChangeForm()}</Col>
-          <div style={{marginLeft:"100px", marginTop:"-400px", fontSize:"16px"}}>
+          <div
+            style={{
+              marginLeft: "100px",
+              marginTop: "-400px",
+              fontSize: "16px",
+            }}
+          >
             Total earnings: <strong>{this.state.totalEarnings} $</strong>
           </div>
-
         </Row>
       </div>
     );

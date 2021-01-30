@@ -15,7 +15,7 @@ import {
   GiftOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Menu, message } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../../redux/auth/actions";
@@ -91,7 +91,7 @@ export function SideButtons(props) {
     } else if (user.userType === "Vendor") {
       url = "/vendor/logout";
     } else if (user.userType === "Admin") {
-      alert("admin log out");
+      message.success("admin log out");
       url = "admin/logoutAdmin";
     } else {
       return;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import services from "../../apis/services";
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import classes from "../../components/Account/VendorAddProduct/AddProduct.module.css";
 import "antd/dist/antd.css";
@@ -376,7 +376,7 @@ class AddProducts extends Component {
           showMainProductForm: false,
           showExistingProductForm: false,
         });
-        alert("Product request is sent!");
+        message.success("Product request is sent!");
       })
       .catch((error) => {
         console.log("ERROR: " + error);
@@ -422,7 +422,7 @@ class AddProducts extends Component {
           showMainProductForm: false,
           showExistingProductForm: false,
         });
-        alert("Main Product request is sent!");
+        message.success("Main Product request is sent!");
         this.getMainProducts();
       })
       .catch((error) => {

@@ -238,7 +238,7 @@ const ProductActions = ({
         setIsLikedModalVisible(true);
       }
     } else {
-      history.push("/");
+      history.push("/login");
     }
   };
 
@@ -275,7 +275,7 @@ const ProductActions = ({
         }
       }
     } else {
-      history.push("/");
+      history.push("/login");
     }
   };
 
