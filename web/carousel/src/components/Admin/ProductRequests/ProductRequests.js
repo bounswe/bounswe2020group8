@@ -122,7 +122,10 @@ class ProductRequests extends Component {
           } else if (data[i].type === "UPDATE_PRODUCT") {
             type = "Update Product";
           }
-          const newValue = data[i].newValue;
+          let newValue = data[i].newValue;
+          if (!newValue) {
+            newValue = { vendorSpecifics: {} };
+          }
           services
             .get("/product/" + data[i].oldValue, config)
             .then((response) => {
