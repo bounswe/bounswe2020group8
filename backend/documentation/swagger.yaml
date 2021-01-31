@@ -1099,62 +1099,6 @@ paths:
                 $ref: '#/components/responses/NullData'
         '400':
           description: Authorization error
-  /customer/shoppingCart/main:
-    get:
-      tags:
-        - customer
-        - shoppingCart
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Customer'
-        '400':
-          description: An error has occured.
-    patch:
-      tags:
-        - customer
-        - shoppingCart
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/components/schemas/PatchShoppingCart'
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Customer'
-        '400':
-          description: An error has occured.
-    post:
-      tags:
-        - customer
-        - shoppingCart
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: body
-          name: body
-          schema:
-            $ref: '#/components/schemas/PostShoppingCart'
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/Customer'
-        '400':
-          description: An error has occured.
   /vendor/signup:
     post:
       tags:
@@ -2123,6 +2067,326 @@ paths:
                 $ref: '#/components/responses/NullData'
         '400':
           description: Invalid
+  /customer/shoppingCart/main:
+    get:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/PostShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/shoppingCart/reset:
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/shoppingCart/delete:
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeleteFromShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/main:
+    get:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: query
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/PostGuestShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/reset:
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/delete:
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeleteFromGuestShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/order/main:
+    get:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /customer/order/orderID:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/GetFromOrderID'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /customer/purchase:
+    post:
+      tags:
+        - purchase
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/order/main:
+    patch:
+      tags:
+        - order
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/order/orderID:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/GetFromOrderID'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/purchase:
+    post:
+      tags:
+        - purchase
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /vendor/order/main:
+    get:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /vendor/balance:
+    get:
+      tags:
+        - vendor
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/VendorBalance'
+        '400':
+          description: An error has occured.
 components:
   securitySchemes:
     bearerAuth:
@@ -2471,6 +2735,29 @@ components:
           properties:
             data:
               $ref: '#/components/schemas/ProductRequest'
+    ShoppingCart:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            shoppingCart:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingCartItem'
+    Order:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Order'
+    VendorBalance:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/VendorBalance'
   schemas:
     Rate:
       type: object
@@ -2776,67 +3063,71 @@ components:
       xml:
         name: User
     Order:
-      type: object
-      properties:
-        _id:
-          type: string
-        customerID:
-          type: string
-        product:
-          type: string
-        email:
-          type: string
-        shippingAddress:
-          type: object
-          properties:
-            addressName:
-              type: string
-            name:
-              type: string
-            addressLine:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zipCode:
-              type: string
-            phone:
-              type: string
-        billingAddress:
-          type: object
-          properties:
-            addressName:
-              type: string
-            name:
-              type: string
-            addressLine:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zipCode:
-              type: string
-            phone:
-              type: string
-        creditCard:
-          type: object
-          properties:
-            creditCardNumber:
-              type: string
-            creditCardCvc:
-              type: string
-            creditCardData:
-              type: string
-            creditCardName:
-              type: string
-        shippingInfo:
-          type: string
-        refundProcess:
-          type: string
-      xml:
-        name: User
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          customerID:
+            type: string
+          product:
+            type: string
+          email:
+            type: string
+          shippingAddress:
+            type: object
+            properties:
+              addressName:
+                type: string
+              name:
+                type: string
+              addressLine:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zipCode:
+                type: string
+              phone:
+                type: string
+          billingAddress:
+            type: object
+            properties:
+              addressName:
+                type: string
+              name:
+                type: string
+              addressLine:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zipCode:
+                type: string
+              phone:
+                type: string
+          creditCard:
+            type: object
+            properties:
+              creditCardNumber:
+                type: string
+              creditCardCvc:
+                type: string
+              creditCardData:
+                type: string
+              creditCardName:
+                type: string
+          shippingInfo:
+            type: string
+          arrivesIn:
+            type: integer
+          status:
+            type: string
+        xml:
+          name: User
     MainProduct:
       type: object
       properties:
@@ -2987,7 +3278,57 @@ components:
           type: string
         amount:
           type: integer
-    PatchShoppingCart:
+    DeleteFromShoppingCart:
+      type: object
+      properties:
+        productId:
+          type: string
+        vendorId:
+          type: string
+    ShoppingCartItem:
+      type: object
+      properties:
+        productId:
+          type: string
+        vendorId:
+          type: string
+        amount:
+          type: integer
+        price:
+          type: number
+        shipmentPrice:
+          type: number
+        cargoCompany:
+          type: string
+        title:
+          type: string
+        vendorName:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+    PostGuestShoppingCart:
+      type: object
+      properties:
+        _id:
+          type: string
+        productId:
+          type: string
+        vendorId:
+          type: string
+        amount:
+          type: integer
+    DeleteFromGuestShoppingCart:
+      type: object
+      properties:
+        _id:
+          type: string
+        productId:
+          type: string
+        vendorId:
+          type: string
+    PatchOrder:
       type: object
       properties:
         mainOrderID:
@@ -2996,3 +3337,15 @@ components:
           type: string
         status:
           type: string
+    GetFromOrderID:
+      type: object
+      properties:
+        mainOrderID:
+          type: string
+        orderID:
+          type: string
+    VendorBalance:
+      type: object
+      properties:
+        balance:
+          type: number

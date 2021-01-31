@@ -1,3 +1,27 @@
+ShoppingCartItem:
+  type: object
+  properties:
+    productId:
+      type: string
+    vendorId:
+      type: string
+    amount:
+      type: integer
+    price:
+      type: number
+    shipmentPrice:
+      type: number
+    cargoCompany:
+      type: string
+    title:
+      type: string
+    vendorName:
+      type: string
+    photos:
+      type: array
+      items:
+        type: string
+
 PostShoppingCart:
   type: object
   properties:
@@ -7,3 +31,33 @@ PostShoppingCart:
       type: string
     amount:
       type: integer
+
+DeleteFromShoppingCart:
+  type: object
+  properties:
+    productId:
+      type: string
+    vendorId:
+      type: string
+
+PostGuestShoppingCart:
+  type: object
+  properties:
+    _id:
+      type: string
+    productId:
+      type: string
+    vendorId:
+      type: string
+    amount:
+      type: integer
+
+DeleteFromGuestShoppingCart:
+  type: object
+  properties:
+    _id:
+      type: string
+    productId:
+      type: string
+    vendorId:
+      type: string

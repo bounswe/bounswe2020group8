@@ -1,0 +1,161 @@
+/customer/order/main:
+  get:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+  patch:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/PatchOrder"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/customer/order/orderID:
+  post:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/GetFromOrderID"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/customer/purchase:
+  post:
+    tags:
+      - purchase
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/guest/order/main:
+  patch:
+    tags:
+      - order
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/PatchOrder"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/guest/order/orderID:
+  post:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/GetFromOrderID"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/guest/purchase:
+  post:
+    tags:
+      - purchase
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: _id
+        required: true
+        type: string
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+/vendor/order/main:
+  get:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.
+  patch:
+    tags:
+      - order
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        schema:
+          $ref: "../components/schemas/_index.yaml#/PatchOrder"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/Order"
+      '400':
+        description: An error has occured.

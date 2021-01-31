@@ -84,3 +84,12 @@ ProductRequestList:
 
 ProductRequest:
   $ref: "./productRequest.yaml#/ProductRequest"
+
+ShoppingCart:
+  $ref: "./shoppingCart.yaml#/ShoppingCart"
+
+Order:
+  $ref: "./order.yaml#/Order"
+
+VendorBalance:
+  $ref: "./order.yaml#/VendorBalance"

@@ -70,5 +70,23 @@ ProductRequest:
 PostShoppingCart:
   $ref: "./shoppingCart.yaml#/PostShoppingCart"
 
+DeleteFromShoppingCart:
+  $ref: "./shoppingCart.yaml#/DeleteFromShoppingCart"
+
+ShoppingCartItem:
+  $ref: "./shoppingCart.yaml#/ShoppingCartItem"
+
+PostGuestShoppingCart:
+  $ref: "./shoppingCart.yaml#/PostGuestShoppingCart"
+
+DeleteFromGuestShoppingCart:
+  $ref: "./shoppingCart.yaml#/DeleteFromGuestShoppingCart"
+
 PatchOrder:
   $ref: "./order.yaml#/PatchOrder"
+
+GetFromOrderID:
+  $ref: "./order.yaml#/GetFromOrderID"
+
+VendorBalance:
+  $ref: "./order.yaml#/VendorBalance"

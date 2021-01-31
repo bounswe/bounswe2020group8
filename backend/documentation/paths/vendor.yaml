@@ -510,3 +510,18 @@
               $ref: "../components/responses/_index.yaml#/NullData"
       "400":
         description: Invalid
+/vendor/balance:
+  get:
+    tags:
+      - vendor
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/VendorBalance"
+      '400':
+        description: An error has occured.
