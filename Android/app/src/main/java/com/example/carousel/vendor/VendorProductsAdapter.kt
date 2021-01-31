@@ -9,14 +9,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.carousel.R
+import com.example.carousel.map.ApiCaller
+import com.example.carousel.map.ApiClient
+import com.example.carousel.pojo.RequestProductAmountUpdate
+import com.example.carousel.pojo.ResponseMainProduct
+import com.example.carousel.pojo.ResponseProduct
+import com.tapadoo.alerter.Alerter
+import kotlinx.android.synthetic.main.fragment_vendor_home.*
 
 
-class VendorProductsAdapter(private var productList: ArrayList<VendorProduct>, private val activity: Activity) :
+class VendorProductsAdapter(
+    private var productList: ArrayList<VendorProduct>,
+    private val activity: Activity
+) :
     RecyclerView.Adapter<VendorProductsAdapter.ViewHolder>() {
     var onItemClick: ((VendorProduct) -> Unit)? = null
 
@@ -29,6 +40,7 @@ class VendorProductsAdapter(private var productList: ArrayList<VendorProduct>, p
         val title: TextView = itemView.findViewById(R.id.title)
         val price: TextView = itemView.findViewById(R.id.price)
         val amountLeft: TextView = itemView.findViewById(R.id.amountLeft)
+        val updateAmount: EditText = itemView.findViewById(R.id.updateAmount)
         val updateButton: Button = itemView.findViewById(R.id.updateAmountButton)
 
         init {
@@ -36,14 +48,38 @@ class VendorProductsAdapter(private var productList: ArrayList<VendorProduct>, p
                 onItemClick?.invoke(productList[adapterPosition])
             }
             updateButton.setOnClickListener {
-                Log.d("successorospucocugu", it.toString())
+                val request = RequestProductAmountUpdate(
+                    productList[adapterPosition].vendorId,
+                    productList[adapterPosition].price,
+                    updateAmount.text.toString().toInt(),
+                    productList[adapterPosition].shipmentPrice,
+                    productList[adapterPosition].cargoCompany
+                )
+                val apiCallerSetAmount: ApiCaller<ResponseProduct> = ApiCaller(activity)
+                apiCallerSetAmount.Caller =
+                    ApiClient.getClient.productAmountUpdate(
+                        productList[adapterPosition]._id,
+                        productList[adapterPosition].vendorId,
+                        request
+                    )
+                apiCallerSetAmount.Success = { it ->
+                    updateAmount.setText("")
+                    Alerter.create(activity)
+                        .setTitle("Success")
+                        .setText("Stock update request is sent.")
+                        .setBackgroundColorRes(R.color.successGreen)
+                        .show()
+                }
+                apiCallerSetAmount.Failure = { Log.d("SECONDRESPONSE", "FAILED") }
+                apiCallerSetAmount.run()
             }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.vendor_product_view, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.vendor_product_view, parent, false)
         return ViewHolder(view)
     }
 
