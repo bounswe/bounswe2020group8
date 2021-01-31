@@ -1,8 +1,6 @@
 const mongooseConfig = require("../mongoose_config");
 const Config = require("../config");
 const mongoose = require("mongoose");
-var db = mongoose.connection;
-
 const Vendor = require("../models/vendor");
 const MainProduct = require("../models/mainProduct");
 const Product = require("../models/product");
