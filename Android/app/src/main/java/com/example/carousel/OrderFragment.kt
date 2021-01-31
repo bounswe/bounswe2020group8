@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.carousel.application.ApplicationContext
 import com.example.carousel.map.ApiCaller
 import com.example.carousel.map.ApiClient
-import com.example.carousel.pojo.ID
-import com.example.carousel.pojo.PurchaseBody
-import com.example.carousel.pojo.ResponseCustomerMe
-import com.example.carousel.pojo.ResponseLogin
+import com.example.carousel.pojo.*
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_order.*
@@ -108,17 +105,27 @@ class OrderFragment : Fragment() {
 
         val apiCallerPurchase: ApiCaller<ID> = ApiCaller(activity)
         apiCallerPurchase.Button = purchase_button
-        for(product in CartFragment.cart) {
             apiCallerPurchase.Caller = ApiClient.getClient.purchaseRequest(PurchaseBody(LoginActivity.user.addresses?.get(selectedAddress)!!._id,
                 LoginActivity.user.addresses?.get(selectedAddress)!!._id, LoginActivity.user.creditCards?.get(selectedCard)!!._id))
             apiCallerPurchase.Success = { it ->
                 if (it != null) {
-                    Toast.makeText(requireContext(),"Order Received!", android.widget.Toast.LENGTH_SHORT).show()
                 }
             }
             apiCallerPurchase.Failure = {}
             apiCallerPurchase.run()
+
+        val apiCallerResetCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
+        apiCallerResetCart.Caller = ApiClient.getClient.resetCart()
+        apiCallerResetCart.Success = { it ->
+            if (it != null) {
+                for((i, product) in CartFragment.ShoppingCart.cart.withIndex()){
+                    CartFragment.ShoppingCart.removeFromCart(i)
+                }
+                Toast.makeText(requireContext(), "Order Received!", android.widget.Toast.LENGTH_SHORT).show()
+            }
         }
+        apiCallerResetCart.Failure = {}
+        apiCallerResetCart.run()
     }
 
 

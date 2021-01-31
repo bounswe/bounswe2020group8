@@ -146,7 +146,8 @@ interface ApiInterface {
         @Body data: DeleteCart): Call<ArrayList<DataCustomerMe>>
     @POST("/customer/shoppingCart/reset")
     fun resetCart(
-        @Body data: ResetCart): Call<ArrayList<DataCustomerMe>>
+        //@Body data: ResetCart
+    ): Call<ArrayList<DataCustomerMe>>
 
     @POST
     fun productSearch(
