@@ -7,7 +7,7 @@
     "start": "node bin/app.js",
     "lint": "eslint --ignore-pattern \"node_modules/**/*.js\" \"**/*.js\"",
     "lint-fix": "npm run lint -- --fix",
-    "test": "jest"
+    "test": "export NODE_ENV=test && mocha --timeout 6000 -exit"
   },
   "jest": {
     "testEnvironment": "node",
@@ -48,6 +48,7 @@
     "blocked": "^1.2.1",
     "bluebird": "^3.5.4",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "cron": "^1.7.1",
     "express": "^4.17.1",

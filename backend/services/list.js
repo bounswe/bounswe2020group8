@@ -2,6 +2,7 @@ const CustomerDataAccess = require("../dataAccess/customer");
 const ShoppingCartService = require("../services/shoppingCart");
 const WatcherDataAccess = require("../dataAccess/watcher");
 const ProductDataAccess = require("../dataAccess/product");
+const MainProductDataAccess = require("../dataAccess/mainProduct");
 const Messages = require("../util/messages");
 const mongoose = require("mongoose");
 
@@ -93,19 +94,24 @@ exports.getAllListsService = async function (customer) {
   let allLists = customer.shoppingLists;
   let allListsPopulated = new Array();
   for (let i = 0; i < allLists.length; i++) {
-    let populatedList = await CustomerDataAccess.getOneShoppingListByIdDB(
+    let unpopulatedList = await CustomerDataAccess.getOneShoppingListByIdDB(
       customer._id,
       allLists[i]._id
     );
-    populatedList = populatedList[0].data;
-    for (let j = 0; j < populatedList.length; j++) {
-      populatedList[j].parentProduct = populatedList[j].parentProduct[0];
+    unpopulatedList = unpopulatedList[0].shoppingList;
+    listId = unpopulatedList._id;
+    listTitle = unpopulatedList.title;
+    let currentListPopulated = new Array();
+    for (let j = 0; j < unpopulatedList.wishedProducts.length; j++) {
+      let productInfo = unpopulatedList.wishedProducts[j];
+      let currentProduct = await ProductDataAccess.getProductByIdDB(productInfo.productId);
+      let currentMainProduct = await MainProductDataAccess.getMainProductByIdDB(
+        currentProduct.parentProduct
+      );
+      currentProduct.parentProduct = currentMainProduct;
+      currentListPopulated.push(currentProduct);
     }
-    allListsPopulated.push({
-      _id: allLists[i]._id,
-      title: allLists[i].title,
-      wishedProducts: populatedList,
-    });
+    allListsPopulated.push({ _id: listId, title: listTitle, wishedProducts: currentListPopulated });
   }
   return { result: allListsPopulated.length, data: allListsPopulated };
 };
