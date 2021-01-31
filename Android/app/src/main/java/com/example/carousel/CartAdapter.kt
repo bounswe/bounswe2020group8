@@ -14,6 +14,7 @@ import com.example.carousel.map.ApiClient
 import com.example.carousel.pojo.DataCustomerMe
 import com.example.carousel.pojo.DeleteCart
 import com.example.carousel.pojo.ResponseCart
+import com.example.carousel.pojo.UpdateCart
 import kotlinx.android.synthetic.main.activity_product_page.*
 
 class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, private val activity: Activity) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
@@ -29,6 +30,8 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
         val price: TextView = itemView.findViewById(R.id.price)
         val remove: Button = itemView.findViewById(R.id.remove_product)
         val number: TextView = itemView.findViewById(R.id.number)
+        val dec_count: Button = itemView.findViewById(R.id.dec_count)
+        val inc_count: Button = itemView.findViewById(R.id.inc_count)
 
         val addFavorite: ToggleButton = itemView.findViewById(R.id.favourite_product)
         init {
@@ -69,9 +72,48 @@ class CartAdapter (    private var productList: ArrayList<Pair<Product,Int>>, pr
             }
 
         }
+        holder.dec_count.setOnClickListener {
+            if (productList[position].second > 1) {
+
+                val apiCallerUpdate: ApiCaller<DataCustomerMe> = ApiCaller(activity)
+                apiCallerUpdate.Button = holder.dec_count
+                apiCallerUpdate.Caller = ApiClient.getClient.updateCart(UpdateCart(productList[position].second - 1, productList[position].first._id, productList[position].first.vendorId))
+                apiCallerUpdate.Success = { it ->
+
+                    if (it != null) {
+                        CartFragment.ShoppingCart.updateCart(productList[position].first, productList[position].second - 1)
+                        this.notifyDataSetChanged()
+                    }
+                }
+                apiCallerUpdate.run()
+                apiCallerUpdate.Failure = { }
+            }
+
+        }
+        holder.inc_count.setOnClickListener {
+            val apiCallerUpdate: ApiCaller<DataCustomerMe> = ApiCaller(activity)
+            apiCallerUpdate.Button = holder.inc_count
+            apiCallerUpdate.Caller = ApiClient.getClient.updateCart(UpdateCart(productList[position].second + 1, productList[position].first._id, productList[position].first.vendorId))
+            apiCallerUpdate.Success = { it ->
+
+                if (it != null) {
+                    CartFragment.ShoppingCart.updateCart(productList[position].first, productList[position].second + 1)
+                    this.notifyDataSetChanged()
+                }
+            }
+            apiCallerUpdate.run()
+            apiCallerUpdate.Failure = { }
+
+        }
         holder.addFavorite.setOnClickListener{
             //ShoppingListFragment.lists[0].add(productList[position])
         }
+    }
+    fun reset() {
+        for(i in productList) {
+            i.first.isInCart = false
+        }
+        productList.clear()
     }
 }
 

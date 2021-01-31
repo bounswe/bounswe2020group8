@@ -6,13 +6,17 @@
     <color name="loginPageBackgroundColor">#DFFFFFFF</color>
     <color name="signupPageBackgroundColor">#DFFFFFFF</color>
     <color name="colorWhite">#DFFFFFFF</color>
+    <color name="colorBlack">#000000</color>
     <color name="alert_default_icon_color">@android:color/white</color>
     <color name="alert_default_text_color">@android:color/white</color>
     <color name="text_drawing_header">@android:color/white</color>
     <color name="errorRed">#A63232</color>
     <color name="successGreen">#3EA322</color>
+    <color name="colorGray">#808080</color>
 
     <color name="editext_hint_color">#9B9BA3</color>
     <color name="text_inpıt_layout_border_color">#AEAEB8</color>
     <color name="gray_text_color">#4A4A4A</color>
+    <color name="golden">#F4DD0F</color>
+    <color name="black_text_color">#292929</color>
 </resources>

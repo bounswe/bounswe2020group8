@@ -41,10 +41,10 @@ class CartFragment : Fragment(){
         super.onActivityCreated(savedInstanceState)
         activity?.runOnUiThread {
             val apiCallerGetCart: ApiCaller<ArrayList<ResponseCart>> = ApiCaller(activity)
-            apiCallerGetCart.Caller = ApiClient.getClient.getCart(ID(LoginActivity.user.id))
+            apiCallerGetCart.Caller = ApiClient.getClient.getCart()
             apiCallerGetCart.Success = { it ->
                 if (it != null) {
-                    for (product in it) {
+                    for (product in it[0].data) {
                         val newProduct = Product(
                             _id = product.productId,
                             vendorId = product.vendorId,
@@ -125,6 +125,24 @@ class CartFragment : Fragment(){
         purchase_cart_button.setOnClickListener{
             purchase()
         }
+
+        clear_cart.setOnClickListener {
+            val apiCallerResetCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
+            //apiCallerResetCart.Caller = ApiClient.getClient.resetCart(ResetCart(LoginActivity.user.id))
+            apiCallerResetCart.Caller = ApiClient.getClient.resetCart()
+            apiCallerResetCart.Success = { it ->
+                if (it != null) {
+                    activity?.runOnUiThread {
+                        adapter.reset()
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+            apiCallerResetCart.run()
+            apiCallerResetCart.Failure = { Log.d("CLEAR", "FAILED") }
+
+        }
+
         /*
         adapter.onItemClick = { product ->
             val intent = Intent(this.context, ProductPageActivity::class.java)
@@ -185,6 +203,7 @@ class CartFragment : Fragment(){
             return false
         }
         fun addToCart(product: Product, num: Int) {
+            product.isInCart = true
             for(item in cart){
                 if(item.first._id == product._id) {
                     val newPair = item.copy(second = item.second + num)
@@ -194,10 +213,22 @@ class CartFragment : Fragment(){
             }
             cart.add(Pair(product, num))
         }
+        fun updateCart(product: Product, num: Int) {
+            for(item in cart){
+                if(item.first._id == product._id) {
+                    val newPair = item.copy(second = num)
+                    cart[cart.indexOf(item)] = newPair
+                    return
+                }
+            }
+            cart.add(Pair(product, num))
+        }
 
         fun removeFromCart(productIndex: Int) {
-            if (cart.isNotEmpty())
+            if (cart.isNotEmpty()) {
+                cart[productIndex].first.isInCart = false
                 cart.removeAt(productIndex)
+            }
         }
         fun totalCost(): Double{
             var sum : Double = 0.0

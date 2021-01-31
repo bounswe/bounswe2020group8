@@ -21,7 +21,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        setSupportActionBar(findViewById(R.id.my_toolbar))
+        //setSupportActionBar(findViewById(R.id.my_toolbar))
         val homeFragment = HomeFragment()
         val categoriesFragment = CategoriesFragment()
         val cartFragment = CartFragment()
@@ -33,6 +33,10 @@ class DashboardActivity : AppCompatActivity() {
             "userInfo",
             Context.MODE_PRIVATE
         )
+
+        // Sometimes a bug arises about logout. These two lines are used when there is such an issue.
+        //prefs!!.edit().clear().apply()
+
         if (prefs.getBoolean("isAuthenticated", false)) {
             val type = prefs.getString("type", "GUEST")!!
             ApplicationContext.instance.authenticate(

@@ -4,11 +4,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#FFFFFF" android:clickable="true" tools:context=".HomeFragment">
+             android:clickable="true" tools:context=".HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="#FFFFFF" android:clickable="true">
+        android:layout_height="match_parent" android:clickable="true">
 
         <LinearLayout
             android:id="@+id/product"
@@ -23,59 +23,49 @@
                 android:layout_gravity="center"
                 android:background="@drawable/home_banner" />
 
-            <!--<TextView
+
+            <TextView
+                android:id="@+id/recommendations_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="sans-serif"
+                android:textColor="#202020"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="RECOMMENDED FOR YOU" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommendations"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"/>
+            <!--
+                android:background="@drawable/title_background"-->
+
+            <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif"
                 android:textColor="#202020"
                 android:textStyle="bold"
-                android:textSize="16dp"
-                android:gravity="center_horizontal" />-->
+                android:textSize="16sp"
+                android:text="MORE TO SEE"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/deals"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"/>
 
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif"
-                android:textColor="#202020"
-                android:textStyle="bold"
-            />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/newProducts"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"/>
-
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="sans-serif"
-                android:textColor="#202020"
-                android:textStyle="bold"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topSellers"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
     </ScrollView>

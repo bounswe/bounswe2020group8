@@ -78,21 +78,36 @@ class MemberAccountPageFragment : Fragment() {
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
             }else if(pos == 2){
-                val fragment = ShoppingListFragment()
+                if(type.equals("CLIENT")) {
+                    val fragment = ShoppingListFragment()
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.fragment_account_page, fragment)
+                        ?.commit()
+                }else if(type.equals("VENDOR")) {
+                    val fragment = GoogleMapsPin()
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.fragment_account_page, fragment)
+                        ?.commit()
+                }
+            }
+            else if(pos == 3){
+                val fragment = MessageFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 3){
+
+            }
+            else if(pos == 4){
                 val fragment = ChangePasswordFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 4) {
+            }else if(pos == 5) {
                 val fragment = Settings()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if (pos == 5) {
+            }else if (pos == 6) {
                 type = ApplicationContext.instance.whoAmI().toString()
                 logout(type)
 
@@ -107,19 +122,19 @@ class MemberAccountPageFragment : Fragment() {
                     (activity as VendorDashboardActivity).logout()
                 }
 
+//            }else if(pos == 9) {
+//                (activity as DashboardActivity).refresh()
             }else if(pos == 8) {
-                (activity as DashboardActivity).refresh()
-            }else if(pos == 7) {
                 val fragment = About()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 8) {
+            }else if(pos == 9) {
                 val fragment = Legals()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
                     ?.commit()
-            }else if(pos == 9) {
+            }else if(pos == 10) {
                 val fragment = Contacts()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_account_page, fragment)
@@ -201,10 +216,10 @@ class MemberAccountPageFragment : Fragment() {
                         var username = view?.findViewById<TextView>(R.id.username)
                         username?.setText(name.toString())
                         mAdapter = CustomAdapter(context as Context)
-//                        mAdapter.addSectionHeaderItem(name.toString())
                         mAdapter.addSectionHeaderItem("Account")
                         mAdapter.addItem("User Information", drawable.ic_person)
                         mAdapter.addItem("My Lists", drawable.ic_list)
+                        mAdapter.addItem("Messages", drawable.ic_message_24px)
                         mAdapter.addItem("Change Password", drawable.ic_key)
                         mAdapter.addItem("Addresses and Credit Cards", drawable.ic_settings)
                         mAdapter.addItem("Logout", drawable.ic_exit)
@@ -223,7 +238,7 @@ class MemberAccountPageFragment : Fragment() {
             apiCaller.Failure = {}
             apiCaller.run()
 
-        }else if(type.equals("VENDOR")){
+        }else if(type.equals("VENDOR")){//vendor tabs go here
             val apiCaller: ApiCaller<ResponseVendorMe> = ApiCaller(activity)
             apiCaller.Caller = ApiClient.getClient.vendorMe()
             apiCaller.Success = { it ->
@@ -231,17 +246,18 @@ class MemberAccountPageFragment : Fragment() {
                     activity?.runOnUiThread(Runnable { //Handle UI here
                         name = it.data.companyName
                         username.text = name
-                        mAdapter = CustomAdapter(context as Context) //this section will change for vendor profile
-                        mAdapter.addSectionHeaderItem("Account")
-                        mAdapter.addItem("User Information", drawable.ic_person)
-                        mAdapter.addItem("My Lists", drawable.ic_list)
-                        mAdapter.addItem("Change Password", drawable.ic_key)
-                        mAdapter.addItem("Settings", drawable.ic_settings)
-                        mAdapter.addItem("Logout", drawable.ic_exit)
+                        mAdapter = CustomAdapter(context as Context)
+                        mAdapter.addSectionHeaderItem("Account", )
+                        mAdapter.addItem("Company Information", drawable.ic_person)//Working correctly
+                        mAdapter.addItem("Google Locations", drawable.ic_list)
+                        mAdapter.addItem("Messages", drawable.ic_message_24px)
+                        mAdapter.addItem("Change Password", drawable.ic_key) //working correct
+                        mAdapter.addItem("My Address", drawable.ic_settings)//working correctly
+                        mAdapter.addItem("Logout", drawable.ic_exit) //working correct
                         mAdapter.addSectionHeaderItem("Carousel")
-                        mAdapter.addItem("About", drawable.ic_info)
-                        mAdapter.addItem("Legals", drawable.ic_file)
-                        mAdapter.addItem("Contact", drawable.ic_contact)
+                        mAdapter.addItem("About", drawable.ic_info) //working correct
+                        mAdapter.addItem("Legals", drawable.ic_file) //working correct
+                        mAdapter.addItem("Contact", drawable.ic_contact) //working correct
                         listView.adapter = (mAdapter)
 
                         if (redirect) {

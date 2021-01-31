@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.carousel">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +17,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".vendor.VendorDashboardActivity"></activity>
+        <activity android:name=".vendor.VendorOrderActivity"></activity>
+        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".vendor.VendorDashboardActivity" />
         <activity android:name=".vendor.VendorRegisterPasswordActivity" />
         <activity android:name=".vendor.VandorRegisterContactActivity" />
         <activity android:name=".vendor.VendorRegisterInfoActivity" />
@@ -23,10 +27,10 @@
         <activity android:name=".vendor.VendorLoginActivity" />
         <activity android:name=".vendor.VendorProductPageActivity" />
         <activity android:name=".CreateListActivity" />
-        <activity
-            android:name=".ProductPageActivity"
-            android:theme="@style/AppThemeActionBar" />
+        <activity android:name=".ProductPageActivity" />
+        <activity android:name=".TestActivity" />
         <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".SalesAgreementActivity" />
         <activity android:name=".customer.RegisterInfoActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -46,8 +50,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <activity android:name=".LoginActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
+
     </application>
 
 </manifest>

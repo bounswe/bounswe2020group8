@@ -8,7 +8,11 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="12dp"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
+    android:background="@drawable/product_background"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,25 +41,43 @@
         android:layout_marginRight="12dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="3"
-        android:orientation="horizontal">
-    <TextView
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minLines="1"
-        android:textSize="16sp"
-        android:layout_gravity="center_vertical"/>
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minLines="1"
-        android:textSize="21sp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-
-        />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minLines="1"
+            android:textSize="21sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+            android:id="@+id/dec_count"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:onClick="decCount"
+            app:icon="@drawable/ic_remove_circle_24px" />
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minLines="1"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+            <Button
+                android:id="@+id/inc_count"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="32dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:onClick="incCount"
+                app:icon="@drawable/ic_add_circle_24px" />
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
