@@ -1,0 +1,89 @@
+.ProductPage {
+  text-align: center;
+  align-items: center;
+  margin: auto;
+  width: 90%;
+}
+
+.ProductOverview {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  display: inline-flex;
+  width: 900px;
+  height: 480px;
+}
+
+.ProductRight {
+  width: 50%;
+  height: 480px;
+}
+
+.ProductPhotos {
+  padding-top: 40px;
+  border: black solid 1px;
+  width: 500px;
+  height: 480px;
+  text-align: center;
+}
+
+.ProductHeader {
+  border: black solid 1px;
+  border-top-right-radius: 15px;
+  display: grid;
+  width: 390px;
+  height: 240px;
+  background-color: #fafafa;
+}
+
+.ProductHeader_name {
+  font-size: 28px;
+  height: 40px;
+  color: black;
+}
+
+.ProductHeader_rating {
+  text-align: center;
+  align-items: center;
+  width: 40%;
+  height: 30px;
+  color: #d33a09;
+  margin-bottom: 100px;
+}
+
+.ProductHeader_price {
+  font-size: 34px;
+  color: #d33a09;
+}
+
+.ProductActions {
+  border: black solid 1px;
+  border-bottom-right-radius: 15px;
+  border-top: none;
+  width: 390px;
+  height: 240px;
+  background-color: #fafafa;
+}
+
+.ProductInfo {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  border: black solid 1px;
+  width: 900px;
+  height: 1000px;
+}
+
+.SectionToggle {
+  border-bottom: black solid 1px;
+  height: 60px;
+  width: 100%;
+  display: inline-flex;
+}
+
+.SectionToggle button {
+  width: 300px;
+  border: 1px solid #e6e6e6;
+  outline: none;
+  cursor: pointer;
+}

@@ -1,0 +1,78 @@
+---
+- hosts: apps
+  become: yes
+
+  vars:
+    - homeDir: /home/ubuntu
+    - appDir : web-app
+    - owner: bounswe
+    - projectName: bounswe2020group8
+    - imageName: carouselapp/carousel-frontend
+
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+  - name: Install Packages
+    apt: 
+      name: git
+      update_cache: yes
+
+
+  - name: Create APP Directory
+    file: 
+      path: "{{homeDir}}/{{appDir}}"
+      owner: ubuntu
+      state: directory
+    become: no
+
+
+  - name: Check for Project directory
+    stat:
+      path: "{{homeDir}}/{{appDir}}/{{projectName}}"
+    register: file_details
+    become: no
+
+
+  - name: Clone the Repo if the repo is not cloned yet
+    shell: |
+      git clone https://github.com/{{owner}}/{{projectName}}.git
+      cd {{projectName}}
+      git fetch origin 
+      git checkout web
+    args:
+      chdir: "{{homeDir}}/{{appDir}}"
+    when: file_details.stat.exists == false 
+    ignore_errors: yes
+    become: no
+
+
+  - name: Get the new version of the app
+    shell: |
+      git reset --hard
+      git pull origin
+    args:
+      chdir: "{{homeDir}}/{{appDir}}/{{projectName}}"
+    when: file_details.stat.exists 
+    ignore_errors: yes
+    become: no
+
+
+  - name: Docker pull
+    shell: |
+      docker pull {{imageName}}
+
+    
+  - name: Stop old image
+    shell: |
+      docker-compose down
+    args:
+      chdir: "{{homeDir}}/{{appDir}}/{{projectName}}/web/carousel"
+    when: file_details.stat.exists
+    ignore_errors: yes
+
+  - name: Run new image
+    shell: |
+      docker-compose up
+    args:
+      chdir: "{{homeDir}}/{{appDir}}/{{projectName}}/web/carousel"

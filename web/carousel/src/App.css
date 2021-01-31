@@ -1,0 +1,34 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-content {
+  color: #282c34;
+  min-height: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  background-color: #fafafa;
+}
+
+.App-header {
+  color: #282c34;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  margin-top: 0%;
+  background-color: #fafafa;
+}
