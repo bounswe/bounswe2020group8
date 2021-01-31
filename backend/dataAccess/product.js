@@ -40,6 +40,10 @@ exports.deleteProductsByParentIdDB = function (parentId) {
   return Product.deleteMany({ parentProduct: parentId });
 };
 
+/*
+Finds products of a specific vendor for a specific main product. Deletes the vendor from products. If the vendor is the only one selling the item,
+product is deleted. Otherwise it is updated. Also if the deleted vendor's price was the lowest, default product is updated by the next lowest price.
+*/
 exports.deleteVendorFromProductsByVendorIdDB = function (mpid, vid) {
   return Product.find({ parentProduct: mpid, "vendorSpecifics.vendorID": vid }, (err, docs) => {
     if (err) {
@@ -62,7 +66,10 @@ exports.deleteVendorFromProductsByVendorIdDB = function (mpid, vid) {
     });
   });
 };
-
+/*
+Finds the product of a specific vendor. Deletes the vendor from product. If the vendor is the only one selling the item,
+product is deleted. Otherwise it is updated. Also if the deleted vendor's price was the lowest, default product is updated by the next lowest price.
+*/
 exports.deleteVendorFromProductByVendorIdDB = function (pid, vid) {
   return Product.findOne({ _id: pid, "vendorSpecifics.vendorID": vid }, async (err, doc) => {
     if (err) {
@@ -84,6 +91,10 @@ exports.deleteVendorFromProductByVendorIdDB = function (pid, vid) {
     await doc.save();
   });
 };
+
+/*
+Finds the product with the specific pid. Adds the vendor to the product. if the vendor's price was the lowest, default product is updated by the new vendor's price.
+*/
 exports.addVendorToProductDB = function (pid, vendorData) {
   return Product.findOne({ _id: pid }, async (err, doc) => {
     if (err) {
@@ -106,7 +117,10 @@ exports.addVendorToProductDB = function (pid, vendorData) {
     await doc.save();
   });
 };
-
+/*
+Finds the product with the specific pid. Updates the vendor in the product. If the new vendor's new price is lower than the default product. Default 
+product is updated with the updated vendor's price.
+*/
 exports.updateVendorInProductByVendorIdDB = function (pid, vid, vendorData) {
   return Product.findOne({ _id: pid, "vendorSpecifics.vendorID": vid }, async (err, doc) => {
     if (err) {
@@ -264,6 +278,12 @@ exports.getProductByResetPasswordTokenDB = function (resetPasswordToken) {
   }).lean();
 };
 
+/*
+Searches product in the database containing at least one of the tags. Then it ranks the product with the number of matches while putting the
+documents in a usable format for requesters. After that, the products are filtered, sorted, limited and paginated according to the query string.
+An example could be ?minPrice[gt]=200&rating=4.2&sort=maxPrice&limit=10&page=20. Filterable fields for a specific querycan be found using the endpoint
+/GET /product/searchFilters with the same query string.
+*/
 exports.searchProducts = function (query, tags) {
   let filter = QueryHelper.filter(query);
   let sort = QueryHelper.sort(query);
@@ -272,6 +292,7 @@ exports.searchProducts = function (query, tags) {
 
   let matched_statement;
   let matches;
+  // If the tags is null or empty search returns all the products
   if (!isNullOrEmpty(tags)) {
     matched_statement = { $match: { tags: { $in: tags } } };
     matches = {
@@ -308,6 +329,7 @@ exports.searchProducts = function (query, tags) {
       },
     },
     {
+      // group by main Product, while grouping take the boundary values of products belonging to the same main product
       $group: {
         _id: "$parentProduct",
         products: { $push: { _id: "$_id", photos: "$photos", matches: "$matches" } },
@@ -381,7 +403,10 @@ exports.searchProducts = function (query, tags) {
     { $unset: ["parameters"] },
   ]);
 };
-
+/* 
+Return the filterable fields for a specific query string. It is best used before a POST /product/search call. If an empty query string is given, filterable fields
+for specific categories can be found by using the following query paramters: ?category=Electronics.
+*/
 exports.getSearchFilters = function (query, tags) {
   let filter = QueryHelper.filter(query);
   let matched_statement;
@@ -493,7 +518,11 @@ exports.getSearchFilters = function (query, tags) {
     },
   ]);
 };
-
+/*
+Given a frequency table for some tags, it finds the products matching with the keys of the frequency table. After grouping products into main products 
+the match count of the main products are calculated by using the frequency table.  the most frequent tags have the most effect to the match value. After putting
+the documents in a usable format, First 20 products with the greatest amount of matches returned.
+*/
 exports.getProductRecommendations = function (freqTable, purchasedMainProducts) {
   tags = Object.keys(freqTable);
   return Product.aggregate([

@@ -8,3 +8,4 @@ practice_app/*.txt
 /practice_app/search/target/*
 /node_modules
 .vscode
+.env
