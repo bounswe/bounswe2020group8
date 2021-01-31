@@ -128,7 +128,8 @@ class CartFragment : Fragment(){
 
         clear_cart.setOnClickListener {
             val apiCallerResetCart: ApiCaller<ArrayList<DataCustomerMe>> = ApiCaller(activity)
-            apiCallerResetCart.Caller = ApiClient.getClient.resetCart(ResetCart(LoginActivity.user.id))
+            //apiCallerResetCart.Caller = ApiClient.getClient.resetCart(ResetCart(LoginActivity.user.id))
+            apiCallerResetCart.Caller = ApiClient.getClient.resetCart()
             apiCallerResetCart.Success = { it ->
                 if (it != null) {
                     activity?.runOnUiThread {
