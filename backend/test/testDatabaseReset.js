@@ -7,6 +7,7 @@ const Product = require("../models/product");
 const ProductRequest = require("../models/productRequest");
 const Customer = require("../models/customer");
 const ClientToken = require("../models/clientToken");
+const Comment = require("../models/comment");
 
 before(async () => {
   if (Config.env == "test") {
@@ -17,7 +18,6 @@ before(async () => {
     return 1;
   }
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  //console.log(mongoose.connection);
   const collections = await mongoose.connection.collections;
   keys = Object.keys(collections);
   console.log(keys);
@@ -131,7 +131,6 @@ before(async () => {
       shoppingLists: [],
       addresses: [],
       creditCards: [],
-      currentConversations: [],
       name: "Yavuz",
       lastName: "Kaya",
       verifyEmailToken: "1609203854634a27c895fd71d9f5f711bf5a04074831267396f21",
@@ -169,7 +168,19 @@ before(async () => {
       name: "Derya",
       lastName: "Caliskan",
       isVerified: true,
-      shoppingLists: [],
+      shoppingLists: [
+        {
+          _id: "6016e33228e37485bdfe8fb0",
+          title: "My First List",
+          wishedProducts: [
+            {
+              _id: "6016e33228e37485bdfe8fb1",
+              productId: "60165ad88f88f5252633eb85",
+              vendorId: "600e8cdf61dde8365eec6421",
+            },
+          ],
+        },
+      ],
       addresses: [],
       creditCards: [],
       currentConversations: [],
@@ -502,7 +513,20 @@ before(async () => {
       messageFromAdmin: null,
     }
   );
-
+  await Comment.create(
+    {
+      _id: "5fea85cd161e5428c3caa3cf",
+      mainProductId: "60165a978f88f5252633eb82",
+      customerId: "5fea8047161e5428c3caa3ba",
+      text: "I really liked the product, cool!",
+    },
+    {
+      _id: "5fea85cd161e5428c3caa3d4",
+      mainProductId: "60165a978f88f5252633eb82",
+      customerId: "5fea808e161e5428c3caa3c5",
+      text: "Amazing product, 100% verified by myself!",
+    }
+  );
   await ClientToken.create(
     {
       _id: "6016bf5244524d8464eefc5b",

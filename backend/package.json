@@ -7,7 +7,7 @@
     "start": "node bin/app.js",
     "lint": "eslint --ignore-pattern \"node_modules/**/*.js\" \"**/*.js\"",
     "lint-fix": "npm run lint -- --fix",
-    "test": "export NODE_ENV=test && mocha --timeout 6000 -exit"
+    "test": "export NODE_ENV=test && mocha --timeout 10000 -exit"
   },
   "jest": {
     "testEnvironment": "node",
