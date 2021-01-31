@@ -60,3 +60,13 @@ Order:
       type: string
   xml:
     name: User
+
+PatchOrder:
+  type: object
+  properties:
+    mainOrderID:
+      type: string
+    orderID:
+      type: string
+    status:
+      type: string

@@ -49,7 +49,6 @@ exports.purchaseService = async function ({
         );
         await NotificationWare.registerNotification(current["vendorId"], notification);
       }
-
       var current_shipping_address;
       current_shipping_address = (
         await CustomerDataAccess.getAddressByIdDB(_id, shippingAddressId)
@@ -65,7 +64,6 @@ exports.purchaseService = async function ({
       current_billing_address = current_billing_address["addresses"][0];
       delete current_billing_address["_id"];
       current["billingAddress"] = current_billing_address;
-
       var creditCard;
       creditCard = (await CustomerDataAccess.getCreditCardByIdDB(_id, creditCardId)).toJSON();
       creditCard = creditCard["creditCards"][0];
