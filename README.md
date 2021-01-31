@@ -34,3 +34,10 @@ Our journey has started last semester, and since then we came a long way.  Check
 * Ömer Topuz
 
 <img src="https://user-images.githubusercontent.com/31131763/100743195-08a18180-33ed-11eb-8b5d-6d73456343fd.png" alt="alt text" >
+
+### SYSTEM MANUAL:
+
+- You can check each application to retrieve their manuals
+
+[Backend Documentation](https://github.com/bounswe/bounswe2020group8/blob/development/backend/README.md)
+[Web Documentation](https://github.com/bounswe/bounswe2020group8/blob/development/web/carousel/README.md)
