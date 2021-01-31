@@ -80,6 +80,12 @@ interface ApiInterface {
     @PATCH("/customer/me")
     fun customerUpdate2(@Body data: DataCustomerMe2): Call<ResponseCustomerMe2>
 
+    @PATCH("/product/{pid}/vendor/{vid}")
+    fun productAmountUpdate(
+        @Path("pid") pid: String,
+        @Path("vid") vid: String,
+        @Body data: RequestProductAmountUpdate): Call<ResponseProduct>
+
     @GET("/vendor/me")
     fun vendorMe(): Call<ResponseVendorMe>
 

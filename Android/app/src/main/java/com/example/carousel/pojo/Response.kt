@@ -35,6 +35,14 @@ data class ResponseCustomerMe2(
     @Expose @SerializedName("data") val data: DataCustomerMe2
 )
 
+data class RequestProductAmountUpdate(
+    @Expose @SerializedName("vendorID") val vendorID: String,
+    @Expose @SerializedName("price") val price: Double,
+    @Expose @SerializedName("amountLeft") val amountLeft: Int,
+    @Expose @SerializedName("shipmentPrice") val shipmentPrice: Double,
+    @Expose @SerializedName("cargoCompany") val cargoCompany: String
+)
+
 data class ResponseVendorMe(
     @Expose @SerializedName("returnMessage") val returnMessage: String,
     @Expose @SerializedName("returnCode") val returnCode: Int,
