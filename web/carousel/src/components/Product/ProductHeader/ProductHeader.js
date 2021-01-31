@@ -18,7 +18,7 @@ const ProductHeader = ({
       <div style={{ height: "120px", textAlign: "left", marginLeft: "10px" }}>
         <div className={classes.ProductHeader_name}>{name}</div>
         <p
-          style={{ marginLeft: "8px", fontSize: "12px" }}
+          style={{ marginLeft: "8px", fontSize: "12px", marginTop:"20px" }}
           className={classes.ProductHeader_name}
         >
           Brand: {brand}
@@ -57,7 +57,7 @@ const ProductHeader = ({
           </p>
         </div>
       </div>
-      <div style={{ height: "80px" }}>
+      <div style={{ height: "80px", marginTop:"16px" }}>
         <p className={classes.ProductHeader_price}>$ {price}</p>
       </div>
       <div
