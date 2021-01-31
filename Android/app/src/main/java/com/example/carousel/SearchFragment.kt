@@ -449,7 +449,7 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun searchCall(query: String = lastQuery, limit: Int = 1000, page: Int = 1, fields: String = "", category: String = "", vendors: String = "") {
+    public fun searchCall(query: String = lastQuery, limit: Int = 1000, page: Int = 1, fields: String = "", category: String = "", vendors: String = "") {
 
         val apiCallerProductSearch: ApiCaller<ResponseProductSearch> = ApiCaller(activity)
 

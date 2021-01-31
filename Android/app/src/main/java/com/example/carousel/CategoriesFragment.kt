@@ -43,10 +43,10 @@ class CategoriesFragment : Fragment() {
                     val categories = ArrayList<Category>()
                     for(item in it.data) {
                         if(item.name != null) {
-                            if(item.name == "electronics") {
+                            if(item.name == "Electronics") {
                                 categories.add(Category(item._id, "Electronics", R.drawable.electronics))
                             }
-                            else if(item.name == "Women's Fashion") {
+                            else if(item.name == "Fashion") {
                                 categories.add(Category(item._id, "Fashion", R.drawable.fashion))
                             }
                             else if(item.name == "Men's Fashion") {
@@ -61,10 +61,10 @@ class CategoriesFragment : Fragment() {
                             else if(item.name == "Beauty and Personal Care") {
                                 categories.add(Category(item._id, item.name, R.drawable.beauty))
                             }
-                            else if(item.name == "Sports and Outdoor") {
+                            else if(item.name == "Sports and Outdoors") {
                                 categories.add(Category(item._id, item.name, R.drawable.outdoor))
                             }
-                            else if(item.name == "Office and Stationery") {
+                            else if(item.name == "Toys and Hobbies") {
                                 categories.add(Category(item._id, item.name, R.drawable.stationery))
                             }
                         }
