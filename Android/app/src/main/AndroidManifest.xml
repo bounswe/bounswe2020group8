@@ -29,6 +29,7 @@
         <activity android:name=".CreateListActivity" />
         <activity android:name=".ProductPageActivity" />
         <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".SalesAgreementActivity" />
         <activity android:name=".customer.RegisterInfoActivity">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

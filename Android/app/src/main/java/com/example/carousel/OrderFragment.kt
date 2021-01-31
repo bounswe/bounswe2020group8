@@ -1,6 +1,7 @@
 package com.example.carousel
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -38,6 +39,7 @@ class OrderFragment : Fragment() {
 
     var selectedCard = -1
     var selectedAddress = -1
+    var agreedOnSale = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +57,8 @@ class OrderFragment : Fragment() {
                 Toast.makeText(requireContext(),"Please Select Your Address", Toast.LENGTH_SHORT).show()
             else if(selectedCard == -1 || cvv.text?.length != 3)
                 Toast.makeText(requireContext(),"Please Select Your Payment Info", Toast.LENGTH_SHORT).show()
+            else if(! agreement_checkbox.isChecked)
+                Toast.makeText(requireContext(), "You should accept the Sales Agreement to proceed.", Toast.LENGTH_SHORT).show()
             else
                 purchase(view)
 
@@ -101,6 +105,11 @@ class OrderFragment : Fragment() {
         }
         products_overview.text="Products Overview(${CartFragment.cart.size})"
         total_cost.text = "\$${String.format("%.2f",CartFragment.totalCost())}"
+
+        agreement_button.setOnClickListener {
+            val intent = Intent(this.context, SalesAgreementActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
