@@ -63,5 +63,12 @@ UpdatableProductForVendor:
 
 VendorSpecific:
   $ref: "./product.yaml#/vendorSpecific"
+
 ProductRequest:
   $ref: "./productRequest.yaml#/ProductRequest"
+
+PostShoppingCart:
+  $ref: "./shoppingCart.yaml#/PostShoppingCart"
+
+PatchOrder:
+  $ref: "./order.yaml#/PatchOrder"

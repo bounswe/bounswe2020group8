@@ -1,0 +1,9 @@
+PostShoppingCart:
+  type: object
+  properties:
+    productId:
+      type: string
+    vendorId:
+      type: string
+    amount:
+      type: integer

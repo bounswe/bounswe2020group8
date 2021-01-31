@@ -106,6 +106,9 @@
 "/customer/{id}":
   $ref: "./customer.yaml#/~1customer~1{id}"
 
+"/customer/shoppingCart/main":
+  $ref: "./customer.yaml#/~1customer~1shoppingCart~1main"
+
 /vendor/signup:
   $ref: "./vendor.yaml#/~1vendor~1signup"
 
