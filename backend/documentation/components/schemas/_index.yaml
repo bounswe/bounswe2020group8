@@ -1,0 +1,92 @@
+Rate:
+  $ref: "./rating.yaml#/Rate"
+
+Notification:
+  $ref: "./notification.yaml#/Notification"
+
+PostComment:
+  $ref: "./comment.yaml#/PostComment"
+
+PatchComment:
+  $ref: "./comment.yaml#/PatchComment"
+
+PostTicket:
+  $ref: "./ticket.yaml#/PostTicket"
+
+PostTicketMessage:
+  $ref: "./ticket.yaml#/PostTicketMessage"
+
+OrderMessage:
+  $ref: "./orderMessage.yaml#/OrderMessage"
+
+OrderMessageMessage:
+  $ref: "./orderMessage.yaml#/OrderMessageMessage"
+
+PostShoppingList:
+  $ref: "./shoppingList.yaml#/PostShoppingList"
+
+PatchShoppingList:
+  $ref: "./shoppingList.yaml#/PatchShoppingList"
+
+ShoppingLists:
+  $ref: "./shoppingList.yaml#/ShoppingLists"
+
+WatchList:
+  $ref: "./shoppingList.yaml#/WatchList"
+
+Customer:
+  $ref: "./customer.yaml#/Customer"
+
+Vendor:
+  $ref: "./vendor.yaml#/Vendor"
+
+PublicVendor:
+  $ref: "./vendor.yaml#/PublicVendor"
+
+Category:
+  $ref: "./category.yaml#/Category"
+
+Order:
+  $ref: "./order.yaml#/Order"
+
+MainProduct:
+  $ref: "./mainProduct.yaml#/MainProduct"
+
+Product:
+  $ref: "./product.yaml#/Product"
+
+ProductofVendor:
+  $ref: "./product.yaml#/ProductofVendor"
+
+UpdatableProductForVendor:
+  $ref: "./product.yaml#/UpdatableProductForVendor"
+
+VendorSpecific:
+  $ref: "./product.yaml#/vendorSpecific"
+
+ProductRequest:
+  $ref: "./productRequest.yaml#/ProductRequest"
+
+PostShoppingCart:
+  $ref: "./shoppingCart.yaml#/PostShoppingCart"
+
+DeleteFromShoppingCart:
+  $ref: "./shoppingCart.yaml#/DeleteFromShoppingCart"
+
+ShoppingCartItem:
+  $ref: "./shoppingCart.yaml#/ShoppingCartItem"
+
+PostGuestShoppingCart:
+  $ref: "./shoppingCart.yaml#/PostGuestShoppingCart"
+
+DeleteFromGuestShoppingCart:
+  $ref: "./shoppingCart.yaml#/DeleteFromGuestShoppingCart"
+
+PatchOrder:
+  $ref: "./order.yaml#/PatchOrder"
+
+GetFromOrderID:
+  $ref: "./order.yaml#/GetFromOrderID"
+
+VendorBalance:
+  $ref: "./order.yaml#/VendorBalance"

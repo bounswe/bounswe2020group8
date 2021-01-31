@@ -1,0 +1,201 @@
+/shoppingList/:
+  post:
+    tags:
+      - shoppingList
+    description: "Returns the created list defined by the information provided by the user."
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: title
+        description: "name of the field. Sets the name of the shopping list."
+        required: true
+        type: string
+      - in: body
+        name: wishedProducts
+        description: "list of product objects, which includes product id and vendor id per object."
+        required: true
+        type: object
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingList"
+      "400":
+        description: Authorization error
+/shoppingList/all:
+  get:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingLists"
+      "400":
+        description: Insufficient token
+  delete:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid bearer token
+/shoppingList/all/export:
+  post:
+    tags:
+      - shoppingList
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Insufficient token
+"/shoppingList/{lid}":
+  get:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingList"
+      "400":
+        description: Insufficient token
+  patch:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    parameters:
+      - in: body
+        name: title
+        description: "title of the shopping list"
+        required: true
+        type: string
+      - in: body
+        name: wishedProducts
+        description: "list of product objects, which includes product id and vendor id per object."
+        required: true
+        type: object
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingList"
+      "400":
+        description: Insufficient token
+  delete:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    parameters: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingList"
+      "400":
+        description: Invalid bearer token
+"/shoppingList/{lid}/export":
+  post:
+    tags:
+      - shoppingList
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/NullData"
+      "400":
+        description: Invalid bearer token
+/shoppingList/watchlist:
+  get:
+    tags:
+      - watchList
+    security:
+      bearerAuth: []
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/WatchList"
+      "400":
+        description: Invalid bearer token
+  post:
+    tags:
+      - watchList
+    security:
+      bearerAuth: []
+    parameters:
+      - in: body
+        name: product_id
+        description: "Product id."
+        required: true
+        type: string
+      - in: body
+        name: vendor_id
+        description: "Vendor id."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/WatchList"
+      "400":
+        description: Invalid bearer token
+  delete:
+    tags:
+      - watchList
+    security:
+      bearerAuth: []
+    parameters:
+      - in: body
+        name: watcher_id
+        description: "Watcher id."
+        required: true
+        type: string
+    responses:
+      "200":
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/WatchList"
+      "400":
+        description: Invalid bearer token

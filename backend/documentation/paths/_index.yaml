@@ -1,0 +1,254 @@
+/category:
+  $ref: "./category.yaml#/~1category"
+
+"/category/{id}":
+  $ref: "./category.yaml#/~1category~1{id}"
+
+/orderMessage/:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1"
+
+/orderMessage/all:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1all"
+
+/orderMessage/create:
+  $ref: "./orderMessage.yaml#/~1orderMessage~1create"
+
+"/orderMessage/{oid}":
+  $ref: "./orderMessage.yaml#/~1orderMessage~1{oid}"
+
+/customer/notification:
+  $ref: "./notification.yaml#/~1customer~1notification"
+
+/vendor/notification:
+  $ref: "./notification.yaml#/~1vendor~1notification"
+
+/ticket/:
+  $ref: "./ticket.yaml#/~1ticket~1"
+
+"/ticket/{tid}":
+  $ref: "./ticket.yaml#/~1ticket~1{tid}"
+
+/ticket/all:
+  $ref: "./ticket.yaml#/~1ticket~1all"
+
+"/ticket/admin/{aid}":
+  $ref: "./ticket.yaml#/~1ticket~1admin~1{aid}"
+
+"/ticket/all/admin/{aid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1admin~1{aid}"
+
+"/ticket/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1client~1{cid}"
+
+"/ticket/all/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1client~1{cid}"
+
+"/ticket/admin/{aid}/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1admin~1{aid}~1client~1{cid}"
+
+"/ticket/all/admin/{aid}/client/{cid}":
+  $ref: "./ticket.yaml#/~1ticket~1all~1admin~1{aid}~1client~1{cid}"
+
+/shoppingList/:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1"
+
+/shoppingList/all:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1all"
+
+/shoppingList/all/export:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1all~1export"
+
+"/shoppingList/{lid}":
+  $ref: "./shoppingList.yaml#/~1shoppingList~1{lid}"
+
+"/shoppingList/{lid}/export":
+  $ref: "./shoppingList.yaml#/~1shoppingList~1{lid}~1export"
+
+/shoppingList/watchlist:
+  $ref: "./shoppingList.yaml#/~1shoppingList~1watchlist"
+
+/customer/signup:
+  $ref: "./customer.yaml#/~1customer~1signup"
+
+/customer/login:
+  $ref: "./customer.yaml#/~1customer~1login"
+
+/customer/logout:
+  $ref: "./customer.yaml#/~1customer~1logout"
+
+/customer/verifyEmail:
+  $ref: "./customer.yaml#/~1customer~1verifyEmail"
+
+/customer/changePassword:
+  $ref: "./customer.yaml#/~1customer~1changePassword"
+
+/customer/signupWithGoogle:
+  $ref: "./customer.yaml#/~1customer~1signupWithGoogle"
+
+/customer/loginWithGoogle:
+  $ref: "./customer.yaml#/~1customer~1loginWithGoogle"
+
+/customer/forgotPassword:
+  $ref: "./customer.yaml#/~1customer~1forgotPassword"
+
+/customer/resetPassword:
+  $ref: "./customer.yaml#/~1customer~1resetPassword"
+
+/customer/me:
+  $ref: "./customer.yaml#/~1customer~1me"
+
+/customer/me/recommendations:
+  $ref: "./customer.yaml#/~1customer~1me~1recommendations"
+
+/customer:
+  $ref: "./customer.yaml#/~1customer"
+
+"/customer/{id}":
+  $ref: "./customer.yaml#/~1customer~1{id}"
+
+"/customer/shoppingCart/main":
+  $ref: "./customer.yaml#/~1customer~1shoppingCart~1main"
+
+/vendor/signup:
+  $ref: "./vendor.yaml#/~1vendor~1signup"
+
+/vendor/login:
+  $ref: "./vendor.yaml#/~1vendor~1login"
+
+/vendor/logout:
+  $ref: "./vendor.yaml#/~1vendor~1logout"
+
+/vendor/verifyEmail:
+  $ref: "./vendor.yaml#/~1vendor~1verifyEmail"
+
+/vendor/changePassword:
+  $ref: "./vendor.yaml#/~1vendor~1changePassword"
+
+/vendor/forgotPassword:
+  $ref: "./vendor.yaml#/~1vendor~1forgotPassword"
+
+/vendor/resetPassword:
+  $ref: "./vendor.yaml#/~1vendor~1resetPassword"
+
+/vendor/me:
+  $ref: "./vendor.yaml#/~1vendor~1me"
+
+/vendor:
+  $ref: "./vendor.yaml#/~1vendor"
+
+"/vendor/public/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1public~1{id}"
+
+"/vendor/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1changePassword"
+
+"/vendor/me/product":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product"
+
+"/vendor/me/product/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1{id}"
+
+"/vendor/me/mainProduct":
+  $ref: "./vendor.yaml#/~1vendor~1me~1mainProduct"
+
+"/vendor/me/mainProduct/{mpid}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1mainProduct~1{mpid}"
+
+/vendor/me/product/new:
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1new"
+
+"/vendor/me/product/existing/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1product~1existing~1{id}"
+
+/vendor/me/productRequest:
+  $ref: "./vendor.yaml#/~1vendor~1me~1productRequest"
+
+"/vendor/me/productRequest/{id}":
+  $ref: "./vendor.yaml#/~1vendor~1me~1productRequest~1{id}"
+
+/admin/loginAdmin:
+  $ref: "./admin.yaml#/~1admin~1loginAdmin"
+
+/admin/logoutAdmin:
+  $ref: "./admin.yaml#/~1admin~1logoutAdmin"
+
+"/comment/{pid}/all":
+  $ref: "./comment.yaml#/~1comment~1{pid}~1all"
+
+"/comment/{pid}":
+  $ref: "./comment.yaml#/~1comment~1{pid}"
+
+"/product":
+  $ref: "./product.yaml#/~1product"
+
+"/product/{id}":
+  $ref: "./product.yaml#/~1product~1{id}"
+
+"/product/{pid}/vendor/{vid}":
+  $ref: "./product.yaml#/~1product~1{pid}~1vendor~1{vid}"
+
+"/product/search":
+  $ref: "./product.yaml#/~1product~1search"
+
+"/product/recommendations/{id}":
+  $ref: "./product.yaml#/~1product~1recommendations~1{id}"
+
+"/product/searchFilters":
+  $ref: "./product.yaml#/~1product~1searchFilters"
+
+"/mainProduct":
+  $ref: "./mainProduct.yaml#/~1mainProduct"
+
+"/mainProduct/{id}":
+  $ref: "./mainProduct.yaml#/~1mainProduct~1{id}"
+
+"/mainProduct/{mpid}/vendor/{vid}":
+  $ref: "./mainProduct.yaml#/~1mainProduct~1{mpid}~1vendor~1{vid}"
+
+"/productRequest":
+  $ref: "./productRequest.yaml#/~1productRequest"
+
+"/productRequest/{id}":
+  $ref: "./productRequest.yaml#/~1productRequest~1{id}"
+
+/customer/shoppingCart/main:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1main"
+
+/customer/shoppingCart/reset:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1reset"
+
+/customer/shoppingCart/delete:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1delete"
+
+/guest/shoppingCart/main:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1main"
+
+/guest/shoppingCart/reset:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1reset"
+
+/guest/shoppingCart/delete:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1delete"
+
+/customer/order/main:
+  $ref: "./order.yaml#/~1customer~1order~1main"
+
+/customer/order/orderID:
+  $ref: "./order.yaml#/~1customer~1order~1orderID"
+
+/customer/purchase:
+  $ref: "./order.yaml#/~1customer~1purchase"
+
+/guest/order/main:
+  $ref: "./order.yaml#/~1guest~1order~1main"
+
+/guest/order/orderID:
+  $ref: "./order.yaml#/~1guest~1order~1orderID"
+
+/guest/purchase:
+  $ref: "./order.yaml#/~1guest~1purchase"
+
+/vendor/order/main:
+  $ref: "./order.yaml#/~1vendor~1order~1main"
+
+/vendor/balance:
+  $ref: "./vendor.yaml#/~1vendor~1balance"

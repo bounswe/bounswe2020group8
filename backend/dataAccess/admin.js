@@ -18,3 +18,7 @@ exports.getAdminByEmailDB = function (email) {
 exports.getAdminByIdDB = function (_id) {
   return Admin.findById(_id).lean();
 };
+
+exports.getAllAdmin = function () {
+  return Admin.find().lean();
+};

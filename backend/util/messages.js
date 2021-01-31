@@ -174,6 +174,36 @@ const returnMessages = {
       en: "Something went wrong!",
     },
   },
+  ERR_ORDER_STATUS_IS_INVALID: {
+    code: 28,
+    messages: {
+      en: "Order status is invalid",
+    },
+  },
+  ERR_SEND_ORDER_EMAIL_FAILED: {
+    code: 29,
+    messages: {
+      en: "Order email could not be sent",
+    },
+  },
+  ERR_INSUFFICIENT_ADMIN_TOKEN: {
+    code: 30,
+    messages: {
+      en: "You do not possess admin status.",
+    },
+  },
+  ERR_WATCHER_ALREADY_EXISTS: {
+    code: 31,
+    messages: {
+      en: "You've already been tracking this product.",
+    },
+  },
+  ERR_NOT_ENOUGH_PRODUCT: {
+    code: 32,
+    messages: {
+      en: "None of the items in shopping cart has sufficient stock.",
+    },
+  },
   ERR_VALIDATION_ERROR: {
     code: 99,
     messages: {

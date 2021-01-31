@@ -1,0 +1,3407 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Boun Group 8
+  description: Application API
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+host: 'localhost:8080'
+basePath: /
+tags:
+  - name: Users
+    description: API for users in the system
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /category:
+    get:
+      tags:
+        - category
+      description: 'Returns all the categories. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: sort
+          description: 'name of the field to sort, An example would be: sort=name,lastName. Default doesn''t sort anything'
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: 'Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field'
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/CategoryList'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - category
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Category'
+        '400':
+          description: Authorization error
+  '/category/{id}':
+    get:
+      tags:
+        - category
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Category'
+        '400':
+          description: Authorization error
+    patch:
+      tags:
+        - category
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Category'
+        '400':
+          description: Authorization error
+    delete:
+      tags:
+        - category
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/responses/ApiResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: 'null'
+        '400':
+          description: Authorization error
+  /orderMessage/:
+    get:
+      tags:
+        - orderMessage
+      description: Retrieve all order messages.
+      security:
+        - bearerAuth: []
+      parameters: null
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/AllOrderMessages'
+        '400':
+          description: Authorization error
+  /orderMessage/all:
+    post:
+      tags:
+        - orderMessage
+      description: Get an order message with an order id and a suborder id.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: order_id
+          description: Order id.
+          required: true
+          type: string
+        - in: body
+          name: suborder_id
+          description: Suborder id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/OrderMessage'
+        '400':
+          description: Authorization error
+  /orderMessage/create:
+    post:
+      tags:
+        - orderMessage
+      description: Create an order message.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: order_id
+          description: Order id.
+          required: true
+          type: string
+        - in: body
+          name: suborder_id
+          description: Suborder id.
+          required: true
+          type: string
+        - in: body
+          name: vendor_id
+          description: Vendor id.
+          required: true
+          type: string
+        - in: body
+          name: payload
+          description: Initial payload.
+          required: true
+          type: array
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/OrderMessage'
+        '400':
+          description: Authorization error
+  '/orderMessage/{oid}':
+    post:
+      tags:
+        - orderMessage
+      description: Reply an orderMessage and register it into database.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: payload
+          description: New message of the order message.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/OrderMessage'
+        '400':
+          description: Authorization error
+    delete:
+      tags:
+        - orderMessage
+      description: Close an orderMessage.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/OrderMessage'
+        '400':
+          description: Authorization error
+  /customer/notification:
+    get:
+      tag:
+        - notification
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notifications'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - notification
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: notification_id
+          description: Notification id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notification'
+        '400':
+          description: Authorization error
+  /vendor/notification:
+    get:
+      tag:
+        - notification
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notifications'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - notification
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: notification_id
+          description: Notification id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Notification'
+        '400':
+          description: Authorization error
+  /ticket/:
+    post:
+      tags:
+        - ticket
+      description: Create a ticket and register it into database.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: topic
+          description: Topic of the ticket.
+          required: true
+          type: string
+        - in: body
+          name: message
+          description: Detailed explanation of the problem.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PostTicket'
+        '400':
+          description: Authorization error
+    get:
+      tags:
+        - ticket
+      description: Get all ticket.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/{tid}':
+    get:
+      tags:
+        - ticket
+      description: Get a ticket.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PostTicket'
+        '400':
+          description: Authorization error
+    post:
+      tags:
+        - ticket
+      description: Reply a ticket and register it into database.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: new_message
+          description: New message of the ticket.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PostTicket'
+        '400':
+          description: Authorization error
+    patch:
+      tags:
+        - ticket
+      description: Forward or activate a ticket.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: admin_id
+          description: New admin id of the ticket.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PostTicket'
+        '400':
+          description: Authorization error
+    delete:
+      tags:
+        - ticket
+      description: Close a ticket.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PostTicket'
+        '400':
+          description: Authorization error
+  /ticket/all:
+    get:
+      tags:
+        - ticket
+      description: Get all active ticket.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/admin/{aid}':
+    get:
+      tags:
+        - ticket
+      description: Get all tickets of an admin.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/all/admin/{aid}':
+    get:
+      tags:
+        - ticket
+      description: Get all active tickets of an admin.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/client/{cid}':
+    get:
+      tags:
+        - ticket
+      description: Get all tickets of a client.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/all/client/{cid}':
+    get:
+      tags:
+        - ticket
+      description: Get all active tickets of a client.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/admin/{aid}/client/{cid}':
+    get:
+      tags:
+        - ticket
+      description: Get all tickets of between a client and an admin.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  '/ticket/all/admin/{aid}/client/{cid}':
+    get:
+      tags:
+        - ticket
+      description: Get all active tickets between a client and an admin.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/GetAllTicket'
+        '400':
+          description: Authorization error
+  /shoppingList/:
+    post:
+      tags:
+        - shoppingList
+      description: Returns the created list defined by the information provided by the user.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: title
+          description: name of the field. Sets the name of the shopping list.
+          required: true
+          type: string
+        - in: body
+          name: wishedProducts
+          description: 'list of product objects, which includes product id and vendor id per object.'
+          required: true
+          type: object
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Authorization error
+  /shoppingList/all:
+    get:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingLists'
+        '400':
+          description: Insufficient token
+    delete:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
+  /shoppingList/all/export:
+    post:
+      tags:
+        - shoppingList
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Insufficient token
+  '/shoppingList/{lid}':
+    get:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Insufficient token
+    patch:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: title
+          description: title of the shopping list
+          required: true
+          type: string
+        - in: body
+          name: wishedProducts
+          description: 'list of product objects, which includes product id and vendor id per object.'
+          required: true
+          type: object
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Insufficient token
+    delete:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingList'
+        '400':
+          description: Invalid bearer token
+  '/shoppingList/{lid}/export':
+    post:
+      tags:
+        - shoppingList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
+  /shoppingList/watchlist:
+    get:
+      tags:
+        - watchList
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/WatchList'
+        '400':
+          description: Invalid bearer token
+    post:
+      tags:
+        - watchList
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: product_id
+          description: Product id.
+          required: true
+          type: string
+        - in: body
+          name: vendor_id
+          description: Vendor id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/WatchList'
+        '400':
+          description: Invalid bearer token
+    delete:
+      tags:
+        - watchList
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: watcher_id
+          description: Watcher id.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/WatchList'
+        '400':
+          description: Invalid bearer token
+  /customer/signup:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: name
+          required: true
+          type: string
+        - in: query
+          name: lastName
+          required: true
+          type: string
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: password
+          required: true
+          type: string
+        - in: query
+          name: passwordConfirm
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid email or password or type
+  /customer/login:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: password
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponseWtoken'
+        '400':
+          description: Invalid email or password or type
+  /customer/logout:
+    post:
+      tags:
+        - customer
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid token
+  /customer/verifyEmail:
+    get:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: verifyEmailToken
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Insufficient token
+  /customer/changePassword:
+    post:
+      tags:
+        - customer
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: oldPassword
+          required: true
+          type: string
+        - in: query
+          name: newPassword
+          required: true
+          type: string
+        - in: query
+          name: newPasswordRepeat
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid password
+  /customer/signupWithGoogle:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: googleID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponseWtoken'
+        '400':
+          description: 'Invalid email, type or googleID'
+  /customer/loginWithGoogle:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: googleID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponseWtoken'
+        '400':
+          description: 'Invalid email, type or googleID'
+  /customer/forgotPassword:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: email
+          description: Email Address
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid e-mail or type.
+  /customer/resetPassword:
+    post:
+      tags:
+        - customer
+      parameters:
+        - in: query
+          name: resetPasswordToken
+          description: Reset Password Token
+          required: true
+          type: string
+        - in: query
+          name: newPassword
+          required: true
+          type: string
+        - in: query
+          name: newPasswordCheck
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid resetPasswordToken or newPassword or newPasswordCheck
+  /customer/me:
+    patch:
+      tags:
+        - customer
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: Invalid bearer token
+    get:
+      tags:
+        - customer
+      parameters: []
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: Invalid bearer token
+    delete:
+      tags:
+        - customer
+      security:
+        bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
+  /customer/me/recommendations:
+    get:
+      tags:
+        - customer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Internal error
+  /customer:
+    get:
+      tags:
+        - customer
+      description: 'Returns all the customers. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex. An example for filtering could be: ?email=test@test.com&name[regex]=can'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: sort
+          description: 'name of the field to sort, An example would be: sort=name,lastName. Default doesn''t sort anything'
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: 'Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field'
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/CustomerList'
+        '400':
+          description: Authorization error
+  '/customer/{id}':
+    get:
+      tags:
+        - customer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: Authorization error
+    patch:
+      tags:
+        - customer
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: Authorization error
+    delete:
+      tags:
+        - customer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Authorization error
+  /customer/shoppingCart/main:
+    get:
+      tags:
+        - customer
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - customer
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - customer
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PostShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Customer'
+        '400':
+          description: An error has occured.
+  /vendor/signup:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: name
+          required: true
+          type: string
+        - in: query
+          name: lastName
+          required: true
+          type: string
+        - in: query
+          name: companyName
+          required: true
+          type: string
+        - in: query
+          name: companyDomainName
+          required: true
+          type: string
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: password
+          required: true
+          type: string
+        - in: query
+          name: passwordConfirm
+          required: true
+          type: string
+        - in: body
+          name: locations
+          type: array
+          items:
+            type: object
+            properties: null
+            longitude:
+              type: number
+            latitude:
+              type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid email or password or type
+  /vendor/login:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: password
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponseWtoken'
+        '400':
+          description: Invalid email or password or type
+  /vendor/logout:
+    post:
+      tags:
+        - vendor
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid token
+  /vendor/verifyEmail:
+    get:
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: verifyEmailToken
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Insufficient token
+  /vendor/changePassword:
+    $ref: '#/paths/~1vendor~1%7Bid%7D'
+  /vendor/forgotPassword:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: email
+          description: Email Address
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid e-mail or type.
+  /vendor/resetPassword:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: resetPasswordToken
+          description: Reset Password Token
+          required: true
+          type: string
+        - in: query
+          name: newPassword
+          required: true
+          type: string
+        - in: query
+          name: newPasswordCheck
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid resetPasswordToken or newPassword or newPasswordCheck
+  /vendor/me:
+    patch:
+      tags:
+        - vendor
+      security:
+        bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Vendor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Vendor'
+        '400':
+          description: Invalid bearer token
+    get:
+      tags:
+        - vendor
+      parameters: []
+      security:
+        bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Vendor'
+        '400':
+          description: Invalid bearer token
+    delete:
+      tags:
+        - vendor
+      security:
+        bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid bearer token
+  /vendor:
+    get:
+      tags:
+        - vendor
+      description: 'Returns all the vendors. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex. An example for filtering could be: ?email=test@test.com&name[regex]=can'
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: sort
+          description: 'name of the field to sort, An example would be: sort=name,lastName. Default doesn''t sort anything'
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: 'Fields you want in the returned elements, an example would be: fields=name,lastName,email. Default returns every field'
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/VendorList'
+        '400':
+          description: Authorization error
+  '/vendor/public/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/PublicVendor'
+        '400':
+          description: Invalid Id
+  '/vendor/{id}':
+    post:
+      tags:
+        - vendor
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: oldPassword
+          required: true
+          type: string
+        - in: query
+          name: newPassword
+          required: true
+          type: string
+        - in: query
+          name: newPasswordRepeat
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid token code or passwords don't match
+  /vendor/me/product:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductofVendorList'
+        '400':
+          description: Invalid
+  '/vendor/me/product/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductofVendor'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/UpdatableProductForVendor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+  /vendor/me/mainProduct:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProductList'
+        '400':
+          description: Invalid
+  '/vendor/me/mainProduct/{mpid}':
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+  /vendor/me/product/new:
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid body
+  '/vendor/me/product/existing/{id}':
+    post:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/UpdatableProductForVendor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid body
+  /vendor/me/productRequest:
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequestList'
+        '400':
+          description: Invalid
+  '/vendor/me/productRequest/{id}':
+    get:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - vendor
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - vendor
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /admin/loginAdmin:
+    post:
+      tags:
+        - admin
+      parameters:
+        - in: query
+          name: email
+          required: true
+          type: string
+        - in: query
+          name: password
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponseWtoken'
+        '400':
+          description: Invalid email or password or type
+  /admin/logoutAdmin:
+    post:
+      tags:
+        - admin
+      security:
+        - bearerAuth: []
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: Invalid token
+  '/comment/{pid}/all':
+    get:
+      tags:
+        - comment
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: An error has occured.
+  '/comment/{pid}':
+    get:
+      tags:
+        - comment
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - comment
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PostComment'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - comment
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchComment'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: An error has occured.
+    delete:
+      tags:
+        - comment
+      parameters:
+        - in: body
+          name: _id
+          schema:
+            $ref: '#/components/schemas/PostComment'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ApiResponse'
+        '400':
+          description: An error has occured.
+  /product:
+    get:
+      tags:
+        - product
+      description: 'Returns all the products. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductList'
+        '400':
+          description: Invalid body
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid body
+  '/product/{id}':
+    get:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/VendorSpecific'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid body
+    patch:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  '/product/{pid}/vendor/{vid}':
+    patch:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/VendorSpecific'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Product'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /product/search:
+    post:
+      tags:
+        - product
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: body
+          name: query string
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Invalid body
+  '/product/recommendations/{id}':
+    post:
+      tags:
+        - product
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchResults'
+        '400':
+          description: Invalid product id
+  /product/searchFilters:
+    post:
+      tags:
+        - product
+      parameters:
+        - in: body
+          name: query string
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/SearchFilterResults'
+        '400':
+          description: Invalid body
+  /mainProduct:
+    get:
+      tags:
+        - mainProduct
+      description: 'Returns all the main products. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProductList'
+        '400':
+          description: Invalid body
+    post:
+      tags:
+        - mainProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/MainProduct'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid body
+  '/mainProduct/{id}':
+    get:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - mainProduct
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/MainProduct'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/MainProduct'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  '/mainProduct/{mpid}/vendor/{vid}':
+    delete:
+      tags:
+        - mainProduct
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /productRequest:
+    get:
+      tags:
+        - productRequest
+      description: 'Returns all the product requests. You can filter, sort ,limit number of results, paginate and limit the returned fields. For filter, you need to use the fields''s name and value. You can filter using some operators. They are gte, gt ,lte, lt, regex.'
+      parameters:
+        - in: query
+          name: sort
+          description: name of the field to sort
+          required: false
+          type: string
+        - in: query
+          name: limit
+          description: 'number of elements to return, default is 1000'
+          required: false
+          type: number
+        - in: query
+          name: page
+          description: 'page number for the results, default is 1'
+          required: false
+          type: number
+        - in: query
+          name: fields
+          description: Fields you want in the returned elements.
+          required: false
+          type: number
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequestList'
+        '400':
+          description: Invalid body
+  '/productRequest/{id}':
+    get:
+      tags:
+        - productRequest
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    patch:
+      tags:
+        - productRequest
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/ProductRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ProductRequest'
+        '400':
+          description: Invalid
+    delete:
+      tags:
+        - productRequest
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NullData'
+        '400':
+          description: Invalid
+  /customer/shoppingCart/main:
+    get:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/PostShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/shoppingCart/reset:
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/shoppingCart/delete:
+    post:
+      tags:
+        - shoppingCart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeleteFromShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/main:
+    get:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: query
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/PostGuestShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/reset:
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /guest/shoppingCart/delete:
+    post:
+      tags:
+        - shoppingCart
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/components/schemas/DeleteFromGuestShoppingCart'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/ShoppingCart'
+        '400':
+          description: An error has occured.
+  /customer/order/main:
+    get:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /customer/order/orderID:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/GetFromOrderID'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /customer/purchase:
+    post:
+      tags:
+        - purchase
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/order/main:
+    patch:
+      tags:
+        - order
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/order/orderID:
+    post:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/GetFromOrderID'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /guest/purchase:
+    post:
+      tags:
+        - purchase
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: _id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /vendor/order/main:
+    get:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+    patch:
+      tags:
+        - order
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/components/schemas/PatchOrder'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/Order'
+        '400':
+          description: An error has occured.
+  /vendor/balance:
+    get:
+      tags:
+        - vendor
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/VendorBalance'
+        '400':
+          description: An error has occured.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: string
+  responses:
+    ApiResponse:
+      type: object
+      properties:
+        returnMessage:
+          type: string
+        returnCode:
+          type: number
+    ApiResponseWtoken:
+      type: object
+      properties:
+        tokenCode:
+          type: string
+        returnMessage:
+          type: string
+        returnCode:
+          type: number
+    NullData:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              type: 'null'
+    Category:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Category'
+    CategoryList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Category'
+    OrderMessage:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/OrderMessage'
+    AllOrderMessages:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            result:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderMessage'
+    Notification:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Notification'
+    Notifications:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            result:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Notification'
+    PostTicket:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PostTicket'
+    GetAllTicket:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            result:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/PostTicket'
+    ShoppingList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PostShoppingList'
+    ShoppingLists:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingLists'
+    WatchList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/WatchList'
+    CustomerList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+    Customer:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Customer'
+    VendorList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Vendor'
+    Vendor:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Vendor'
+    PublicVendor:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/PublicVendor'
+    ProductList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+    Product:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Product'
+    ProductofVendorList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductofVendor'
+    ProductofVendor:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/ProductofVendor'
+    SearchResults:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  matches:
+                    type: number
+                  maxPrice:
+                    type: number
+                  minPrice:
+                    type: number
+                  vendors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        companyName:
+                          type: string
+                  mainProduct:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        title:
+                          type: string
+                        rating:
+                          type: number
+                        numberOfRating:
+                          type: number
+                  product:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        format: mongoID
+                      photos:
+                        type: array
+                        items:
+                          type: string
+                  mpid:
+                    type: string
+                    format: mongoID
+                  brand:
+                    type: string
+                  category:
+                    type: string
+    SearchFilterResults:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  _id:
+                    type: null
+                  maxPrice:
+                    type: number
+                  minPrice:
+                    type: number
+                  vendors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          format: mongoID
+                        companyName:
+                          type: string
+                  parameters:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: array
+                          items:
+                            type: string
+                  brands:
+                    type: array
+                    items:
+                      type: string
+                  categories:
+                    type: array
+                    items:
+                      type: string
+    MainProductList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/MainProduct'
+    MainProduct:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/MainProduct'
+    ProductRequestList:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            results:
+              type: number
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductRequest'
+    ProductRequest:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/ProductRequest'
+    ShoppingCart:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            shoppingCart:
+              type: array
+              items:
+                $ref: '#/components/schemas/ShoppingCartItem'
+    Order:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Order'
+    VendorBalance:
+      allOf:
+        - $ref: '#/components/responses/ApiResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/VendorBalance'
+  schemas:
+    Rate:
+      type: object
+      properties:
+        rate:
+          type: number
+          minimum: 0
+          maximum: 5
+    Notification:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: date
+        isRead:
+          type: boolean
+        hyperLink:
+          type: string
+    PostComment:
+      type: object
+      properties:
+        text:
+          type: string
+    PatchComment:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        text:
+          type: string
+    PostTicket:
+      type: object
+      properties:
+        topic:
+          type: string
+        admin_id:
+          type: string
+        client_id:
+          type: string
+        isActive:
+          type: boolean
+        isAssigned:
+          type: boolean
+        startedAt:
+          type: date
+        updatedAt:
+          type: date
+        conversation:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostTicketMessage'
+    PostTicketMessage:
+      type: object
+      properties:
+        payload:
+          type: string
+        isSentByAdmin:
+          type: boolean
+        sendAt:
+          type: date
+    OrderMessage:
+      type: object
+      properties:
+        order_id:
+          type: string
+        suborder_id:
+          type: string
+        client_id:
+          type: string
+        vendor_id:
+          type: string
+        isActive:
+          type: boolean
+        startedAt:
+          type: date
+        updatedAt:
+          type: date
+        conversation:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderMessageMessage'
+    OrderMessageMessage:
+      type: object
+      properties:
+        payload:
+          type: string
+        isSentByVendor:
+          type: boolean
+        sendAt:
+          type: date
+    PostShoppingList:
+      type: object
+      properties:
+        title:
+          type: string
+        wishedProducts:
+          type: array
+    PatchShoppingList:
+      type: object
+      properties:
+        title:
+          type: string
+        wishedProducts:
+          type: array
+    ShoppingLists:
+      type: array
+    WatchList:
+      type: array
+    Customer:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        name:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        isSuspended:
+          type: boolean
+        isActive:
+          type: boolean
+        shoppingLists:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: String
+              wishedProducts:
+                type: array
+                items:
+                  type: ObjectId
+        shoppingCart:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: String
+              vendorId:
+                type: String
+              amount:
+                type: number
+              price:
+                type: number
+              shipmentPrice:
+                type: number
+              cargoCompany:
+                type: String
+              vendorName:
+                type: String
+              title:
+                type: String
+              photos:
+                type: array
+                items:
+                  type: String
+        addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              addressName:
+                type: String
+              name:
+                type: String
+              addressLine:
+                type: String
+              city:
+                type: String
+              state:
+                type: String
+              zipCode:
+                type: String
+              phone:
+                type: String
+        phoneNumber:
+          type: string
+        birthday:
+          type: string
+        creditCards:
+          type: array
+          items:
+            type: object
+            properties:
+              creditCardNumber:
+                type: String
+              creditCardCvc:
+                type: String
+              creditCardData:
+                type: String
+              creditCardName:
+                type: String
+      xml:
+        name: User
+    Vendor:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        name:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        isSuspended:
+          type: boolean
+        isActive:
+          type: boolean
+        companyName:
+          type: string
+        companyDomainName:
+          type: string
+        aboutCompany:
+          type: string
+        IBAN:
+          type: string
+        address:
+          type: object
+          properties:
+            addressName:
+              type: string
+            name:
+              type: string
+            addressLine:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            phone:
+              type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              longitude:
+                type: number
+              latitude:
+                type: number
+      xml:
+        name: User
+    PublicVendor:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        companyName:
+          type: string
+        companyDomainName:
+          type: string
+        aboutCompany:
+          type: string
+        address:
+          type: object
+          properties:
+            addressName:
+              type: string
+            name:
+              type: string
+            addressLine:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zipCode:
+              type: string
+            phone:
+              type: string
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              longitude:
+                type: number
+              latitude:
+                type: number
+      xml:
+        name: User
+    Category:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        name:
+          type: string
+      xml:
+        name: User
+    Order:
+      type: array
+      items:
+        type: object
+        properties:
+          _id:
+            type: string
+          customerID:
+            type: string
+          product:
+            type: string
+          email:
+            type: string
+          shippingAddress:
+            type: object
+            properties:
+              addressName:
+                type: string
+              name:
+                type: string
+              addressLine:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zipCode:
+                type: string
+              phone:
+                type: string
+          billingAddress:
+            type: object
+            properties:
+              addressName:
+                type: string
+              name:
+                type: string
+              addressLine:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zipCode:
+                type: string
+              phone:
+                type: string
+          creditCard:
+            type: object
+            properties:
+              creditCardNumber:
+                type: string
+              creditCardCvc:
+                type: string
+              creditCardData:
+                type: string
+              creditCardName:
+                type: string
+          shippingInfo:
+            type: string
+          arrivesIn:
+            type: integer
+          status:
+            type: string
+        xml:
+          name: User
+    MainProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        title:
+          type: string
+        description:
+          type: string
+        rating:
+          type: number
+        numberOfRating:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: array
+                items:
+                  type: string
+        brand:
+          type: string
+        category:
+          type: string
+        soldAmount:
+          type: number
+        isConfirmed:
+          type: boolean
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+        vendorSpecifics:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorSpecific'
+        default:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+        parentProduct:
+          type: string
+          format: mongoID
+        brand:
+          type: string
+        category:
+          type: string
+    ProductofVendor:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        tags:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product/properties/parameters/items'
+        vendorSpecifics:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+        parentProduct:
+          type: string
+          format: mongoID
+        brand:
+          type: string
+        category:
+          type: string
+    UpdatableProductForVendor:
+      type: object
+      properties:
+        vendorSpecifics:
+          $ref: '#/components/schemas/VendorSpecific'
+        photos:
+          type: array
+          items:
+            type: string
+    VendorSpecific:
+      type: object
+      properties:
+        vendorID:
+          type: string
+          format: mongoID
+        price:
+          type: number
+        amountLeft:
+          type: number
+        shipmentPrice:
+          type: number
+        cargoCompany:
+          type: string
+    ProductRequest:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: mongoID
+        type:
+          type: string
+        vendorID:
+          type: string
+          format: mongoID
+        oldValue:
+          type: string
+          format: mongoID
+        newValue:
+          type: object
+        messageFromAdmin:
+          type: string
+    PostShoppingCart:
+      type: object
+      properties:
+        productId:
+          type: string
+        vendorId:
+          type: string
+        amount:
+          type: integer
+    DeleteFromShoppingCart:
+      type: object
+      properties:
+        productId:
+          type: string
+        vendorId:
+          type: string
+    ShoppingCartItem:
+      type: object
+      properties:
+        productId:
+          type: string
+        vendorId:
+          type: string
+        amount:
+          type: integer
+        price:
+          type: number
+        shipmentPrice:
+          type: number
+        cargoCompany:
+          type: string
+        title:
+          type: string
+        vendorName:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+    PostGuestShoppingCart:
+      type: object
+      properties:
+        _id:
+          type: string
+        productId:
+          type: string
+        vendorId:
+          type: string
+        amount:
+          type: integer
+    DeleteFromGuestShoppingCart:
+      type: object
+      properties:
+        _id:
+          type: string
+        productId:
+          type: string
+        vendorId:
+          type: string
+    PatchOrder:
+      type: object
+      properties:
+        mainOrderID:
+          type: string
+        orderID:
+          type: string
+        status:
+          type: string
+    GetFromOrderID:
+      type: object
+      properties:
+        mainOrderID:
+          type: string
+        orderID:
+          type: string
+    VendorBalance:
+      type: object
+      properties:
+        balance:
+          type: number

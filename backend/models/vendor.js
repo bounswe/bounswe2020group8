@@ -27,6 +27,8 @@ var vendorSchema = new Schema(
     phoneNumber: { type: String, default: null },
     address: address,
     locations: [location],
+    rating: { type: Number, default: 0 },
+    numberOfRating: { type: Number, default: 0 },
   },
   { collection: "Clients" }
 );

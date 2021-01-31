@@ -1,0 +1,25 @@
+VendorList:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        results:
+          type: number
+        data:
+          type: array
+          items:
+            $ref: "../schemas/_index.yaml#/Vendor"
+Vendor:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/Vendor"
+PublicVendor:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/PublicVendor"

@@ -1,0 +1,144 @@
+/customer/shoppingCart/main:
+  get:
+    tags:
+      - shoppingCart
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+  post:
+    tags:
+      - shoppingCart
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: "../components/schemas/_index.yaml#/PostShoppingCart"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+/customer/shoppingCart/reset:
+  post:
+    tags:
+      - shoppingCart
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+/customer/shoppingCart/delete:
+  post:
+    tags:
+      - shoppingCart
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: "../components/schemas/_index.yaml#/DeleteFromShoppingCart"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+/guest/shoppingCart/main:
+  get:
+    tags:
+      - shoppingCart
+    parameters:
+      - in: query
+        name: _id
+        required: true
+        type: string
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+  post:
+    tags:
+      - shoppingCart
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: "../components/schemas/_index.yaml#/PostGuestShoppingCart"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+/guest/shoppingCart/reset:
+  post:
+    tags:
+      - shoppingCart
+    parameters:
+      - in: body
+        name: _id
+        required: true
+        type: string
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.
+/guest/shoppingCart/delete:
+  post:
+    tags:
+      - shoppingCart
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: "../components/schemas/_index.yaml#/DeleteFromGuestShoppingCart"
+    responses:
+      '200':
+        description: successful operation
+        content:
+          application/json:
+            schema:
+              $ref: "../components/responses/_index.yaml#/ShoppingCart"
+      '400':
+        description: An error has occured.

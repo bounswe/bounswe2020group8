@@ -13,18 +13,31 @@ var address = {
   phone: { type: String },
 };
 
-var shoppingList = {
-  title: { type: String },
-  wishedProducts: [
-    {
-      productId: { type: Schema.Types.ObjectId, ref: "Product" },
-      vendorId: { type: Schema.Types.ObjectId, ref: "Vendor" },
-    },
-  ],
+var product_info = {
+  productId: { type: Schema.Types.ObjectId, ref: "Product" },
+  vendorId: { type: Schema.Types.ObjectId, ref: "Vendor" },
 };
 
-var shoppingCart = {
-  productsIn: [({ type: Schema.Types.ObjectId }, { type: Number })], // productId and productAmount
+var shoppingList = {
+  title: { type: String },
+  wishedProducts: [product_info],
+};
+
+var searchHistory = {
+  tags: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
+};
+
+var shoppingCartItem = {
+  productId: { type: Schema.Types.ObjectId },
+  vendorId: { type: Schema.Types.ObjectId },
+  amount: { type: Number },
+  price: { type: Number },
+  shipmentPrice: { type: Number },
+  cargoCompany: { type: String },
+  title: { type: String },
+  vendorName: { type: String },
+  photos: [String],
 };
 
 var creditCard = {
@@ -37,11 +50,12 @@ var creditCard = {
 var customerSchema = new Schema(
   {
     shoppingLists: [shoppingList],
-    shoppingCart: [],
+    shoppingCart: [shoppingCartItem],
     addresses: [address],
     phoneNumber: { type: String },
     birthday: { type: String },
     creditCards: [creditCard],
+    searchHistory: [searchHistory],
   },
   { collection: "Clients" }
 );

@@ -37,14 +37,14 @@ exports.updateCustomerPasswordDB = function (_id, password) {
 exports.getAddressByIdDB = function (_id, addressId) {
   return Customer.findOne(
     { _id: _id, addresses: { $elemMatch: { _id: addressId } } },
-    { "addresses.$": addressId }
+    { "addresses.$": 1 }
   );
 };
 
 exports.getCreditCardByIdDB = function (_id, creditCardId) {
   return Customer.findOne(
     { _id: _id, creditCards: { $elemMatch: { _id: creditCardId } } },
-    { "creditCards.$": creditCardId }
+    { "creditCards.$": 1 }
   );
 };
 
@@ -202,29 +202,9 @@ exports.getOneShoppingListByIdDB = function (cid, lid) {
       },
     },
     {
-      $lookup: {
-        from: "Products",
-        localField: "shoppingList.wishedProducts.productId",
-        foreignField: "_id",
-        as: "data",
-      },
-    },
-    {
-      $lookup: {
-        from: "MainProducts",
-        localField: "data.parentProduct",
-        foreignField: "_id",
-        as: "finalData",
-      },
-    },
-    {
-      $set: {
-        "data.parentProduct": "$finalData",
-      },
-    },
-    {
       $project: {
-        data: 1,
+        _id: 0,
+        shoppingList: 1,
       },
     },
   ]);
@@ -256,11 +236,23 @@ exports.deleteOneShoppingListByIdDB = function (lid, cid) {
 };
 
 exports.deleteAllShoppingListsDB = function (cid) {
-  return Customer.updateOne(
+  return Customer.findOneAndUpdate(
     { _id: cid },
     {
       $set: { shoppingLists: [] },
     },
-    {}
-  );
+    { new: true }
+  ).lean();
+};
+
+exports.pushSearchEntryToDB = function (_id, obj) {
+  return Customer.findOneAndUpdate(
+    { _id: _id },
+    {
+      $push: {
+        searchHistory: obj,
+      },
+    },
+    { new: true }
+  ).lean();
 };

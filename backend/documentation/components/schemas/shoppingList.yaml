@@ -1,0 +1,18 @@
+PostShoppingList:
+  type: object
+  properties:
+    title:
+      type: string
+    wishedProducts:
+      type: array
+PatchShoppingList:
+  type: object
+  properties:
+    title:
+      type: string
+    wishedProducts:
+      type: array
+ShoppingLists:
+  type: array
+WatchList:
+  type: array

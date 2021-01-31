@@ -10,6 +10,7 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const sendEmail = require("../util/emailer");
 const Config = require("../config");
+
 //
 exports.signupService = async function ({
   email,
@@ -175,4 +176,9 @@ exports.createMyNewProductService = async function ({ vid, data }) {
   return {
     data: newProductRequest,
   };
+};
+
+exports.getOneVendorPublicService = async function ({ vid }) {
+  newProductRequest = await VendorDataAccess.getVendorByIdDB(vid);
+  return Formatters.formatVendorPublic(newProductRequest);
 };

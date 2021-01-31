@@ -1,0 +1,144 @@
+ProductList:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        results:
+          type: number
+        data:
+          type: array
+          items:
+            $ref: "../schemas/_index.yaml#/Product"
+Product:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/Product"
+
+ProductofVendorList:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        results:
+          type: number
+        data:
+          type: array
+          items:
+            $ref: "../schemas/_index.yaml#/ProductofVendor"
+ProductofVendor:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/ProductofVendor"
+
+SearchResults:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        results:
+          type: number
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              matches:
+                type: number
+              maxPrice:
+                type: number
+              minPrice:
+                type: number
+              vendors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      format: mongoID
+                    companyName:
+                      type: string
+              mainProduct:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      format: mongoID
+                    title:
+                      type: string
+                    rating:
+                      type: number
+                    numberOfRating:
+                      type: number
+              product:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    format: mongoID
+                  photos:
+                    type: array
+                    items:
+                      type: string
+              mpid:
+                type: string
+                format: mongoID
+              brand:
+                type: string
+              category:
+                type: string
+SearchFilterResults:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        results:
+          type: number
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: null
+              maxPrice:
+                type: number
+              minPrice:
+                type: number
+              vendors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      format: mongoID
+                    companyName:
+                      type: string
+              parameters:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: array
+                      items:
+                        type: string
+              brands:
+                type: array
+                items:
+                  type: string
+              categories:
+                type: array
+                items:
+                  type: string

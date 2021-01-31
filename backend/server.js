@@ -14,6 +14,7 @@ const cors = require("cors");
 const clientRouter = require("./routers/client");
 const customerRouter = require("./routers/customer");
 const vendorRouter = require("./routers/vendor");
+const guestRouter = require("./routers/guest");
 const adminRouter = require("./routers/admin");
 const categoryRouter = require("./routers/category");
 const ratingRouter = require("./routers/rating");
@@ -22,11 +23,15 @@ const productRouter = require("./routers/product");
 const productRequestRouter = require("./routers/productRequest");
 const commentRouter = require("./routers/comment");
 const shoppingListRouter = require("./routers/list");
+const ticketRouter = require("./routers/ticket");
+const orderMessageRouter = require("./routers/orderMessage");
 
 BB.longStackTraces();
 mongooseConfig.connect(Config);
 
-let swaggerDocument = require("./swagger.json");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./documentation/swagger.yaml");
+
 swaggerDocument.host = `${Config.hostAddr}:${Config.port}`;
 
 app.use(cors());
@@ -67,6 +72,7 @@ let blocked = require("blocked");
 app.use("/:clientType", clientRouter);
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
+app.use("/guest", guestRouter);
 app.use("/admin", adminRouter);
 app.use("/category", categoryRouter);
 app.use("/rating", ratingRouter);
@@ -75,6 +81,8 @@ app.use("/product", productRouter);
 app.use("/productRequest", productRequestRouter);
 app.use("/comment", commentRouter);
 app.use("/shoppingList", shoppingListRouter);
+app.use("/ticket", ticketRouter);
+app.use("/orderMessage", orderMessageRouter);
 
 blocked((ms) => {
   if (ms > 3000) {

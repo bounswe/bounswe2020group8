@@ -11,18 +11,33 @@ var address = {
   phone: { type: String },
 };
 
+var creditCard = {
+  creditCardNumber: { type: String },
+  creditCardCvc: { type: String },
+  creditCardData: { type: String },
+  creditCardName: { type: String },
+};
+
+var subOrder = {
+  productId: { type: Schema.Types.ObjectId },
+  vendorId: { type: Schema.Types.ObjectId },
+  amount: { type: Number },
+  price: { type: Number },
+  shipmentPrice: { type: Number },
+  cargoCompany: { type: String },
+  shippingAddress: { type: address },
+  billingAddress: { type: address },
+  creditCard: { type: creditCard },
+  status: { type: String },
+  arrivesIn: { type: Number },
+};
+
 var orderSchema = new Schema(
   {
     orderID: { type: Schema.Types.ObjectId },
     customerID: { type: Schema.Types.ObjectId },
-    product: { type: String },
-    orders: [],
-    email: { type: String },
-    shippingAddress: { type: address },
-    billingAddress: { type: address },
-    creditCard: { type: Schema.Types.ObjectId },
-    shippingInfo: { type: String },
-    refundProcess: { type: String },
+    orders: [subOrder],
+    createdAt: { type: Date, default: Date.now },
   },
   { collection: "Orders" }
 );

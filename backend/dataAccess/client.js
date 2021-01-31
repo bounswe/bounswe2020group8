@@ -77,3 +77,33 @@ exports.updateClientDB = function (_id, fields) {
     { _id: 1, new: true, runValidators: true }
   );
 };
+
+exports.getNotifications = function (_id) {
+  return Client.findById(_id, { notifications: 1, _id: 0 });
+};
+
+exports.populateNotification = function (_id, notification) {
+  return Client.findByIdAndUpdate(
+    _id,
+    {
+      $push: {
+        notifications: notification,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+};
+
+exports.readNotification = function (_id, notification_id) {
+  return Client.findByIdAndUpdate(
+    { _id, "notifications._id": notification_id },
+    {
+      $set: {
+        "notifications.$[element].isRead": true,
+      },
+    },
+    { arrayFilters: [{ "element._id": notification_id }] }
+  );
+};

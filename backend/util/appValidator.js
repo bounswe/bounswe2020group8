@@ -16,6 +16,25 @@ exports.validatePassword = function (param, errObj) {
   });
 };
 
+exports.validateOrderStatus = function (param, errObj) {
+  return new BB((resolve, reject) => {
+    if (
+      [
+        "being prepared",
+        "on the way",
+        "delivered",
+        "cancelled by the customer",
+        "cancelled by the vendor",
+        "returned",
+      ].includes(param)
+    ) {
+      resolve();
+    } else {
+      reject(new AppError(errObj));
+    }
+  });
+};
+
 exports.validatePasswords = function (newPassword, newPasswordCheck, errObj) {
   return new BB((resolve, reject) => {
     if (newPassword === newPasswordCheck) {
@@ -202,6 +221,16 @@ exports.isValidRange = function (start, end, value, errorMessage) {
       resolve();
     } else {
       reject(new AppError(errorMessage || Messages.RETURN_MESSAGES.ERR_SOMETHING_WENT_WRONG));
+    }
+  });
+};
+
+exports.ValidateAdminStatus = function (client) {
+  return new BB((resolve, reject) => {
+    if (client.__type === "Admin") {
+      resolve();
+    } else {
+      reject(new AppError(erroeMessage || Messages.RETURN_MESSAGES.ERR_INSUFFICIENT_TOKEN));
     }
   });
 };

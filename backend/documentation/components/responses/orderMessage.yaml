@@ -1,0 +1,19 @@
+OrderMessage:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        data:
+          $ref: "../schemas/_index.yaml#/OrderMessage"
+
+AllOrderMessages:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        result:
+          type: number
+        data:
+          type: array
+          items:
+            $ref: "../schemas/_index.yaml#/OrderMessage"

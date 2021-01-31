@@ -1,5 +1,7 @@
 const AdminDataAccess = require("../dataAccess/admin");
 const AdminTokenDataAccess = require("../dataAccess/adminToken");
+const ActivityDataAccess = require("../dataAccess/activity");
+const ClientDataAccess = require("../dataAccess/client");
 const AppError = require("../util/appError");
 const Messages = require("../util/messages");
 const { sha1 } = require("../util/baseUtil");
@@ -36,4 +38,16 @@ exports.logoutService = async function ({ tokenCode }) {
   }
 
   return {};
+};
+
+exports.getOneActivityService = async function (_id) {
+  let activity = await ActivityDataAccess.getActivityByIdDB(_id);
+  let client_id = activity.actor._id;
+  let client = ClientDataAccess.getClientByIdDB(client_id);
+  activity.actor.client = client;
+  return activity;
+};
+
+exports.getAdminInfoService = async function (admin) {
+  return { data: admin };
 };

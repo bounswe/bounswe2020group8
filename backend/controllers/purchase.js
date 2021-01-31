@@ -10,7 +10,8 @@ const factory = require("../services/crudFactory");
 const Customer = require("../models/customer");
 
 exports.purchaseController = BaseUtil.createController((req) => {
-  let { _id, shippingAddressId, billingAddressId, creditCardId } = req.body;
+  let { _id, email } = req.client;
+  let { shippingAddressId, billingAddressId, creditCardId } = req.body;
   return BB.all([
     AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED).reflect(),
     AppValidator.validateIfNullOrEmpty(
@@ -25,6 +26,27 @@ exports.purchaseController = BaseUtil.createController((req) => {
   ])
     .then((results) => BaseUtil.decideErrorExist(results))
     .then(() =>
-      PurchaseService.purchaseService({ _id, shippingAddressId, billingAddressId, creditCardId })
+      PurchaseService.purchaseService({
+        _id,
+        shippingAddressId,
+        billingAddressId,
+        creditCardId,
+        email,
+      })
+    );
+});
+
+exports.purchaseGuestController = BaseUtil.createController((req) => {
+  let { _id, shippingAddress, billingAddress, creditCard, email } = req.body;
+  return BB.all([AppValidator.validateIfNullOrEmpty(_id, Messages.RETURN_MESSAGES.ERR_UNDEFINED)])
+    .then((results) => BaseUtil.decideErrorExist(results))
+    .then(() =>
+      PurchaseService.purchaseGuestService({
+        _id,
+        shippingAddress,
+        billingAddress,
+        creditCard,
+        email,
+      })
     );
 });

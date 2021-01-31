@@ -50,6 +50,7 @@ exports.formatVendor = function ({
   aboutCompany,
   address,
   locations,
+  phoneNumber,
   IBAN,
   isActive,
   isSuspended,
@@ -63,9 +64,32 @@ exports.formatVendor = function ({
       aboutCompany,
       address,
       locations,
+      phoneNumber,
       IBAN,
       isActive,
       isSuspended,
+    },
+  };
+};
+
+exports.formatVendorPublic = function ({
+  _id,
+  companyName,
+  companyDomainName,
+  aboutCompany,
+  address,
+  locations,
+  phoneNumber,
+}) {
+  return {
+    data: {
+      _id: _id.toString(),
+      companyName,
+      companyDomainName,
+      aboutCompany,
+      address,
+      locations,
+      phoneNumber,
     },
   };
 };

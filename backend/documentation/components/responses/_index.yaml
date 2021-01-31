@@ -1,0 +1,95 @@
+ApiResponse:
+  $ref: "./general.yaml#/ApiResponse"
+
+ApiResponseWtoken:
+  $ref: "./general.yaml#/ApiResponseWtoken"
+
+NullData:
+  $ref: "./general.yaml#/NullData"
+
+Category:
+  $ref: "./category.yaml#/Category"
+
+CategoryList:
+  $ref: "./category.yaml#/CategoryList"
+
+OrderMessage:
+  $ref: "./orderMessage.yaml#/OrderMessage"
+
+AllOrderMessages:
+  $ref: "./orderMessage.yaml#/AllOrderMessages"
+
+Notification:
+  $ref: "./notification.yaml#/Notification"
+
+Notifications:
+  $ref: "./notification.yaml#/Notifications"
+
+PostTicket:
+  $ref: "./ticket.yaml#/PostTicket"
+
+GetAllTicket:
+  $ref: "./ticket.yaml#/GetAllTicket"
+
+ShoppingList:
+  $ref: "./shoppingList.yaml#/ShoppingList"
+
+ShoppingLists:
+  $ref: "./shoppingList.yaml#/ShoppingLists"
+
+WatchList:
+  $ref: "./shoppingList.yaml#/WatchList"
+
+CustomerList:
+  $ref: "./customer.yaml#/CustomerList"
+
+Customer:
+  $ref: "./customer.yaml#/Customer"
+
+VendorList:
+  $ref: "./vendor.yaml#/VendorList"
+
+Vendor:
+  $ref: "./vendor.yaml#/Vendor"
+
+PublicVendor:
+  $ref: "./vendor.yaml#/PublicVendor"
+
+ProductList:
+  $ref: "./product.yaml#/ProductList"
+
+Product:
+  $ref: "./product.yaml#/Product"
+
+ProductofVendorList:
+  $ref: "./product.yaml#/ProductofVendorList"
+
+ProductofVendor:
+  $ref: "./product.yaml#/ProductofVendor"
+
+SearchResults:
+  $ref: "./product.yaml#/SearchResults"
+
+SearchFilterResults:
+  $ref: "./product.yaml#/SearchFilterResults"
+
+MainProductList:
+  $ref: "./mainProduct.yaml#/MainProductList"
+
+MainProduct:
+  $ref: "./mainProduct.yaml#/MainProduct"
+
+ProductRequestList:
+  $ref: "./productRequest.yaml#/ProductRequestList"
+
+ProductRequest:
+  $ref: "./productRequest.yaml#/ProductRequest"
+
+ShoppingCart:
+  $ref: "./shoppingCart.yaml#/ShoppingCart"
+
+Order:
+  $ref: "./order.yaml#/Order"
+
+VendorBalance:
+  $ref: "./order.yaml#/VendorBalance"

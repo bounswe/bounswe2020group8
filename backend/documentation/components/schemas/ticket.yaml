@@ -1,0 +1,31 @@
+PostTicket:
+  type: object
+  properties:
+    topic:
+      type: string
+    admin_id:
+      type: string
+    client_id:
+      type: string
+    isActive:
+      type: boolean
+    isAssigned:
+      type: boolean
+    startedAt:
+      type: date
+    updatedAt:
+      type: date
+    conversation:
+      type: array
+      items:
+        $ref: "./_index.yaml#/PostTicketMessage"
+
+PostTicketMessage:
+  type: object
+  properties:
+    payload:
+      type: string
+    isSentByAdmin:
+      type: boolean
+    sendAt:
+      type: date

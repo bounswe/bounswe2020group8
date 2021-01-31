@@ -31,4 +31,24 @@ router.post(
   RequestHelper.returnResponse
 );
 
+router
+  .route("/notification")
+  .get(
+    authController.protectRoute,
+    ClientController.getNotificationController,
+    RequestHelper.returnResponse
+  )
+  .post(
+    authController.protectRoute,
+    ClientController.readNotificationController,
+    RequestHelper.returnResponse
+  );
+
+router.get(
+  "/notification/unread",
+  authController.protectRoute,
+  ClientController.getAllUnreadNotificationController,
+  RequestHelper.returnResponse
+);
+
 module.exports = router;

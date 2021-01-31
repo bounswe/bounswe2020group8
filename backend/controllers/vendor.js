@@ -91,6 +91,15 @@ exports.getOneVendorController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.getOne(Vendor)(req));
 });
 
+// For vendor's public page
+exports.getOneVendorPublicController = BaseUtil.createController((req) => {
+  return BB.all([]).then(() =>
+    VendorService.getOneVendorPublicService({
+      vid: req.params.id,
+    })
+  );
+});
+
 exports.updateOneVendorController = BaseUtil.createController((req) => {
   return BB.all([]).then(() => factory.updateOne(Vendor)(req));
 });
