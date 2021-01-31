@@ -13,6 +13,7 @@ const Config = require("../config");
 const Messages = require("../util/messages");
 const sendEmail = require("../util/emailer");
 
+// Fetches all items from the shoppingCar, creates order with order service, writes to db and updates amountLeft's accordingly.
 exports.purchaseService = async function ({
   _id,
   shippingAddressId,
@@ -97,7 +98,7 @@ exports.purchaseService = async function ({
     throw new AppError(Messages.RETURN_MESSAGES.ERR_NOT_ENOUGH_PRODUCT);
   }
 };
-
+// Fetches all items from the shoppingCar, creates order with order service, writes to db and updates amountLeft's accordingly.
 exports.purchaseGuestService = async function ({
   _id,
   shippingAddress,

@@ -10,6 +10,7 @@ const AppError = require("../util/appError");
 const Formatters = require("../util/format");
 const Config = require("../config");
 
+// First collects info of the given product, then adds it to shoppingCart
 exports.updateShoppingCartService = async function ({ _id, productId, vendorId, amount }) {
   temp = {};
   const current_product = await ProductDataAccess.getProductByVendorIdDB3(productId, vendorId);
@@ -53,7 +54,7 @@ exports.updateShoppingCartService = async function ({ _id, productId, vendorId, 
   );
   return { data: updatedCustomer };
 };
-
+// First collects info of the given product, then adds it to shoppingCart
 exports.updateGuestShoppingCartService = async function ({ _id, productId, vendorId, amount }) {
   temp = {};
   const current_product = await ProductDataAccess.getProductByVendorIdDB3(productId, vendorId);
@@ -97,7 +98,7 @@ exports.updateGuestShoppingCartService = async function ({ _id, productId, vendo
   );
   return { data: updatedCustomer };
 };
-
+// Finds and deletes the given product from the shoppingCart
 exports.deleteFromShoppingCartService = async function ({ _id, productId, vendorId }) {
   const updatedCustomer = await CustomerDataAccess.deleteFromCustomerShoppingCartDB(
     _id,
@@ -106,7 +107,7 @@ exports.deleteFromShoppingCartService = async function ({ _id, productId, vendor
   );
   return { data: updatedCustomer };
 };
-
+// Finds and deletes the given product from the shoppingCart
 exports.deleteFromGuestShoppingCartService = async function ({ _id, productId, vendorId }) {
   var shoppingCart = await GuestDataAccess.updateGuestShoppingCartActivityDB(_id);
   const updatedCustomer = await GuestDataAccess.deleteFromGuestShoppingCartDB(
@@ -116,23 +117,23 @@ exports.deleteFromGuestShoppingCartService = async function ({ _id, productId, v
   );
   return { data: updatedCustomer };
 };
-
+// Removes all items from the shoppingCart
 exports.resetShoppingCartService = async function ({ _id }) {
   const updatedCustomer = await CustomerDataAccess.resetCustomerShoppingCartDB(_id);
   return { data: updatedCustomer };
 };
-
+// Removes all items from the shoppingCart
 exports.resetGuestShoppingCartService = async function ({ _id }) {
   var shoppingCart = await GuestDataAccess.updateGuestShoppingCartActivityDB(_id);
   const updatedCustomer = await GuestDataAccess.resetGuestShoppingCartDB(_id);
   return { data: updatedCustomer };
 };
-
+// Finds and returns the shoppingCart
 exports.getShoppingCartService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   return { data: shoppingCart["shoppingCart"] };
 };
-
+// Finds and returns the shoppingCart
 exports.getGuestShoppingCartService = async function ({ _id }) {
   var shoppingCart = await GuestDataAccess.updateGuestShoppingCartActivityDB(_id);
   shoppingCart = await GuestDataAccess.getGuestShoppingCartDB(_id);
