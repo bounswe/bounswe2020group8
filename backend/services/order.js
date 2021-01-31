@@ -9,31 +9,32 @@ const Formatters = require("../util/format");
 const Config = require("../config");
 const ProductDataAccess = require("../dataAccess/product");
 
+// Finds all orders with given customerId
 exports.getOrderByCustomerIdService = async function ({ _id }) {
   const order = await OrderDataAccess.getOrderByCustomerIdDB(_id);
   return { data: order };
 };
-
+// Finds all orders with given vendorId
 exports.getOrderByVendorIdService = async function ({ _id }) {
   const order = await OrderDataAccess.getOrderByVendorIdDB(_id);
   return { data: order };
 };
-
+// By iterating over vendors orders, calculates his/hers total balance
 exports.getVendorBalanceService = async function ({ _id }) {
   const balance = await OrderDataAccess.getVendorBalanceDB(_id);
   return { data: balance };
 };
-
+// Finds order by orderID
 exports.getOrderByOrderIdService = async function ({ mainOrderID, orderID }) {
   const order = await OrderDataAccess.getOrderByOrderIdDB(mainOrderID, orderID);
   return { data: order };
 };
-
+// Finds all orders with given mainOrderID
 exports.getOrderByMainOrderIdService = async function ({ mainOrderID }) {
   const order = await OrderDataAccess.getOrderByMainOrderIdDB(mainOrderID);
   return { data: order };
 };
-
+// Finds order by given ID's and updates its status
 exports.updateOrderStatusCustomerService = async function ({ _id, mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusCustomerDB(
     _id,
@@ -51,6 +52,7 @@ exports.updateOrderStatusCustomerService = async function ({ _id, mainOrderID, o
   return { data: order };
 };
 
+// Finds order by given ID's and updates its status
 exports.updateOrderStatusVendorService = async function ({ _id, mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusVendorDB(_id, mainOrderID, orderID, status);
   if (status === "cancelled  by the vendor") {
@@ -62,7 +64,7 @@ exports.updateOrderStatusVendorService = async function ({ _id, mainOrderID, ord
   }
   return { data: order };
 };
-
+// Finds order by given ID's and updates its status
 exports.updateOrderStatusGuestService = async function ({ mainOrderID, orderID, status }) {
   const order = await OrderDataAccess.updateOrderStatusGuestDB(mainOrderID, orderID, status);
   updatedProduct = await ProductDataAccess.updateProductAmountLeftDB(
@@ -72,7 +74,7 @@ exports.updateOrderStatusGuestService = async function ({ mainOrderID, orderID, 
   );
   return { data: order };
 };
-
+// Fetches all items from the shoppingCart and creates an order scheme with them.
 exports.createOrderService = async function ({ _id }) {
   const shoppingCart = await CustomerDataAccess.getCustomerShoppingCartDB(_id);
   var items = [];
@@ -107,7 +109,7 @@ exports.createOrderService = async function ({ _id }) {
   }
   return { data: items };
 };
-
+// Fetches all items from the shoppingCart and creates an order scheme with them.
 exports.createGuestOrderService = async function ({ _id }) {
   const shoppingCart = await GuestDataAccess.getGuestShoppingCartDB(_id);
   var items = [];

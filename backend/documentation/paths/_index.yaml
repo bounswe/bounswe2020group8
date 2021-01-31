@@ -210,3 +210,45 @@
 
 "/productRequest/{id}":
   $ref: "./productRequest.yaml#/~1productRequest~1{id}"
+
+/customer/shoppingCart/main:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1main"
+
+/customer/shoppingCart/reset:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1reset"
+
+/customer/shoppingCart/delete:
+  $ref: "./shoppingCart.yaml#/~1customer~1shoppingCart~1delete"
+
+/guest/shoppingCart/main:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1main"
+
+/guest/shoppingCart/reset:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1reset"
+
+/guest/shoppingCart/delete:
+  $ref: "./shoppingCart.yaml#/~1guest~1shoppingCart~1delete"
+
+/customer/order/main:
+  $ref: "./order.yaml#/~1customer~1order~1main"
+
+/customer/order/orderID:
+  $ref: "./order.yaml#/~1customer~1order~1orderID"
+
+/customer/purchase:
+  $ref: "./order.yaml#/~1customer~1purchase"
+
+/guest/order/main:
+  $ref: "./order.yaml#/~1guest~1order~1main"
+
+/guest/order/orderID:
+  $ref: "./order.yaml#/~1guest~1order~1orderID"
+
+/guest/purchase:
+  $ref: "./order.yaml#/~1guest~1purchase"
+
+/vendor/order/main:
+  $ref: "./order.yaml#/~1vendor~1order~1main"
+
+/vendor/balance:
+  $ref: "./vendor.yaml#/~1vendor~1balance"

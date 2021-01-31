@@ -1,0 +1,9 @@
+ShoppingCart:
+  allOf:
+    - $ref: "./general.yaml#/ApiResponse"
+    - type: object
+      properties:
+        shoppingCart:
+          type: array
+          items:
+            $ref: "../schemas/_index.yaml#/ShoppingCartItem"
