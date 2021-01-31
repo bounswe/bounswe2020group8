@@ -94,9 +94,11 @@ class AddProducts extends Component {
 
   getExistingProducts = (parentProduct) => {
     this.setState({ loadingChildProducts: true });
+    console.log("1", this.state.parentProductTags);
     for (let i = 0; i < parentProduct.tags.length; i++) {
       this.state.parentProductTags.push(parentProduct.tags[i]);
     }
+    console.log("2", this.state.parentProductTags);
     services
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
@@ -232,6 +234,7 @@ class AddProducts extends Component {
       showMainProductForm: false,
       showNoProduct: false,
       showExistingProductForm: false,
+      parentProductTags: [],
     });
 
     if (value !== "" && e.key === "Enter") {
@@ -254,6 +257,7 @@ class AddProducts extends Component {
       showNoProduct: false,
       showExistingProductForm: false,
       mainProducts: this.state.baseMainProducts,
+      parentProductTags: [],
     });
   };
 
@@ -320,6 +324,7 @@ class AddProducts extends Component {
           showMainProductForm: false,
           showNoProduct: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
       })
       .catch((error) => {
@@ -375,6 +380,7 @@ class AddProducts extends Component {
           showProductForm: false,
           showMainProductForm: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
         message.success("Product request is sent!");
       })
@@ -421,8 +427,9 @@ class AddProducts extends Component {
           showProductForm: false,
           showMainProductForm: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
-        message.success("Main Product request is sent!");
+        message.success("Main Product is created!");
         this.getMainProducts();
       })
       .catch((error) => {
