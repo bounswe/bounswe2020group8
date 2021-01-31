@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_alignParentRight="true" android:background="#FFFFFF" android:clickable="true"
     android:id="@+id/fragment_settings"
-    tools:context=".SignupCustomerActivity">
+    tools:context=".DashboardActivity">
 
     <TextView
         android:id="@+id/profile_cards"

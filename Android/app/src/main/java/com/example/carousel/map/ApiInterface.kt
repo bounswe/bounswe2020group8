@@ -1,10 +1,7 @@
 package com.example.carousel.map
 
 import com.example.carousel.pojo.*
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import okhttp3.HttpUrl
-import okhttp3.ResponseBody
 
 import retrofit2.Call
 import retrofit2.http.*
@@ -63,6 +60,11 @@ interface ApiInterface {
         @Query("password") password: String,
         @Query("passwordConfirm") passwordConfirm: String, ): Call<ResponseHeader>
 
+    @GET("/customer/{id}")
+    fun getCustomer(
+        @Path("id") id: String
+    ): Call<ResponseCustomerMe>
+
     @GET("/customer/me")
     fun customerMe(): Call<ResponseCustomerMe>
 
@@ -72,8 +74,17 @@ interface ApiInterface {
     @PATCH("/customer/me")
     fun customerUpdate(@Body data: DataCustomerMe): Call<ResponseCustomerMe>
 
+    @PATCH("/vendor/me")
+    fun vendorUpdate(@Body data: DataVendorMe): Call<ResponseVendorMe>
+
     @PATCH("/customer/me")
     fun customerUpdate2(@Body data: DataCustomerMe2): Call<ResponseCustomerMe2>
+
+    @PATCH("/product/{pid}/vendor/{vid}")
+    fun productAmountUpdate(
+        @Path("pid") pid: String,
+        @Path("vid") vid: String,
+        @Body data: RequestProductAmountUpdate): Call<ResponseProduct>
 
     @GET("/vendor/me")
     fun vendorMe(): Call<ResponseVendorMe>
@@ -114,6 +125,11 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("fields") fields: String = "fields=_id,name", ): Call<ResponseGetCategories>
 
+    @PATCH("/vendor/order/main")
+    fun setStatus(@Body data: RequestSetStatus): Call<VendorOrderData>
+
+    @GET("/vendor/order/main")
+    fun getVendorOrders(): Call<ResponseVendorAllOrders>
 
     @GET("/comment/{pid}/all")
     fun getComments(
@@ -134,6 +150,10 @@ interface ApiInterface {
     @POST("/customer/shoppingCart/delete")
     fun deleteCart(
         @Body data: DeleteCart): Call<ArrayList<DataCustomerMe>>
+    @POST("/customer/shoppingCart/reset")
+    fun resetCart(
+        //@Body data: ResetCart
+    ): Call<ArrayList<DataCustomerMe>>
 
     @POST
     fun productSearch(

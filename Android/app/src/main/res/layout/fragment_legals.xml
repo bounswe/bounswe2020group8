@@ -31,9 +31,9 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/legals_lorem_ipsum"
-                android:textSize="14sp" app:layout_constraintTop_toBottomOf="@id/logo"
-                tools:layout_editor_absoluteX="-80dp"/>
+                android:gravity="center_horizontal"
+                android:text="@string/legals_lorem_ipsum" android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/logo" tools:layout_editor_absoluteX="-80dp"/>
             <Button
                 android:id="@+id/back_button"
                 android:layout_width="wrap_content"

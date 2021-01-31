@@ -45,6 +45,8 @@ class ProductsAdapter (    private var productList: ArrayList<Product> , private
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        updateAppearance(holder, position)
+
         val imgUri = if (productList[position].photos.isNullOrEmpty())  R.mipmap.ic_no_image else productList[position].photos[0]
         Glide.with(holder.image)
             .load(imgUri)
@@ -56,27 +58,45 @@ class ProductsAdapter (    private var productList: ArrayList<Product> , private
         val numberOfRatingsText = productList[position].numberOfRatings.toString()
         holder.numberOfRatings.text = "($numberOfRatingsText)"
         holder.addToCartButton.setOnClickListener{
-            val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(activity)
-            //apiCallerAddToCart.Button = addToCartButton
-            apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(UpdateCart( 1, productList[position]._id, productList[position].vendorId))
-            apiCallerAddToCart.Success = { it ->
-                if (it != null) {
-                    this.productList[position].let { CartFragment.addToCart(it, 1) }
-                    //val color = holder.addToCartButton.context.getResources.getColor(R.color.successGreen)
-                    //holder.addToCartButton.setBackgroundColor(0x3EA322)
-                    holder.addToCartButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.successGreen))
-                    holder.addToCartButton.setTextColor(ContextCompat.getColor(activity, R.color.colorWhite))
-                    holder.addToCartButton.text = "Added to Cart"
-                    Toast.makeText(activity,"Product Added to Cart", Toast.LENGTH_SHORT).show()
+            if(! productList[position].isInCart) {
+                val apiCallerAddToCart: ApiCaller<DataCustomerMe> = ApiCaller(activity)
+                //apiCallerAddToCart.Button = addToCartButton
+                apiCallerAddToCart.Caller = ApiClient.getClient.updateCart(
+                    UpdateCart(
+                        1,
+                        productList[position]._id,
+                        productList[position].vendorId
+                    )
+                )
+                apiCallerAddToCart.Success = { it ->
+                    if (it != null) {
+                        this.productList[position].let { CartFragment.addToCart(it, 1) }
+                        updateAppearance(holder, position)
+                        //val color = holder.addToCartButton.context.getResources.getColor(R.color.successGreen)
+                        //holder.addToCartButton.setBackgroundColor(0x3EA322)
+                        Toast.makeText(activity, "Product Added to Cart", Toast.LENGTH_SHORT).show()
 
+                    }
                 }
+                apiCallerAddToCart.run()
+                apiCallerAddToCart.Failure = { }
             }
-            apiCallerAddToCart.run()
-            apiCallerAddToCart.Failure = { }
         }
     }
     fun replaceProducts(newProducts: ArrayList<Product>){
         this.productList = newProducts
+    }
+    fun updateAppearance(holder: ViewHolder, position: Int) {
+        if(this.productList[position].isInCart) {
+            holder.addToCartButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.successGreen))
+            holder.addToCartButton.setTextColor(ContextCompat.getColor(activity, R.color.colorWhite))
+            holder.addToCartButton.text = "Added to Cart"
+        }
+        else {
+            holder.addToCartButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorWhite))
+            holder.addToCartButton.setTextColor(ContextCompat.getColor(activity, R.color.black_text_color))
+            holder.addToCartButton.text = "Add to Cart"
+        }
     }
 }
 
