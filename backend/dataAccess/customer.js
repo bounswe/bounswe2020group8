@@ -202,29 +202,9 @@ exports.getOneShoppingListByIdDB = function (cid, lid) {
       },
     },
     {
-      $lookup: {
-        from: "Products",
-        localField: "shoppingList.wishedProducts.productId",
-        foreignField: "_id",
-        as: "data",
-      },
-    },
-    {
-      $lookup: {
-        from: "MainProducts",
-        localField: "data.parentProduct",
-        foreignField: "_id",
-        as: "finalData",
-      },
-    },
-    {
-      $set: {
-        "data.parentProduct": "$finalData",
-      },
-    },
-    {
       $project: {
-        data: 1,
+        _id: 0,
+        shoppingList: 1,
       },
     },
   ]);
