@@ -1,4 +1,44 @@
-# Getting Started with Create React App
+# How to Deplow Web App with Docker
+
+- First, pull the image from either of the given repositories below:
+
+  - 0xyg3n/cmpe451frontend:latest, amoged97/carousel-frontend:latest
+  - To pull the image use the command below
+
+    - ```sh
+      docker pull <image_name>
+      ```
+
+- You should put the environment variables file into your current directory.
+
+- After pulling image, start your local Docker daemon.
+
+  - If you do not have Docker in your machine, check this link: https://docs.docker.com/
+  - To start the image, run the command below
+
+    - ```sh
+      docker run -v <env_file_path>:/app/.env -d <image_name>
+      ```
+
+# How to Deploy Web App with Localhost
+
+### Before running:
+
+- First of all, you should pull the repository from GitHub.
+
+  - ```sh
+    git clone https://github.com/bounswe/bounswe2020group8.git
+    ```
+
+- Then, change directory into the repository, then change directory into backend.
+
+  - ```
+    cd bounswe2020group8 && cd web
+    ```
+
+- Then, put your .env file provided within the package in this directory.
+
+### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
