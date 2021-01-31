@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import classes from "../AddProduct.module.css";
-import { Button, Form, Input, Space, Tag } from "antd";
+import { Button, Form, Input, Space, Tag, Radio } from "antd";
 import PicturesWall from "../../../PicturesWall";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { TweenOneGroup } from "rc-tween-one";
 import ButtonSecondary from "../../../UI/ButtonSecondary/ButtonSecondary";
+import services from "../../../../apis/services";
 
 const TOKEN = localStorage.getItem("token");
 
@@ -24,12 +25,25 @@ const validateMessages = {
   },
 };
 
+const radioStyle = {
+  display: "block",
+  height: "30px",
+  lineHeight: "30px",
+  borderRadius: "0px",
+};
+
 class MainProductForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tags: [],
+      categories: [],
+      selectedCategory: 0,
     };
+  }
+
+  componentDidMount() {
+    this.getAllCategories();
   }
 
   showTagInput = () => {
@@ -39,6 +53,20 @@ class MainProductForm extends Component {
   handleInputChange = (e) => {
     this.setState({ inputValue: e.target.value });
   };
+
+  getAllCategories = () => {
+    let categories = [];
+    const URL = "/category";
+    services
+      .get(URL)
+      .then(response => {
+        categories = [...categories, response.data.data];
+        this.setState({categories: categories});
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   handleInputConfirm = () => {
     const { inputValue } = this.state;
@@ -56,11 +84,10 @@ class MainProductForm extends Component {
   };
 
   handleClose = (removedTag) => {
-    let id = this.state.categoryIdDic[removedTag];
-
+    console.log(removedTag);
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
-    delete this.state.categoryIdDic[removedTag];
-    this.setState({ tags });
+    console.log(tags);
+    this.setState({tags: tags});
   };
 
   saveInputRef = (input) => {
@@ -71,6 +98,31 @@ class MainProductForm extends Component {
     fields = this.state.tags;
     return fields;
   };
+
+  setCategory = (value) => {
+    this.setState({selectedCategory: value});
+  }
+
+  showCategories = () => {
+    const check = this.state.categories;
+    if (check[0] !== [] && check[0] !== undefined) {
+      const data = check[0];
+      return <Radio.Group defaultValue={1} >
+        {
+          data.map((category, index) => {
+            console.log(category);
+            return <Radio.Button
+              value={category.name}
+              onChange={() => this.setCategory(category.name)}
+              style={radioStyle}
+            >
+              {category.name}
+            </Radio.Button>;
+          })
+        }
+      </Radio.Group>
+    }
+  }
 
   forMap = (tag) => {
     const tagElem = (
@@ -93,6 +145,10 @@ class MainProductForm extends Component {
 
   render() {
     const tagChild = this.state.tags.map(this.forMap);
+    let categories;
+    if (this.state.categories !== null) {
+      categories = this.showCategories();
+    }
 
     return (
       <Form
@@ -127,7 +183,8 @@ class MainProductForm extends Component {
           label="Category"
           rules={[{ required: true }]}
         >
-          <Input placeholder="example: electronics" />
+          {categories}
+          {/*<Input placeholder="example: electronics" />*/}
         </Form.Item>
         <Form.Item
           name={["user", "tags"]}

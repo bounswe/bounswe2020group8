@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import services from "../../apis/services";
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import classes from "../../components/Account/VendorAddProduct/AddProduct.module.css";
 import "antd/dist/antd.css";
@@ -43,6 +43,7 @@ class AddProducts extends Component {
       parentProductCategory: "",
       parentProductId: "",
       parentProductParameters: "",
+      parentProductTags: [],
       existingProductTags: "",
       newProductTags: "",
       loadingMainProducts: false,
@@ -62,8 +63,6 @@ class AddProducts extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-
-    console.log(TOKEN);
 
     services
       .get("/vendor/me", config)
@@ -95,6 +94,11 @@ class AddProducts extends Component {
 
   getExistingProducts = (parentProduct) => {
     this.setState({ loadingChildProducts: true });
+    console.log("1", this.state.parentProductTags);
+    for (let i = 0; i < parentProduct.tags.length; i++) {
+      this.state.parentProductTags.push(parentProduct.tags[i]);
+    }
+    console.log("2", this.state.parentProductTags);
     services
       .get("/product?parentProduct=" + parentProduct.id)
       .then((response) => {
@@ -230,6 +234,7 @@ class AddProducts extends Component {
       showMainProductForm: false,
       showNoProduct: false,
       showExistingProductForm: false,
+      parentProductTags: [],
     });
 
     if (value !== "" && e.key === "Enter") {
@@ -252,6 +257,7 @@ class AddProducts extends Component {
       showNoProduct: false,
       showExistingProductForm: false,
       mainProducts: this.state.baseMainProducts,
+      parentProductTags: [],
     });
   };
 
@@ -318,6 +324,7 @@ class AddProducts extends Component {
           showMainProductForm: false,
           showNoProduct: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
       })
       .catch((error) => {
@@ -373,8 +380,9 @@ class AddProducts extends Component {
           showProductForm: false,
           showMainProductForm: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
-        alert("Product request is sent!");
+        message.success("Product request is sent!");
       })
       .catch((error) => {
         console.log("ERROR: " + error);
@@ -419,8 +427,9 @@ class AddProducts extends Component {
           showProductForm: false,
           showMainProductForm: false,
           showExistingProductForm: false,
+          parentProductTags: [],
         });
-        alert("Main Product request is sent!");
+        message.success("Main Product is created!");
         this.getMainProducts();
       })
       .catch((error) => {
@@ -514,6 +523,7 @@ class AddProducts extends Component {
             product={this.state.product}
             parameterInputs={this.state.parentProductParameters}
             parameterValues={this.state.parentProductParameterValues}
+            parentTags={this.state.parentProductTags}
             clicked={this.createFromMainProduct}
             onClick={this.goBackMain}
             passTags={this.setTags}

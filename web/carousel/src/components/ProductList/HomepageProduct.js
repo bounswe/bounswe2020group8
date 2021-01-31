@@ -12,34 +12,42 @@ const HomepageProduct = (props) => {
 
   const handleCartClicked = async ({ productId, vendorId }) => {
     const TOKEN = localStorage.getItem("token");
-    if (!TOKEN || TOKEN === "") {
-      props.history.push("/login");
-    }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
+    const loggedIn = localStorage.getItem("login");
 
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const payload = {
-      productId: productId,
-      vendorId: vendorId,
-      amount: 1,
-    };
-    console.log(productId, vendorId);
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
-    services
-      .post(URL, payload, config)
-      .then((response) => {
-        props.history.push("/account/cart");
-      })
-      .catch((err) => console.log(err));
+    if (loggedIn !== "true") {
+      const URL = "/guest/shoppingCart/main";
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+        _id: localStorage.getItem("guestID"),
+      };
+      console.log(payload);
+      services
+        .post(URL, payload)
+        .then((response) => {
+          props.history.push("/account/cart");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+      };
+      const URL = "/customer/shoppingCart/main";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          props.history.push("/account/cart");
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
@@ -47,6 +55,7 @@ const HomepageProduct = (props) => {
       <div
         onClick={() => {
           props.history.push(`/product/${mainProduct[0]._id}`);
+          window.location.reload();
         }}
       >
         <FixedDiv width={250} height={35}>

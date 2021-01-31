@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Space } from "antd";
+import { message, Space } from "antd";
 import Table from "antd/lib/table";
 import classes from "./ProductRequests.module.css";
 import services from "../../../apis/services";
@@ -104,7 +104,6 @@ class ProductRequests extends Component {
                     id: data[i]._id,
                   },
                 ]);
-                // console.log(list);
 
                 return {
                   productRequests: list,
@@ -112,7 +111,6 @@ class ProductRequests extends Component {
                   loading: false,
                 };
               });
-              //console.log(this.state.productRequests);
             })
             .catch((error) => {
               console.log(error);
@@ -124,7 +122,10 @@ class ProductRequests extends Component {
           } else if (data[i].type === "UPDATE_PRODUCT") {
             type = "Update Product";
           }
-          const newValue = data[i].newValue;
+          let newValue = data[i].newValue;
+          if (!newValue) {
+            newValue = { vendorSpecifics: {} };
+          }
           services
             .get("/product/" + data[i].oldValue, config)
             .then((response) => {
@@ -139,7 +140,6 @@ class ProductRequests extends Component {
               services
                 .get("/mainProduct/" + normalProduct.parentProduct, config)
                 .then((response) => {
-                  //console.log(response.data.data);
                   title = response.data.data.title;
                   brand = response.data.data.brand;
                   category = response.data.data.category;
@@ -173,11 +173,11 @@ class ProductRequests extends Component {
                 });
             })
             .catch((error) => {
-              //console.log(error);
+              console.log(error);
             });
         }
       } else {
-        this.setState({loading:false});
+        this.setState({ loading: false });
       }
     }
   };
@@ -202,25 +202,31 @@ class ProductRequests extends Component {
     services
       .patch("/productRequest/" + product.id, payload, config)
       .then((response) => {
+        const vendorId = response.data.data.vendorID;
+        console.log(response.data.data);
+        services.patch(
+          `/product/${response.data.data.oldValue}/vendor/${vendorId}`,
+          response.data.data.newValue.vendorSpecifics,
+          config
+        );
         if (payload.status === "ACCEPTED") {
-          //alert("Product request accepted!");
           if (product.type === "Existing Product") {
             this.publishVendorToExistingProduct(product, response.data.data);
           } else if (product.type === "New Product") {
             this.publishProduct(product, response.data.data);
           }
         } else {
-          alert("Product request declined!");
+          message.info("Product request declined!");
         }
       })
       .catch((error) => {
         console.log(error);
       });
+
+    console.log(product, payload);
   };
 
   publishProduct = (product, vendorData) => {
-    console.log(vendorData);
-    console.log(vendorData.newValue.photos);
     let payload = {
       parameters: vendorData.newValue.parameters,
       vendorSpecifics: [
@@ -240,7 +246,7 @@ class ProductRequests extends Component {
     services
       .post("/product", payload, config)
       .then((response) => {
-        alert("New product added!!");
+        message.info("New product added!!");
         this.getProductRequests();
       })
       .catch((error) => {
@@ -259,7 +265,7 @@ class ProductRequests extends Component {
     services
       .post("/product/" + product.productID, payload, config)
       .then((response) => {
-        alert("Vendor added to product!!");
+        message.info("Vendor added to product!!");
         this.getProductRequests();
       })
       .catch((error) => {

@@ -5,10 +5,7 @@ import classes from "../VendorAddProduct/AddProduct.module.css";
 import services from "../../../apis/services";
 import confirmPopup from "../../UI/ConfirmPopup/ConfirmPopup";
 import VendorEditProductRequestForm from "./VendorEditProductRequestForm";
-import VendorEditProductForm from "../VendorProducts/VendorEditProductForm";
 import { SearchOutlined } from "@ant-design/icons";
-
-const TOKEN = localStorage.getItem("token");
 
 class VendorProductRequests extends Component {
   constructor(props) {
@@ -36,7 +33,6 @@ class VendorProductRequests extends Component {
     const config = {
       headers: { Authorization: `Bearer ${TOKEN}` },
     };
-    console.log(TOKEN);
     services
       .get("/vendor/me/productRequest/", config)
       .then((response) => {
@@ -76,107 +72,112 @@ class VendorProductRequests extends Component {
     for (let i = 0; i < data.length; i++) {
       let params = [];
       let productData = data[i].newValue;
-
-      if (data[i].type === "ADD_NEW_PRODUCT") {
-        for (let k = 0; k < productData.parameters.length; k++) {
-          let str =
-            productData.parameters[k].name +
-            ": " +
-            productData.parameters[k].value;
-          params = params.concat(str);
-        }
-        const type = "New Product";
-        services
-          .get("/mainProduct/" + productData.parentProduct, config)
-          .then((response) => {
-            title = response.data.data.title;
-            brand = response.data.data.brand;
-            category = response.data.data.category;
-            this.setState((state) => {
-              list = list.concat([
-                {
-                  key: i,
-                  title: title,
-                  brand: brand,
-                  category: category,
-                  parameters: params.join(", "),
-                  type: type,
-                  price: productData.vendorSpecifics[0].price,
-                  amountLeft: productData.vendorSpecifics[0].amountLeft,
-                  cargoCompany: productData.vendorSpecifics[0].cargoCompany,
-                  shipmentPrice: productData.vendorSpecifics[0].shipmentPrice,
-                  status: data[i].status,
-                  id: data[i]._id,
-                },
-              ]);
-              return {
-                productRequests: list,
-                baseProductRequests: list,
-                loadingRequests: false,
-              };
+      if (data[i].status !== "ACCEPTED") {
+        if (data[i].type === "ADD_NEW_PRODUCT") {
+          for (let k = 0; k < productData.parameters.length; k++) {
+            let str =
+              productData.parameters[k].name +
+              ": " +
+              productData.parameters[k].value;
+            params = params.concat(str);
+          }
+          const type = "New Product";
+          services
+            .get("/mainProduct/" + productData.parentProduct, config)
+            .then((response) => {
+              title = response.data.data.title;
+              brand = response.data.data.brand;
+              category = response.data.data.category;
+              this.setState((state) => {
+                list = list.concat([
+                  {
+                    key: i,
+                    title: title,
+                    brand: brand,
+                    category: category,
+                    parameters: params.join(", "),
+                    type: type,
+                    price: productData.vendorSpecifics[0].price,
+                    amountLeft: productData.vendorSpecifics[0].amountLeft,
+                    cargoCompany: productData.vendorSpecifics[0].cargoCompany,
+                    shipmentPrice: productData.vendorSpecifics[0].shipmentPrice,
+                    status: data[i].status,
+                    id: data[i]._id,
+                  },
+                ]);
+                return {
+                  productRequests: list,
+                  baseProductRequests: list,
+                  loadingRequests: false,
+                };
+              });
+            })
+            .catch((error) => {
+              console.log(error);
             });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } else {
-        let type = "";
-        if (data[i].type === "ADD_EXISTING_PRODUCT") {
-          type = "Existing Product";
-        } else if (data[i].type === "UPDATE_PRODUCT") {
-          type = "Update Product";
-        }
-        services
-          .get("/product/" + data[i].oldValue, config)
-          .then((response) => {
-            const normalProduct = response.data.data;
-
-            for (let k = 0; k < normalProduct.parameters.length; k++) {
-              let str =
-                normalProduct.parameters[k].name +
-                ": " +
-                normalProduct.parameters[k].value;
-              params = params.concat(str);
-            }
+        } else {
+          let type = "";
+          if (data[i].type === "ADD_EXISTING_PRODUCT") {
+            type = "Existing Product";
+          } else if (data[i].type === "UPDATE_PRODUCT") {
+            type = "Update Product";
+          }
+          if (data[i].type !== "DELETE_PRODUCT") {
             services
-              .get("/mainProduct/" + normalProduct.parentProduct, config)
+              .get("/product/" + data[i].oldValue, config)
               .then((response) => {
-                title = response.data.data.title;
-                brand = response.data.data.brand;
-                category = response.data.data.category;
-                this.setState((state) => {
-                  list = list.concat([
-                    {
-                      key: i,
-                      title: title,
-                      brand: brand,
-                      category: category,
-                      parameters: params.join(", "),
-                      type: type,
-                      price: normalProduct.vendorSpecifics[0].price,
-                      amountLeft: normalProduct.vendorSpecifics[0].amountLeft,
-                      cargoCompany:
-                        normalProduct.vendorSpecifics[0].cargoCompany,
-                      shipmentPrice:
-                        normalProduct.vendorSpecifics[0].shipmentPrice,
-                      status: data[i].status,
-                      id: data[i]._id,
-                    },
-                  ]);
-                  return {
-                    productRequests: list,
-                    baseProductRequests: list,
-                  };
-                });
+                const normalProduct = response.data.data;
+
+                for (let k = 0; k < normalProduct.parameters.length; k++) {
+                  let str =
+                    normalProduct.parameters[k].name +
+                    ": " +
+                    normalProduct.parameters[k].value;
+                  params = params.concat(str);
+                }
+                services
+                  .get("/mainProduct/" + normalProduct.parentProduct, config)
+                  .then((response) => {
+                    title = response.data.data.title;
+                    brand = response.data.data.brand;
+                    category = response.data.data.category;
+                    this.setState((state) => {
+                      list = list.concat([
+                        {
+                          key: i,
+                          title: title,
+                          brand: brand,
+                          category: category,
+                          parameters: params.join(", "),
+                          type: type,
+                          price: normalProduct.vendorSpecifics[0].price,
+                          amountLeft:
+                            normalProduct.vendorSpecifics[0].amountLeft,
+                          cargoCompany:
+                            normalProduct.vendorSpecifics[0].cargoCompany,
+                          shipmentPrice:
+                            normalProduct.vendorSpecifics[0].shipmentPrice,
+                          status: data[i].status,
+                          id: data[i]._id,
+                        },
+                      ]);
+                      return {
+                        productRequests: list,
+                        baseProductRequests: list,
+                      };
+                    });
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
               })
               .catch((error) => {
                 console.log(error);
               });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+          }
+        }
       }
+      this.setState({ loadingRequests: false });
     }
   };
 
@@ -189,7 +190,9 @@ class VendorProductRequests extends Component {
     services
       .delete("/vendor/me/productRequest/" + product.id, config)
       .then((response) => {
-        this.getProductRequests().then((r) => console.log(r));
+        this.getProductRequests().then(() => {
+          return;
+        });
       })
       .catch((error) => {
         console.log(error);

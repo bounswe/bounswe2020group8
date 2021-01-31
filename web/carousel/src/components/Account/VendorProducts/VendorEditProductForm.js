@@ -177,7 +177,7 @@ class ProductForm extends Component {
         </Form.Item>
         <Form.Item>
           <>
-            <Upload
+            {/* <Upload
               action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
               fileList={fileList}
@@ -185,15 +185,15 @@ class ProductForm extends Component {
               onChange={this.handleChange}
             >
               {fileList.length >= 8 ? null : uploadButton}
-            </Upload>
-            <Modal
+            </Upload> */}
+            {/* <Modal
               visible={previewVisible}
               title={previewTitle}
               footer={null}
               onCancel={this.handleCancel}
             >
               <img alt="example" style={{ width: "100%" }} src={previewImage} />
-            </Modal>
+            </Modal> */}
           </>
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

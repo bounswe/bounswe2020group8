@@ -16,8 +16,8 @@ class OtherSellersComponent extends React.Component {
   }
 
   async componentWillMount() {
+    otherOptions = [];
     if (otherOptions.length == 0) {
-      console.log(this.props.product.vendorSpecifics);
       var i = 0;
       for (i; i < this.props.product.vendorSpecifics.length; i++) {
         var newOption = {
@@ -57,11 +57,9 @@ class OtherSellersComponent extends React.Component {
       //   }
       // });
     }
-    console.log(otherOptions);
     this.setState({ otherOptions: otherOptions });
   }
   handleClick(item) {
-    console.log(item);
     this.props.setProductInfo(item);
     // var url = "/product/" + item._id;
     // this.props.history.push(url);

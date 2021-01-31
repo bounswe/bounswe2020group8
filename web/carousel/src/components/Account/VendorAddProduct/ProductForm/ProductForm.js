@@ -36,6 +36,9 @@ class ProductForm extends Component {
 
   componentDidMount() {
     this.setState({ parentProductId: this.props.parentProduct });
+    for (let i = 0; i < this.props.parentTags.length; i++) {
+      this.state.tags.push(this.props.parentTags[i]);
+    }
   }
 
   handleSubmit(values) {
@@ -74,11 +77,10 @@ class ProductForm extends Component {
   };
 
   handleClose = (removedTag) => {
-    let id = this.state.categoryIdDic[removedTag];
-
+    console.log(removedTag);
     const tags = this.state.tags.filter((tag) => tag !== removedTag);
-    delete this.state.categoryIdDic[removedTag];
-    this.setState({ tags });
+    console.log(tags);
+    this.setState({tags: tags});
   };
 
   saveInputRef = (input) => {

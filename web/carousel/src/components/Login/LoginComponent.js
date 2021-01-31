@@ -9,7 +9,7 @@ import LoginContainer from "./LoginContainer/LoginContainer";
 import SignupContainer from "./SignupContainer/SignupContainer";
 import services from "../../apis/services";
 
-class LoginComponent extends Component {
+export class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -128,7 +128,6 @@ class LoginComponent extends Component {
       .catch((err, response) => {
         console.log(err);
         this.context.error = true;
-        console.log("resp data: " + response);
         localStorage.setItem("userType", "guest");
         this.setState({ isError: true });
       });
@@ -152,7 +151,6 @@ class LoginComponent extends Component {
       body = {
         locations: this.context.vendorLocations,
       };
-      console.log(body);
     } else if (this.context.userType === "Customer") {
       payload = {
         name: this.context.name,
@@ -169,7 +167,6 @@ class LoginComponent extends Component {
     services
       .post(url, body, { params: payload })
       .then((response) => {
-        console.log(response);
         this.context.error = false;
         this.setState({ signUpMessage: "Verification e-mail has been sent" });
       })

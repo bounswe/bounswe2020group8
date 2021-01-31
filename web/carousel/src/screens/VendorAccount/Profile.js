@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Input, Select, DatePicker, Divider } from "antd";
+import { Form, Row, Col, Input, Select, Divider, message } from "antd";
 import classes from "../../components/Account/Address/AddressHeadbar.module.css";
 import ButtonPrimary from "../../components/UI/ButtonPrimary/ButtonPrimary";
 import PasswordForm from "../../components/PasswordForm/PasswordForm";
@@ -10,7 +10,10 @@ import MapComponent from "../../components/MapComponent/MapComponent";
 const { Option } = Select;
 
 export default class Profile extends Component {
-  state = { visible: false };
+  state = {
+    visible: false,
+    totalEarnings: 0,
+  };
   static contextType = UserInfo;
 
   prefixSelector = () => {
@@ -33,23 +36,27 @@ export default class Profile extends Component {
 
       if (response.data.data != null) {
         const data = response.data.data;
+        localStorage.setItem("id", data._id);
         this.context.setCompanyName(data.companyName);
         this.context.setCompanyDomain(data.companyDomainName);
         this.context.setVendorLocations(data.locations);
         this.context.setEmail(data.email);
         this.context.setIBAN(data.IBAN);
-        console.log(this.context);
-        console.log(data);
       } else {
-        alert("Couldn't get the profile information!");
+        message.error("Couldn't get the profile information!");
+      }
+
+      const resp = await services.get("/vendor/order/balance", {
+        headers: { Authorization: "Bearer " + token },
+      });
+
+      if (resp.data.data !== null && resp.data.data.length) {
+        this.setState({ totalEarnings: resp.data.data[0].balance });
       }
     }
   }
   onVendorProfileChange = async (values) => {
     const token = localStorage.getItem("token");
-
-    console.log(values);
-
     if (values.companyName) {
       this.context.setCompanyName(values.companyName);
     }
@@ -62,22 +69,25 @@ export default class Profile extends Component {
     if (values.phone) {
       this.setState({ phone: values.phone });
     }
+    if (values.about) {
+      this.setState({ aboutCompany: values.about });
+    }
 
     const payload = {
       companyName: this.context.companyName,
       companyDomainName: this.context.companyDomain,
       IBAN: this.context.IBAN,
       locations: this.context.vendorLocations,
-      // phoneNumber: this.state.phone,
+      phoneNumber: this.state.phone,
+      aboutCompany: this.state.aboutCompany,
     };
-    console.log(payload);
     const response = await services.patch("/vendor/me", payload, {
       headers: { Authorization: "Bearer " + token },
     });
     if (response) {
       this.props.history.push("/vendor/account/profile");
     } else {
-      console.log("try again");
+      return;
     }
   };
 
@@ -130,71 +140,6 @@ export default class Profile extends Component {
       });
   };
 
-  renderCustomerProfileChangeForm() {
-    return (
-      <Col span={10} style={{ textAlign: "left" }}>
-        <Form
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 14 }}
-          layout="horizontal"
-          size="middle"
-        >
-          <Form.Item
-            name="Name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your Name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="Surname"
-            label="Surname"
-            rules={[{ required: true, message: "Please input your Surname!" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item name="email" label="E-mail">
-            <Input placeholder={this.context.email} disabled />
-          </Form.Item>
-
-          <Form.Item name="phone" label="Phone Number">
-            <Input
-              addonBefore={this.prefixSelector()}
-              style={{ width: "100%" }}
-            />
-          </Form.Item>
-
-          <Form.Item label="Birthday Date">
-            <DatePicker />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <ButtonPrimary
-                title="Save Changes"
-                style={{ width: 150 }}
-                onClick={() => console.log("clicked")} // TODO: implement this function to backend
-              />
-            </div>
-          </Form.Item>
-        </Form>
-      </Col>
-    );
-  }
-
   renderVendorProfileChangeForm() {
     return (
       <Col span={10} style={{ textAlign: "left" }}>
@@ -234,13 +179,16 @@ export default class Profile extends Component {
             <Input placeholder={this.context.companyDomain} />
           </Form.Item>
 
-          {/* TODO */}
           <Form.Item name="phone" label="Contact Number">
             <Input
               placeholder={this.context.phone}
               addonBefore={this.prefixSelector()}
               style={{ width: "100%" }}
             />
+          </Form.Item>
+
+          <Form.Item name="about" label="About Company">
+            <Input />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
@@ -319,15 +267,21 @@ export default class Profile extends Component {
             display: "flex",
           }}
         >
-          {this.context.userType === "Customer"
-            ? this.renderCustomerProfileChangeForm()
-            : this.renderVendorProfileChangeForm()}
+          {this.renderVendorProfileChangeForm()}
 
           <Col span={2}>
             <Divider style={{ height: "100%" }} type="vertical" />
           </Col>
-
           <Col span={12}>{this.renderPasswordChangeForm()}</Col>
+          <div
+            style={{
+              marginLeft: "100px",
+              marginTop: "-400px",
+              fontSize: "16px",
+            }}
+          >
+            Total earnings: <strong>{this.state.totalEarnings} $</strong>
+          </div>
         </Row>
       </div>
     );

@@ -37,7 +37,7 @@
 }
 
 .ProductHeader_name {
-  font-size: 28px;
+  font-size: 18px;
   height: 40px;
   color: black;
 }
@@ -72,6 +72,14 @@
   border: black solid 1px;
   width: 900px;
   height: 1000px;
+}
+
+.Recommendation {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  border: black solid 1px;
+  width: 900px;
 }
 
 .SectionToggle {

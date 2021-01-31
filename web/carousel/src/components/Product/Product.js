@@ -5,6 +5,7 @@ import ProductHeader from "./ProductHeader/ProductHeader";
 import ProductActions from "./ProductActions/ProductActions";
 import scrollIntoView from "scroll-into-view-if-needed";
 import ProductPhotoCarousel from "./ProductPhotoCarousel/ProductPhotoCarousel";
+import Recommendations from "./Recommendations/Recommendations";
 import "react-alice-carousel/lib/alice-carousel.css";
 import services from "../../apis/services";
 import { useParams, withRouter } from "react-router-dom";
@@ -56,7 +57,6 @@ const Product = (props) => {
       top: 480,
       behavior: "smooth",
     });
-    //sectionRef.current.scrollIntoView({behavior: "smooth", block: "start", inline:"start"});
     setTimeout(() => {
       setInfoSection("");
     }, 500);
@@ -76,37 +76,60 @@ const Product = (props) => {
   };
 
   const handleCartClicked = async ({ productId, vendorId }) => {
-    const TOKEN = localStorage.getItem("token");
-
-    console.log(TOKEN);
-
-    if (!TOKEN || TOKEN === "") {
-      props.history.push("/login");
+    const loggedIn = localStorage.getItem("login");
+    if (loggedIn !== "true") {
+      const id = localStorage.getItem("guestID");
+      const URL = "/guest/shoppingCart/main";
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+        _id: id,
+      };
+      console.log(payload);
+      services
+        .post(URL, payload)
+        .then((response) => {})
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      const TOKEN = localStorage.getItem("token");
+      const config = {
+        headers: { Authorization: `Bearer ${TOKEN}` },
+      };
+      const payload = {
+        productId: productId,
+        vendorId: vendorId,
+        amount: 1,
+      };
+      const URL = "/customer/shoppingCart/main";
+      services
+        .post(URL, payload, config)
+        .then((response) => {
+          props.history.push("/account/cart");
+        })
+        .catch((err) => console.log(err));
     }
-    let ID;
-    const response = await services.get("/customer/me", {
-      headers: { Authorization: "Bearer " + TOKEN },
-    });
-    if (response) {
-      const data = response.data.data;
-      ID = data._id;
-    }
-    const config = {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-    };
-    const payload = {
-      productId: productId,
-      vendorId: vendorId,
-      amount: 1,
-    };
-    console.log(productId, vendorId);
-    const URL = "/customer/shoppingCart/update?_id=" + ID;
-    services
-      .post(URL, payload, config)
-      .then((response) => {
-        props.history.push("/account/cart");
-      })
-      .catch((err) => console.log(err));
+
+    // if (!TOKEN || TOKEN === "") {
+    //   props.history.push("/login");
+    // }
+    // const config = {
+    //   headers: { Authorization: `Bearer ${TOKEN}` },
+    // };
+    // const payload = {
+    //   productId: productId,
+    //   vendorId: vendorId,
+    //   amount: 1,
+    // };
+    // const URL = "/customer/shoppingCart/main";
+    // services
+    //   .post(URL, payload, config)
+    //   .then((response) => {
+    //     props.history.push("/account/cart");
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   return productInfo ? (
@@ -133,6 +156,7 @@ const Product = (props) => {
           />
           <ProductActions
             seller={productInfo.companyName} //TODO
+            sellerId={productInfo.vendorID}
             defaultProduct={product.option}
             productList={allProducts}
             onProductChange={handleOnProductChange}
@@ -145,6 +169,10 @@ const Product = (props) => {
             clickSellers={() => scrollToInfo("sellers")}
           />
         </div>
+      </div>
+      <div style={{ height: "40px" }} />
+      <div className={classes.Recommendation}>
+        <Recommendations productId={product._id} />
       </div>
       <div style={{ height: "40px" }} />
       <div className={classes.ProductInfo} ref={sectionRef}>

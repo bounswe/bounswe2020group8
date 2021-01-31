@@ -9,23 +9,13 @@ const TOKEN = localStorage.getItem("token");
 
 const { TextArea } = Input;
 
-const Editor = ({ onChange, onSubmit, submitting, value, myId }) => (
+const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
     <Form.Item>
-      {myId != "" ? (
-        <TextArea rows={4} onChange={onChange} value={value} />
-      ) : (
-        <TextArea
-          rows={4}
-          onChange={onChange}
-          value={value}
-          disabled={true}
-          placeholder={"Login to Add Comment"}
-        />
-      )}
+      {<TextArea rows={4} onChange={onChange} value={value} />}
     </Form.Item>
     <Form.Item>
-      {myId != "" ? (
+      {
         <Button
           htmlType="submit"
           loading={submitting}
@@ -34,17 +24,7 @@ const Editor = ({ onChange, onSubmit, submitting, value, myId }) => (
         >
           Add Comment
         </Button>
-      ) : (
-        <Button
-          htmlType="submit"
-          loading={submitting}
-          onClick={onSubmit}
-          type="primary"
-          disabled={true}
-        >
-          Add Comment
-        </Button>
-      )}
+      }
     </Form.Item>
   </>
 );
@@ -121,7 +101,6 @@ export default class CommentsComponent extends React.Component {
   }
   handleSubmit = () => {
     const TOKEN = localStorage.getItem("token");
-
     if (!this.state.value) {
       return;
     }
@@ -225,13 +204,12 @@ export default class CommentsComponent extends React.Component {
           )}
         />
         <br></br>
-        <Editor
+        {/* <Editor
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
           submitting={submitting}
           value={value}
-          myId={myId}
-        />
+        /> */}
       </div>
     );
   }
