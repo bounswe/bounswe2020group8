@@ -12,7 +12,7 @@ const ProductTracker = require("../util/productTracker");
 
 /*
 Searchs for products related to tags, it queries the semantic search API of datamuse to gather
-other related words with the tags. Then it queries the database for related products.
+other related words with the tags.
 */
 async function getRelatedTags(tags) {
   tags_string = tags.join("+");
