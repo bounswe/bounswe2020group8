@@ -16,7 +16,7 @@
     "axios": "^0.21.0",
     "google-maps-react": "^2.0.6",
     "material-ui": "^0.20.2",
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "qs": "^6.9.4",
     "rc-tween-one": "^2.7.3",
     "react": "^17.0.1",
